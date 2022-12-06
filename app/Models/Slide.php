@@ -9,4 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Slide extends Model
 {
     use HasFactory, SoftDeletes;
+
+    protected $guarded = [];
 }

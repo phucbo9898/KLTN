@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\UserType;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckAdminLogin
 {
@@ -18,10 +20,10 @@ class CheckAdminLogin
     {
         if(Auth::check()){
             $user = Auth::user();
-            if($user->role == 1){
+            if($user->role == UserType::ADMIN){
                 return $next($request);
             }
         }
-        return response()->view('admin.login.login');
+        return response()->view('cms.login.login');
     }
 }

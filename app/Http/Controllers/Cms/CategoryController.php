@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attribute;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -14,7 +16,13 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        //get list Category
+        $categories = Category::all();
+        //create variable transfer
+        $data = [
+            'categories' => $categories
+        ];
+        return view('cms.category.index',$data);
     }
 
     /**
@@ -24,7 +32,13 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        //get all attribute
+        $attributes = Attribute::all();
+        //variable transfer
+        $data = [
+            'attributes' =>$attributes
+        ];
+        return view('cms.category.create',$data);
     }
 
     /**

@@ -11,6 +11,7 @@ use App\Http\Controllers\Cms\StatisticsController;
 use App\Http\Controllers\Cms\TransactionController;
 use App\Http\Controllers\Cms\UserController;
 use App\Http\Controllers\Cms\WarehouseController;
+use App\Http\Controllers\Cms\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,136 +40,96 @@ Route::controller(AdminController::class)->group(function () {
     });
 });
 
+Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'checkAdminLogin'], function () {
 
-// Admin Page
-Route::group(['namespace' => 'admins', 'prefix' => '/admin', 'middleware' => 'checkAdminLogin'], function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.home');
-
-    Route::controller(CategoryController::class)->group(function () {
-        Route::prefix('category')->group(function () {
-            Route::name('category.')->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::get('/create', 'create')->name('create');
-                Route::post('/create', 'store');
-                Route::get('/update/{id}', 'edit')->name('edit');
-                Route::post('/update/{id}', 'update');
-//                Route::get('/{action}/{id}','AdminCategoryController@handle')->name('admin.category.handle');
-            });
-        });
+    Route::group(['prefix' => 'category'], function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('admin.category.index');
+        Route::get('/create', [CategoryController::class, 'create'])->name('admin.category.create');
+        Route::post('/create', [CategoryController::class, 'store']);
+        Route::get('/update/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit');
+        Route::post('/update/{id}', [CategoryController::class, 'update']);
+        Route::get('/{action}/{id}', [CategoryController::class, 'handle'])->name('admin.category.handle');
     });
 
-    Route::controller(AttributeController::class)->group(function () {
-        Route::prefix('attribute')->group(function () {
-            Route::name('attribute.')->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::get('/create', 'create')->name('create');
-                Route::post('/create', 'store');
-                Route::get('/update/{id}', 'edit')->name('edit');
-                Route::post('/update/{id}', 'update');
-//                Route::get('/{action}/{id}','AdminAttributeController@handle')->name('admin.attribute.handle');
-            });
-        });
+    Route::group(['prefix' => 'attribute'], function () {
+        Route::get('/', [AttributeController::class, 'index'])->name('admin.attribute.index');
+        Route::get('/create', [AttributeController::class, 'create'])->name('admin.attribute.create');
+        Route::post('/create', [AttributeController::class, 'store']);
+        Route::get('/update/{id}', [AttributeController::class, 'edit'])->name('admin.attribute.edit');
+        Route::post('/update/{id}', [AttributeController::class, 'update']);
+        Route::get('/{action}/{id}', [AttributeController::class, 'handle'])->name('admin.attribute.handle');
     });
 
-    Route::controller(ArticleController::class)->group(function () {
-        Route::prefix('article')->group(function () {
-            Route::name('article.')->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::get('/create', 'create')->name('create');
-                Route::post('/create', 'store');
-                Route::get('/update/{id}', 'edit')->name('edit');
-                Route::post('/update/{id}', 'update');
-//                Route::get('/{action}/{id}','AdminArticleController@handle')->name('admin.article.handle');
-            });
-        });
+    Route::group(['prefix' => 'product'], function () {
+        Route::get('/', [ProductController::class, 'index'])->name('admin.product.index');
+        Route::get('/create', [ProductController::class, 'create'])->name('admin.product.create');
+        Route::post('/create', [ProductController::class, 'store']);
+        Route::get('/update/{id}', [ProductController::class, 'edit'])->name('admin.product.edit');
+        Route::post('/update/{id}', [ProductController::class, 'update']);
+        Route::get('/{action}/{id}', [ProductController::class, 'handle'])->name('admin.product.handle');
+        Route::get('/getAttribute', [ProductController::class, 'getAttribute'])->name('admin.ajax.get.attribute');
     });
 
-    Route::controller(TransactionController::class)->group(function () {
-        Route::prefix('transaction')->group(function () {
-            Route::name('transaction.')->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::get('/orderItem/{id}', 'getOrderItem')->name('get.order.item');
-                Route::get('/paid/{id}', 'transactionPaid')->name('paid');
-                Route::get('/{action}/{id}', 'handle')->name('handle');
-                Route::get('/export/transaction-pdf/{id}', 'exportTransactionPdf')->name('get.export.transaction');
-            });
-        });
+    Route::group(['prefix' => 'article'], function () {
+        Route::get('/', [ArticleController::class, 'index'])->name('admin.article.index');
+        Route::get('/create', [ArticleController::class, 'create'])->name('admin.article.create');
+        Route::post('/create', [ArticleController::class, 'store']);
+        Route::get('/update/{id}', [ArticleController::class, 'edit'])->name('admin.article.edit');
+        Route::post('/update/{id}', [ArticleController::class, 'update']);
+        Route::get('/{action}/{id}', [ArticleController::class, 'handle'])->name('admin.article.handle');
     });
 
-    Route::controller(CommentController::class)->group(function () {
-        Route::prefix('comment')->group(function () {
-            Route::name('comment.')->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::get('/{action}/{id}', 'action')->name('action');
-            });
-        });
+    Route::group(['prefix' => 'transaction'], function () {
+        Route::get('/', [TransactionController::class, 'index'])->name('admin.transaction.index');
+        Route::get('/orderItem/{id}', [TransactionController::class, 'getOrderItem'])->name('admin.get.order.item');
+        Route::get('/paid/{id}', [TransactionController::class, 'transactionPaid'])->name('admin.transaction.paid');
+        Route::get('/{action}/{id}', [TransactionController::class, 'handle'])->name('admin.transaction.handle');
+        Route::get('/export/transaction-pdf/{id}', [TransactionController::class, 'exportTransactionPdf'])->name('admin.get.export.transaction');
     });
 
-    Route::controller(UserController::class)->group(function () {
-        Route::prefix('user')->group(function () {
-            Route::name('user.')->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::get('/create', 'create')->name('create');
-                Route::post('/create', 'store');
-                Route::get('/edit/{id}', 'edit')->name('edit');
-                Route::post('/edit/{id}', 'update');
-                Route::post('/changepassword/{id}', 'changePassword')->name('change.password');
-                Route::get('/{action}/{id}', 'action')->name('action');
-            });
-        });
+    Route::group(['prefix' => 'comment'], function () {
+        Route::get('/', [CommentController::class, 'index'])->name('admin.comment.index');
+        Route::get('/{action}/{id}', [CommentController::class, 'action'])->name('admin.comment.action');
     });
 
-    Route::controller(StatisticsController::class)->group(function () {
-        Route::prefix('statistic')->group(function () {
-            Route::name('statistic.')->group(function () {
-                Route::get('/', 'index')->name('admin.statistics.index');
-                Route::get('/list', 'getStatistics')->name('admin.get.list.statistical');
-                Route::get('/export-pdf', 'exportPdf')->name('admin.get.export.statistical');
-            });
-        });
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('/', [UserController::class, 'index'])->name('admin.user.index');
+        Route::get('/create', [UserController::class, 'create'])->name('admin.user.create');
+        Route::post('/create', [UserController::class, 'store']);
+        Route::get('/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
+        Route::post('/edit/{id}', [UserController::class, 'update']);
+        Route::post('/changepassword/{id}', [UserController::class, 'changePassword'])->name('admin.change.password');
+        Route::get('/{action}/{id}', [UserController::class, 'action'])->name('admin.user.action');
     });
 
-    Route::controller(SlideController::class)->group(function () {
-        Route::prefix('slide')->group(function () {
-            Route::name('slide.')->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::get('/create', 'create')->name('create');
-                Route::post('/create', 'store');
-                Route::get('/update/{id}', 'edit')->name('edit');
-                Route::post('/update/{id}', 'update');
-                Route::get('/{action}/{id}', 'handle')->name('admin.slide.handle');
-            });
-        });
+    Route::group(['prefix' => 'statistics'], function () {
+        Route::get('/', [StatisticsController::class, 'index'])->name('admin.statistics.index');
+        Route::get('/list', [StatisticsController::class, 'getStatistics'])->name('admin.get.list.statistical');
+        Route::get('/export-pdf', [StatisticsController::class, 'exportPdf'])->name('admin.get.export.statistical');
     });
-
-    Route::controller(WarehouseController::class)->group(function () {
-        Route::prefix('warehouse')->group(function () {
-            Route::name('warehouse.')->group(function () {
-                Route::get('/', 'import')->name('import');
-                Route::get('/import/{id}', 'importProduct')->name('import.product');
-                Route::get('/history', 'history')->name('history');
-                Route::get('/iventory', 'iventory')->name('iventory');
-                Route::get('/bestseller', 'bestSeller')->name('bestseller');
-                Route::get('/hotproduct/{id}', 'hotProduct')->name('hotproduct');
-            });
-        });
+    Route::group(['prefix' => 'slide'], function () {
+        Route::get('/', [SlideController::class, 'index'])->name('admin.slide.index');
+        Route::get('/create', [SlideController::class, 'create'])->name('admin.slide.create');
+        Route::post('/create', [SlideController::class, 'store']);
+        Route::get('/update/{id}', [SlideController::class, 'edit'])->name('admin.slide.edit');
+        Route::post('/update/{id}', [SlideController::class, 'update']);
+        //        Route::delete('/delete/{id}', [SlideController::class, 'destroy'])->name('delete');
+        Route::get('/{action}/{id}', [SlideController::class, 'handle'])->name('admin.slide.handle');
     });
-
-    Route::controller(ContactController::class)->group(function () {
-        Route::prefix('contact')->group(function () {
-            Route::name('contact.')->group(function () {
-                Route::get('/', 'index')->name('index');
-            });
-        });
+    Route::group(['prefix' => 'warehouse'], function () {
+        Route::get('/', [WarehouseController::class, 'import'])->name('admin.warehouse.import');
+        Route::get('/import/{id}', [WarehouseController::class, 'importProduct'])->name('admin.warehouse.import.product');
+        Route::get('/history', [WarehouseController::class, 'history'])->name('admin.warehouse.history');
+        Route::get('/iventory', [WarehouseController::class, 'iventory'])->name('admin.warehouse.iventory');
+        Route::get('/bestseller', [WarehouseController::class, 'bestSeller'])->name('admin.warehouse.bestseller');
+        Route::get('/hotproduct/{id}', [WarehouseController::class, 'hotProduct'])->name('admin.warehouse.hotproduct');
     });
-
-    Route::controller(SettingController::class)->group(function () {
-        Route::prefix('warehouse')->group(function () {
-            Route::name('warehouse.')->group(function () {
-                Route::get('/', 'index')->name('index');
-                Route::get('/update/{id}', 'update')->name('update');
-            });
-        });
+    Route::group(['prefix' => 'contact'], function () {
+        Route::get('/', [ContactController::class, 'index'])->name('admin.contact.index');
+    });
+    Route::group(['prefix' => 'setting'], function () {
+        Route::get('/', [SettingController::class, 'index'])->name('admin.setting.index');
+        Route::get('/update/{id}', [SettingController::class, 'update'])->name('admin.setting.update');
     });
 });
-

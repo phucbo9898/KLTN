@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route Admin
-include('routeAdmin.php');
+require_once('routeAdmin.php');
 
 // Route Front end
 Route::controller(HomeController::class)->group(function () {
@@ -39,7 +39,7 @@ Route::controller(HomeController::class)->group(function () {
 Route::controller(SearchController::class)->group(function () {
     Route::prefix('search')->group(function () {
         Route::name('search.')->group(function () {
-            Route::get('/','index')->name('index');
+            Route::get('/', 'index')->name('index');
         });
     });
 });
@@ -62,41 +62,41 @@ Route::controller(ProductController::class)->group(function () {
     });
 });
 
-Route::name('auth.')->group(function() {
+Route::name('auth.')->group(function () {
     Route::controller(RegisterController::class)->group(function () {
-        Route::get('/register','getRegister')->name('get.register');
-        Route::post('/register','postRegister');
+        Route::get('/register', 'getRegister')->name('get.register');
+        Route::post('/register', 'postRegister');
     });
 
     Route::controller(LoginController::class)->group(function () {
-        Route::get('/login','getLogin')->name('get.login');
-        Route::post('/login','postLogin');
-        Route::get('/logout','getLogout')->name('get.logout');
+        Route::get('/login', 'getLogin')->name('get.login');
+        Route::post('/login', 'postLogin');
+        Route::get('/logout', 'getLogout')->name('get.logout');
     });
 
     Route::controller(ForgotPasswordController::class)->group(function () {
-        Route::post('/forgot-password','postResetPassword')->name('post.reset.password');
-        Route::get('/reset-password','getChangePasswordReset')->name('get.change.reset.password');
-        Route::post('/reset-password','postChangePasswordReset');
+        Route::post('/forgot-password', 'postResetPassword')->name('post.reset.password');
+        Route::get('/reset-password', 'getChangePasswordReset')->name('get.change.reset.password');
+        Route::post('/reset-password', 'postChangePasswordReset');
     });
 });
 
 Route::controller(ShoppingCartController::class)->group(function () {
     Route::prefix('shopping')->group(function () {
         Route::name('shopping.')->group(function () {
-            Route::get('/','index')->name('cart.index');
-            Route::get('add/{id}','addProduct')->name('add.product');
-            Route::get('/delete/{key}','deleteProductItem')->name('delete.product');
-            Route::post('/edit','editProductItem')->name('edit.product');
+            Route::get('/', 'index')->name('cart.index');
+            Route::get('add/{id}', 'addProduct')->name('add.product');
+            Route::get('/delete/{key}', 'deleteProductItem')->name('delete.product');
+            Route::post('/edit', 'editProductItem')->name('edit.product');
         });
     });
 });
 Route::controller(FeatureUserController::class)->middleware('checkLoginUser')->group(function () {
     Route::prefix('feature-user')->group(function () {
         Route::name('feature-user.')->group(function () {
-            Route::get('/checkout','getFormPay')->name('checkout');
-            Route::post('/checkout','saveInfoShoppingCart');
-            Route::get('/delete/nofitication/{id}','deleteNofication')->name('delete.nofication');
+            Route::get('/checkout', 'getFormPay')->name('checkout');
+            Route::post('/checkout', 'saveInfoShoppingCart');
+            Route::get('/delete/nofitication/{id}', 'deleteNofication')->name('delete.nofication');
         });
     });
 });
@@ -104,8 +104,8 @@ Route::controller(FeatureUserController::class)->middleware('checkLoginUser')->g
 Route::controller(RatingController::class)->middleware('checkLoginUser')->group(function () {
     Route::prefix('rating')->group(function () {
         Route::name('rating.')->group(function () {
-            Route::post('/{id}','saveRating')->name('post.rating.product');
-            Route::get('/delete/{id}','deleteRating')->name('get.delete.rating.product');
+            Route::post('/{id}', 'saveRating')->name('post.rating.product');
+            Route::get('/delete/{id}', 'deleteRating')->name('get.delete.rating.product');
         });
     });
 });
@@ -113,9 +113,9 @@ Route::controller(RatingController::class)->middleware('checkLoginUser')->group(
 Route::controller(FavoriteProductController::class)->middleware('checkLoginUser')->group(function () {
     Route::prefix('favorite-product')->group(function () {
         Route::name('favorite-product.')->group(function () {
-            Route::get('/','index')->name('index');
-            Route::get('add/{id}','addProduct')->name('get.add');
-            Route::get('delete/{id}','deleteProduct')->name('get.delete');
+            Route::get('/', 'index')->name('index');
+            Route::get('add/{id}', 'addProduct')->name('get.add');
+            Route::get('delete/{id}', 'deleteProduct')->name('get.delete');
         });
     });
 });
@@ -123,9 +123,9 @@ Route::controller(FavoriteProductController::class)->middleware('checkLoginUser'
 Route::controller(HistoryController::class)->middleware('checkLoginUser')->group(function () {
     Route::prefix('history-user')->group(function () {
         Route::name('history-user.')->group(function () {
-            Route::get('/','index')->name('index');
-            Route::get('/get-order-item/{id}','getOrderItem')->name('get.order.item');
-            Route::get('/paid/{id}','transactionPaid')->name('transaction.paid');
+            Route::get('/', 'index')->name('index');
+            Route::get('/get-order-item/{id}', 'getOrderItem')->name('get.order.item');
+            Route::get('/paid/{id}', 'transactionPaid')->name('transaction.paid');
         });
     });
 });
@@ -133,8 +133,8 @@ Route::controller(HistoryController::class)->middleware('checkLoginUser')->group
 Route::controller(ArticleController::class)->group(function () {
     Route::prefix('article')->group(function () {
         Route::name('article.')->group(function () {
-            Route::get('/','index')->name('index');
-            Route::get('/detail/{id}','getDetailArticle')->name('detail');
+            Route::get('/', 'index')->name('index');
+            Route::get('/detail/{id}', 'getDetailArticle')->name('detail');
         });
     });
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -14,7 +15,11 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        $articles = Article::all();
+        $data = [
+            'articles' => $articles
+        ];
+        return view('cms.article.index',$data);
     }
 
     /**
@@ -24,7 +29,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view('cms.article.create');
     }
 
     /**
@@ -57,7 +62,11 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $article = Article::find($id);
+        $data= [
+            'article' => $article
+        ];
+        return view('cms.article.edit',$data);
     }
 
     /**

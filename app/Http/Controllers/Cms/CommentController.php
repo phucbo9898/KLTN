@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -14,7 +15,11 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $ratings = Rating::all();
+        $data = [
+            'ratings' => $ratings
+        ];
+        return view('cms.comment.index',$data);
     }
 
     /**
