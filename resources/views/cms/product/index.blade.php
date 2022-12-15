@@ -1,4 +1,4 @@
-@extends('Admin.layout.master')
+@extends('cms.layout.master')
 
 @section('content')
 <style>
@@ -67,31 +67,31 @@
                 </thead>
                 <tbody>
                   @if(isset($products))
-                    @foreach($products as $pro)
+                    @foreach($products as $product)
                       <tr>
-                        <td>{{$pro->id}}</td>
+                        <td>{{$product->id}}</td>
                         <td>
-                          <b>{{$pro->pro_name}}</b><br/>
+                          <b>{{$product->name}}</b><br/>
                           <ul style="padding:0px">
-                            <li>Số lượng: {{$pro->pro_number}}</li>
-                            <li>Giá: {{number_format($pro->pro_price,0,',','.')}} VNĐ</li>
-                            @if($pro->pro_sale)
-                            <li>Đang giảm giá ( -{{$pro->pro_sale}}% )</li>
+                            <li>Số lượng: {{$product->quantity}}</li>
+                            <li>Giá: {{number_format($product->price,0,',','.')}} VNĐ</li>
+                            @if($product->sale)
+                            <li>Đang giảm giá ( -{{$product->sale}}% )</li>
                             @else
                             <li>Không giảm giá</li>
                             @endif
                             <li>
                               <?php
                               $point= 0;
-                              if($pro->pro_number_of_reviewers>0){
-                                $point= round($pro->pro_total_star/$pro->pro_number_of_reviewers);
+                              if($product->number_of_reviewers>0){
+                                $point= round($product->total_star/$product->number_of_reviewers);
                               }
                               ?>
                               Đánh giá: <span class="rating">
                                 @for($i=1; $i <= 5; $i++)
                                   <i class="fa fa-star {{ $i<=$point ? 'active':''}}" style="color:#999"></i>
                                 @endfor
-                                @if($pro->pro_number_of_reviewers>0)
+                                @if($product->number_of_reviewers>0)
                                   {{$point}} sao
                                 @else
                                   Chưa đánh giá
@@ -100,19 +100,19 @@
                             </li>
                           </ul>
                         </td>
-                        <td>{{$pro->Category->c_name}}</td>
+                        <td>{{$product->Category->name}}</td>
                         <td>
-                          @if($pro->pro_image)
-                            <img style="width:80px;height:80px" src="{{asset('upload/pro_image/'.$pro->pro_image)}}" alt="No Avatar"/>
+                          @if($product->image)
+                            <img style="width:80px;height:80px" src="{{asset($product->image)}}" alt="No Avatar"/>
                           @else
                           <img style="width:80px;height:80px" src="{{asset('noimg.png')}}" alt="No Avatar"/>
                           @endif
                         </td>
-                        <td style="text-align: center"><a href="{{route('admin.product.handle',['status',$pro->id])}}" class="badge badge-{{($pro->pro_status==1)?"success":"danger"}}">{{($pro->pro_status==1)?"Công khai":"Riêng tư"}}</a></td>
-                        <td style="text-align: center"><a href="{{route('admin.product.handle',['hot',$pro->id])}}" class="badge badge-{{($pro->pro_hot==1)?"success":"secondary"}}">{{($pro->pro_hot==1)?"Có":"Không"}}</a></td>
+                        <td style="text-align: center"><a href="{{route('admin.product.handle',['status',$product->id])}}" class="badge badge-{{($product->status==1)?"success":"danger"}}">{{($product->status==1)?"Công khai":"Riêng tư"}}</a></td>
+                        <td style="text-align: center"><a href="{{route('admin.product.handle',['hot',$product->id])}}" class="badge badge-{{($product->hot==1)?"success":"secondary"}}">{{($product->hot==1)?"Có":"Không"}}</a></td>
                         <td>
-                          <a href="{{route('admin.product.edit',$pro->id)}}" class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
-                          <a href="{{route('admin.product.handle',['delete',$pro->id])}}" data-id="{{$pro->id}}" class="btn_delete_sweet btn btn-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
+                          <a href="{{route('admin.product.edit',$product->id)}}" class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
+                          <a href="{{route('admin.product.handle',['delete',$product->id])}}" data-id="{{$product->id}}" class="btn_delete_sweet btn btn-danger btn-circle"><i class="fas fa-trash-alt"></i></a>
                         </td>
                       </tr>
                     @endforeach

@@ -1,4 +1,4 @@
-@extends('Admin.layout.master')
+@extends('cms.layout.master')
 @section('content')
 <style>
   .rating .active{
@@ -57,23 +57,23 @@
                 </thead>
                 <tbody>
                   @if(isset($products))
-                    @foreach($products as $pro)
+                    @foreach($products as $product)
                       <tr>
-                        <td>{{$pro->id}}</td>
+                        <td>{{$product->id}}</td>
                         <td>
-                          <b>{{$pro->pro_name}}</b><br/>
+                          <b>{{$product->name}}</b><br/>
                         </td>
-                        <td>{{$pro->Category->c_name}}</td>
+                        <td>{{$product->category->name}}</td>
                         <td>
-                          @if($pro->pro_image)
-                            <img style="width:80px;height:80px" src="{{asset('upload/pro_image/'.$pro->pro_image)}}" alt="No Avatar"/>
+                          @if($product->image)
+                            <img style="width:80px;height:80px" src="{{asset($product->image)}}" alt="No Avatar"/>
                           @else
                           <img style="width:80px;height:80px" src="{{asset('noimg.png')}}" alt="No Avatar"/>
                           @endif
                         </td>
-                        <td style="text-align: center">{{$pro->pro_number}}</td>
+                        <td style="text-align: center">{{$product->number}}</td>
                         <td style="text-align: center">
-                          <a href="{{route('admin.warehouse.import.product',$pro->id)}}" data-name="{{$pro->pro_name}}" class="btn_import_product btn btn-success btn-circle"><i class="fa fa-plus-circle"></i></a>
+                          <a href="{{route('admin.warehouse.import.product',$product->id)}}" data-name="{{$product->name}}" class="btn_import_product btn btn-success btn-circle"><i class="fa fa-plus-circle"></i></a>
                         </td>
                       </tr>
                     @endforeach

@@ -1,4 +1,4 @@
-@extends('Admin.layout.master')
+@extends('cms.layout.master')
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -63,10 +63,10 @@
                     @foreach($articles as $article)
                       <tr>
                           <td>{{$article->id}}</td>
-                          <td style="width:15%">{{$article->a_name}}</td>
-                          <td><img style="width:80px;height:80px" src="{{asset('upload/a_image/'.$article->a_image)}}" alt="No Avatar"/></td>
-                          <td>{{$article->a_description}}</td>
-                          <td style="width: 11%; text-align: center"><a href="{{route('admin.article.handle',['status',$article->id])}}" class="badge badge-{{($article->a_status==1)?"success":"danger"}}">{{($article->a_status==1)?"Công khai":"Riêng tư"}}</a></td>
+                          <td style="width:15%">{{$article->name}}</td>
+                          <td><img style="width:80px;height:80px" src="{{asset($article->image)}}" alt="No Avatar"/></td>
+                          <td>{{$article->description}}</td>
+                          <td style="width: 11%; text-align: center"><a href="{{route('admin.article.handle',['status',$article->id])}}" class="badge badge-{{($article->status==1)?"success":"danger"}}">{{($article->status==1)?"Công khai":"Riêng tư"}}</a></td>
                           <td style="width:11%">{{$article->created_at}}</td>
                           <td style="width: 11%">
                             <a href="{{route('admin.article.edit',$article->id)}}" class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>

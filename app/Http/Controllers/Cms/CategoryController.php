@@ -5,10 +5,21 @@ namespace App\Http\Controllers\Cms;
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
 use App\Models\Category;
+use App\Models\Category_Attribute;
+use App\Repositories\AttributeRepository;
+use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
+
+    public function __construct(CategoryRepository $categoryRepo, AttributeRepository $attributeRepo)
+    {
+        $this->categoryRepo = $categoryRepo;
+        $this->attributeRepo = $attributeRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +33,7 @@ class CategoryController extends Controller
         $data = [
             'categories' => $categories
         ];
-        return view('cms.category.index',$data);
+        return view('cms.category.index', $data);
     }
 
     /**
@@ -33,29 +44,56 @@ class CategoryController extends Controller
     public function create()
     {
         //get all attribute
-        $attributes = Attribute::all();
-        //variable transfer
-        $data = [
-            'attributes' =>$attributes
-        ];
-        return view('cms.category.create',$data);
+        $attributes = $this->attributeRepo->all();
+
+        return view('cms.category.create', compact('attributes'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        // Check data input
+        $validator = Validator::make($request->all(),
+            [
+                'name' => 'required|unique:categories,name',
+            ],
+            [
+                'name.required' => 'Bạn cần nhập trường tên loại sản phẩm',
+            ]
+        );
+        dd($validator->fails());
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator, 'categoryErrors');
+        }
+
+        $data = $request->all();
+        $category = $this->categoryRepo->prepareCategory($data);
+        $result = $this->categoryRepo->create($category);
+        foreach ($request->all() as $key => $value) {
+            if (is_int($key)) {
+                Category_Attribute::create([
+                    'category_id' => $result->id,
+                    'attribute_id' => $key
+                ]);
+            }
+        }
+        if ($result) {
+            $request->session()->flash('create_category_success', 'Đã thêm 1 Category!');
+            return redirect()->route('admin.category.index');
+        }
+        $request->session()->flash('create_category_error', 'Thêm Category không thành công');
+        return redirect()->back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -66,30 +104,91 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        //get all attribute
+        $attributes = $this->attributeRepo->all();
+        //get category
+        $category = $this->categoryRepo->find($id);
+        //get attribute in category
+        $categoryAttribute = Category_Attribute::where('category_id',$id)->get();
+        $arrayCategoryAttribute = array();
+        // push attribute of category in array for compare attribute in form
+        foreach($categoryAttribute as $ca)
+        {
+            $arrayCategoryAttribute[]= $ca->attribute_id;
+        }
+        //variable transfer
+
+        $data = [
+            'attributes' =>$attributes,
+            'category' => $category,
+            'arrayCategoryAttribute' => $arrayCategoryAttribute
+
+        ];
+
+        return view('cms.category.edit',$data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = $this->categoryRepo->find($id);
+//        dd($category);
+        if (!$category) {
+            return redirect()->route('admin.category.index')->with('error', __('The requested resource is not available'));
+        }
+        //check Input
+        $validator = Validator::make($request->all(),
+            [
+                'name' => 'required',
+            ],
+            [
+                'name.required' => 'Bạn cần nhập trường tên loại sản phẩm',
+            ]
+        );
+//        dd(/$validator->fails());
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator, 'attributeErrors');
+        }
+//        dd(2);
+//        dd(1);
+
+        $data = $request->all();
+//        dd($data);
+        $categories = $this->categoryRepo->prepareCategory($data);
+        $result = $this->categoryRepo->update($category->id, $categories);
+//        dd($result);
+        Category_Attribute::where('category_id', $category->id)->delete();
+        foreach ($request->all() as $key => $value) {
+            if (is_int($key)) {
+                Category_Attribute::create([
+                    'category_id' => $result->id,
+                    'attribute_id' => $key
+                ]);
+            }
+        }
+        if ($result) {
+            $request->session()->flash('edit_category_success', 'Đã sửa thành công loại sản phẩm mang ID số'.$category->id.'!');
+            return redirect()->route('admin.category.index');
+        }
+        $request->session()->flash('create_category_error', 'Sửa không thành công loại sản phẩm mang ID số'.$category->id.'!');
+        return redirect()->back();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

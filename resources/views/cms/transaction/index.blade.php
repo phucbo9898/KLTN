@@ -1,4 +1,4 @@
-@extends('admin.layout.master')
+@extends('cms.layout.master')
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -56,19 +56,19 @@
                     @foreach($transactions as $transaction)
                         <tr>
                             <td style="text-align: center;">{{$transaction->id}}</td>
-                            <td>{{optional($transaction->User)->name}}</td>
-                            <td>{{$transaction->tr_address}}</td>
-                            <td>{{$transaction->tr_phone}}</td>
-                            <td>{{$transaction->tr_note}}</td>
-                            <td>{{number_format($transaction->tr_total,0,',','.')}} VNĐ</td>
+                            <td>{{optional($transaction->user)->name}}</td>
+                            <td>{{$transaction->address}}</td>
+                            <td>{{$transaction->phone}}</td>
+                            <td>{{$transaction->note}}</td>
+                            <td>{{number_format($transaction->total,0,',','.')}} VNĐ</td>
                             <td style="text-align: center;">
-                              @if($transaction->tr_status==2)
+                              @if($transaction->status==2)
                               <a href="#"><span class="badge badge-success">Đã nhận hàng</span></a>
                               @endif
-                              @if($transaction->tr_status==1)
+                              @if($transaction->status==1)
                               <a href="{{route('admin.transaction.paid',$transaction->id)}}"><span class="badge badge-warning text-white">Đã gửi hàng</span></a>
                               @endif
-                              @if($transaction->tr_status==0)
+                              @if($transaction->status==0)
                                 <a href="{{route('admin.transaction.handle',['send',$transaction->id])}}"><span class="badge badge-danger">Đang xử lý</span></a>
                               @endif
                             </td>

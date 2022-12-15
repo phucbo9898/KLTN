@@ -14,7 +14,7 @@ class StatisticsController extends Controller
      */
     public function index()
     {
-        //
+        return view('cms.statistics.index');
     }
 
     /**
