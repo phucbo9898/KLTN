@@ -1,5 +1,9 @@
 @csrf
 <div class="form-group">
+    <label>Avatar:</label>
+    <input type="file" class="form-control upload-file" name="image" style="height: calc(2.25rem + 4px) !important;">
+</div>
+<div class="form-group">
     <label>Tên thành viên: </label>
 	<input type="text" class="form-control" name="name" value="{{old('name',isset($user->name)?$user->name:'')}}" placeholder="Nhập vào họ và tên">
 </div>

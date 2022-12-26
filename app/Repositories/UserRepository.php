@@ -10,4 +10,17 @@ class UserRepository extends BaseRepository
     {
         $this->model = $model;
     }
+
+    public function prepareUser(array $data)
+    {
+        $user = [
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => $data['password'],
+            'phone' => $data['phone'],
+            'avatar' => $data['image']
+        ];
+
+        return $user;
+    }
 }

@@ -22,4 +22,12 @@ final class UserType extends Enum
         ];
         return $typeName[$role];
     }
+
+    public static function getUserTypeName()
+    {
+        return [
+          self::ADMIN,
+          self::USER
+        ];
+    }
 }

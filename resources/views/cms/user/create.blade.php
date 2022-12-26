@@ -1,4 +1,4 @@
-@extends('Admin.layout.master')
+@extends('cms.layout.master')
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -36,7 +36,7 @@
                     </div>
                   @endforeach
                 @endif
-                @include('Admin.user.form')
+                @include('cms.user.form')
             </form>
         </div>
         <!-- /.card-body -->
@@ -48,3 +48,4 @@
 </div>
  <!-- /.content-wrapper -->
 @endsection
+

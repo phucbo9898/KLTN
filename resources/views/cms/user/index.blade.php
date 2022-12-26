@@ -1,4 +1,5 @@
-@extends('Admin.layout.master')
+@extends('cms.layout.master')
+<?php use App\Enums\UserType; ?>
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -52,6 +53,7 @@
                     <table class="table table-hover table-striped" id="dataTable">
                         <thead class="thead-dark">
                             <th>ID</th>
+                            <th>Avatar</th>
                             <th>Họ và tên</th>
                             <th>email</th>
                             <th>Số điện thoại</th>
@@ -61,13 +63,19 @@
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
-                                    <td>{{ $user->id }}</td>
+                                    <td style="text-align: center;">{{ ($users->currentPage() - 1) * $users->perPage() + $loop->index + 1 }}</td>
+                                    <td>
+                                        <img class="avatar-user" src="{{ asset($user->avatar) }}" alt="">
+                                    </td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone }}</td>
-                                    <td style=""><a
-                                            href="{{ route('admin.user.action', ['role', $user->id]) }}"><span
-                                                class="badge badge-{{ $user->role == 1 ? 'success' : 'secondary' }}">{{ $user->role == 1 ? 'Admin' : 'Khách hàng' }}</span></a>
+                                    <td style="">
+                                        <a href="{{ route('admin.user.action', ['role', $user->id]) }}">
+                                            <span class="badge badge-{{ $user->role == UserType::ADMIN ? 'success' : 'secondary' }}">
+                                                {{ $user->getUserType() ?? ''}}
+                                            </span>
+                                        </a>
                                     </td>
                                     <td style="width: 16%; text-align: center;">
                                         <a href="{{ route('admin.user.edit', $user->id) }}"

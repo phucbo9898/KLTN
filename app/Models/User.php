@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\UserType;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -52,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Notification::class, 'receiver');
     }
+    public function getUserType()
+    {
+        return UserType::getUserType($this->role);
+    }
+
 }

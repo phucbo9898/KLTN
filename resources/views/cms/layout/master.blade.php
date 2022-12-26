@@ -31,6 +31,11 @@
             align-items: center;
             justify-content: center;
         }
+         .avatar-user {
+             width: 50px !important;
+             height: 50px !important;
+             object-fit: cover !important;
+         }
     </style>
 </head>
 <body class="hold-transition sidebar-mini">

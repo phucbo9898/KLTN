@@ -1,4 +1,4 @@
-@extends('Admin.layout.master')
+@extends('cms.layout.master')
 @section('content')
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -41,9 +41,9 @@
                         <tr>
                           <td>{{$rating->id}}</td>
                           <td>{{optional($rating->User)->name}}</td>
-                          <td>{{$rating->Product->pro_name}}</td>
+                          <td>{{$rating->Product->name}}</td>
                           <td>{{$rating->ra_content}}</td>
-                          <td style="text-align: center; width: 5%;">{{$rating->ra_number}} sao</td>
+                          <td style="text-align: center; width: 5%;">{{$rating->number}} sao</td>
                           <td>{{$rating->created_at}}</td>
                             <td style="text-align: center; width: 10%;"><a href="{{route('admin.comment.action',['delete',$rating->id])}}" class="btn_delete_sweet btn btn-danger btn-circle" data-id="{{$rating->id}}"><i class="fas fa-trash-alt"></i></a></td>
                         </tr>
