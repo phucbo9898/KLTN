@@ -47,9 +47,9 @@ Route::controller(SearchController::class)->group(function () {
 Route::controller(CategoryController::class)->group(function () {
     Route::prefix('category')->group(function () {
         Route::name('category.')->group(function () {
-            Route::get('/{slugname}/{id}', 'index')->name('index');
-            Route::get('/{slugname}/{id}/{order}', 'indexOrder')->name('index.order');
-            Route::get('/{slugname}/{id}/attribute/{at}', 'indexOrderAttribute')->name('index.order.attribute');
+            Route::get('/{slug}/{id}', 'index')->name('index');
+            Route::get('/{slug}/{id}/{order}', 'indexOrder')->name('index.order');
+            Route::get('/{slug}/{id}/attribute/{at}', 'indexOrderAttribute')->name('index.order.attribute');
         });
     });
 });
@@ -57,7 +57,7 @@ Route::controller(CategoryController::class)->group(function () {
 Route::controller(ProductController::class)->group(function () {
     Route::prefix('product')->group(function () {
         Route::name('product.')->group(function () {
-            Route::get('/{slugname}/{id}', 'index')->name('index');
+            Route::get('/{slug}/{id}', 'index')->name('index');
         });
     });
 });

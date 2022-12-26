@@ -66,7 +66,7 @@ class CategoryController extends Controller
                 'name.required' => 'Bạn cần nhập trường tên loại sản phẩm',
             ]
         );
-        dd($validator->fails());
+//        dd($validator->fails());
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator, 'categoryErrors');
         }
