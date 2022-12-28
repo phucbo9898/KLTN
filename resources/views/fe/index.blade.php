@@ -39,7 +39,7 @@
                     <!--Category Menu Start-->
                     <div class="category-menu">
                         <div class="category-heading">
-                            <h2 class="categories-toggle"><span>loại sản phẩm</span></h2>
+                            <h2 class="categories-toggle"><span>@lang('Categories List')</span></h2>
                         </div>
                         <div id="cate-toggle" class="category-menu-list">
                             <?php
@@ -58,8 +58,8 @@
                                         <?php $numberListCategory++ ?>
                                 @endforeach
                                 <li class="rx-parent">
-                                    <a class="rx-default">Hiển thị thêm loại sản phẩm</a>
-                                    <a class="rx-show">Ẩn bớt loại sản phẩm</a>
+                                    <a class="rx-default">@lang('Show more categories')</a>
+                                    <a class="rx-show">@lang('Hide categories')</a>
                                 </li>
                             </ul>
                         </div>
@@ -99,7 +99,7 @@
                 <div class="col-lg-12">
                     <div class="li-section-title">
                         <h2>
-                            <span>SẢN PHẨM MỚI CẬP NHẬT</span>
+                            <span style="text-transform: uppercase;">@lang('New Products Update')</span>
                         </h2>
                     </div>
                     <div class="row">
@@ -221,7 +221,7 @@
                 <div class="col-lg-12">
                     <div class="li-section-title">
                         <h2>
-                            <span>SẢN PHẨM BÁN CHẠY</span>
+                            <span style="text-transform: uppercase;">@lang('Selling Products')</span>
                         </h2>
                     </div>
                     <!-- Begin Li's Tab Menu Content Area -->
@@ -473,7 +473,7 @@
                 <div class="col-lg-12">
                     <div class="li-section-title">
                         <h2>
-                            <span>Bài viết mới nhất</span>
+                            <span style="text-transform: uppercase">@lang('New Article')</span>
                         </h2>
                     </div>
                     <div class="row li-main-content" style="margin-top: 22px;">

@@ -10,7 +10,7 @@
                                                         justify-content: space-between;
                                                         width: 360px;">
                         <ul class="phone-wrap">
-                            <li><span>Số điện thoại:</span><a href="#"> 0969908298</a></li>
+                            <li><span>@lang('Phone Number'):</span><a href="#"> 0969908298</a></li>
                         </ul>
                         <ul class="phone-wrap">
                             <li><span>Email: </span><a href="mailto://phucbo9898@gmail.com">phucbo9898@gmail.com</a>
@@ -24,19 +24,31 @@
                     <div class="header-top-right">
                         <ul class="ht-menu">
                             <!-- Begin Setting Area -->
-
+{{--                            @if(Auth::check())--}}
+{{--                                <li>--}}
+{{--                                    <img src="{{Auth::user()->avatar}}" alt="">--}}
+{{--                                    {{Auth::user()->name}}--}}
+{{--                                </li>--}}
+{{--                            @endif--}}
                             <li>
-                                <div class="ht-setting-trigger"><i class="fa fa-user">Tài khoản</i></div>
+                                <div class="ht-setting-trigger">
+                                    @if(Auth::check())
+                                        <img src="{{Auth::user()->avatar}}" alt="" style="width: 20px; object-fit: cover;">
+                                        {{Auth::user()->name}}
+                                    @else
+                                        <i class="fa fa-user">@lang('Account')</i>
+                                    @endif
+                                </div>
                                 <div class="setting ht-setting">
                                     <ul class="ht-setting-list">
                                         @if(Auth::check())
-                                            <li><a href="#">Trang quản trị</a></li>
-                                            <li><a href="#">Sản phẩm yêu thích</a></li>
-                                            <li><a href="#">Lịch sử mua hàng</a></li>
-                                            <li><a href="#">Đăng xuất</a></li>
+                                            <li><a href="#">@lang('Admin Page')</a></li>
+                                            <li><a href="#">@lang('Favorite Product')</a></li>
+                                            <li><a href="#">@lang('Purchase history')</a></li>
+                                            <li><a href="#">@lang('Logout')</a></li>
                                         @else
-                                            <li><a href="#">Đăng nhập</a></li>
-                                            <li><a href="#">Đăng kí</a></li>
+                                            <li><a href="#">@lang('Login')</a></li>
+                                            <li><a href="#">@lang('Register')</a></li>
                                         @endif
                                     </ul>
                                 </div>
@@ -75,12 +87,12 @@
                     <!-- Begin Header Middle Searchbox Area -->
                     <form action="#" class="hm-searchbox" method="GET">
                         <select class="nice-select select-search-category" name="searh_category_id">
-                            <option value="0">Tất cả</option>
+                            <option value="0">@lang('All')</option>
                             {{--                            @foreach($categories_searh as $category)--}}
                             {{--                                <option value="{{$category->id}}">{{$category->c_name}}</option>--}}
                             {{--                            @endforeach--}}
                         </select>
-                        <input type="text" placeholder="Nhập giá trị tìm kiếm ..." name="searh_key">
+                        <input type="text" placeholder="@lang('Enter search value ...')" name="searh_key">
                         <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                     </form>
                     <!-- Header Middle Searchbox Area End Here -->
@@ -103,7 +115,7 @@
                                 <a href="#">
                                     <div class="hm-minicart-trigger">
                                         <span class="item-icon"></span>
-                                        <span class="item-text"><span class="price_total_cart"></span> VNĐ
+                                        <span class="item-text"><span class="price_total_cart"></span> @lang('VND')
                                             <span class="cart-item-count cart-item-count-number"></span>
                                         </span>
                                     </div>
@@ -129,21 +141,21 @@
                         <nav>
                             <ul>
                                 <li class="dropdown-holder">
-                                    <a href="{{ route('home') }}">Trang chủ</a>
+                                    <a href="{{ route('home') }}">@lang('Home')</a>
 
                                 </li>
                                 <li class="megamenu-holder">
-                                    <a href="#">Bài viết</a>
+                                    <a href="#">@lang('Article')</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('about-us') }}">Giới thiệu</a>
+                                    <a href="{{ route('about-us') }}">@lang('Introduce')</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('contact') }}">Liên hệ</a>
+                                    <a href="{{ route('contact') }}">@lang('Contact')</a>
                                 </li>
                                 <!-- Begin Header Bottom Menu Information Area -->
                                 <li class="hb-info f-right p-0 d-sm-none d-lg-block">
-                                    <span>Trâu Quỳ, Gia Lâm, Hà Nội</span>
+                                    <span>@lang('Mitec Building, Yen Hoa, Cau Giay, Hanoi, Vietnam')</span>
                                 </li>
                                 <!-- Header Bottom Menu Information Area End Here -->
                             </ul>

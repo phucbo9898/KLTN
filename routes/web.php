@@ -44,6 +44,18 @@ Route::controller(SearchController::class)->group(function () {
     });
 });
 
+Route::group(['namespace'=>'Auth'],function()
+{
+    Route::get('register',[RegisterController::class, 'getRegister'])->name('get.register');
+    Route::post('register',[RegisterController::class, 'postRegister']);
+    Route::get('login',[LoginController::class, 'getLogin'])->name('get.login');
+    Route::post('login',[LoginController::class, 'postLogin']);
+    Route::get('logout',[LoginController::class, 'getLogout'])->name('get.logout');
+    Route::post('forgot-password',[ForgotPasswordController::class, 'postResetPassword'])->name('post.reset.password');
+    Route::get('reset-password',[ForgotPasswordController::class, 'getChangePasswordReset'])->name('get.change.reset.password');
+    Route::post('reset-password',[ForgotPasswordController::class, 'postChangePasswordReset']);
+});
+
 Route::controller(CategoryController::class)->group(function () {
     Route::prefix('category')->group(function () {
         Route::name('category.')->group(function () {
