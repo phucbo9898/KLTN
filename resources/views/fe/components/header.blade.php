@@ -10,10 +10,10 @@
                                                         justify-content: space-between;
                                                         width: 360px;">
                         <ul class="phone-wrap">
-                            <li><span>@lang('Phone Number'):</span><a href="#"> 0969908298</a></li>
+                            <li><span>@lang('Phone Number'):</span><a href="#">&nbsp;0969908298</a></li>
                         </ul>
                         <ul class="phone-wrap">
-                            <li><span>Email: </span><a href="mailto://phucbo9898@gmail.com">phucbo9898@gmail.com</a>
+                            <li><span>Email:&nbsp;</span><a href="mailto://phucbo9898@gmail.com">phucbo9898@gmail.com</a>
                             </li>
                         </ul>
                     </div>
@@ -36,7 +36,7 @@
                                         <img src="{{Auth::user()->avatar}}" alt="" style="width: 20px; object-fit: cover;">
                                         {{Auth::user()->name}}
                                     @else
-                                        <i class="fa fa-user">@lang('Account')</i>
+                                        <i class="fa fa-user">&nbsp;@lang('Account')</i>
                                     @endif
                                 </div>
                                 <div class="setting ht-setting">
@@ -76,8 +76,8 @@
                 <!-- Begin Header Logo Area -->
                 <div class="col-lg-3">
                     <div class="logo pb-sm-30 pb-xs-30">
-                        <a href="#">
-                            <img src="" alt="" style="width: 75px;">
+                        <a href="{{route('home')}}">
+                            <img src="{{asset('images/logo-fe.png')}}" alt="" style="width: 75px;">
                         </a>
                     </div>
                 </div>

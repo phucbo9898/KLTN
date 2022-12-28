@@ -10,10 +10,10 @@
                     <div class="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
                         <div class="li-shipping-inner-box">
                             <div class="shipping-icon">
-                                <img src="" alt="Shipping Icon">
+                                <img src="{{asset('images/shipping-icon/free_ship.png')}}" alt="Shipping Icon">
                             </div>
                             <div class="shipping-text">
-                                <h2>Miễn phí vận chuyển</h2>
+                                <h2>@lang('Free shipping')</h2>
                                 <p>Miễn phí trả lại. Hãy xem thanh toán cho ngày giao dịch.</p>
                             </div>
                         </div>
@@ -23,10 +23,10 @@
                     <div class="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
                         <div class="li-shipping-inner-box">
                             <div class="shipping-icon">
-                                <img src="" alt="Shipping Icon">
+                                <img src="{{asset('images/shipping-icon/cost_save.png')}}" alt="Shipping Icon">
                             </div>
                             <div class="shipping-text">
-                                <h2>Tiết kiệm chi phí</h2>
+                                <h2>@lang('Cost savings')</h2>
                                 <p>Giá thành sản phẩm sẽ vì lợi ích của khách hàng.</p>
                             </div>
                         </div>
@@ -36,10 +36,10 @@
                     <div class="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
                         <div class="li-shipping-inner-box">
                             <div class="shipping-icon">
-                                <img src="" alt="Shipping Icon">
+                                <img src="{{asset('images/shipping-icon/security.png')}}" alt="Shipping Icon">
                             </div>
                             <div class="shipping-text">
-                                <h2>Bảo mật thông tin</h2>
+                                <h2>@lang('Information security')</h2>
                                 <p>Thông tin của khách hàng sẽ không được chia sẻ với bên thứ ba.</p>
                             </div>
                         </div>
@@ -49,10 +49,10 @@
                     <div class="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
                         <div class="li-shipping-inner-box">
                             <div class="shipping-icon">
-                                <img src="" alt="Shipping Icon">
+                                <img src="{{asset('images/shipping-icon/support.png')}}" alt="Shipping Icon">
                             </div>
                             <div class="shipping-text">
-                                <h2>Hỗ trợ 24/7</h2>
+                                <h2>@lang('Support 24/7')</h2>
                                 <p>Nếu bạn có câu hỏi? Hãy liên hệ ngay với chúng tôi.</p>
                             </div>
                         </div>
@@ -72,22 +72,22 @@
                     <!-- Begin Footer Logo Area -->
                     <div class="col-lg-4 col-md-6">
                         <div class="footer-logo">
-                            <img src="" alt="Footer Logo" style="width: 75px;">
+                            <img src="{{asset('images/logo-fe.png')}}" alt="Footer Logo" style="width: 75px;">
                             <p class="info">
                                 @lang('This website is currently in the testing and development phase to be more complete before being put into business and commercialization.')
                             </p>
                         </div>
                         <ul class="des">
                             <li>
-                                <span>Địa chỉ: </span>
-                                Số 10, ngõ 161, Trâu Quỳ, Gia Lâm, Hà Nội
+                                <span>@lang('Address'): </span>
+                                @lang('Mitec Building, Yen Hoa, Cau Giay, Hanoi, Vietnam')
                             </li>
                             <li>
-                                <span>Số điện thoại: </span>
+                                <span>@lang('Phone Number'): </span>
                                 <a href="#">0969908298</a>
                             </li>
                             <li>
-                                <span>Email: </span>
+                                <span>@lang('Email'): </span>
                                 <a href="mailto://phucbo9898@gmail.com">phucbo9898@gmail.com</a>
                             </li>
                         </ul>
@@ -119,10 +119,11 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('about-us') }}"
-                                       style="text-decoration: none;">@lang('About us')</a>
+                                        style="text-decoration: none;">@lang('About us')</a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('contact') }}" style="text-decoration: none;">@lang('Contact')</a>
+                                    <a href="{{ route('contact') }}"
+                                        style="text-decoration: none;">@lang('Contact')</a>
                                 </li>
                             </ul>
                         </div>
@@ -132,8 +133,8 @@
                     <div class="col-lg-4">
                         <div class="footer-block">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1862.325305009834!2d105.9369279782067!3d21.006638082261517!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135a8ce5bc224ad%3A0xd6f070b1a3525c0d!2zMTAgTmcuIDE2MSBUcsOidSBRdeG7sywgVHLDonUgUXXhu7MsIEdpYSBMw6JtLCBIw6AgTuG7mWksIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1650600219488!5m2!1svi!2s"
-                                width="650" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.3183324100223!2d105.7794391288416!3d21.019945048700038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abbdcaac09d3%3A0x3ca8b3615e092fa4!2sMitec%20Building!5e0!3m2!1svi!2sus!4v1672212195191!5m2!1svi!2sus"
+                                width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
@@ -151,7 +152,10 @@
                     <div class="copy-right" style="text-align: center; color: white;">
                         <p>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                            Copyright &copy;
+                            <script>
+                                document.write(new Date().getFullYear());
+                            </script>
                             All rights reserved | This template is made with
                             <i class="icon-heart color-danger" aria-hidden="true"></i> by <span
                                 style="color: red; font-size: 20px">♥</span>
@@ -165,6 +169,3 @@
     <!-- Footer Static Bottom Area End Here -->
 </div>
 <!-- Footer Area End Here -->
-
-
-
