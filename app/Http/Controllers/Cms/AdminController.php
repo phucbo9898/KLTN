@@ -18,18 +18,21 @@ class AdminController extends Controller
     {
         return view('cms.login.login');
     }
+
     public function postLogin(Request $request)
     {
 //        $credentials = $request->only('email', 'password');
-        if(Auth::attempt($request->only('email', 'password'))){
+        if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            if($user->role == UserType::ADMIN){
+            if ($user->role == UserType::ADMIN) {
                 return redirect()->route('admin.home');
             }
         }
         return redirect()->back()->with('error', __('Đăng nhập không thành công'));
     }
-    public function getLogout(){
+
+    public function getLogout()
+    {
         Auth::logout();
         return view('cms.login.login');
     }
@@ -50,13 +53,13 @@ class AdminController extends Controller
         $fivedago = Carbon:: today()->subDays(5)->format('Y-m-d');
         $sixdago = Carbon:: today()->subDays(6)->format('Y-m-d');
         // get money redemm follow update status 2
-        $totaltoday = Transaction::where('updated_at', 'like', '%'.$today.'%')->select('status','total','created_at')->where('status',2)->sum('total');
-        $totalonedago = Transaction::where('updated_at', 'like', '%'.$onedago.'%')->select('status','total','created_at')->where('status',2)->sum('total');
-        $totaltwodago = Transaction::where('updated_at', 'like', '%'.$twodago.'%')->select('status','total','created_at')->where('status',2)->sum('total');
-        $totalthreedago = Transaction::where('updated_at', 'like', '%'.$threedago.'%')->select('status','total','created_at')->where('status',2)->sum('total');
-        $totalfordago = Transaction::where('updated_at', 'like', '%'.$fordago.'%')->select('status','total','created_at')->where('status',2)->sum('total');
-        $totalfivedago = Transaction::where('updated_at', 'like', '%'.$fivedago.'%')->select('status','total','created_at')->where('status',2)->sum('total');
-        $totalsixdago = Transaction::where('updated_at', 'like', '%'.$sixdago.'%')->select('status','total','created_at')->where('status',2)->sum('total');
+        $totaltoday = Transaction::where('updated_at', 'like', '%' . $today . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
+        $totalonedago = Transaction::where('updated_at', 'like', '%' . $onedago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
+        $totaltwodago = Transaction::where('updated_at', 'like', '%' . $twodago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
+        $totalthreedago = Transaction::where('updated_at', 'like', '%' . $threedago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
+        $totalfordago = Transaction::where('updated_at', 'like', '%' . $fordago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
+        $totalfivedago = Transaction::where('updated_at', 'like', '%' . $fivedago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
+        $totalsixdago = Transaction::where('updated_at', 'like', '%' . $sixdago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
         // get 7 day for time graph
         $one = Carbon:: today()->subDays(1)->format('d-m');
         $two = Carbon:: today()->subDays(2)->format('d-m');
@@ -64,10 +67,10 @@ class AdminController extends Controller
         $for = Carbon:: today()->subDays(4)->format('d-m');
         $five = Carbon:: today()->subDays(5)->format('d-m');
         $six = Carbon:: today()->subDays(6)->format('d-m');
-        $total_price_seven_days_edit = "".$totalsixdago.",".$totalfivedago.",".$totalfordago.",".$totalthreedago.",".$totaltwodago.",".$totalonedago.",".$totaltoday."";
-        $time_chart = "".$six.",".$five.",".$for.",".$three.",".$two.",".$one.",Today";
+        $total_price_seven_days_edit = "" . $totalsixdago . "," . $totalfivedago . "," . $totalfordago . "," . $totalthreedago . "," . $totaltwodago . "," . $totalonedago . "," . $totaltoday . "";
+        $time_chart = "" . $six . "," . $five . "," . $for . "," . $three . "," . $two . "," . $one . ",Today";
         //number transaction handle
-        $transaction_number = Transaction::where('status','0')->count();
+        $transaction_number = Transaction::where('status', '0')->count();
         //number products
         $number_products = Product::all()->count();
         //number user
@@ -83,6 +86,6 @@ class AdminController extends Controller
             'number_users' => $number_users,
             'number_articles' => $number_articles
         ];
-        return view('cms.dashbroad.index',$data);
+        return view('cms.dashbroad.index', $data);
     }
 }

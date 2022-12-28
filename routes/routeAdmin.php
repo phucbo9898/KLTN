@@ -33,9 +33,9 @@ use Illuminate\Support\Facades\Route;
 Route::controller(AdminController::class)->group(function () {
     Route::prefix('admin')->group(function () {
         Route::name('admin.')->group(function () {
-            Route::get('admin/login', 'login');
-            Route::post('admin/login', 'postLogin')->name('login');
-            Route::get('admin/logout', 'getLogout')->name('logout');
+            Route::get('/login', 'login');
+            Route::post('/login', 'postLogin')->name('login');
+            Route::get('/logout', 'getLogout')->name('logout');
         });
     });
 });
