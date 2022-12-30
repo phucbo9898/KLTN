@@ -42,13 +42,13 @@
                                 <div class="setting ht-setting">
                                     <ul class="ht-setting-list">
                                         @if(Auth::check())
-                                            <li><a href="#">@lang('Admin Page')</a></li>
-                                            <li><a href="#">@lang('Favorite Product')</a></li>
-                                            <li><a href="#">@lang('Purchase history')</a></li>
-                                            <li><a href="#">@lang('Logout')</a></li>
+                                            <li><a href="{{route('admin.home')}}">@lang('Admin Page')</a></li>
+                                            <li><a href="{{route('favorite-product.index')}}">@lang('Favorite Product')</a></li>
+                                            <li><a href="{{route('history-user.index')}}">@lang('Purchase history')</a></li>
+                                            <li><a href="">@lang('Logout')</a></li>
                                         @else
-                                            <li><a href="#">@lang('Login')</a></li>
-                                            <li><a href="#">@lang('Register')</a></li>
+                                            <li><a href="{{route('get.login')}}">@lang('Login')</a></li>
+                                            <li><a href="{{route('get.register')}}">@lang('Register')</a></li>
                                         @endif
                                     </ul>
                                 </div>
