@@ -211,4 +211,28 @@ class ProductController extends Controller
     {
         //
     }
+
+    public function getAttribute(Request $request)
+    {
+        $category = Category::find($request->category_id);
+        // check if this is update or add !! if id ==0 this is add form and opposite
+        if($request->id==0)
+        {
+            //render html
+            $html = view('cms.product.getattribute',compact('category'))->render();
+        }
+        else
+        {
+            // get product
+            $product = Product::find($request->id);
+            $data = [
+                'product' => $product,
+                'category' => $category
+            ];
+            //render html
+            $html = view('cms.product.getattribute',$data)->render();
+        }
+        return \response()->json($html);
+        // return view('admin.product.getattribute',compact('category'));
+    }
 }

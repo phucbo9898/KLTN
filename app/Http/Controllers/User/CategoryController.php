@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -11,20 +13,20 @@ class CategoryController extends Controller
     {
         $checklink = 0;
         $checkproduct = Product::where([
-            'pro_category_id' => $id,
-            'pro_status' => 1
+            'category_id' => $id,
+            'status' => 'active'
         ])->count();
         $category = Category::find($id);
         if ($checkproduct > 9) {
             $checklink = 1;
             $products = Product::where([
-                'pro_category_id' => $id,
-                'pro_status' => 1
+                'category_id' => $id,
+                'status' => 'active'
             ])->paginate(9);
         } else {
             $products = Product::where([
-                'pro_category_id' => $id,
-                'pro_status' => 1
+                'category_id' => $id,
+                'status' => 'active'
             ])->get();
         }
         $data = [
@@ -32,42 +34,42 @@ class CategoryController extends Controller
             'products' => $products,
             'checklink' => $checklink
         ];
-        return view('customer.category.index', $data);
+        return view('fe.category.index', $data);
     }
 
     public function indexOrder($slug, $id, $order)
     {
         $checklink = 0;
         $checkproduct = Product::where([
-            'pro_category_id' => $id,
-            'pro_status' => 1
+            'category_id' => $id,
+            'status' => 'active'
         ])->count();
         $category = Category::find($id);
         $products = Product::where([
-            'pro_category_id' => $id,
-            'pro_status' => 1,
+            'category_id' => $id,
+            'status' => 'active',
         ]);
         switch ($order) {
             case 'd1t':
-                $products->where('pro_price', '<', 1000000);
+                $products->where('price', '<', 1000000);
                 break;
             case '1t-10t':
-                $products->whereBetween('pro_price', [1000000, 10000000]);
+                $products->whereBetween('price', [1000000, 10000000]);
                 break;
             case '10t-20t':
-                $products->whereBetween('pro_price', [10000000, 20000000]);
+                $products->whereBetween('price', [10000000, 20000000]);
                 break;
             case '20t-50t':
-                $products->whereBetween('pro_price', [20000000, 50000000]);
+                $products->whereBetween('price', [20000000, 50000000]);
                 break;
             case 't50t':
-                $products->where('pro_price', '>', 50000000);
+                $products->where('price', '>', 50000000);
                 break;
             case 'az':
-                $products->orderBy('pro_name', 'ASC');
+                $products->orderBy('name', 'ASC');
                 break;
             case 'za':
-                $products->orderBy('pro_name', 'DESC');
+                $products->orderBy('name', 'DESC');
                 break;
             case 'mn':
                 $products->orderBy('created_at', 'DESC');
@@ -76,10 +78,10 @@ class CategoryController extends Controller
                 $products->orderBy('created_at', 'ASC');
                 break;
             case 'td':
-                $products->orderBy('pro_price', 'ASC');
+                $products->orderBy('price', 'ASC');
                 break;
             case 'gd':
-                $products->orderBy('pro_price', 'DESC');
+                $products->orderBy('price', 'DESC');
                 break;
             default:
                 dd("Lỗi");
@@ -96,7 +98,7 @@ class CategoryController extends Controller
             'products' => $products,
             'checklink' => $checklink
         ];
-        return view('customer.category.index', $data);
+        return view('fe.category.index', $data);
     }
 
     public function indexOrderAttribute($slug, $id, $idatv)
@@ -104,8 +106,8 @@ class CategoryController extends Controller
         $checklink = 0;
         $category = Category::find($id);
         $products = Product::where([
-            'pro_category_id' => $id,
-            'pro_status' => 1,
+            'category_id' => $id,
+            'status' => 'active',
         ])->get();
         $filterattritebuteproduct = array();
         foreach ($products as $product) {
@@ -131,6 +133,6 @@ class CategoryController extends Controller
             'products' => $filterattritebuteproduct,
             'checklink' => $checklink
         ];
-        return view('customer.category.index', $data);
+        return view('fe.category.index', $data);
     }
 }

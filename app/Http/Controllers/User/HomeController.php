@@ -19,16 +19,17 @@ class HomeController extends Controller
         $product_news = Product::where('status', 'active')->orderBy('created_at', 'DESC')->limit(4)->get();
         $articles = Article::where('status', 'active')->orderBy('created_at', 'DESC')->take(3)->get();
         $product_best_pays = Product::where('status', 'active')->orderBy('qty_pay', 'DESC')->limit(5)->get();
-        $data = [
-            'slides' => $slides,
-            'products' => $products,
-            'categories' => $categories,
-            'product_news' => $product_news,
-            'articles' => $articles,
-            'product_best_pays' => $product_best_pays
-        ];
+//        $data = [
+//            'slides' => $slides,
+//            'products' => $products,
+//            'categories' => $categories,
+//            'product_news' => $product_news,
+//            'articles' => $articles,
+//            'product_best_pays' => $product_best_pays
+//        ];
+//        dd($data['categories']);
 
-        return view('fe.index', $data);
+        return view('fe.index', compact('slides', 'products', 'categories', 'product_news', 'articles', 'product_best_pays'));
     }
 
     public function aboutUs()

@@ -44,16 +44,16 @@ Route::controller(SearchController::class)->group(function () {
     });
 });
 
-Route::group(['namespace'=>'Auth'],function()
+Route::group(['prefix'=>'auth'],function()
 {
-    Route::get('register',[RegisterController::class, 'getRegister'])->name('get.register');
-    Route::post('register',[RegisterController::class, 'postRegister']);
-    Route::get('login',[LoginController::class, 'getLogin'])->name('get.login');
-    Route::post('login',[LoginController::class, 'postLogin']);
-    Route::get('logout',[LoginController::class, 'getLogout'])->name('get.logout');
-    Route::post('forgot-password',[ForgotPasswordController::class, 'postResetPassword'])->name('post.reset.password');
-    Route::get('reset-password',[ForgotPasswordController::class, 'getChangePasswordReset'])->name('get.change.reset.password');
-    Route::post('reset-password',[ForgotPasswordController::class, 'postChangePasswordReset']);
+    Route::get('/register',[RegisterController::class, 'getRegister'])->name('get.register');
+    Route::post('/register',[RegisterController::class, 'postRegister']);
+    Route::get('/login',[LoginController::class, 'getLogin'])->name('get.login');
+    Route::post('/login',[LoginController::class, 'postLogin']);
+    Route::get('/logout',[LoginController::class, 'getLogout'])->name('get.logout');
+    Route::post('/forgot-password',[ForgotPasswordController::class, 'postResetPassword'])->name('post.reset.password');
+    Route::get('/reset-password',[ForgotPasswordController::class, 'getChangePasswordReset'])->name('get.change.reset.password');
+    Route::post('/reset-password',[ForgotPasswordController::class, 'postChangePasswordReset']);
 });
 
 Route::controller(CategoryController::class)->group(function () {
@@ -71,25 +71,6 @@ Route::controller(ProductController::class)->group(function () {
         Route::name('product.')->group(function () {
             Route::get('/{slug}/{id}', 'index')->name('index');
         });
-    });
-});
-
-Route::name('auth.')->group(function () {
-    Route::controller(RegisterController::class)->group(function () {
-        Route::get('/register', 'getRegister')->name('get.register');
-        Route::post('/register', 'postRegister');
-    });
-
-    Route::controller(LoginController::class)->group(function () {
-        Route::get('/login', 'getLogin')->name('get.login');
-        Route::post('/login', 'postLogin');
-        Route::get('/logout', 'getLogout')->name('get.logout');
-    });
-
-    Route::controller(ForgotPasswordController::class)->group(function () {
-        Route::post('/forgot-password', 'postResetPassword')->name('post.reset.password');
-        Route::get('/reset-password', 'getChangePasswordReset')->name('get.change.reset.password');
-        Route::post('/reset-password', 'postChangePasswordReset');
     });
 });
 
@@ -115,10 +96,10 @@ Route::controller(FeatureUserController::class)->middleware('checkLoginUser')->g
 
 Route::controller(RatingController::class)->middleware('checkLoginUser')->group(function () {
     Route::prefix('rating')->group(function () {
-        Route::name('rating.')->group(function () {
+//        Route::name('rating.')->group(function () {
             Route::post('/{id}', 'saveRating')->name('post.rating.product');
             Route::get('/delete/{id}', 'deleteRating')->name('get.delete.rating.product');
-        });
+//        });
     });
 });
 

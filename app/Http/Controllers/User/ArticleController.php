@@ -3,83 +3,42 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
-    }
+        $count_article = Article::where('status','active')->count();
+        $check_link=0;
+        if($count_article>7)
+        {
+            $articles = Article::where('status','active')->paginate(3);
+            $check_link=1;
+        }
+        else
+        {
+            $articles = Article::where('status','active')->get();
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $data = [
+            'articles' => $articles,
+            'check_link' => $check_link
+        ];
+        return view('fe.article.index',$data);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function getDetailArticle($id)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $getListArticles = Article::where('id', '<>', $id)->where('status', 'active')->limit(5)->get();
+        $article = Article::where([
+            'id'=>$id,
+            'status'=>'active'])->first();
+        // $data = [
+        //     'article' => $article,
+        //     'articles' => $articles
+        // ];
+        // dd($data['article']);
+        return view('fe.article.detail', compact('article', 'getListArticles'));
     }
 }

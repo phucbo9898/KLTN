@@ -53,7 +53,7 @@
                                         </li>
                                     @endif
                                     @if($numberListCategory >8 )
-                                        <li class="rx-child"><a href="#">{{$category->c_name}}</a></li>
+                                        <li class="rx-child"><a href="#">{{$category->name}}</a></li>
                                     @endif
                                         <?php $numberListCategory++ ?>
                                 @endforeach
@@ -74,7 +74,7 @@
                             <!-- Begin Single Slide Area -->
                             @foreach($slides as $slide)
                                 <div class="single-slide align-center-left animation-style-02" style="
-                            background-image: url({{asset('upload/s_image/'.$slide->s_avatar)}});
+                            background-image: url({{asset($slide->image)}});
                             background-repeat: no-repeat;
                             background-position: center center;
                             background-size: cover;
@@ -109,26 +109,26 @@
                                     <!-- single-product-wrap start -->
                                     <div class="single-product-wrap">
                                         <div class="product-image">
-                                            <a href="{{route('product.index',[$product_new->pro_name_slug,$product_new->id])}}">
-                                                @if(isset($product_new->pro_image))
-                                                    <img src="{{asset('upload/pro_image/'.$product_new->pro_image)}}"
+                                            <a href="{{route('product.index',[$product_new->slug,$product_new->id])}}">
+                                                @if(isset($product_new->image))
+                                                    <img src="{{asset($product_new->image)}}"
                                                          alt="Li's Product Image">
                                                 @else
                                                     <img src="{{asset('noimg.png')}}" alt="Li's Product Image">
                                                 @endif
                                             </a>
                                             <span>
-                                        @if($product_new->pro_number > 10)
+                                        @if($product_new->quantity > 10)
                                                     <b style="color: #3d3de3;">Còn hàng</b>
-                                                @elseif($product_new->pro_number < 10 && $product_new->pro_number > 0)
+                                                @elseif($product_new->quantity < 10 && $product_new->quantity > 0)
                                                     <b style="color: #bfbf50;">Số lượng gần hết</b>
-                                                @elseif($product_new->pro_number == 0)
+                                                @elseif($product_new->quantity == 0)
                                                     <b style="color: red;">Hết hàng</b>
                                                 @else
                                                     <b>Không xác định</b>
                                                 @endif
                                     </span>
-                                            @if($product_new->pro_hot == 1)
+                                            @if($product_new->hot == 'yes')
                                                 <span class="sticker">Hot</span>
                                             @endif
                                         </div>
@@ -140,8 +140,8 @@
                                                         <div class="rating-box">
                                                                 <?php
                                                                 $point = 0;
-                                                                if ($product_new->pro_number_of_reviewers > 0) {
-                                                                    $point_product_new = round($product_new->pro_total_star / $product_new->pro_number_of_reviewers);
+                                                                if ($product_new->number_of_reviewers > 0) {
+                                                                    $point_product_new = round($product_new->total_star / $product_new->number_of_reviewers);
                                                                 } else {
                                                                     $point_product_new = -1;
                                                                 }
@@ -166,36 +166,36 @@
 
                                                 </div>
                                                 <h4><a class="product_name"
-                                                       href="{{route('product.index',[$product_new->pro_name_slug,$product_new->id])}}">{{$product_new->pro_name}}</a>
+                                                       href="{{route('product.index',[$product_new->slug,$product_new->id])}}">{{$product_new->name}}</a>
                                                 </h4>
 
                                                 <div class="price-box">
-                                                    @if($product_new->pro_sale>0)
-                                                        <span class="new-price new-price-2">{{number_format(($product_new->pro_price*(100-$product_new->pro_sale))/100,0,",",".")}} VNĐ</span>
+                                                    @if($product_new->sale>0)
+                                                        <span class="new-price new-price-2">{{number_format(($product_new->price*(100-$product_new->sale))/100,0,",",".")}} VNĐ</span>
                                                         <span
-                                                            class="discount-percentage">-{{$product_new->pro_sale}}%</span>
+                                                            class="discount-percentage">-{{$product_new->sale}}%</span>
                                                         <br/>
                                                         <div class="old-price"
-                                                             style="padding-top: 6px">{{number_format($product_new->pro_price,0,",",".")}}
+                                                             style="padding-top: 6px">{{number_format($product_new->price,0,",",".")}}
                                                             VNĐ
                                                         </div>
                                                     @else
-                                                        <span class="new-price">{{number_format($product_new->pro_price,0,",",".")}} VNĐ</span>
+                                                        <span class="new-price">{{number_format($product_new->price,0,",",".")}} VNĐ</span>
                                                     @endif
                                                 </div>
                                             </div>
                                             <div class="add-actions">
                                                 <ul class="add-actions-link">
                                                     <li class="add-cart active"><a class="button_add_cart"
-                                                                                   data-product-name="{{$product_new->pro_name}}"
+                                                                                   data-product-name="{{$product_new->name}}"
                                                                                    href="{{route('shopping.add.product',$product_new->id)}}">Mua
                                                             sản phẩm</a></li>
                                                     <li><a class="links-details button_add_favorite_product"
-                                                           data-product-name="{{$product_new->pro_name}}"
-                                                           href="{{route('get.add.favorite.product',$product_new->id)}}"><i
+                                                           data-product-name="{{$product_new->name}}"
+                                                           href="{{route('favorite-product.get.add',$product_new->id)}}"><i
                                                                 class="fa fa-heart-o"></i></a></li>
                                                     <li>
-                                                        <a href="{{route('product.index',[$product_new->pro_name_slug,$product_new->id])}}"
+                                                        <a href="{{route('product.index',[$product_new->slug,$product_new->id])}}"
                                                            title="quick view" class="quick-view-btn"><i
                                                                 class="fa fa-eye"></i></a></li>
                                                 </ul>
@@ -234,27 +234,27 @@
                                             <!-- single-product-wrap start -->
                                             <div class="single-product-wrap">
                                                 <div class="product-image">
-                                                    <a href="{{route('product.index',[$product_best_pay->pro_name_slug,$product_best_pay->id])}}">
-                                                        @if(isset($product_best_pay->pro_image))
+                                                    <a href="{{route('product.index',[$product_best_pay->slug,$product_best_pay->id])}}">
+                                                        @if(isset($product_best_pay->image))
                                                             <img
-                                                                src="{{asset('upload/pro_image/'.$product_best_pay->pro_image)}}"
+                                                                src="{{asset($product_best_pay->image)}}"
                                                                 alt="Li's Product Image">
                                                         @else
                                                             <img src="{{asset('noimg.png')}}" alt="Li's Product Image">
                                                         @endif
                                                     </a>
                                                     <span>
-                                                        @if($prn->pro_number > 10)
+                                                        @if($product_best_pay->quantity > 10)
                                                             <b style="color: #3d3de3;">Còn hàng</b>
-                                                        @elseif($prn->pro_number < 10 && $prn->pro_number > 0)
+                                                        @elseif($product_best_pay->quantity < 10 && $product_best_pay->quantity > 0)
                                                             <b style="color: #bfbf50;">Số lượng gần hết</b>
-                                                        @elseif($prn->pro_number == 0)
+                                                        @elseif($product_best_pay->quantity == 0)
                                                             <b style="color: red;">Hết hàng</b>
                                                         @else
                                                             <b>Không xác định</b>
                                                         @endif
                                                     </span>
-                                                    @if($product_best_pay->pro_hot == 1)
+                                                    @if($product_best_pay->hot == 1)
                                                         <span class="sticker">Hot</span>
                                                     @endif
                                                 </div>
@@ -265,8 +265,8 @@
                                                                 <div class="rating-box">
                                                                         <?php
                                                                         $point_product_best_pay = 0;
-                                                                        if ($product_best_pay->pro_number_of_reviewers > 0) {
-                                                                            $point_product_best_pay = round($product_best_pay->pro_total_star / $product_best_pay->pro_number_of_reviewers);
+                                                                        if ($product_best_pay->number_of_reviewers > 0) {
+                                                                            $point_product_best_pay = round($product_best_pay->total_star / $product_best_pay->number_of_reviewers);
                                                                         } else {
                                                                             $point_product_best_pay = -1;
                                                                         }
@@ -291,35 +291,35 @@
 
                                                         </div>
                                                         <h4><a class="product_name"
-                                                               href="{{route('product.index',[$product_best_pay->pro_name_slug,$product_best_pay->id])}}">{{$product_best_pay->pro_name}}</a>
+                                                               href="{{route('product.index',[$product_best_pay->slug,$product_best_pay->id])}}">{{$product_best_pay->name}}</a>
                                                         </h4>
 
                                                         <div class="price-box">
-                                                            @if($product_best_pay->pro_sale>0)
-                                                                <span class="new-price new-price-2">{{number_format(($product_best_pay->pro_price*(100-$product_best_pay->pro_sale))/100,0,",",".")}} VNĐ</span>
-                                                                <span class="discount-percentage">-{{$product_best_pay->pro_sale}}%</span>
+                                                            @if($product_best_pay->sale>0)
+                                                                <span class="new-price new-price-2">{{number_format(($product_best_pay->price*(100-$product_best_pay->sale))/100,0,",",".")}} VNĐ</span>
+                                                                <span class="discount-percentage">-{{$product_best_pay->sale}}%</span>
                                                                 <br/>
                                                                 <div class="old-price"
-                                                                     style="padding-top: 6px">{{number_format($product_best_pay->pro_price,0,",",".")}}
+                                                                     style="padding-top: 6px">{{number_format($product_best_pay->price,0,",",".")}}
                                                                     VNĐ
                                                                 </div>
                                                             @else
-                                                                <span class="new-price">{{number_format($product_best_pay->pro_price,0,",",".")}} VNĐ</span>
+                                                                <span class="new-price">{{number_format($product_best_pay->price,0,",",".")}} VNĐ</span>
                                                             @endif
                                                         </div>
                                                     </div>
                                                     <div class="add-actions">
                                                         <ul class="add-actions-link">
                                                             <li class="add-cart active"><a class="button_add_cart"
-                                                                                           data-product-name="{{$product_best_pay->pro_name}}"
+                                                                                           data-product-name="{{$product_best_pay->name}}"
                                                                                            href="{{route('shopping.add.product',$product_best_pay->id)}}">Mua
                                                                     sản phẩm</a></li>
                                                             <li><a class="links-details button_add_favorite_product"
-                                                                   data-product-name="{{$product_best_pay->pro_name}}"
-                                                                   href="{{route('get.add.favorite.product',$product_best_pay->id)}}"><i
+                                                                   data-product-name="{{$product_best_pay->name}}"
+                                                                   href="{{route('favorite-product.get.add', ['id' => $product_best_pay->id])}}"><i
                                                                         class="fa fa-heart-o"></i></a></li>
                                                             <li>
-                                                                <a href="{{route('product.index',[$product_best_pay->pro_name_slug,$product_best_pay->id])}}"
+                                                                <a href="{{route('product.index',[$product_best_pay->slug,$product_best_pay->id])}}"
                                                                    title="quick view" class="quick-view-btn"><i
                                                                         class="fa fa-eye"></i></a></li>
                                                         </ul>
@@ -343,7 +343,7 @@
 
     <!-- Begin Li's Laptops Product | Home V2 Area -->
     @foreach($categories as $category)
-        @if($category->product->where('status','active')->count()>=5)
+        @if($category->products->where('status','active')->count()>=5)
             <section class="product-area li-laptop-product li-laptop-product-2 pb-45">
                 <div class="container">
                     <div class="row">
@@ -351,39 +351,40 @@
                         <div class="col-lg-12">
                             <div class="li-section-title">
                                 <h2>
-                                    <span>{{$category->c_name}}</span>
+                                    <span>{{$category->name}}</span>
                                 </h2>
                             </div>
                             <div class="row">
                                 <div class="product-active owl-carousel">
-                                    @foreach($category->Product->where('pro_status',1)->sortByDesc('id')->take(5) as $product)
+                                    @foreach($category->product->where('status','active')->sortByDesc('id')->take(5) as $product)
+                                        @dd($product)
                                         <div class="col-lg-12">
                                             <!-- single-product-wrap start -->
                                             <div class="single-product-wrap">
                                                 <div class="product-image">
-                                                    <a href="{{route('product.index',[$product->pro_name_slug,$product->id])}}">
-                                                        @if(isset($product->pro_image))
+                                                    <a href="{{route('product.index',['slug' => $product->slug,'id' => $product->id])}}">
+                                                        @if(isset($product->image))
                                                             <img
-                                                                src="{{asset('upload/pro_image/'.$product->pro_image)}}"
+                                                                src="{{asset($product->image)}}"
                                                                 alt="Li's Product Image">
                                                         @else
                                                             <img src="{{asset('noimg.png')}}" alt="Li's Product Image">
                                                         @endif
                                                     </a>
                                                     <span>
-                                            @if($prn->pro_number > 10)
-                                                            <b style="color: #3d3de3;">Còn hàng</b>
-                                                        @elseif($prn->pro_number < 10 && $prn->pro_number > 0)
-                                                            <b style="color: #bfbf50;">Số lượng gần hết</b>
-                                                        @elseif($prn->pro_number == 0)
-                                                            <b style="color: red;">Hết hàng</b>
-                                                        @else
-                                                            <b>Không xác định</b>
-                                                        @endif
+                                            @if($prn->quantity > 10)
+                                                <b style="color: #3d3de3;">Còn hàng</b>
+                                            @elseif($prn->quantity < 10 && $prn->quantity > 0)
+                                                <b style="color: #bfbf50;">Số lượng gần hết</b>
+                                            @elseif($prn->quantity == 0)
+                                                <b style="color: red;">Hết hàng</b>
+                                            @else
+                                                <b>Không xác định</b>
+                                            @endif
                                         </span>
-                                                    @if($product->pro_hot == 1)
-                                                        <span class="sticker">Hot</span>
-                                                    @endif
+                                            @if($product->hot == 1)
+                                                <span class="sticker">Hot</span>
+                                            @endif
                                                 </div>
                                                 <div class="product_desc">
                                                     <div class="product_desc_info">
@@ -392,8 +393,8 @@
                                                                 <div class="rating-box">
                                                                         <?php
                                                                         $point = 0;
-                                                                        if ($product->pro_number_of_reviewers > 0) {
-                                                                            $point = round($product->pro_total_star / $product->pro_number_of_reviewers);
+                                                                        if ($product->number_of_reviewers > 0) {
+                                                                            $point = round($product->total_star / $product->number_of_reviewers);
                                                                         } else {
                                                                             $point = -1;
                                                                         }
@@ -417,35 +418,35 @@
                                                             </h5>
                                                         </div>
                                                         <h4><a class="product_name"
-                                                               href="{{route('product.index',[$product->pro_name_slug,$product->id])}}">{{$product->pro_name}}</a>
+                                                               href="{{route('product.index',[$product->slug,$product->id])}}">{{$product->name}}</a>
                                                         </h4>
 
                                                         <div class="price-box">
-                                                            @if($product->pro_sale>0)
-                                                                <span class="new-price new-price-2">{{number_format(($product->pro_price*(100-$product->pro_sale))/100,0,",",".")}} VNĐ</span>
-                                                                <span class="discount-percentage">-{{$product->pro_sale}}%</span>
+                                                            @if($product->sale>0)
+                                                                <span class="new-price new-price-2">{{number_format(($product->price*(100-$product->sale))/100,0,",",".")}} VNĐ</span>
+                                                                <span class="discount-percentage">-{{$product->sale}}%</span>
                                                                 <br/>
                                                                 <div class="old-price"
-                                                                     style="padding-top: 6px">{{number_format($product->pro_price,0,",",".")}}
+                                                                     style="padding-top: 6px">{{number_format($product->price,0,",",".")}}
                                                                     VNĐ
                                                                 </div>
                                                             @else
-                                                                <span class="new-price">{{number_format($product->pro_price,0,",",".")}} VNĐ</span>
+                                                                <span class="new-price">{{number_format($product->price,0,",",".")}} VNĐ</span>
                                                             @endif
                                                         </div>
                                                     </div>
                                                     <div class="add-actions">
                                                         <ul class="add-actions-link">
                                                             <li class="add-cart active"><a class="button_add_cart"
-                                                                                           data-product-name="{{$product->pro_name}}"
+                                                                                           data-product-name="{{$product->name}}"
                                                                                            href="{{route('shopping.add.product',$product->id)}}">Mua
                                                                     sản phẩm</a></li>
                                                             <li><a class="links-details button_add_favorite_product"
-                                                                   data-product-name="{{$product->pro_name}}"
-                                                                   href="{{route('get.add.favorite.product',$product->id)}}"><i
+                                                                   data-product-name="{{$product->name}}"
+                                                                   href="{{route('favorite-product.get.add', ['id' => $product->id])}}"><i
                                                                         class="fa fa-heart-o"></i></a></li>
                                                             <li>
-                                                                <a href="{{route('product.index',[$product->pro_name_slug,$product->id])}}"
+                                                                <a href="{{route('product.index',[$product->name_slug,$product->id])}}"
                                                                    title="quick view" class="quick-view-btn"><i
                                                                         class="fa fa-eye"></i></a></li>
                                                         </ul>
@@ -478,27 +479,28 @@
                     </div>
                     <div class="row li-main-content" style="margin-top: 22px;">
                         @foreach($articles as $article)
+{{--                            @dd($article)--}}
                             <div class="col-lg-4 col-md-6">
                                 <div class="li-blog-single-item pb-25">
                                     <div class="li-blog-banner">
-                                        <a href="{{route('get.article.detail',$article->id)}}"><img class="img-full"
-                                                                                                    src="{{asset('upload/a_image/'.$article->a_image)}}"
-                                                                                                    alt=""></a>
+                                        <a href="{{route('article.detail',['id' => $article->id])}}">
+                                            <img class="img-full" src="{{asset($article->image)}}" alt="">
+                                        </a>
                                     </div>
                                     <div class="li-blog-content">
                                         <div class="li-blog-details">
                                             <h5 class="li-blog-heading pt-25"><a
-                                                    href="{{route('get.article.detail',$article->id)}}"
-                                                    class="block-ellipsis">{{$article->a_name}}</a></h5>
+                                                    href="{{route('article.detail',['id' => $article->id])}}"
+                                                    class="block-ellipsis">{{$article->name}}</a></h5>
                                             <div class="li-blog-meta" style="padding: 0px 0 10px;">
                                                 <a class="author" href="#"><i
-                                                        class="fa fa-user"></i>{{isset($article->User->name)?$article->User->name:'Admin'}}
+                                                        class="fa fa-user"></i>{{isset($article->user->name)?$article->user->name:'Admin'}}
                                                 </a>
                                                 <a class="post-time" href="#"><i
                                                         class="fa fa-calendar"></i> {{$article->created_at}}</a>
                                             </div>
-                                            <p class="block-ellipsis-description">{{$article->a_description}}</p>
-                                            <a class="read-more" href="{{route('get.article.detail',$article->id)}}">Xem
+                                            <p class="block-ellipsis-description">{{$article->description}}</p>
+                                            <a class="read-more" href="{{route('article.detail',['id' => $article->id])}}">Xem
                                                 thêm...</a>
                                         </div>
                                     </div>

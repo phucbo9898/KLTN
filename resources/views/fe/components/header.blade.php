@@ -112,11 +112,11 @@
                             <!-- Header Middle Wishlist Area End Here -->
                             <!-- Begin Header Mini Cart Area -->
                             <li class="hm-minicart">
-                                <a href="#">
+                                <a href="{{route('shopping.cart.index')}}">
                                     <div class="hm-minicart-trigger">
                                         <span class="item-icon"></span>
-                                        <span class="item-text"><span class="price_total_cart"></span> @lang('VND')
-                                            <span class="cart-item-count cart-item-count-number"></span>
+                                        <span class="item-text"><span class="price_total_cart">{{\Cart::subtotal(0,',','.')}}</span> @lang('VND')
+                                            <span class="cart-item-count cart-item-count-number">{{\Cart::count()}}</span>
                                         </span>
                                     </div>
                                 </a>

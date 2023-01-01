@@ -1,29 +1,29 @@
 
 @if($category)
-    @foreach($category->Attributes as $at)
-        @if($at->at_type=="text")
+    @foreach($category->attributes as $at)
+        @if($at->type=="text")
             <div class="form-group">
-                <label>{{$at->at_name}}: </label>
+                <label>{{$at->name}}: </label>
                 <input type="text" name="{{$at->id}}" required value="{{isset($product)?dataAttributeValue($at,$product):""}}" class="form-control"/>
             </div>
         @endif
-        @if($at->at_type == "number")
+        @if($at->type == "number")
             <div class="form-group">
-                <label>{{$at->at_name}}: </label>
+                <label>{{$at->name}}: </label>
                 <input type="number" name="{{$at->id}}" required value="{{isset($product)?dataAttributeValue($at,$product):""}}" class="form-control"/>
             </div>
         @endif
-        @if($at->at_type == "numberfloat")
+        @if($at->type == "numberfloat")
             <div class="form-group">
-                <label>{{$at->at_name}}: </label>
+                <label>{{$at->name}}: </label>
                 <input type="number" step="any" name="{{$at->id}}" required value="{{isset($product)?dataAttributeValue($at,$product):""}}" class="form-control"/>
             </div>
         @endif
-        @if($at->at_type=="select")
+        @if($at->type=="select")
             <div class="form-group">
-                <label>{{$at->at_name}}: </label>
+                <label>{{$at->name}}: </label>
                 <select name="{{$at->id}}" class="form-control">
-                    @foreach(explode(';',$at->at_value) as $value)
+                    @foreach(explode(';',$at->value) as $value)
                         <option value="{{$value}}" {{isset($product)?(checkDataAttributeValue($at,$product,$value)?"selected":""):""}}>{{$value}}</option>
                     @endforeach
                 </select>
