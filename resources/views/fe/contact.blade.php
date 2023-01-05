@@ -6,8 +6,8 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                    <li class="active">Liên hệ</li>
+                    <li><a href="{{ route('home') }}">@lang('Home')</a></li>
+                    <li class="active">@lang('Contact')</li>
                 </ul>
             </div>
         </div>
@@ -30,7 +30,7 @@
                 <div class="col-lg-12 col-md-12 order-1 order-lg-2">
                     <div class="col-lg-12">
                         <div class="contact-page-side-content">
-                            <h3 class="contact-page-title">Thông tin liên hệ</h3>
+                            <h3 class="contact-page-title">@lang('Information Contact')</h3>
                             <p class="contact-page-message mb-25">Mọi thắc mắc và câu hỏi xin liên hệ với chúng tôi qua địa
                                 chỉ dưới đây</p>
                             <div class="single-contact-block">
