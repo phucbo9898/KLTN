@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slide;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class HomeController extends Controller
 {
@@ -40,5 +41,13 @@ class HomeController extends Controller
     public function contact()
     {
         return view('fe.contact');
+    }
+
+    public function changeLanguage($locale)
+    {
+        App::setLocale($locale);
+        session()->put('locale', $locale);
+
+        return redirect()->back();
     }
 }

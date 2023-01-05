@@ -1,36 +1,36 @@
 @extends('fe.layout.master')
 @section('content')
-<style>
-    .sort_product li{
-        padding: 6px 0px;
-    }
-</style>
-<!-- Begin Li's Breadcrumb Area -->
-<div class="breadcrumb-area">
-    <div class="container">
-        <div class="breadcrumb-content">
-            <ul>
-                <li><a href="{{route('home')}}">Trang chủ</a></li>
-                <li class="active">Loại sản phẩm: {{$category->name}}</li>
-            </ul>
+    <style>
+        .sort_product li {
+            padding: 6px 0px;
+        }
+    </style>
+    <!-- Begin Li's Breadcrumb Area -->
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="breadcrumb-content">
+                <ul>
+                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
+                    <li class="active">Loại sản phẩm: {{ $category->name }}</li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-<!-- Li's Breadcrumb Area End Here -->
-<!-- Begin Li's Content Wraper Area -->
-<div class="content-wraper pt-60 pb-60 pt-sm-30">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-9 order-1 order-lg-2">
-                {{-- <!-- Begin Li's Banner Area -->
+    <!-- Li's Breadcrumb Area End Here -->
+    <!-- Begin Li's Content Wraper Area -->
+    <div class="content-wraper pt-60 pb-60 pt-sm-30">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 order-1 order-lg-2">
+                    {{-- <!-- Begin Li's Banner Area -->
                 <div class="single-banner shop-page-banner">
                     <a href="#">
                         <img src="images/bg-banner/2.jpg" alt="Li's Static Banner">
                     </a>
                 </div>
                 <!-- Li's Banner Area End Here --> --}}
-                <!-- shop-top-bar start -->
-                {{-- <div class="shop-top-bar">
+                    <!-- shop-top-bar start -->
+                    {{-- <div class="shop-top-bar">
                     <div class="shop-bar-inner">
                         <div class="product-view-mode">
                             <!-- shop-item-filter-list start -->
@@ -61,92 +61,116 @@
                     </div>
                     <!-- product-select-box end -->
                 </div> --}}
-                <!-- shop-top-bar end -->
-                <!-- shop-products-wrapper start -->
-                @if(count($products)>0)
-                <div class="shop-products-wrapper">
-                    <div class="tab-content">
-                        <div id="grid-view" class="tab-pane fade active show" role="tabpanel">
-                            <div class="product-area shop-product-area">
-                                <div class="row" style="    margin-top: -82px;">
-                                    @foreach($products as $product)
-                                        <div class="col-lg-4 col-md-4 col-sm-6 mt-40">
-                                            <!-- single-product-wrap start -->
-                                            <div class="single-product-wrap">
-                                                <div class="product-image">
-                                                    <a href="{{route('product.index',[$product->slug,$product->id])}}">
-                                                        @if(isset($product->image))
-                                                        <img src="{{asset($product->image)}}" alt="Li's Product Image">
-                                                        @else
-                                                            <img src="{{asset('noimg.png')}}" alt="Li's Product Image">
-                                                        @endif
-                                                    </a>
-                                                    @if($product->hot == 1)
-                                                        <span class="sticker">Hot</span>
-                                                    @endif
-                                                </div>
-                                                <div class="product_desc">
-                                                    <div class="product_desc_info">
-                                                        <div class="product-review">
-                                                            <h5 class="manufacturer">
-                                                                {{-- <a href="product-details.html">Số lượng: {{$product->pro_number}}</a> --}}
-                                                                <div class="rating-box">
-                                                                    <?php
-                                                                    $point= 0;
-                                                                    if($product->number_of_reviewers>0){
-                                                                        $point= round($product->total_star/$product->number_of_reviewers);
-                                                                    }
-                                                                    else {
-                                                                        $point = -1;
-                                                                    }
-                                                                    ?>
-                                                                    <ul class="rating">
-                                                                        @if($point == -1)
-                                                                        <li style="color: #a4a4a4;
-                                                                        font-size: 13px;
-                                                                        text-transform: capitalize;
-                                                                        transition: all 0.3s ease-in-out;">Chưa đánh giá</li>
-                                                                        @else
-                                                                        Đánh Giá:
-                                                                            @for($i=1; $i<=5; $i++)
-                                                                                <li class="{{$i<=$point ? '':'no-star'}}"><i class="fa fa-star"></i></li>
-                                                                            @endfor
-                                                                        @endif
-                                                                    </ul>
-                                                                </div>
-                                                            </h5>
-
-                                                        </div>
-                                                        <h4><a class="product_name" href="{{route('product.index',[$product->slug,$product->id])}}">{{$product->name}}</a></h4>
-                                                        <div class="price-box">
-                                                            @if($product->sale>0)
-                                                                <span class="new-price new-price-2">{{number_format(($product->price*(100-$product->sale))/100,0,",",".")}} VNĐ</span>
-                                                                <span class="discount-percentage">-{{$product->sale}}%</span><br/>
-                                                                <div class="old-price" style="padding-top: 6px">{{number_format($product->price,0,",",".")}} VNĐ</div>
-                                                            @else
-                                                                <span class="new-price">{{number_format($product->price,0,",",".")}} VNĐ</span>
+                    <!-- shop-top-bar end -->
+                    <!-- shop-products-wrapper start -->
+                    @if (count($products) > 0)
+                        <div class="shop-products-wrapper">
+                            <div class="tab-content">
+                                <div id="grid-view" class="tab-pane fade active show" role="tabpanel">
+                                    <div class="product-area shop-product-area">
+                                        <div class="row" style="    margin-top: -82px;">
+                                            @foreach ($products as $product)
+                                                <div class="col-lg-4 col-md-4 col-sm-6 mt-40">
+                                                    <!-- single-product-wrap start -->
+                                                    <div class="single-product-wrap">
+                                                        <div class="product-image">
+                                                            <a
+                                                                href="{{ route('product.index', [$product->slug, $product->id]) }}">
+                                                                @if (isset($product->image))
+                                                                    <img src="{{ asset($product->image) }}"
+                                                                        alt="Li's Product Image">
+                                                                @else
+                                                                    <img src="{{ asset('noimg.png') }}"
+                                                                        alt="Li's Product Image">
+                                                                @endif
+                                                            </a>
+                                                            @if ($product->hot == 1)
+                                                                <span class="sticker">Hot</span>
                                                             @endif
                                                         </div>
+                                                        <div class="product_desc">
+                                                            <div class="product_desc_info">
+                                                                <div class="product-review">
+                                                                    <h5 class="manufacturer">
+                                                                        {{-- <a href="product-details.html">Số lượng: {{$product->pro_number}}</a> --}}
+                                                                        <div class="rating-box">
+                                                                            <?php
+                                                                            $point = 0;
+                                                                            if ($product->number_of_reviewers > 0) {
+                                                                                $point = round($product->total_star / $product->number_of_reviewers);
+                                                                            } else {
+                                                                                $point = -1;
+                                                                            }
+                                                                            ?>
+                                                                            <ul class="rating">
+                                                                                @if ($point == -1)
+                                                                                    <li
+                                                                                        style="color: #a4a4a4;
+                                                                        font-size: 13px;
+                                                                        text-transform: capitalize;
+                                                                        transition: all 0.3s ease-in-out;">
+                                                                                        Chưa đánh giá</li>
+                                                                                @else
+                                                                                    Đánh Giá:
+                                                                                    @for ($i = 1; $i <= 5; $i++)
+                                                                                        <li
+                                                                                            class="{{ $i <= $point ? '' : 'no-star' }}">
+                                                                                            <i class="fa fa-star"></i></li>
+                                                                                    @endfor
+                                                                                @endif
+                                                                            </ul>
+                                                                        </div>
+                                                                    </h5>
+
+                                                                </div>
+                                                                <h4><a class="product_name"
+                                                                        href="{{ route('product.index', [$product->slug, $product->id]) }}">{{ $product->name }}</a>
+                                                                </h4>
+                                                                <div class="price-box">
+                                                                    @if ($product->sale > 0)
+                                                                        <span
+                                                                            class="new-price new-price-2">{{ number_format(($product->price * (100 - $product->sale)) / 100, 0, ',', '.') }}
+                                                                            VNĐ</span>
+                                                                        <span
+                                                                            class="discount-percentage">-{{ $product->sale }}%</span><br />
+                                                                        <div class="old-price" style="padding-top: 6px">
+                                                                            {{ number_format($product->price, 0, ',', '.') }}
+                                                                            VNĐ</div>
+                                                                    @else
+                                                                        <span
+                                                                            class="new-price">{{ number_format($product->price, 0, ',', '.') }}
+                                                                            VNĐ</span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
+                                                            <div class="add-actions">
+                                                                <ul class="add-actions-link">
+                                                                    <li class="add-cart active"><a class="button_add_cart"
+                                                                            data-product-name="{{ $product->name }}"
+                                                                            href="{{ route('shopping.add.product', $product->id) }}">Mua
+                                                                            sản phẩm</a></li>
+                                                                    <li><a href="{{ route('product.index', [$product->slug, $product->id]) }}"
+                                                                            title="quick view" class="quick-view-btn"><i
+                                                                                class="fa fa-eye"></i></a></li>
+                                                                    <li><a class="links-details button_add_favorite_product"
+                                                                            data-product-name="{{ $product->name }}"
+                                                                            href="{{ route('favorite-product.get.add', $product->id) }}"><i
+                                                                                class="fa fa-heart-o"></i></a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="add-actions">
-                                                        <ul class="add-actions-link">
-                                                            <li class="add-cart active"><a class="button_add_cart" data-product-name="{{$product->name}}" href="{{route('shopping.add.product',$product->id)}}">Mua sản phẩm</a></li>
-                                                            <li><a href="{{route('product.index',[$product->slug,$product->id])}}" title="quick view" class="quick-view-btn"><i class="fa fa-eye"></i></a></li>
-                                                            <li><a class="links-details button_add_favorite_product" data-product-name="{{$product->name}}" href="{{route('favorite-product.get.add',$product->id)}}"><i class="fa fa-heart-o"></i></a></li>
-                                                        </ul>
-                                                    </div>
+                                                    <!-- single-product-wrap end -->
                                                 </div>
-                                            </div>
-                                            <!-- single-product-wrap end -->
+                                            @endforeach
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    <div>
-                        <div style="margin-top:88px; text-align: center">{{$checklink==1?$products->links():''}}</div>
-                    </div>
-                        {{-- <div id="list-view" class="tab-pane fade product-list-view" role="tabpanel">
+                                <div>
+                                    <div style="margin-top:88px; text-align: center">
+                                        {{ $checklink == 1 ? $products->links() : '' }}</div>
+                                </div>
+                                {{-- <div id="list-view" class="tab-pane fade product-list-view" role="tabpanel">
                             <div class="row">
                                 <div class="col">
                                     <div class="row product-layout-list">
@@ -680,7 +704,7 @@
                                 </div>
                             </div>
                         </div> --}}
-                        {{-- <div class="paginatoin-area">
+                                {{-- <div class="paginatoin-area">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 pt-xs-15">
                                     <p>Showing 1-12 of 13 item(s)</p>
@@ -699,135 +723,147 @@
                                 </div>
                             </div>
                         </div> --}}
-                    </div>
+                            </div>
+                        </div>
+                    @else
+                        <div style="margin-top: 125px; margin-left: 300px; font-size: 20px; color: #a4a4a4">Không có sản
+                            phẩm nào !!!</div>
+                    @endif
+                    <!-- shop-products-wrapper end -->
                 </div>
-                @else
-                <div style="margin-top: 125px; margin-left: 300px; font-size: 20px; color: #a4a4a4">Không có sản phẩm  nào !!!</div>
-                @endif
-                <!-- shop-products-wrapper end -->
-            </div>
-            <div class="col-lg-3 order-2 order-lg-1">
-                <!--sidebar-categores-box start  -->
-                <div class="">
-                    <div style="text-align: center">
-                        <h2><b style="color: #a4a4a4"><a href="{{route('category.index',[$category->slug,$category->id])}}" style="text-transform: uppercase; text-align: center">► {{$category->name}}</a></b></h2>
-                        <hr style="margin: 30px 0"/>
+                <div class="col-lg-3 order-2 order-lg-1">
+                    <!--sidebar-categores-box start  -->
+                    <div class="">
+                        <div style="text-align: center">
+                            <h2><b style="color: #a4a4a4"><a
+                                        href="{{ route('category.index', [$category->slug, $category->id]) }}"
+                                        style="text-transform: uppercase; text-align: center">►
+                                        {{ $category->name }}</a></b></h2>
+                            <hr style="margin: 30px 0" />
+                        </div>
                     </div>
-                </div>
-                <!--sidebar-categores-box end  -->
-                <!--sidebar-categores-box start  -->
-                <div class="sidebar-categores-box mt-50">
-                    <div class="sidebar-title">
-                        <h2><b>Sắp xếp</b></h2>
+                    <!--sidebar-categores-box end  -->
+                    <!--sidebar-categores-box start  -->
+                    <div class="sidebar-categores-box mt-50">
+                        <div class="sidebar-title">
+                            <h2><b>Sắp xếp</b></h2>
+                        </div>
+                        <!-- filter-sub-area start -->
+                        <div class="filter-sub-area">
+                            <div class="filter-sub-titel">Khoảng giá: </div>
+                            <div style="padding-left: 5%">
+                                <ul class="sort_product" style="padding: 6px">
+                                    <li><a
+                                            href="{{ route('category.index.order', [$category->slug, $category->id, 'd1t']) }}">Dưới
+                                            1 triệu VNĐ</a></li>
+                                    <li><a
+                                            href="{{ route('category.index.order', [$category->slug, $category->id, '1t-10t']) }}">1
+                                            triệu - 10 triệu VNĐ</a></li>
+                                    <li><a
+                                            href="{{ route('category.index.order', [$category->slug, $category->id, '10t-20t']) }}">10
+                                            triệu - 20 triệu VNĐ</a></li>
+                                    <li><a
+                                            href="{{ route('category.index.order', [$category->slug, $category->id, '20t-50t']) }}">20
+                                            triệu - 50 triệu VNĐ</a></li>
+                                    <li><a
+                                            href="{{ route('category.index.order', [$category->slug, $category->id, 't50t']) }}">Trên
+                                            50 triệu VNĐ</a></li>
+                                </ul>
+                            </div>
+                            <div class="filter-sub-titel mt-3">Khác: </div>
+                            <div style="padding-left: 5%">
+                                <ul class="sort_product" style="padding: 6px">
+                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'az']) }}">Theo
+                                            chữ cái A-Z</a></li>
+                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'za']) }}">Theo
+                                            chữ cái Z-A</a></li>
+                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'mn']) }}">Sản
+                                            phẩm mới trước</a></li>
+                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'cn']) }}">Sản
+                                            phẩm cũ trước</a></li>
+                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'td']) }}">Giá
+                                            tăng dần</a></li>
+                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'gd']) }}">Giá
+                                            giảm dần</a></li>
+                                </ul>
+                            </div>
+                            @foreach ($category->attributes as $attributes)
+                                <div class="filter-sub-titel mt-3">{{ $attributes->name }}: </div>
+                                <div style="padding-left: 5%">
+                                    <ul class="sort_product" style="padding: 6px">
+                                        @foreach ($attributes->attribute_values->sortbyDesc('atv_value') as $attributeValue)
+                                            <li><a
+                                                    href="{{ route('category.index.order.attribute', [$category->slug, $category->id, $attributeValue->id]) }}">{{ $attributeValue->value }}</a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endforeach
+                        </div>
+                        <!-- filter-sub-area end -->
                     </div>
-                    <!-- filter-sub-area start -->
-                    <div class="filter-sub-area">
-                        <div class="filter-sub-titel">Khoảng giá: </div>
-                        <div style="padding-left: 5%">
-                            <ul class="sort_product" style="padding: 6px">
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'d1t'])}}">Dưới 1 triệu VNĐ</a></li>
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'1t-10t'])}}">1 triệu - 10 triệu VNĐ</a></li>
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'10t-20t'])}}">10 triệu - 20 triệu VNĐ</a></li>
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'20t-50t'])}}">20 triệu - 50 triệu VNĐ</a></li>
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'t50t'])}}">Trên 50 triệu VNĐ</a></li>
-                            </ul>
-                        </div>
-                        <div class="filter-sub-titel mt-3">Khác: </div>
-                        <div style="padding-left: 5%">
-                            <ul class="sort_product" style="padding: 6px">
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'az'])}}">Theo chữ cái A-Z</a></li>
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'za'])}}">Theo chữ cái Z-A</a></li>
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'mn'])}}">Sản phẩm mới trước</a></li>
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'cn'])}}">Sản phẩm cũ trước</a></li>
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'td'])}}">Giá tăng dần</a></li>
-                                <li><a href="{{route('category.index.order',[$category->slug,$category->id,'gd'])}}">Giá giảm dần</a></li>
-                            </ul>
-                        </div>
-                        @foreach($category->attributes as $attributes)
-                        <div class="filter-sub-titel mt-3">{{$attributes->name}}: </div>
-                        <div style="padding-left: 5%">
-                            <ul class="sort_product" style="padding: 6px">
-                                @foreach($attributes->attribute_values->sortbyDesc('atv_value') as $attributeValue)
-                                    <li><a href="{{route('category.index.order.attribute',[$category->slug,$category->id,$attributeValue->id])}}">{{$attributeValue->value}}</a></li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @endforeach
-                     </div>
-                    <!-- filter-sub-area end -->
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Content Wraper Area End Here -->
+    <!-- Content Wraper Area End Here -->
 @endsection
 @section('javascript')
-<script>
-    $(function(){
-        $(".button_add_favorite_product").click(function(event)
-        {
-            event.preventDefault();
-            name_product = $(this).attr("data-product-name");
-            url = $(this).attr("href");
-            $.ajax(
-                {
-                    method : "GET",
-                    url : url
-                }
-            ).done(function(result)
-            {
-                if(result.status == 1)
-                {
-                    swal("Thành công !","Đã thêm sản phẩm "+name_product+" vào sản phẩm yêu thích của bạn!", "success");
-                    $(".wishlist-item-count-custom").text(result.number_favorite_product);
-                }
-                if(result.status == 0)
-                {
-                    swal("Có thể bạn chưa biết !", "Sản phẩm "+name_product+" đã tồn tại trong danh sách sản phẩm ưa thích của bạn !", "info");
-                }
-                if(result.error)
-                {
-                    swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
-                }
+    <script>
+        $(function() {
+            $(".button_add_favorite_product").click(function(event) {
+                event.preventDefault();
+                name_product = $(this).attr("data-product-name");
+                url = $(this).attr("href");
+                $.ajax({
+                    method: "GET",
+                    url: url
+                }).done(function(result) {
+                    if (result.status == 1) {
+                        swal("Thành công !", "Đã thêm sản phẩm " + name_product +
+                            " vào sản phẩm yêu thích của bạn!", "success");
+                        $(".wishlist-item-count-custom").text(result.number_favorite_product);
+                    }
+                    if (result.status == 0) {
+                        swal("Có thể bạn chưa biết !", "Sản phẩm " + name_product +
+                            " đã tồn tại trong danh sách sản phẩm ưa thích của bạn !", "info");
+                    }
+                    if (result.error) {
+                        swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
+                    }
+                });
+            });
+            $(".button_add_cart").click(function(event) {
+                event.preventDefault();
+                url = $(this).attr("href");
+                name_product = $(this).attr("data-product-name");
+                $.ajax({
+                    method: "GET",
+                    url: url
+                }).done(function(result) {
+                    if (result.status == 1) {
+                        swal("Thành công !", "Đã thêm sản phẩm " + name_product + " vào giỏ hàng !",
+                            "success");
+                        $(".cart-item-count-number").text(result.number_product_in_cart);
+                        $(".price_total_cart").text(result.price_total_cart);
+                    }
+                    if (result.status == 2) {
+                        swal("Cảnh báo !", "Trong kho chỉ còn " + result.product_less +
+                            " sản phẩm " + name_product, "warning");
+                    }
+                    if (result.status == 3) {
+                        swal("Cảnh báo !", "Sản phẩm " + name_product + " không tồn tại !",
+                            "warning");
+                    }
+                    if (result.status == 4) {
+                        swal("Cảnh báo !", "Sản phẩm " + name_product + " đã hết hàng !",
+                        "warning");
+                    }
+                    if (result.error) {
+                        swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
+                    }
+                });
             });
         });
-        $(".button_add_cart").click(function(event)
-        {
-            event.preventDefault();
-            url = $(this).attr("href");
-            name_product = $(this).attr("data-product-name");
-            $.ajax(
-                {
-                    method : "GET",
-                    url : url
-                }
-            ).done(function(result)
-            {
-                if(result.status == 1)
-                {
-                    swal("Thành công !","Đã thêm sản phẩm "+name_product+" vào giỏ hàng !", "success");
-                    $(".cart-item-count-number").text(result.number_product_in_cart);
-                    $(".price_total_cart").text(result.price_total_cart);
-                }
-                if(result.status == 2)
-                {
-                    swal("Cảnh báo !", "Trong kho chỉ còn "+result.product_less+" sản phẩm "+name_product, "warning");
-                }
-                if(result.status == 3)
-                {
-                    swal("Cảnh báo !", "Sản phẩm "+name_product+" không tồn tại !", "warning");
-                }
-                if(result.status == 4)
-                {
-                    swal("Cảnh báo !", "Sản phẩm "+name_product+" đã hết hàng !", "warning");
-                }
-                if(result.error)
-                {
-                    swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
-                }
-            });
-        });
-    });
-</script>
+    </script>
 @endsection

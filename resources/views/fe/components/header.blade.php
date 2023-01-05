@@ -6,9 +6,7 @@
             <div class="row">
                 <!-- Begin Header Top Left Area -->
                 <div class="col-lg-3 col-md-4">
-                    <div class="header-top-left" style="display: flex;
-                                                        justify-content: space-between;
-                                                        width: 360px;">
+                    <div class="header-top-left" style="display: flex; justify-content: space-between; width: 360px;">
                         <ul class="phone-wrap">
                             <li><span>@lang('Phone Number'):</span><a href="#">&nbsp;0969908298</a></li>
                         </ul>
@@ -24,42 +22,48 @@
                     <div class="header-top-right">
                         <ul class="ht-menu">
                             <!-- Begin Setting Area -->
-{{--                            @if(Auth::check())--}}
-{{--                                <li>--}}
-{{--                                    <img src="{{Auth::user()->avatar}}" alt="">--}}
-{{--                                    {{Auth::user()->name}}--}}
-{{--                                </li>--}}
-{{--                            @endif--}}
                             <li>
                                 <div class="ht-setting-trigger">
-                                    @if(Auth::check())
-                                        <img src="{{Auth::user()->avatar}}" alt="" style="width: 20px; object-fit: cover;">
-                                        {{Auth::user()->name}}
+                                    @if (Auth::check())
+                                        <img src="{{ Auth::user()->avatar }}" alt=""
+                                            style="width: 20px; object-fit: cover;">
+                                        {{ Auth::user()->name }}
                                     @else
                                         <i class="fa fa-user">&nbsp;@lang('Account')</i>
                                     @endif
                                 </div>
                                 <div class="setting ht-setting">
                                     <ul class="ht-setting-list">
-                                        @if(Auth::check())
-                                            <li><a href="{{route('admin.home')}}">@lang('Admin Page')</a></li>
-                                            <li><a href="{{route('favorite-product.index')}}">@lang('Favorite Product')</a></li>
-                                            <li><a href="{{route('history-user.index')}}">@lang('Purchase history')</a></li>
+                                        @if (Auth::check())
+                                            <li><a href="{{ route('admin.home') }}">@lang('Admin Page')</a></li>
+                                            <li><a href="{{ route('favorite-product.index') }}">@lang('Favorite Product')</a>
+                                            </li>
+                                            <li><a href="{{ route('history-user.index') }}">@lang('Purchase history')</a></li>
                                             <li><a href="">@lang('Logout')</a></li>
                                         @else
-                                            <li><a href="{{route('get.login')}}">@lang('Login')</a></li>
-                                            <li><a href="{{route('get.register')}}">@lang('Register')</a></li>
+                                            <li><a href="{{ route('get.login') }}">@lang('Login')</a></li>
+                                            <li><a href="{{ route('get.register') }}">@lang('Register')</a></li>
                                         @endif
                                     </ul>
                                 </div>
                             </li>
+                            <li>
+                                <a href="{!! route('change-language', ['en']) !!}" style="margin-right: 5px;">
+                                    <img class="flag-language" src="{{ asset('images/en-flag-32x48.png') }}"
+                                        alt="">
+                                </a>
+                                <a href="{!! route('change-language', ['vi']) !!}">
+                                    <img class="flag-language" src="{{ asset('images/vi-flag-32x48.png') }}"
+                                        alt="">
+                                </a>
+                            </li>
                             <!-- Setting Area End Here -->
 
                             <!-- Begin Language Area -->
-                            {{--                            <li>--}}
-                            {{--                                <a href="{!! route('user.change-language', ['en']) !!}"><img src="{{asset('images/global.png')}}" alt="global" style="margin-right:5px"></a>--}}
-                            {{--                                <a href="{!! route('user.change-language', ['vi']) !!}"><img src="{{asset('images/vietnam.png')}}" alt="vn"></a>--}}
-                            {{--                            </li>--}}
+                            {{--                            <li> --}}
+                            {{--                                <a href="{!! route('user.change-language', ['en']) !!}"><img src="{{asset('images/global.png')}}" alt="global" style="margin-right:5px"></a> --}}
+                            {{--                                <a href="{!! route('user.change-language', ['vi']) !!}"><img src="{{asset('images/vietnam.png')}}" alt="vn"></a> --}}
+                            {{--                            </li> --}}
                             <!-- Language Area End Here -->
                         </ul>
                     </div>
@@ -76,8 +80,8 @@
                 <!-- Begin Header Logo Area -->
                 <div class="col-lg-3">
                     <div class="logo pb-sm-30 pb-xs-30">
-                        <a href="{{route('home')}}">
-                            <img src="{{asset('images/logo-fe.png')}}" alt="" style="width: 75px;">
+                        <a href="{{ route('home') }}">
+                            <img src="{{ asset('images/logo-fe.png') }}" alt="" style="width: 75px;">
                         </a>
                     </div>
                 </div>
@@ -88,9 +92,9 @@
                     <form action="#" class="hm-searchbox" method="GET">
                         <select class="nice-select select-search-category" name="searh_category_id">
                             <option value="0">@lang('All')</option>
-                            {{--                            @foreach($categories_searh as $category)--}}
-                            {{--                                <option value="{{$category->id}}">{{$category->c_name}}</option>--}}
-                            {{--                            @endforeach--}}
+                            {{--                            @foreach ($categories_searh as $category) --}}
+                            {{--                                <option value="{{$category->id}}">{{$category->c_name}}</option> --}}
+                            {{--                            @endforeach --}}
                         </select>
                         <input type="text" placeholder="@lang('Enter search value ...')" name="searh_key">
                         <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
@@ -100,23 +104,26 @@
                     <div class="header-middle-right">
                         <ul class="hm-menu">
                             <!-- Begin Header Middle Wishlist Area -->
-                            {{--                            @if(Auth::check())--}}
-                            {{--                            <li class="hm-wishlist">--}}
-                            {{--                                <a href="#" data-toggle="modal" data-target="#exampleModal">--}}
-                            {{--                                    <span class="cart-item-count wishlist-item-count">{{Auth::user()->NofiticationReceive->count()}}</span>--}}
-                            {{--                                    <i class="fa fa-bell-o"></i>--}}
-                            {{--                                </a>--}}
+                            {{--                            @if (Auth::check()) --}}
+                            {{--                            <li class="hm-wishlist"> --}}
+                            {{--                                <a href="#" data-toggle="modal" data-target="#exampleModal"> --}}
+                            {{--                                    <span class="cart-item-count wishlist-item-count">{{Auth::user()->NofiticationReceive->count()}}</span> --}}
+                            {{--                                    <i class="fa fa-bell-o"></i> --}}
+                            {{--                                </a> --}}
 
-                            {{--                            </li>--}}
-                            {{--                            @endif--}}
+                            {{--                            </li> --}}
+                            {{--                            @endif --}}
                             <!-- Header Middle Wishlist Area End Here -->
                             <!-- Begin Header Mini Cart Area -->
                             <li class="hm-minicart">
-                                <a href="{{route('shopping.cart.index')}}">
+                                <a href="{{ route('shopping.cart.index') }}">
                                     <div class="hm-minicart-trigger">
                                         <span class="item-icon"></span>
-                                        <span class="item-text"><span class="price_total_cart">{{\Cart::subtotal(0,',','.')}}</span> @lang('VND')
-                                            <span class="cart-item-count cart-item-count-number">{{\Cart::count()}}</span>
+                                        <span class="item-text"><span
+                                                class="price_total_cart">{{ \Cart::subtotal(0, ',', '.') }}</span>
+                                            @lang('VND')
+                                            <span
+                                                class="cart-item-count cart-item-count-number">{{ \Cart::count() }}</span>
                                         </span>
                                     </div>
                                 </a>
@@ -145,7 +152,7 @@
 
                                 </li>
                                 <li class="megamenu-holder">
-                                    <a href="#">@lang('Article')</a>
+                                    <a href="{{ route('article.index') }}">@lang('Article')</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('about-us') }}">@lang('Introduce')</a>
@@ -181,7 +188,7 @@
 <!-- Header Area End Here -->
 {{-- Modal nofition --}}
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -190,29 +197,29 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            {{--        @if(Auth::check())--}}
-            {{--        <div class="modal-body">--}}
-            {{--            @if(Auth::user()->NofiticationReceive->count()>0)--}}
-            {{--                @foreach(Auth::user()->NofiticationReceive->sortByDesc('created_at') as $nofitication)--}}
-            {{--                    <div style="display: flex">--}}
-            {{--                        <div class="col-sm-1">--}}
-            {{--                            <a href="{{route('feature.user.delete.nofication',$nofitication->id)}}">Xóa</a>--}}
-            {{--                        </div>--}}
-            {{--                        <div class="col-sm-11">--}}
-            {{--                            <div><b>{{$nofitication->created_at}}</b></div>--}}
-            {{--                            {!!$nofitication->nof_content!!}--}}
-            {{--                        </div>--}}
-            {{--                    </div>--}}
-            {{--                    <hr style="margin: 15px 0px"/>--}}
-            {{--                @endforeach--}}
-            {{--            @else--}}
-            {{--                <div style="display: flex">--}}
-            {{--                    Không có thông báo gì cả !!!--}}
-            {{--                </div>--}}
-            {{--                <hr style="margin: 15px 0px"/>--}}
-            {{--            @endif--}}
-            {{--        </div>--}}
-            {{--        @endif--}}
+            {{--        @if (Auth::check()) --}}
+            {{--        <div class="modal-body"> --}}
+            {{--            @if (Auth::user()->NofiticationReceive->count() > 0) --}}
+            {{--                @foreach (Auth::user()->NofiticationReceive->sortByDesc('created_at') as $nofitication) --}}
+            {{--                    <div style="display: flex"> --}}
+            {{--                        <div class="col-sm-1"> --}}
+            {{--                            <a href="{{route('feature.user.delete.nofication',$nofitication->id)}}">Xóa</a> --}}
+            {{--                        </div> --}}
+            {{--                        <div class="col-sm-11"> --}}
+            {{--                            <div><b>{{$nofitication->created_at}}</b></div> --}}
+            {{--                            {!!$nofitication->nof_content!!} --}}
+            {{--                        </div> --}}
+            {{--                    </div> --}}
+            {{--                    <hr style="margin: 15px 0px"/> --}}
+            {{--                @endforeach --}}
+            {{--            @else --}}
+            {{--                <div style="display: flex"> --}}
+            {{--                    Không có thông báo gì cả !!! --}}
+            {{--                </div> --}}
+            {{--                <hr style="margin: 15px 0px"/> --}}
+            {{--            @endif --}}
+            {{--        </div> --}}
+            {{--        @endif --}}
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>

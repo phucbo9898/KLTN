@@ -88,4 +88,9 @@ class AdminController extends Controller
         ];
         return view('cms.dashbroad.index', $data);
     }
+
+    public function changeLanguage()
+    {
+
+    }
 }

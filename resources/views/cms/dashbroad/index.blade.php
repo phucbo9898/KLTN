@@ -2,20 +2,20 @@
 @section('css')
     <!-- Tempusdominus Bbootstrap 4 -->
     <link rel="stylesheet"
-          href="{{asset('admin_lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+        href="{{ asset('admin_lte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
     <!-- iCheck -->
-    <link rel="stylesheet" href="{{asset('admin_lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('admin_lte/plugins/jqvmap/jqvmap.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin_lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('admin_lte/plugins/jqvmap/jqvmap.min.css') }}">
     <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="{{asset('admin_lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin_lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <!-- Daterange picker -->
-    <link rel="stylesheet" href="{{asset('admin_lte/plugins/daterangepicker/daterangepicker.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin_lte/plugins/daterangepicker/daterangepicker.css') }}">
     <!-- summernote -->
-    <link rel="stylesheet" href="{{asset('admin_lte/plugins/summernote/summernote-bs4.css')}}">
+    <link rel="stylesheet" href="{{ asset('admin_lte/plugins/summernote/summernote-bs4.css') }}">
 @endsection
 @section('content')
-    <span class="chart_seven_days" data-chart="{{$total_price_seven_days_edit ?? ''}}"></span>
-    <span class="chart_time_seven_days" data-chart-time="{{$time_chart ?? ''}}"></span>
+    <span class="chart_seven_days" data-chart="{{ $total_price_seven_days_edit ?? '' }}"></span>
+    <span class="chart_time_seven_days" data-chart-time="{{ $time_chart ?? '' }}"></span>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Main content -->
@@ -34,7 +34,7 @@
                             <div class="icon">
                                 <i class="ion ion-bag"></i>
                             </div>
-                            <a href="{{ route('admin.transaction.index')}}" class="small-box-footer">
+                            <a href="{{ route('admin.transaction.index') }}" class="small-box-footer">
                                 @lang('Xem thêm')
                                 <i class="fas fa-arrow-circle-right"></i>
                             </a>
@@ -51,7 +51,7 @@
                             <div class="icon">
                                 <i class="ion ion-monitor"></i>
                             </div>
-                            <a href="{{route('admin.product.index')}}" class="small-box-footer">
+                            <a href="{{ route('admin.product.index') }}" class="small-box-footer">
                                 @lang('Xem thêm')
                                 <i class="fas fa-arrow-circle-right"></i>
                             </a>
@@ -69,7 +69,7 @@
                             <div class="icon">
                                 <i class="ion ion-person-stalker"></i>
                             </div>
-                            <a href="{{route('admin.user.index')}}" class="small-box-footer">
+                            <a href="{{ route('admin.user.index') }}" class="small-box-footer">
                                 @lang('Xem thêm')
                                 <i class="fas fa-arrow-circle-right"></i>
                             </a>
@@ -87,7 +87,7 @@
                             <div class="icon">
                                 <i class="ion ion-ios-paper-outline"></i>
                             </div>
-                            <a href="{{route('admin.article.index')}}" class="small-box-footer">
+                            <a href="{{ route('admin.article.index') }}" class="small-box-footer">
                                 @lang('Xem thêm')
                                 <i class="fas fa-arrow-circle-right"></i>
                             </a>
@@ -122,32 +122,32 @@
 
 @section('javascript')
     <!-- jQuery UI 1.11.4 -->
-    <script src="{{asset('admin_lte/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+    <script src="{{ asset('admin_lte/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
         $.widget.bridge('uibutton', $.ui.button)
     </script>
     <!-- ChartJS -->
-    <script src="{{asset('admin_lte/plugins/chart.js/Chart.min.js')}}"></script>
-    {{--<!-- Sparkline -->--}}
-    <script src="{{asset('admin_lte/plugins/sparklines/sparkline.js')}}"></script>
+    <script src="{{ asset('admin_lte/plugins/chart.js/Chart.min.js') }}"></script>
+    {{-- <!-- Sparkline --> --}}
+    <script src="{{ asset('admin_lte/plugins/sparklines/sparkline.js') }}"></script>
     <!-- JQVMap -->
     {{-- <script src="{{asset('admin_lte/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
     <script src="{{asset('admin_lte/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script> --}}
     <!-- jQuery Knob Chart -->
-    <script src="{{asset('admin_lte/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
+    <script src="{{ asset('admin_lte/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
     <!-- daterangepicker -->
-    <script src="{{asset('admin_lte/plugins/moment/moment.min.js')}}"></script>
-    <script src="{{asset('admin_lte/plugins/daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{ asset('admin_lte/plugins/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('admin_lte/plugins/daterangepicker/daterangepicker.js') }}"></script>
     <!-- Tempusdominus Bootstrap 4 -->
-    <script src="{{asset('admin_lte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+    <script src="{{ asset('admin_lte/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <!-- Summernote -->
-    <script src="{{asset('admin_lte/plugins/summernote/summernote-bs4.min.js')}}"></script>
+    <script src="{{ asset('admin_lte/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <!-- overlayScrollbars -->
-    <script src="{{asset('admin_lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+    <script src="{{ asset('admin_lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     {{-- <script src="{{asset('admin_lte/dist/js/pages/dashboard.js')}}"></script> --}}
     {{-- chart area --}}
-    <script src="{{asset('js/chart-area-demo.js')}}"></script>
-    <script src="{{asset('js/Chart.min.js')}}"></script>
+    <script src="{{ asset('js/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('js/Chart.min.js') }}"></script>
 @endsection

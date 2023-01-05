@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Trang chủ</a></li>
                             <li class="breadcrumb-item active">Kho hàng - Lịch sử nhập hàng</li>
                         </ol>
                     </div>
@@ -32,39 +32,39 @@
                 <div class="card-body">
                     <table class="table table-hover table-striped" id="dataTable">
                         <thead class="thead-dark">
-                        <th style="width: 20px">ID</th>
-                        <th style="width:28%">Tên sản phẩm</th>
-                        <th style="width: 185px">Loại sản phẩm</th>
-                        <th style="width: 125px">Ảnh</th>
-                        <th style="width: 150px;">Số lượng hàng nhập</th>
-                        <th style="width: 15%;">Thời gian nhập</th>
+                            <th style="width: 20px">ID</th>
+                            <th style="width:28%">Tên sản phẩm</th>
+                            <th style="width: 185px">Loại sản phẩm</th>
+                            <th style="width: 125px">Ảnh</th>
+                            <th style="width: 150px;">Số lượng hàng nhập</th>
+                            <th style="width: 15%;">Thời gian nhập</th>
                         </thead>
                         <tbody>
-                        @if(isset($productHistory))
-                            @foreach($productHistory as $history)
-                                <tr>
-                                    <td>{{$history->id}}</td>
-                                    <td>
-                                        <b>{{isset($history->product->name)?$history->product->name:"Đã bị xóa"}}</b><br/>
-                                    </td>
-                                    <td>{{isset($history->product->category->name)?$history->product->category->name:"Đã bị xóa"}}</td>
-                                    <td style="text-align: center;">
-                                        @if(isset($history->product->image))
-                                            <img style="width:80px;height:80px"
-                                                 src="{{asset($history->product->image)}}"
-                                                 alt="No Avatar"/>
-                                        @else
-                                            <img style="width:80px;height:80px" src="{{asset('noimg.png')}}"
-                                                 alt="No Avatar"/>
-                                        @endif
-                                    </td>
-                                    <td style="text-align: center">{{$history->number_import}} sản phẩm</td>
-                                    <td style="text-align: center">
-                                        {{$history->time_import}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @endif
+                            @if (isset($productHistory))
+                                @foreach ($productHistory as $history)
+                                    <tr>
+                                        <td>{{ $history->id }}</td>
+                                        <td>
+                                            <b>{{ isset($history->product->name) ? $history->product->name : 'Đã bị xóa' }}</b><br />
+                                        </td>
+                                        <td>{{ isset($history->product->category->name) ? $history->product->category->name : 'Đã bị xóa' }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            @if (isset($history->product->image))
+                                                <img style="width:80px;height:80px"
+                                                    src="{{ asset($history->product->image) }}" alt="No Avatar" />
+                                            @else
+                                                <img style="width:80px;height:80px" src="{{ asset('noimg.png') }}"
+                                                    alt="No Avatar" />
+                                            @endif
+                                        </td>
+                                        <td style="text-align: center">{{ $history->number_import }} sản phẩm</td>
+                                        <td style="text-align: center">
+                                            {{ $history->time_import }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
                         </tbody>
                     </table>
                 </div>
@@ -79,9 +79,11 @@
 @endsection
 @section('javascript')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#dataTable').DataTable({
-                "order": [[0, "desc"]],
+                "order": [
+                    [0, "desc"]
+                ],
                 "language": {
                     "decimal": "",
                     "emptyTable": "Không có dữ liệu hiển thị trong bảng",

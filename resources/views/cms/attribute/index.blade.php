@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Trang chủ</a></li>
                             <li class="breadcrumb-item active">Thuộc tính - Danh sách</li>
                         </ol>
                     </div>
@@ -24,27 +24,27 @@
 
             <!-- Default box -->
             <div class="card">
-                @if(isset($attributes))
+                @if (isset($attributes))
                     <div class="card-body">
-                        @if(Session::has('create_attribute_success'))
+                        @if (Session::has('create_attribute_success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Thành công !</strong> {{Session::get('create_attribute_success')}}
+                                <strong>Thành công !</strong> {{ Session::get('create_attribute_success') }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                         @endif
-                        @if(Session::has('edit_attribute_success'))
+                        @if (Session::has('edit_attribute_success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Thành công !</strong> {{Session::get('edit_attribute_success')}}
+                                <strong>Thành công !</strong> {{ Session::get('edit_attribute_success') }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                         @endif
-                        @if(Session::has('delete_attribute_success'))
+                        @if (Session::has('delete_attribute_success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Thành công !</strong> {{Session::get('delete_attribute_success')}}
+                                <strong>Thành công !</strong> {{ Session::get('delete_attribute_success') }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -52,39 +52,39 @@
                         @endif
                         <table class="table table-hover table-striped" id="dataTable">
                             <thead class="thead-dark">
-                            <th>ID</th>
-                            <th>Tên thuộc tính</th>
-                            <th>Kiểu</th>
-                            <th>Giá trị</th>
-                            <th>Thao tác</th>
+                                <th>ID</th>
+                                <th>Tên thuộc tính</th>
+                                <th>Kiểu</th>
+                                <th>Giá trị</th>
+                                <th>Thao tác</th>
                             </thead>
                             <tbody>
-                            @foreach ($attributes as $attribute)
-                                <tr>
-                                    {{--                                    <td style="text-align: center;">{{ ($attributes->currentPage() - 1) * $attributes->perPage() + $loop->index + 1 }}</td>--}}
-                                    <td>{{$attribute->id}}</td>
-                                    <td>{{$attribute->name}}</td>
-                                    <td>{{$attribute->type}}</td>
-                                    <td>
-                                        @if($attribute->value)
-                                            <ul>
-                                                @foreach(explode(';',$attribute->value) as $attr)
-                                                    <li>{{$attr}}</li>
-                                                @endforeach
-                                            </ul>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{route('admin.attribute.edit',$attribute->id)}}"
-                                           class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
-                                        &nbsp;
-                                        <a href="{{route('admin.attribute.handle',['delete',$attribute->id])}}"
-                                           data-id="{{$attribute->id}}"
-                                           class="btn_delete_sweet btn btn-danger btn-circle"><i
-                                                class="fas fa-trash-alt"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @foreach ($attributes as $attribute)
+                                    <tr>
+                                        {{--                                    <td style="text-align: center;">{{ ($attributes->currentPage() - 1) * $attributes->perPage() + $loop->index + 1 }}</td> --}}
+                                        <td>{{ $attribute->id }}</td>
+                                        <td>{{ $attribute->name }}</td>
+                                        <td>{{ $attribute->type }}</td>
+                                        <td>
+                                            @if ($attribute->value)
+                                                <ul>
+                                                    @foreach (explode(';', $attribute->value) as $attr)
+                                                        <li>{{ $attr }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('admin.attribute.edit', $attribute->id) }}"
+                                                class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
+                                            &nbsp;
+                                            <a href="{{ route('admin.attribute.handle', ['delete', $attribute->id]) }}"
+                                                data-id="{{ $attribute->id }}"
+                                                class="btn_delete_sweet btn btn-danger btn-circle"><i
+                                                    class="fas fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -100,9 +100,11 @@
 @endsection
 @section('javascript')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#dataTable').DataTable({
-                "order": [[0, "desc"]],
+                "order": [
+                    [0, "desc"]
+                ],
                 "language": {
                     "decimal": "",
                     "emptyTable": "Không có dữ liệu hiển thị trong bảng",
@@ -131,22 +133,23 @@
         });
     </script>
     <script>
-        $(".btn_delete_sweet").click(function (e) {
+        $(".btn_delete_sweet").click(function(e) {
             e.preventDefault();
             url = $(this).attr('href');
             id = $(this).attr('data-id');
             swal({
-                title: "Bạn có chắc chắn?",
-                text: "Bạn có chắc chắn muốn xóa thuộc tính ID=" + id + " không ? Xin cảm ơn !!!",
-                icon: "info",
-                buttons: ["Không", "Có"],
-                dangerMode: true,
-            })
+                    title: "Bạn có chắc chắn?",
+                    text: "Bạn có chắc chắn muốn xóa thuộc tính ID=" + id + " không ? Xin cảm ơn !!!",
+                    icon: "info",
+                    buttons: ["Không", "Có"],
+                    dangerMode: true,
+                })
                 .then((willDelete) => {
                     if (willDelete) {
-                        swal("Thành công", "Hệ thống chuẩn bị xóa thuộc tính mang ID =" + id + " !", 'success').then(function () {
-                            window.location.href = url;
-                        });
+                        swal("Thành công", "Hệ thống chuẩn bị xóa thuộc tính mang ID =" + id + " !", 'success')
+                            .then(function() {
+                                window.location.href = url;
+                            });
                     }
                 });
         });

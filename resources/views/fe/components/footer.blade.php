@@ -10,7 +10,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
                         <div class="li-shipping-inner-box">
                             <div class="shipping-icon">
-                                <img src="{{asset('images/shipping-icon/free_ship.png')}}" alt="Shipping Icon">
+                                <img src="{{ asset('images/shipping-icon/free_ship.png') }}" alt="Shipping Icon">
                             </div>
                             <div class="shipping-text">
                                 <h2>@lang('Free shipping')</h2>
@@ -23,7 +23,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6 pb-sm-55 pb-xs-55">
                         <div class="li-shipping-inner-box">
                             <div class="shipping-icon">
-                                <img src="{{asset('images/shipping-icon/cost_save.png')}}" alt="Shipping Icon">
+                                <img src="{{ asset('images/shipping-icon/cost_save.png') }}" alt="Shipping Icon">
                             </div>
                             <div class="shipping-text">
                                 <h2>@lang('Cost savings')</h2>
@@ -36,7 +36,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
                         <div class="li-shipping-inner-box">
                             <div class="shipping-icon">
-                                <img src="{{asset('images/shipping-icon/security.png')}}" alt="Shipping Icon">
+                                <img src="{{ asset('images/shipping-icon/security.png') }}" alt="Shipping Icon">
                             </div>
                             <div class="shipping-text">
                                 <h2>@lang('Information security')</h2>
@@ -49,7 +49,7 @@
                     <div class="col-lg-3 col-md-6 col-sm-6 pb-xs-30">
                         <div class="li-shipping-inner-box">
                             <div class="shipping-icon">
-                                <img src="{{asset('images/shipping-icon/support.png')}}" alt="Shipping Icon">
+                                <img src="{{ asset('images/shipping-icon/support.png') }}" alt="Shipping Icon">
                             </div>
                             <div class="shipping-text">
                                 <h2>@lang('Support 24/7')</h2>
@@ -72,7 +72,7 @@
                     <!-- Begin Footer Logo Area -->
                     <div class="col-lg-4 col-md-6">
                         <div class="footer-logo">
-                            <img src="{{asset('images/logo-fe.png')}}" alt="Footer Logo" style="width: 75px;">
+                            <img src="{{ asset('images/logo-fe.png') }}" alt="Footer Logo" style="width: 75px;">
                             <p class="info">
                                 @lang('This website is currently in the testing and development phase to be more complete before being put into business and commercialization.')
                             </p>
@@ -115,7 +115,7 @@
                                     <a href="{{ route('home') }}" style="text-decoration: none;">@lang('Home')</a>
                                 </li>
                                 <li>
-                                    <a href="#" style="text-decoration: none;">@lang('Articel')</a>
+                                    <a href="#" style="text-decoration: none;">@lang('Article')</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('about-us') }}"

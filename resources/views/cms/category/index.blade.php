@@ -11,7 +11,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{route('admin.home')}}">Trang chủ</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Trang chủ</a></li>
                             <li class="breadcrumb-item active">Loại sản phẩm - Danh sách</li>
                         </ol>
                     </div>
@@ -22,27 +22,27 @@
         <section class="content">
             <!-- Default box -->
             <div class="card">
-                @if(isset($categories))
+                @if (isset($categories))
                     <div class="card-body">
-                        @if(Session::has('create_category_success'))
+                        @if (Session::has('create_category_success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Thành công !</strong> {{Session::get('create_category_success')}}
+                                <strong>Thành công !</strong> {{ Session::get('create_category_success') }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                         @endif
-                        @if(Session::has('edit_category_success'))
+                        @if (Session::has('edit_category_success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Thành công !</strong> {{Session::get('edit_category_success')}}
+                                <strong>Thành công !</strong> {{ Session::get('edit_category_success') }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                         @endif
-                        @if(Session::has('delete_category_success'))
+                        @if (Session::has('delete_category_success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <strong>Thành công !</strong> {{Session::get('delete_category_success')}}
+                                <strong>Thành công !</strong> {{ Session::get('delete_category_success') }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -50,38 +50,38 @@
                         @endif
                         <table class="table table-hover table-striped" id="dataTable">
                             <thead class="thead-dark">
-                            <th style="width: 5%">ID</th>
-                            <th>Tên loại sản phẩm</th>
-                            <th style="width: 11%; text-align: center;">Trạng thái</th>
-                            <th>Thuộc tính</th>
-                            <th>Thao tác</th>
+                                <th style="width: 5%">ID</th>
+                                <th>Tên loại sản phẩm</th>
+                                <th style="width: 11%; text-align: center;">Trạng thái</th>
+                                <th>Thuộc tính</th>
+                                <th>Thao tác</th>
                             </thead>
                             <tbody>
-                            @foreach ($categories as $category)
-                                <tr>
-                                    <td style="text-align: center;">{{$category->id}}</td>
-                                    <td>{{$category->name}}</td>
-                                    <td style="text-align: center"><a
-                                            href="{{route('admin.category.handle',['status',$category->id])}}"
-                                            class="badge badge-{{($category->status==1)?"success":"danger"}}">{{($category->status==1)?"Công khai":"Riêng tư"}}</a>
-                                    </td>
-                                    <td>
-                                        <ul>
-                                            @foreach ($category->attribute as $attribute)
-                                                <li>{{$attribute->name}}</li>
-                                            @endforeach
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <a href="{{route('admin.category.edit',$category->id)}}"
-                                           class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
-                                        &nbsp;
-                                        <a class="btn_delete_sweet btn btn-danger btn-circle"
-                                           href="{{route('admin.category.handle',['delete',$category->id])}}"
-                                           data-id="{{$category->id}}"><i class="fas fa-trash-alt"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @foreach ($categories as $category)
+                                    <tr>
+                                        <td style="text-align: center;">{{ $category->id }}</td>
+                                        <td>{{ $category->name }}</td>
+                                        <td style="text-align: center"><a
+                                                href="{{ route('admin.category.handle', ['status', $category->id]) }}"
+                                                class="badge badge-{{ $category->status == 1 ? 'success' : 'danger' }}">{{ $category->status == 1 ? 'Công khai' : 'Riêng tư' }}</a>
+                                        </td>
+                                        <td>
+                                            <ul>
+                                                @foreach ($category->attribute as $attribute)
+                                                    <li>{{ $attribute->name }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('admin.category.edit', $category->id) }}"
+                                                class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
+                                            &nbsp;
+                                            <a class="btn_delete_sweet btn btn-danger btn-circle"
+                                                href="{{ route('admin.category.handle', ['delete', $category->id]) }}"
+                                                data-id="{{ $category->id }}"><i class="fas fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -96,9 +96,11 @@
 @endsection
 @section('javascript')
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#dataTable').DataTable({
-                "order": [[0, "asc"]],
+                "order": [
+                    [0, "asc"]
+                ],
                 "language": {
                     "decimal": "",
                     "emptyTable": "Không có dữ liệu hiển thị trong bảng",
@@ -127,20 +129,22 @@
         });
     </script>
     <script>
-        $(".btn_delete_sweet").click(function (e) {
+        $(".btn_delete_sweet").click(function(e) {
             e.preventDefault();
             url = $(this).attr('href');
             id = $(this).attr('data-id');
             swal({
-                title: "Bạn có chắc chắn?",
-                text: "Bạn có chắc chắn muốn xóa loại sản phẩm ID=" + id + " không ? Điều này sẽ ảnh hưởng đến liên kết dữ liệu ! Bạn có thể chuyển trạng thái sang private để ngừng hiển thị sản phẩm ở giao diện khách hàng !! Xin cảm ơn !!!",
-                icon: "info",
-                buttons: ["Không", "Có"],
-                dangerMode: true,
-            })
+                    title: "Bạn có chắc chắn?",
+                    text: "Bạn có chắc chắn muốn xóa loại sản phẩm ID=" + id +
+                        " không ? Điều này sẽ ảnh hưởng đến liên kết dữ liệu ! Bạn có thể chuyển trạng thái sang private để ngừng hiển thị sản phẩm ở giao diện khách hàng !! Xin cảm ơn !!!",
+                    icon: "info",
+                    buttons: ["Không", "Có"],
+                    dangerMode: true,
+                })
                 .then((willDelete) => {
                     if (willDelete) {
-                        swal("Thành công", "Hệ thống chuẩn bị xóa loại sản phẩm mang ID =" + id + " !", 'success').then(function () {
+                        swal("Thành công", "Hệ thống chuẩn bị xóa loại sản phẩm mang ID =" + id + " !",
+                            'success').then(function() {
                             window.location.href = url;
                         });
                     }

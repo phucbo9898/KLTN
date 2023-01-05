@@ -63,7 +63,8 @@
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
-                                    <td style="text-align: center;">{{ ($users->currentPage() - 1) * $users->perPage() + $loop->index + 1 }}</td>
+                                    <td style="text-align: center;">
+                                        {{ ($users->currentPage() - 1) * $users->perPage() + $loop->index + 1 }}</td>
                                     <td>
                                         <img class="avatar-user" src="{{ asset($user->avatar) }}" alt="">
                                     </td>
@@ -72,8 +73,9 @@
                                     <td>{{ $user->phone }}</td>
                                     <td style="">
                                         <a href="{{ route('admin.user.action', ['role', $user->id]) }}">
-                                            <span class="badge badge-{{ $user->role == UserType::ADMIN ? 'success' : 'secondary' }}">
-                                                {{ $user->getUserType() ?? ''}}
+                                            <span
+                                                class="badge badge-{{ $user->role == UserType::ADMIN ? 'success' : 'secondary' }}">
+                                                {{ $user->getUserType() ?? '' }}
                                             </span>
                                         </a>
                                     </td>
@@ -81,8 +83,8 @@
                                         <a href="{{ route('admin.user.edit', $user->id) }}"
                                             class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a> &nbsp;
                                         <a href="{{ route('admin.user.action', ['delete', $user->id]) }}"
-                                            class="btn_delete_sweet btn btn-danger btn-circle" data-id="{{ $user->id }}"><i
-                                                class="fas fa-trash-alt"></i></a> &nbsp;
+                                            class="btn_delete_sweet btn btn-danger btn-circle"
+                                            data-id="{{ $user->id }}"><i class="fas fa-trash-alt"></i></a> &nbsp;
                                         <a href="{{ route('admin.change.password', $user->id) }}"
                                             class="button_change_password btn btn-warning btn-circle"
                                             data-email='{{ $user->email }}' data-toggle="modal"
@@ -98,7 +100,8 @@
                                                 <h5 class="modal-title" id="exampleModalLongTitle">Đổi mật khẩu tài khoản
                                                     <span class="model_change_password_email"></span>
                                                 </h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
@@ -142,7 +145,7 @@
             $('#dataTable').DataTable({
                 processing: true,
                 serverSide: false,
-                {{--ajax: "{{ route('datatable.example') }}",--}}
+                {{-- ajax: "{{ route('datatable.example') }}", --}}
                 columns: [{
                         data: 'id',
                         name: 'name'
@@ -199,7 +202,6 @@
                 }
             });
         });
-
     </script>
     <script>
         $(".btn_delete_sweet").click(function(e) {
@@ -223,7 +225,6 @@
                     }
                 });
         });
-
     </script>
     <script>
         $(function() {
@@ -263,6 +264,5 @@
                 });
             });
         });
-
     </script>
 @endsection

@@ -34,6 +34,7 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');
     Route::get('/about-us', 'aboutUs')->name('about-us');
     Route::get('/contact', 'contact')->name('contact');
+    Route::get('/change-language/{locale}', 'changeLanguage')->name('change-language');
 });
 
 Route::controller(SearchController::class)->group(function () {
