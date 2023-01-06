@@ -18,19 +18,19 @@
         <tbody>
             <tr></tr>
             @foreach ($transactions as $transaction)
-                @foreach ($transaction->Order as $order)
+                @foreach ($transaction->orders as $order)
                     <tr>
                         <td>{{ $i++ }}</td>
-                        <td>{{ $order->Product->pro_name }}</td>
-                        <td>{{ $order->or_qty }}</td>
-                        <td>{{ number_format($order->or_price, 0, ',', '.') }} VNĐ</td>
-                        <td>{{ $order->or_sale > 0 ? number_format(($order->or_price * (100 - $order->or_sale)) / 100, 0, ',', '.') . 'VNĐ (-' . $order->or_sale . '%)' : 'Không giảm giá' }}
+                        <td>{{ $order->product->name }}</td>
+                        <td>{{ $order->quantity }}</td>
+                        <td>{{ number_format($order->price, 0, ',', '.') }} VNĐ</td>
+                        <td>{{ $order->sale > 0 ? number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . 'VNĐ (-' . $order->sale . '%)' : 'Không giảm giá' }}
                         </td>
-                        <td>{{ $order->or_sale > 0 ? number_format($order->or_qty * (($order->or_price * (100 - $order->or_sale)) / 100), 0, '.', '.') : number_format($order->or_qty * $order->or_price, 0, ',', '.') }}
+                        <td>{{ $order->sale > 0 ? number_format($order->quantity * (($order->price * (100 - $order->sale)) / 100), 0, '.', '.') : number_format($order->quantity * $order->price, 0, ',', '.') }}
                             VNĐ</td>
-                        <td>{{ $transaction->User->name }}</td>
+                        <td>{{ $transaction->user->name }}</td>
                         <td>{{ $transaction->id }}</td>
-                        <?php $total_earn_money = $total_earn_money + ($order->or_sale > 0 ? $order->or_qty * (($order->or_price * (100 - $order->or_sale)) / 100) : $order->or_qty * $order->or_price); ?>
+                        <?php $total_earn_money = $total_earn_money + ($order->sale > 0 ? $order->quantity * (($order->price * (100 - $order->sale)) / 100) : $order->quantity * $order->price); ?>
                     </tr>
                 @endforeach
             @endforeach

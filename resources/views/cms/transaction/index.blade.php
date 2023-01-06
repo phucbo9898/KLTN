@@ -99,7 +99,7 @@
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLongTitle">
                                                     Chi tiết đơn hàng #
-                                                    <span class="modal_id_transacrion"></span>
+                                                    <span class="modal_id_transaction"></span>
                                                 </h5>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
@@ -141,7 +141,7 @@
                     url: url
                 }).done(function(result) {
                     if (result) {
-                        $(".modal_id_transacrion").text(id);
+                        $(".modal_id_transaction").text(id);
                         $(".modal-body").html('').append(result);
 
                     }

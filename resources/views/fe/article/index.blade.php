@@ -58,8 +58,9 @@
                                                     {{ $article->created_at }}</a>
                                             </div>
                                             <p>{{ $article->description }}</p>
-                                            <a class="read-more" href="{{ route('article.detail', $article->id) }}">Xem
-                                                thêm...</a>
+                                            <a class="read-more" href="{{ route('article.detail', $article->id) }}">
+                                                @lang('See more ...')
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

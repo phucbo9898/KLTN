@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Cms;
 
+use App\Exports\ExportFile;
 use App\Http\Controllers\Controller;
+use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StatisticsController extends Controller
 {
@@ -17,69 +22,64 @@ class StatisticsController extends Controller
         return view('cms.statistics.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getStatistics(Request $request)
     {
-        //
+        if($request->ajax())
+        {
+            $statistical_date_start = date("Y-m-d H:i:s", strtotime($request->statistical_date_start));
+            $statistical_date_end = date("Y-m-d H:i:s", strtotime($request->statistical_date_end));
+            $transactions = Transaction::whereBetween('updated_at',[$request->statistical_date_start,$request->statistical_date_end])->get();
+            $html = view('cms.statistics.listStatistics',['transactions'=>$transactions,'statistical_date_start'=>$statistical_date_start,'statistical_date_end'=>$statistical_date_end])->render();
+            return response()->json($html);
+        }
+        dd("Lỗi");
+    }
+    public function exportPdf(Request $request)
+    {
+        $day = Carbon::now()->day;
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
+        $transactions = Transaction::whereBetween('updated_at',[$request->statistical_date_start_pdf,$request->statistical_date_end_pdf])->get();
+        $data = [
+            'transactions' => $transactions,
+            'statistical_date_start'=>$request->statistical_date_start_pdf,
+            'statistical_date_end'=>$request->statistical_date_end_pdf,
+            'day' => $day,
+            'month' => $month,
+            'year' => $year
+        ];
+        $pdf = \PDF::loadView('cms.statistics.testpdf-pdf', $data);
+        return $pdf->download('statistical'.$request->statistical_date_start_pdf.'to'.$request->statistical_date_end_pdf.'.pdf');
+        // return view('admin::components.testpdf-pdf',$data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function exportExcel(Request $request)
     {
-        //
-    }
+//        dd($request->statistical_date_start_pdf, $request->statistical_date_end_pdf);
+        $dateStart = $request->statistical_date_start_pdf;
+        $dateEnd = $request->statistical_date_end_pdf;
+        $startDateFormat = date('Y-m-d', strtotime($dateStart));
+        $endDateFormat = date('Y-m-d', strtotime($dateEnd));
+//        dd($startDateFormat, $endDateFormat);
+        $transactions = Transaction::whereBetween('transaction.updated_at',[$dateStart, $dateEnd])
+                                    ->join('orders', 'orders.transaction_id', 'transaction.id')
+                                    ->join('products', 'orders.product_id', 'products.id')
+                                    ->join('users', 'users.id', 'transaction.user_id')
+//                                    ->where('transaction.user_id', 'users.id')
+                                    ->select('transaction.id', 'products.name as product_name', 'orders.quantity', 'orders.price', 'orders.sale', 'users.name as user_name')
+////                                    ->toSql();
+                                    ->get();
+//        $data = [
+//            'transactions' => $transactions,
+//            'dateStart' => $dateStart,
+//            'dateEnd' => $dateEnd
+//        ];
+//        dd($transactions);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $export = new ExportFile($transactions);
+//        dd($export);
+        return Excel::download($export, $startDateFormat . '_' . $endDateFormat . 'statistic.xlsx', \Maatwebsite\Excel\Excel::XLSX, [
+            'Content-Type' => 'text/xlsx',
+        ]);
     }
 }

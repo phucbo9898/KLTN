@@ -5,8 +5,8 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                    <li class="active">Giới thiệu</li>
+                    <li><a href="{{ route('home') }}">@lang('Home')</a></li>
+                    <li class="active">@lang('Information')</li>
                 </ul>
             </div>
         </div>
@@ -18,7 +18,7 @@
                 <!-- About Text Start -->
                 <div class="col-lg-6 order-last order-lg-first">
                     <div class="about-text-wrap">
-                        <h2><span>Cung cấp sản phẩm</span>Tốt Nhất Cho Bạn</h2>
+                        <h2>@lang('Provide the best product for you')</h2>
                         <p>Ngày này trong nhịp sống hối hả của con người thì việc giành thời gian để ra ngoài để mua sắm trở
                             nên là 1 điều quá xa sỉ.. Những lo lắng về giao thông không an toàn và hạn chế trong việc mua
                             hàng truyền thống có thể tránh được trong khi mua sắm trực tuyến. Với mua sắm trực tuyến(online)

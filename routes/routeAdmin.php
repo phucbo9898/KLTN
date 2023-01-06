@@ -107,6 +107,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
         Route::get('/', [StatisticsController::class, 'index'])->name('admin.statistics.index');
         Route::get('/list', [StatisticsController::class, 'getStatistics'])->name('admin.get.list.statistical');
         Route::get('/export-pdf', [StatisticsController::class, 'exportPdf'])->name('admin.get.export.statistical');
+        Route::get('/export-excel', [StatisticsController::class, 'exportExcel'])->name('admin.get.export.excel');
     });
     Route::group(['prefix' => 'slide'], function () {
         Route::get('/', [SlideController::class, 'index'])->name('admin.slide.index');
