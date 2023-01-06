@@ -14,30 +14,30 @@
                 <tr>
                     <th scope="col">#{{ $i++ }}</th>
                     <td><a
-                            href="{{ route('product.index', [$order->Product->pro_name_slug, $order->Product->id]) }}">{{ $order->Product->pro_name }}</a>
+                            href="{{ route('product.index', [$order->product->slug, $order->product->id]) }}">{{ $order->product->name }}</a>
                     </td>
-                    @if ($order->Product->pro_image)
+                    @if ($order->product->image)
                         <td><img style="width:80px;height:60px"
-                                src="{{ asset('upload/pro_image/' . $order->Product->pro_image) }}" /></td>
+                                src="{{ asset($order->product->image) }}" /></td>
                     @else
                         <td><img style="width:80px;height:60px" src="{{ asset('noimg.png') }}" /></td>
                     @endif
 
-                    @if ($order->or_sale > 0)
-                        <td>{{ number_format($order->or_price * ((100 - $order->or_sale) / 100), 0, ',', '.') }} VNĐ
-                            (-{{ $order->or_sale }}%)<br />
-                            <span style="text-decoration: line-through;">{{ number_format($order->or_price, 0, ',', '.') }}
+                    @if ($order->sale > 0)
+                        <td>{{ number_format($order->price * ((100 - $order->sale) / 100), 0, ',', '.') }} VNĐ
+                            (-{{ $order->sale }}%)<br />
+                            <span style="text-decoration: line-through;">{{ number_format($order->price, 0, ',', '.') }}
                                 VNĐ</span>
                         </td>
                     @else
-                        <td>{{ number_format($order->or_price, 0, ',', '.') }} VNĐ/ 1 sản phẩm</td>
+                        <td>{{ number_format($order->price, 0, ',', '.') }} VNĐ/ 1 sản phẩm</td>
                     @endif
-                    <td>{{ $order->or_qty }}</td>
-                    @if ($order->or_sale > 0)
-                        <td>{{ number_format($order->or_price * ((100 - $order->or_sale) / 100) * $order->or_qty, 0, ',', '.') }}
+                    <td>{{ $order->quantity }}</td>
+                    @if ($order->sale > 0)
+                        <td>{{ number_format($order->price * ((100 - $order->sale) / 100) * $order->quantity, 0, ',', '.') }}
                             VNĐ</td>
                     @else
-                        <td>{{ number_format($order->or_price * $order->or_qty, 0, ',', '.') }} VNĐ</td>
+                        <td>{{ number_format($order->price * $order->quantity, 0, ',', '.') }} VNĐ</td>
                     @endif
                 </tr>
             @endforeach

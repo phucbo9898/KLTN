@@ -120,13 +120,13 @@
                                             </a>
                                             <span>
                                                 @if ($product_new->quantity > 10)
-                                                    <b style="color: #3d3de3;">Còn hàng</b>
+                                                    <b style="color: #3d3de3;">@lang('Stocking')</b>
                                                 @elseif($product_new->quantity < 10 && $product_new->quantity > 0)
-                                                    <b style="color: #bfbf50;">Số lượng gần hết</b>
+                                                    <b style="color: #bfbf50;">@lang('Almost out of stock')</b>
                                                 @elseif($product_new->quantity == 0)
-                                                    <b style="color: red;">Hết hàng</b>
+                                                    <b style="color: red;">@lang('Out of stock')</b>
                                                 @else
-                                                    <b>Không xác định</b>
+                                                    <b>@lang('Unknown')</b>
                                                 @endif
                                             </span>
                                             @if ($product_new->hot == 'yes')
@@ -149,15 +149,14 @@
                                                             ?>
                                                             <ul class="rating">
                                                                 @if ($point_product_new == -1)
-                                                                    <li
-                                                                        style="color: #a4a4a4;
+                                                                    <li style="color: #a4a4a4;
                                                             font-size: 13px;
                                                             text-transform: capitalize;
                                                             transition: all 0.3s ease-in-out;">
-                                                                        Chưa đánh giá
+                                                                        @lang('not yet rated')
                                                                     </li>
                                                                 @else
-                                                                    Đánh Giá:
+                                                                    @lang('Evaluate'):
                                                                     @for ($i = 1; $i <= 5; $i++)
                                                                         <li
                                                                             class="{{ $i <= $point_product_new ? '' : 'no-star' }}">
@@ -176,28 +175,29 @@
 
                                                 <div class="price-box">
                                                     @if ($product_new->sale > 0)
-                                                        <span
-                                                            class="new-price new-price-2">{{ number_format(($product_new->price * (100 - $product_new->sale)) / 100, 0, ',', '.') }}
-                                                            VNĐ</span>
+                                                        <span class="new-price new-price-2">{{ number_format(($product_new->price * (100 - $product_new->sale)) / 100, 0, ',', '.') }}
+                                                            @lang('VND')
+                                                        </span>
                                                         <span class="discount-percentage">-{{ $product_new->sale }}%</span>
                                                         <br />
                                                         <div class="old-price" style="padding-top: 6px">
                                                             {{ number_format($product_new->price, 0, ',', '.') }}
-                                                            VNĐ
+                                                            @lang('VND')
                                                         </div>
                                                     @else
-                                                        <span
-                                                            class="new-price">{{ number_format($product_new->price, 0, ',', '.') }}
-                                                            VNĐ</span>
+                                                        <span class="new-price">{{ number_format($product_new->price, 0, ',', '.') }}
+                                                            @lang('VND')
+                                                        </span>
                                                     @endif
                                                 </div>
                                             </div>
                                             <div class="add-actions">
                                                 <ul class="add-actions-link">
-                                                    <li class="add-cart active"><a class="button_add_cart"
-                                                            data-product-name="{{ $product_new->name }}"
-                                                            href="{{ route('shopping.add.product', $product_new->id) }}">Mua
-                                                            sản phẩm</a></li>
+                                                    <li class="add-cart active">
+                                                        <a class="button_add_cart" data-product-name="{{ $product_new->name }}" href="{{ route('shopping.add.product', $product_new->id) }}">
+                                                            @lang('Buy product')
+                                                        </a>
+                                                    </li>
                                                     <li><a class="links-details button_add_favorite_product"
                                                             data-product-name="{{ $product_new->name }}"
                                                             href="{{ route('favorite-product.get.add', $product_new->id) }}"><i
@@ -254,13 +254,13 @@
                                                     </a>
                                                     <span>
                                                         @if ($product_best_pay->quantity > 10)
-                                                            <b style="color: #3d3de3;">Còn hàng</b>
+                                                            <b style="color: #3d3de3;">@lang('Stocking')</b>
                                                         @elseif($product_best_pay->quantity < 10 && $product_best_pay->quantity > 0)
-                                                            <b style="color: #bfbf50;">Số lượng gần hết</b>
+                                                            <b style="color: #bfbf50;">@lang('Almost out of stock')</b>
                                                         @elseif($product_best_pay->quantity == 0)
-                                                            <b style="color: red;">Hết hàng</b>
+                                                            <b style="color: red;">@lang('Out of stock')</b>
                                                         @else
-                                                            <b>Không xác định</b>
+                                                            <b>@lang('Unknown')</b>
                                                         @endif
                                                     </span>
                                                     @if ($product_best_pay->hot == 1)
@@ -287,10 +287,10 @@
                                                                         font-size: 13px;
                                                                         text-transform: capitalize;
                                                                         transition: all 0.3s ease-in-out;">
-                                                                                Chưa đánh giá
+                                                                                @lang('Not yet rated')
                                                                             </li>
                                                                         @else
-                                                                            Đánh Giá:
+                                                                            @lang('Evaluate'):
                                                                             @for ($i = 1; $i <= 5; $i++)
                                                                                 <li
                                                                                     class="{{ $i <= $point_product_best_pay ? '' : 'no-star' }}">
@@ -309,37 +309,41 @@
 
                                                         <div class="price-box">
                                                             @if ($product_best_pay->sale > 0)
-                                                                <span
-                                                                    class="new-price new-price-2">{{ number_format(($product_best_pay->price * (100 - $product_best_pay->sale)) / 100, 0, ',', '.') }}
-                                                                    VNĐ</span>
+                                                                <span class="new-price new-price-2">
+                                                                    {{ number_format(($product_best_pay->price * (100 - $product_best_pay->sale)) / 100, 0, ',', '.') }}
+                                                                    @lang('VND')
+                                                                </span>
                                                                 <span
                                                                     class="discount-percentage">-{{ $product_best_pay->sale }}%</span>
                                                                 <br />
                                                                 <div class="old-price" style="padding-top: 6px">
                                                                     {{ number_format($product_best_pay->price, 0, ',', '.') }}
-                                                                    VNĐ
+                                                                    @lang('VND')
                                                                 </div>
                                                             @else
-                                                                <span
-                                                                    class="new-price">{{ number_format($product_best_pay->price, 0, ',', '.') }}
-                                                                    VNĐ</span>
+                                                                <span class="new-price">
+                                                                    {{ number_format($product_best_pay->price, 0, ',', '.') }}
+                                                                    @lang('VND')
+                                                                </span>
                                                             @endif
                                                         </div>
                                                     </div>
                                                     <div class="add-actions">
                                                         <ul class="add-actions-link">
-                                                            <li class="add-cart active"><a class="button_add_cart"
-                                                                    data-product-name="{{ $product_best_pay->name }}"
-                                                                    href="{{ route('shopping.add.product', $product_best_pay->id) }}">Mua
-                                                                    sản phẩm</a></li>
-                                                            <li><a class="links-details button_add_favorite_product"
-                                                                    data-product-name="{{ $product_best_pay->name }}"
-                                                                    href="{{ route('favorite-product.get.add', ['id' => $product_best_pay->id]) }}"><i
-                                                                        class="fa fa-heart-o"></i></a></li>
+                                                            <li class="add-cart active">
+                                                                <a class="button_add_cart" data-product-name="{{ $product_best_pay->name }}" href="{{ route('shopping.add.product', $product_best_pay->id) }}">
+                                                                    @lang('Buy product')
+                                                                </a>
+                                                            </li>
                                                             <li>
-                                                                <a href="{{ route('product.index', [$product_best_pay->slug, $product_best_pay->id]) }}"
-                                                                    title="quick view" class="quick-view-btn"><i
-                                                                        class="fa fa-eye"></i></a>
+                                                                <a class="links-details button_add_favorite_product" data-product-name="{{ $product_best_pay->name }}" href="{{ route('favorite-product.get.add', ['id' => $product_best_pay->id]) }}">
+                                                                    <i class="fa fa-heart-o"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="{{ route('product.index', [$product_best_pay->slug, $product_best_pay->id]) }}" title="quick view" class="quick-view-btn">
+                                                                    <i class="fa fa-eye"></i>
+                                                                </a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -392,13 +396,13 @@
                                                     </a>
                                                     <span>
                                                         @if ($prn->quantity > 10)
-                                                            <b style="color: #3d3de3;">Còn hàng</b>
+                                                            <b style="color: #3d3de3;">@lang('Stocking')</b>
                                                         @elseif($prn->quantity < 10 && $prn->quantity > 0)
-                                                            <b style="color: #bfbf50;">Số lượng gần hết</b>
+                                                            <b style="color: #bfbf50;">@lang('Almost out of stock')</b>
                                                         @elseif($prn->quantity == 0)
-                                                            <b style="color: red;">Hết hàng</b>
+                                                            <b style="color: red;">@lang('Out of stock')</b>
                                                         @else
-                                                            <b>Không xác định</b>
+                                                            <b>@lang('Unknown')</b>
                                                         @endif
                                                     </span>
                                                     @if ($product->hot == 1)
@@ -529,9 +533,9 @@
                                                     {{ $article->created_at }}</a>
                                             </div>
                                             <p class="block-ellipsis-description">{{ $article->description }}</p>
-                                            <a class="read-more"
-                                                href="{{ route('article.detail', ['id' => $article->id]) }}">Xem
-                                                thêm...</a>
+                                            <a class="read-more" href="{{ route('article.detail', ['id' => $article->id]) }}">
+                                                @lang('See more ...')
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

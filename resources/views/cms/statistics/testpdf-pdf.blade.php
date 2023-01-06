@@ -10,9 +10,9 @@
             font-style: normal;
         }
 
-        body {
-            padding: ;
-        }
+        /*body {*/
+        /*    padding: ;*/
+        /*}*/
     </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -51,20 +51,19 @@
             <tr></tr>
         </thead>
         <tbody>
-
             @foreach ($transactions as $transaction)
-                @foreach ($transaction->Order as $order)
+                @foreach ($transaction->orders as $order)
                     <tr>
                         <td>{{ $i++ }}</td>
-                        <td>{{ $order->Product->pro_name }}</td>
-                        <td>{{ $order->or_qty }}</td>
-                        <td>{{ number_format($order->or_price, 0, ',', '.') }} VNĐ</td>
-                        <td>{{ $order->or_sale > 0 ? number_format(($order->or_price * (100 - $order->or_sale)) / 100, 0, ',', '.') . ' VNĐ (-' . $order->or_sale . '%)' : 'Không giảm giá' }}
+                        <td>{{ $order->product->name }}</td>
+                        <td>{{ $order->quantity }}</td>
+                        <td>{{ number_format($order->price, 0, ',', '.') }} VNĐ</td>
+                        <td>{{ $order->sale > 0 ? number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . ' VNĐ (-' . $order->sale . '%)' : 'Không giảm giá' }}
                         </td>
-                        <td>{{ $order->or_sale > 0 ? number_format($order->or_qty * (($order->or_price * (100 - $order->or_sale)) / 100), 0, '.', '.') : number_format($order->or_qty * $order->or_price, 0, ',', '.') }}
+                        <td>{{ $order->sale > 0 ? number_format($order->quantity * (($order->price * (100 - $order->sale)) / 100), 0, '.', '.') : number_format($order->quantity * $order->price, 0, ',', '.') }}
                             VNĐ</td>
-                        <td>{{ $transaction->User->name }}</td>
-                        <?php $total_earn_money = $total_earn_money + ($order->or_sale > 0 ? $order->or_qty * (($order->or_price * (100 - $order->or_sale)) / 100) : $order->or_qty * $order->or_price); ?>
+                        <td>{{ $transaction->user->name }}</td>
+                        <?php $total_earn_money = $total_earn_money + ($order->sale > 0 ? $order->quantity * (($order->price * (100 - $order->sale)) / 100) : $order->quantity * $order->price); ?>
                     </tr>
                 @endforeach
             @endforeach

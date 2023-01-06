@@ -89,7 +89,7 @@
                     'data-statistical-date-start');
                 var statistical_date_end_pdf = $("#data-statistical-date-end").attr(
                     'data-statistical-date-end');
-                var url = "{{ route('admin.get.export.statistical') }}";
+                var url = "{{ route('admin.get.export.excel') }}";
                 window.location.href = url + '?statistical_date_start_pdf=' + statistical_date_start_pdf +
                     '&&' + 'statistical_date_end_pdf=' + statistical_date_end_pdf;
             });
