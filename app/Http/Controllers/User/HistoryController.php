@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\StatusTransaction;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HistoryController extends Controller
 {
@@ -14,72 +19,42 @@ class HistoryController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $transactions = $user->transactions->sortByDesc('id');
+        $countTransaction = $transactions->count();
+        $data = [
+            'transactions' => $transactions,
+            'count' => $countTransaction
+        ];
+
+        return view('fe.history.index', $data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function getOrderItem(Request $request, $id)
     {
-        //
+        if ($request->ajax()) {
+            $orders = Order::where('transaction_id', $id)->get();
+            $html = view('cms.transaction.orderItem', compact('orders'))->render();
+            return \response()->json($html);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function transactionPaid($id)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $transaction = Transaction::find($id);
+        $orders = Order::where('transaction_id', $id)->get();
+        if ($orders) {
+            foreach ($orders as $order) {
+                $product = Product::find($order->product_id);
+                if ($product->number < $order->quantity)
+                    return redirect()->route('admin.home');
+                $product->quantity = $product->quantity - $order->quantity;
+                $product->qty_pay = $product->qty_pay + $order->quantity;
+                $product->save();
+            }
+            $transaction->status = StatusTransaction::COMPLETED;
+            $transaction->save();
+        }
+        return redirect()->back();
     }
 }

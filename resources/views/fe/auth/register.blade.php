@@ -1,10 +1,10 @@
-@extends('customer.layout.master')
+@extends('fe.layout.master')
 @section('content')
     <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12 mx-auto">
         <form method="POST">
             @csrf
             <div class="login-form">
-                <h4 class="login-title">Đăng ký</h4>
+                <h4 class="login-title">@lang('Register')</h4>
                 @if (Session::has('errorconfirmpassword'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <strong>Lỗi!</strong> Mật khẩu nhập lại không trùng nhau.
@@ -23,27 +23,27 @@
                 @endif
                 <div class="row">
                     <div class="col-md-12 col-12 mb-20">
-                        <label>Họ và tên</label>
-                        <input class="mb-0" type="text" name="name" required
-                            placeholder="Nhập họ và tên của bạn...">
+                        <label>@lang('Name')</label>
+                        <input class="mb-0" type="text" name="name" required placeholder="Nhập họ và tên của bạn..."
+                            value="{{ old('name') }}">
                     </div>
                     <div class="col-md-12 mb-20">
-                        <label>Email*</label>
+                        <label>@lang('Email')*</label>
                         <input class="mb-0" type="email" name="email" required
-                            placeholder="Nhập địa chỉ email của bạn...">
+                            placeholder="Nhập địa chỉ email của bạn..." value="{{ old('email') }}">
                     </div>
                     <div class="col-md-6 mb-20">
-                        <label>Mật khẩu</label>
+                        <label>@lang('Password')</label>
                         <input class="mb-0" type="password" name="password" required
                             placeholder="Nhập mật khẩu của bạn...">
                     </div>
                     <div class="col-md-6 mb-20">
-                        <label>Nhập lại mật khẩu</label>
+                        <label>@lang('Password confirmation')</label>
                         <input class="mb-0" type="password" name="confirmpassword" required
                             placeholder="Nhập lại mật khẩu của bạn...">
                     </div>
                     <div class="col-12">
-                        <button class="register-button mt-0">Đăng ký</button>
+                        <button class="register-button mt-0">@lang('Register')</button>
                     </div>
                 </div>
             </div>

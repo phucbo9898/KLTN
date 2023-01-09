@@ -3,65 +3,39 @@
 namespace App\Exports;
 
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use Maatwebsite\Excel\Concerns\WithEvents;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class ExportFile implements FromCollection, WithHeadings, ShouldAutoSize
+class ExportFile implements FromView, ShouldAutoSize
 {
-    public function headings(): array
+    public function __construct()
     {
-        return [
-            'STT',
-            'Tên sản phẩm',
-            'Số lượng',
-            'Đơn giá',
-            'Giảm giá',
-            'Thành tiền',
-            'Người mua',
-            'Mã giao dịch',
-        ];
+        $this->request = request();
     }
 
-    public function __construct($transactions) {
-        $this->transactions = $transactions;
-//        dd($transactions);
-    }
-
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+    public function view(): View
     {
-        $datas = $this->transactions;
-//        dd($datas);
-        $stt = 1;
-        foreach ($datas as $dataExport) {
-//            dd($dataExport);
-            $data[] = array(
-                '0' => $stt++,
-                '1' => $dataExport->product_name,
-                '2' => $dataExport->quantity,
-                '3' => number_format($dataExport->price, 0, ',', '.') . "VND",
-                '4' => ($dataExport->sale ?? 0) . "%",
-                '5' => number_format($dataExport->quantity * (($dataExport->price * (100 - $dataExport->sale)) / 100), 0, '.', '.') . "VND",
-                '6' => $dataExport->user_name,
-                '7' => $dataExport->id
-            );
-//            dd($data);
-        }
-//        $data = $this->data->map(function ($value, $key) use ($data) {
-//            $data['stt'] = $key + 1;
-//            $data['fan_name'] = $value->user->name ?? '';
-//            $data['type'] = $value->transactionType->name ?? '';
-//            $data['transaction_amount'] = $value->transaction_amount ?? 0;
-//            return $data;
-//        })->all();
+        $day = Carbon::now()->day;
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
+        $transactions = Transaction::whereBetween('transaction.updated_at', [$this->request['statistical_date_start_pdf'], $this->request['statistical_date_end_pdf']])->get();
 
-//        dd($this->transactions);
-        return (collect($data));
+        return view('cms.statistics.export-excel', [
+            'data' => [
+                'day' => $day,
+                'month' => $month,
+                'year' => $year,
+                'transactions' => $transactions,
+                'statistical_date_start' => $this->request['statistical_date_start_pdf'],
+                'statistical_date_end' => $this->request['statistical_date_end_pdf'],
+            ]
+        ]);
     }
 }

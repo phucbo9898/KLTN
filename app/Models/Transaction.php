@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\StatusTransaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,5 +19,10 @@ class Transaction extends Model
     public function orders()
     {
         return $this->hasMany(Order::class, 'transaction_id');
+    }
+
+    public function getTypeStatus()
+    {
+        return StatusTransaction::getTypeStatus($this->status);
     }
 }

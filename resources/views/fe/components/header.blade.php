@@ -39,7 +39,7 @@
                                             <li><a href="{{ route('favorite-product.index') }}">@lang('Favorite Product')</a>
                                             </li>
                                             <li><a href="{{ route('history-user.index') }}">@lang('Purchase history')</a></li>
-                                            <li><a href="">@lang('Logout')</a></li>
+                                            <li><a href="{{ route('get.logout') }}">@lang('Logout')</a></li>
                                         @else
                                             <li><a href="{{ route('get.login') }}">@lang('Login')</a></li>
                                             <li><a href="{{ route('get.register') }}">@lang('Register')</a></li>

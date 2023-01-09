@@ -38,5 +38,17 @@
     "Not yet rated": "Chưa đánh giá",
     "Evaluate": "Đánh giá",
     "Information Contact": "Thông tin liên hệ",
-    "If you have any questions or concerns, please contact us at the address below": "Mọi thắc mắc và câu hỏi xin liên hệ với chúng tôi qua địa chỉ dưới đây"
+    "If you have any questions or concerns, please contact us at the address below": "Mọi thắc mắc và câu hỏi xin liên hệ với chúng tôi qua địa chỉ dưới đây",
+    "Account": "Tài khoản",
+    "Register": "Đăng kí",
+    "Name": "Họ và tên",
+    "Password": "Mật khẩu",
+    "Password confirmation": "Xác nhận mật khẩu",
+    "Product Name": "Tên sản phẩm",
+    "Image": "Ảnh",
+    "Price": "Giá tiền",
+    "Status": "Trạng thái",
+    "Add To Cart": "Thêm vào giỏ hàng",
+    "Action": "Hành động",
+    "Purchase": "Mua hàng"
 }

@@ -4483,7 +4483,7 @@ li.right-menu .cat-mega-menu-2 > li {
 .table-content table td.li-product-add-cart a {
     font-size: 14px;
     text-transform: uppercase;
-    background: #242424;
+    background: #4fadd5;
     color: #fff;
     padding: 10px 20px;
     font-weight: 700;
@@ -4498,7 +4498,7 @@ li.right-menu .cat-mega-menu-2 > li {
 }
 
 .table-content table td.li-product-add-cart a:hover {
-    background: #4587d7 none repeat scroll 0 0;
+    background: #1253a4 none repeat scroll 0 0;
     color: #fff;
 }
 
