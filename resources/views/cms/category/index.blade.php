@@ -63,11 +63,11 @@
                                         <td>{{ $category->name }}</td>
                                         <td style="text-align: center"><a
                                                 href="{{ route('admin.category.handle', ['status', $category->id]) }}"
-                                                class="badge badge-{{ $category->status == 1 ? 'success' : 'danger' }}">{{ $category->status == 1 ? 'Công khai' : 'Riêng tư' }}</a>
+                                                class="badge badge-{{ $category->status == 'active' ? 'success' : 'danger' }}">{{ $category->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
                                         </td>
                                         <td>
                                             <ul>
-                                                @foreach ($category->attribute as $attribute)
+                                                @foreach ($category->attributes as $attribute)
                                                     <li>{{ $attribute->name }}</li>
                                                 @endforeach
                                             </ul>

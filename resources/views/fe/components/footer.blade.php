@@ -151,15 +151,13 @@
                 <div class="col-lg-12">
                     <div class="copy-right" style="text-align: center; color: white;">
                         <p>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;
+                            This project is made with
+                            <i class="icon-heart color-danger" aria-hidden="true"></i> by <span
+                                style="color: red; font-size: 20px">♥</span>
+                            <a href="#" target="_blank" style="color: #3b7fce;">Kaiser</a> on
                             <script>
                                 document.write(new Date().getFullYear());
                             </script>
-                            All rights reserved | This template is made with
-                            <i class="icon-heart color-danger" aria-hidden="true"></i> by <span
-                                style="color: red; font-size: 20px">♥</span>
-                            <a href="#" target="_blank" style="color: #3b7fce;">Kise</a>
                         </p>
                     </div>
                 </div>

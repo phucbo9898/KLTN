@@ -73,7 +73,7 @@
                                                     alt="No Avatar" />
                                             @endif
                                         </td>
-                                        <td style="text-align: center">{{ $product->number }}</td>
+                                        <td style="text-align: center">{{ $product->quantity }}</td>
                                         <td style="text-align: center">
                                             <a href="{{ route('admin.warehouse.import.product', $product->id) }}"
                                                 data-name="{{ $product->name }}"
