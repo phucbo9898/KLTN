@@ -113,11 +113,11 @@
                                         </td>
                                         <td style="text-align: center"><a
                                                 href="{{ route('admin.product.handle', ['status', $product->id]) }}"
-                                                class="badge badge-{{ $product->status == 1 ? 'success' : 'danger' }}">{{ $product->status == 1 ? 'Công khai' : 'Riêng tư' }}</a>
+                                                class="badge badge-{{ $product->status == 'active' ? 'success' : 'danger' }}">{{ $product->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
                                         </td>
                                         <td style="text-align: center"><a
                                                 href="{{ route('admin.product.handle', ['hot', $product->id]) }}"
-                                                class="badge badge-{{ $product->hot == 1 ? 'success' : 'secondary' }}">{{ $product->hot == 1 ? 'Có' : 'Không' }}</a>
+                                                class="badge badge-{{ $product->hot == 'yes' ? 'success' : 'secondary' }}">{{ $product->hot == 'yes' ? 'Có' : 'Không' }}</a>
                                         </td>
                                         <td>
                                             <a href="{{ route('admin.product.edit', $product->id) }}"

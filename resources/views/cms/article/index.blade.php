@@ -69,7 +69,7 @@
                                     <td>{{ $article->description }}</td>
                                     <td style="width: 11%; text-align: center"><a
                                             href="{{ route('admin.article.handle', ['status', $article->id]) }}"
-                                            class="badge badge-{{ $article->status == 1 ? 'success' : 'danger' }}">{{ $article->status == 1 ? 'Công khai' : 'Riêng tư' }}</a>
+                                            class="badge badge-{{ $article->status == 'active' ? 'success' : 'danger' }}">{{ $article->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
                                     </td>
                                     <td style="width:11%">{{ $article->created_at }}</td>
                                     <td style="width: 11%">
