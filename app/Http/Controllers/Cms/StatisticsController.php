@@ -24,12 +24,11 @@ class StatisticsController extends Controller
 
     public function getStatistics(Request $request)
     {
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             $statistical_date_start = date("Y-m-d H:i:s", strtotime($request->statistical_date_start));
             $statistical_date_end = date("Y-m-d H:i:s", strtotime($request->statistical_date_end));
-            $transactions = Transaction::whereBetween('updated_at',[$request->statistical_date_start,$request->statistical_date_end])->get();
-            $html = view('cms.statistics.listStatistics',['transactions'=>$transactions,'statistical_date_start'=>$statistical_date_start,'statistical_date_end'=>$statistical_date_end])->render();
+            $transactions = Transaction::whereBetween('updated_at', [$request->statistical_date_start, $request->statistical_date_end])->get();
+            $html = view('cms.statistics.listStatistics', ['transactions' => $transactions, 'statistical_date_start' => $statistical_date_start, 'statistical_date_end' => $statistical_date_end])->render();
             return response()->json($html);
         }
         dd("Lỗi");
@@ -39,50 +38,22 @@ class StatisticsController extends Controller
         $day = Carbon::now()->day;
         $month = Carbon::now()->month;
         $year = Carbon::now()->year;
-        $transactions = Transaction::whereBetween('updated_at',[$request->statistical_date_start_pdf,$request->statistical_date_end_pdf])->get();
+        $transactions = Transaction::whereBetween('updated_at', [$request->statistical_date_start_pdf, $request->statistical_date_end_pdf])->get();
         $data = [
             'transactions' => $transactions,
-            'statistical_date_start'=>$request->statistical_date_start_pdf,
-            'statistical_date_end'=>$request->statistical_date_end_pdf,
+            'statistical_date_start' => $request->statistical_date_start_pdf,
+            'statistical_date_end' => $request->statistical_date_end_pdf,
             'day' => $day,
             'month' => $month,
             'year' => $year
         ];
         $pdf = \PDF::loadView('cms.statistics.testpdf-pdf', $data);
-        return $pdf->download('statistical'.$request->statistical_date_start_pdf.'to'.$request->statistical_date_end_pdf.'.pdf');
+        return $pdf->download('statistical' . $request->statistical_date_start_pdf . 'to' . $request->statistical_date_end_pdf . '.pdf');
         // return view('admin::components.testpdf-pdf',$data);
     }
 
     public function exportExcel(Request $request)
     {
-        $dateStart = $request->statistical_date_start_pdf;
-        $dateEnd = $request->statistical_date_end_pdf;
-        $startDateFormat = date('Y-m-d', strtotime($dateStart));
-        $endDateFormat = date('Y-m-d', strtotime($dateEnd));
-        $day = Carbon::now()->day;
-        $month = Carbon::now()->month;
-        $year = Carbon::now()->year;
-        $transactions = Transaction::whereBetween('transaction.updated_at',[$dateStart, $dateEnd])
-//                                    ->join('orders', 'orders.transaction_id', 'transaction.id')
-//                                    ->join('products', 'orders.product_id', 'products.id')
-//                                    ->join('users', 'users.id', 'transaction.user_id')
-//                                    ->where('transaction.user_id', 'users.id')
-//                                    ->select('transaction.id', 'products.name as product_name', 'orders.quantity', 'orders.price', 'orders.sale', 'users.name as user_name')
-////                                    ->toSql();
-                                    ->get();
-        $data = [
-            'transactions' => $transactions,
-            'statistical_date_start' => $dateStart,
-            'statistical_date_end' => $dateEnd,
-            'day' => $day,
-            'month' => $month,
-            'year' => $year
-        ];
-//        dd($dataArray);
-
-//        $export = Excel::loadView('folder.file', $dataArray)
-//        $export = new ExportFile($dataArray);
-//        dd($export);
-        return view('cms.statistics.export-excel', compact('data'));
+        return Excel::download(new ExportFile(), 'statistic.xlsx');
     }
 }

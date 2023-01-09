@@ -1,5 +1,20 @@
-@extends('customer.layout.master')
+@extends('fe.layout.master')
 @section('content')
+    <style>
+        .table-content table td.li-product-add-cart a {
+            font-size: 14px;
+            text-transform: uppercase;
+            background: #4fadd5 !important;
+            color: #fff;
+            padding: 10px 20px;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .table-content table td.li-product-add-cart a:hover {
+            background: #1761d7 !important;
+        }
+    </style>
     <!-- Begin Li's Breadcrumb Area -->
     <div class="breadcrumb-area">
         <div class="container">
@@ -25,46 +40,60 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class="li-product-remove">Xóa</th>
-                                        <th class="li-product-thumbnail">Image</th>
-                                        <th class="cart-product-name">Tên sản phẩm</th>
-                                        <th class="li-product-price">Giá</th>
-                                        <th class="li-product-stock-status">Tình trạng</th>
-                                        <th class="li-product-add-cart">Thêm vào giỏ hàng</th>
+                                        <th class="cart-product-name">@lang('Product Name')</th>
+                                        <th class="li-product-thumbnail">@lang('Image')</th>
+                                        <th class="li-product-price">@lang('Price')</th>
+                                        <th class="li-product-stock-status">@lang('Status')</th>
+                                        <th class="li-product-add-cart">@lang('Add To Cart')</th>
+                                        <th class="li-product-remove">@lang('Action')</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($products as $product)
-                                        <tr>
-                                            <td class="li-product-remove"><a
-                                                    href="{{ route('get.delete.favorite.product', $product->id) }}"
-                                                    data-product-name="{{ $product->pro_name }}"
-                                                    class="delete_favorite_product"><i class="fa fa-times"></i></a></td>
-                                            <td class="li-product-thumbnail"><a href="#"><img width="200px"
-                                                        src="{{ asset('upload/pro_image/' . $product->pro_image) }}"
-                                                        alt=""></a></td>
-                                            <td class="li-product-name"><a href="#">{{ $product->pro_name }}</a></td>
-                                            <td class="li-product-price"><span
-                                                    class="amount">{{ number_format($product->pro_price, 2, ',', '.') }}
-                                                    VNĐ</span></td>
-                                            <td class="li-product-stock-status">
-                                                @if ($product->pro_number > 10)
-                                                    <b>Còn hàng</b>
-                                                @elseif($product->pro_number < 10 && $product->pro_number > 0)
-                                                    <b>Số lượng gần hết</b>
-                                                @elseif($product->pro_number == 0)
-                                                    <b>Hết hàng</b>
-                                                @else
-                                                    <b>Không xác định</b>
-                                                @endif
-                                            </td>
-                                            <td class="li-product-add-cart"><a data-product-name="{{ $product->pro_name }}"
-                                                    class="button_add_cart"
-                                                    href="{{ route('shopping.add.product', $product->id) }}">Mua hàng</a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
+                                @if ($count > 0)
+                                    <tbody>
+                                        @foreach ($products as $product)
+                                            <tr>
+                                                <td class="li-product-name"><a href="#">{{ $product->name }}</a></td>
+                                                <td class="li-product-thumbnail">
+                                                    <a href="#">
+                                                        <img width="200px" src="{{ asset($product->image) }}"
+                                                            alt="">
+                                                    </a>
+                                                </td>
+                                                <td class="li-product-price"><span
+                                                        class="amount">{{ number_format($product->price, 0, ',', '.') }}
+                                                        @lang('VND')</span></td>
+                                                <td class="li-product-stock-status">
+                                                    @if ($product->quantity > 10)
+                                                        <b style="color: blue;">@lang('Stocking')</b>
+                                                    @elseif($product->quantity < 10 && $product->quantity > 0)
+                                                        <b>@lang('Almost out of stock')</b>
+                                                    @elseif($product->quantity == 0)
+                                                        <b>@lang('Out of stock')</b>
+                                                    @else
+                                                        <b>@lang('Unknown')</b>
+                                                    @endif
+                                                </td>
+                                                <td class="li-product-add-cart">
+                                                    <a data-product-name="{{ $product->name }}" class="button_add_cart"
+                                                        href="{{ route('shopping.add.product', $product->id) }}">@lang('Purchase')</a>
+                                                </td>
+                                                <td class="li-product-remove">
+                                                    <a href="{{ route('favorite-product.get.delete', $product->id) }}"
+                                                        data-product-name="{{ $product->name }}"
+                                                        class="delete_favorite_product"><i class="fa fa-times"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                @else
+                                    <tbody>
+                                        <td colspan="6" style="text-align: left;">
+                                            <span>
+                                                @lang('There are no favorite products yet')
+                                            </span>
+                                        </td>
+                                    </tbody>
+                                @endif
                             </table>
                         </div>
                     </form>
@@ -123,7 +152,7 @@
                     }
                     if (result.status == 4) {
                         swal("Cảnh báo !", "Sản phẩm " + name_product + " đã hết hàng !",
-                        "warning");
+                            "warning");
                     }
                     if (result.error) {
                         swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");

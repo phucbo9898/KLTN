@@ -11,30 +11,29 @@ class FavoriteProductController extends Controller
 {
     public function index()
     {
-        dd(123);
         $products = Auth::user()->favoriteProduct;
+        $count = $products->count();
         $data = [
-            'products' => $products
+            'products' => $products,
+            'count' => $count
         ];
-        return view('fe.favorite-product.index',$data);
+        return view('fe.favorite-product.index', $data);
     }
-    public function deleteProduct(Request $request , $id)
+    public function deleteProduct(Request $request, $id)
     {
         $favorite_product = FavoriteProduct::where([
-            'fp_user_id' => Auth::user()->id,
-            'fp_product_id' => $id
+            'user_id' => Auth::user()->id,
+            'product_id' => $id
         ])->first();
         $favorite_product->delete();
         return redirect()->back();
     }
     public function addProduct(Request $request, $id)
     {
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             // check exist produt in my list favorite product
-            foreach (Auth::user()->favoriteProduct as $product)
-            {
-                if($product->id == $id){
+            foreach (Auth::user()->favoriteProduct as $product) {
+                if ($product->id == $id) {
                     return response()->json([
                         'status' => 0
                     ]);

@@ -3,27 +3,31 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
+    public function __construct(UserRepository $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     public function getRegister()
     {
         return view('fe.auth.register');
     }
     public function postRegister(Request $request)
     {
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        if($request->password != $request->confirmpassword)
-        {
-            return redirect()->back()->with('errorconfirmpassword','có lỗi');
+        $data = $request->all();
+        if ($data['password'] != $data['confirmpassword']) {
+            return redirect()->back()->withInput()->with('errorconfirmpassword', 'có lỗi');
         }
-        $user->password= bcrypt($request->password);
-        $user->save();
-        if($user->id){
-            return redirect()->back()->with('successregister','success');
+        $register = $this->userRepo->prepareRegister($data);
+        $result = $this->userRepo->create($register);
+
+        if ($result) {
+            return redirect()->back()->with('successregister', 'success');
         }
     }
 }

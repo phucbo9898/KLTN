@@ -1,18 +1,8 @@
-@extends('customer.layout.master')
+@extends('fe.layout.master')
 @section('content')
-    <!-- Begin Li's Breadcrumb Area -->
-    <div class="breadcrumb-area">
-        <div class="container">
-            <div class="breadcrumb-content">
-                <ul>
-                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                    <li class="active">Lấy lại mật khẩu - đổi mật khẩu tài khoản: {{ $email }}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <!-- Li's Breadcrumb Area End Here -->
     <div class="pt-60 pb-50">
+        <h3 class="active" style="text-align: center">Đổi mật khẩu tài khoản của {{ $user->name }}</h3>
         <form class="col-6 mx-auto" method="POST">
             @if (!$errors->resetPasswordErrors->isEmpty())
                 @foreach ($errors->resetPasswordErrors->all() as $err)
@@ -25,6 +15,10 @@
                 @endforeach
             @endif
             @csrf
+            <div class="form-group">
+                <label>Email: </label>
+                <input type="email" name="email" class="form-control" value="{{ $email }}" readonly />
+            </div>
             <div class="form-group">
                 <label>Mật khẩu mới: </label>
                 <input type="password" name="passwordreset" class="form-control" />

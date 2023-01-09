@@ -1,5 +1,6 @@
-@extends('customer.layout.master')
+@extends('fe.layout.master')
 @section('content')
+    @php use App\Enums\StatusTransaction; @endphp
     <!-- Begin Li's Breadcrumb Area -->
     <div class="breadcrumb-area">
         <div class="container">
@@ -28,57 +29,70 @@
                 <th>Ngày mua</th>
                 <th>Xử lý</th>
             </thead>
-            <tbody>
-                @foreach ($transactions as $transaction)
-                    <tr>
-                        <td>{{ $transaction->id }}</td>
-                        <td>{{ $transaction->tr_address }}</td>
-                        <td>{{ $transaction->tr_phone }}</td>
-                        <td>{{ $transaction->tr_note }}</td>
-                        <td>{{ number_format($transaction->tr_total, 0, ',', '.') }} VNĐ</td>
-                        <td>
-                            @if ($transaction->tr_status == 2)
-                                <a href="#"><span class="badge badge-success">Đã nhận hàng</span></a>
-                            @endif
-                            @if ($transaction->tr_status == 1)
-                                <a href="{{ route('history.transaction.paid', $transaction->id) }}"
-                                    id="appect_receive_products"><span class="badge badge-warning text-white">Đã gửi
-                                        hàng</span></a>
-                            @endif
-                            @if ($transaction->tr_status == 0)
-                                <a href="#"><span class="badge badge-danger">Chưa xử lý</span></a>
-                            @endif
-                        </td>
-                        <td>{{ $transaction->created_at }}</td>
 
-                        <td><a href="{{ route('history.get.order.item', $transaction->id) }}" class="js_order_item"
-                                data-id="{{ $transaction->id }}" data-toggle="modal" data-target="#showOrderItem">Xem</a>
-                        </td>
-                        {{-- custom modal by me --}}
-                        <div class="modal fade" id="showOrderItem" tabindex="-1" role="dialog"
-                            aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết đơn hàng #<span
-                                                class="modal_id_transacrion"></span></h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Chưa có dữ liệu hoặc bị lỗi !!!
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            @if ($count > 0)
+                <tbody>
+                    @foreach ($transactions as $transaction)
+                        <tr>
+                            <td>{{ $transaction->id }}</td>
+                            <td>{{ $transaction->address }}</td>
+                            <td>{{ $transaction->phone }}</td>
+                            <td>{{ $transaction->note }}</td>
+                            <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
+                            <td>
+                                @if ($transaction->status == 'completed')
+                                    <a href="#"><span class="badge badge-success">Đã nhận hàng</span></a>
+                                @endif
+                                @if ($transaction->status == 'processing')
+                                    <a href="{{ route('history-user.transaction.paid', $transaction->id) }}"
+                                        id="appect_receive_products"><span class="badge badge-warning text-white">Đã gửi
+                                            hàng</span></a>
+                                @endif
+                                @if ($transaction->status == 'pending')
+                                    <a href="#"><span class="badge badge-danger">Chưa xử lý</span></a>
+                                @endif
+                            </td>
+                            <td>{{ $transaction->created_at }}</td>
+
+                            <td><a href="{{ route('history-user.get.order.item', $transaction->id) }}" class="js_order_item"
+                                    data-id="{{ $transaction->id }}" data-toggle="modal"
+                                    data-target="#showOrderItem">Xem</a>
+                            </td>
+                            {{-- custom modal by me --}}
+                            <div class="modal fade" id="showOrderItem" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết đơn hàng #<span
+                                                    class="modal_id_transacrion"></span></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Chưa có dữ liệu hoặc bị lỗi !!!
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {{-- end custom modal by me --}}
-                    </tr>
-                @endforeach
-            </tbody>
+                            {{-- end custom modal by me --}}
+                        </tr>
+                    @endforeach
+                </tbody>
+            @else
+                <tbody>
+                    <td colspan="8">
+                        <span>
+                            @lang('No orders have arisen yet')
+                        </span>
+                    </td>
+                </tbody>
+            @endif
         </table>
     </div>
 

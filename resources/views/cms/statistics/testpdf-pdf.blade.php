@@ -5,7 +5,7 @@
     <style>
         @font-face {
             font-family: 'DejaVuSans';
-            src: url({{ storage_path('fonts/DejaVuSans.ttf') }});
+            src: url({{ asset('fonts/DejaVuSans.ttf') }});
             font-weight: bold;
             font-style: normal;
         }
@@ -18,7 +18,7 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
-<body style="font-family:DejaVuSans">
+<body style="font-family:DejaVuSans, serif">
     <?php
     $i = 1;
     $total_earn_money = 0;
