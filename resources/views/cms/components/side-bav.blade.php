@@ -4,7 +4,7 @@
     <a href="{{ route('admin.home') }}" class="brand-link">
         <img src="{{ asset('admin_lte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light"> System Admin </span>
+        <span class="brand-text font-weight-light"> Admin page </span>
     </a>
 
     <!--Sidebar -->
@@ -278,11 +278,10 @@
                 </li>
                 {{-- End tab transaction --}}
                 {{-- Tab setting --}}
-                <li class="nav-item has-treeview {{ request()->is('admin/setting*') ? 'menu-open' : '' }}"
-                    style="display: none;">
+                <li class="nav-item has-treeview {{ request()->is('admin/setting*') ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.setting.index') }}"
                         class="nav-link {{ request()->is('admin/setting*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-file-invoice-dollar"></i>
+                        <i class="fa fa-cog"></i>
                         <p>@lang('Thiết lập website')</p>
                     </a>
                 </li>
