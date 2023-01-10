@@ -153,7 +153,7 @@
                                                             font-size: 13px;
                                                             text-transform: capitalize;
                                                             transition: all 0.3s ease-in-out;">
-                                                                        @lang('not yet rated')
+                                                                        @lang('Not Yet Rated')
                                                                     </li>
                                                                 @else
                                                                     @lang('Evaluate'):
@@ -287,7 +287,7 @@
                                                                         font-size: 13px;
                                                                         text-transform: capitalize;
                                                                         transition: all 0.3s ease-in-out;">
-                                                                                @lang('Not yet rated')
+                                                                                @lang('Not Yet Rated')
                                                                             </li>
                                                                         @else
                                                                             @lang('Evaluate'):
@@ -379,8 +379,8 @@
                             </div>
                             <div class="row">
                                 <div class="product-active owl-carousel">
-                                    @foreach ($category->product->where('status', 'active')->sortByDesc('id')->take(5) as $product)
-                                        @dd($product)
+{{--                                        @dd($category->product)--}}
+                                    @foreach ($category->products->where('status', 'active')->sortByDesc('id')->take(5) as $product)
                                         <div class="col-lg-12">
                                             <!-- single-product-wrap start -->
                                             <div class="single-product-wrap">
@@ -395,11 +395,11 @@
                                                         @endif
                                                     </a>
                                                     <span>
-                                                        @if ($prn->quantity > 10)
+                                                        @if ($product->quantity > 10)
                                                             <b style="color: #3d3de3;">@lang('Stocking')</b>
-                                                        @elseif($prn->quantity < 10 && $prn->quantity > 0)
+                                                        @elseif($product->quantity < 10 && $product->quantity > 0)
                                                             <b style="color: #bfbf50;">@lang('Almost out of stock')</b>
-                                                        @elseif($prn->quantity == 0)
+                                                        @elseif($product->quantity == 0)
                                                             <b style="color: red;">@lang('Out of stock')</b>
                                                         @else
                                                             <b>@lang('Unknown')</b>
@@ -478,7 +478,7 @@
                                                                     href="{{ route('favorite-product.get.add', ['id' => $product->id]) }}"><i
                                                                         class="fa fa-heart-o"></i></a></li>
                                                             <li>
-                                                                <a href="{{ route('product.index', [$product->name_slug, $product->id]) }}"
+                                                                <a href="{{ route('product.index', [$product->slug, $product->id]) }}"
                                                                     title="quick view" class="quick-view-btn"><i
                                                                         class="fa fa-eye"></i></a>
                                                             </li>

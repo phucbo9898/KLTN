@@ -76,6 +76,6 @@ class TransactionController extends Controller
         ];
         $pdf = \PDF::loadView('cms.transaction.transactionPdf', $data);
 
-        return $pdf->download('DetailTransaction' . $transaction->User->name . 'MGD' . $transaction->id . '.pdf');
+        return $pdf->download('DetailTransaction' . $transaction->User->name . 'No.' . $transaction->id . '.pdf');
     }
 }

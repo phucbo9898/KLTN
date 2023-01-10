@@ -38,6 +38,7 @@
                     {{--            <input type="submit" value="Xuất pdf" class="btn btn-success" style=""/> --}}
                 </form>
                 <hr />
+                <input type="hidden" id="user_statistic" name="user_statistic" value="{{ Auth::user()->name }}">
                 <a href="#" class="btn btn-success mb-2" id="export_pdf" style="float:right;display:none">Xuất báo
                     cáo</a>
                 <div style="clear: both"></div>
@@ -53,6 +54,8 @@
         $(function() {
             $("#button_statistical").click(function(event) {
                 event.preventDefault();
+                var user = $("#user_statistic").val();
+                console.log(user)
                 var statistical_date_start = $("#statistical_date_start").val();
                 var statistical_date_end = $("#statistical_date_end").val();
                 var url = $(this).attr('href');
@@ -70,10 +73,10 @@
                         url: url,
                         data: {
                             statistical_date_start: statistical_date_start,
-                            statistical_date_end: statistical_date_end
+                            statistical_date_end: statistical_date_end,
+                            user: user
                         }
                     }).done(function(result) {
-
                         $("#list_render_statistical").html('').append(result);
                         $("#export_pdf").css({
                             'display': ''
@@ -85,13 +88,15 @@
             });
             $("#export_pdf").click(function(event) {
                 event.preventDefault();
+                var user = $("#user_statistic").val();
+                console.log(user)
                 var statistical_date_start_pdf = $("#data-statistical-date-start").attr(
                     'data-statistical-date-start');
                 var statistical_date_end_pdf = $("#data-statistical-date-end").attr(
                     'data-statistical-date-end');
                 var url = "{{ route('admin.get.export.excel') }}";
                 window.location.href = url + '?statistical_date_start_pdf=' + statistical_date_start_pdf +
-                    '&&' + 'statistical_date_end_pdf=' + statistical_date_end_pdf;
+                    '&&' + 'statistical_date_end_pdf=' + statistical_date_end_pdf + '&&' + 'user=' + user;
             });
         });
     </script>

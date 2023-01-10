@@ -185,14 +185,22 @@ class CategoryController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function handle(Request $request,$action,$id)
     {
-        //
+        $category = Category::find($id);
+        switch ($action) {
+            case 'delete':
+                $category->delete();
+                $request->session()->flash('delete_category_success', 'Đã xóa thành công loại sản phẩm mang ID số'.$id.'!');
+                break;
+            case 'status':
+                $category->status= $category->status== 'active' ? 'inactive' : 'active';
+                $category->save();
+                break;
+            default:
+                dd('Lỗi !!');
+                break;
+        }
+        return redirect()->route('admin.category.index');
     }
 }
