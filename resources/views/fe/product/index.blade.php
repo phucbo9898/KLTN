@@ -281,8 +281,8 @@
                                             @foreach ($eachstar as $key => $value)
                                                 @if ($key == $i)
                                                     @if ($product->total_star > 0)
-                                                        <a href="#">{{ $value }} đánh giá
-                                                            ({{ round(($value / $product->number_of_reviewers) * 100, 2) }}%)</a>
+                                                        <span>{{ $value }} đánh giá
+                                                            ({{ round(($value / $product->number_of_reviewers) * 100, 2) }}%)</span>
                                                     @else
                                                         <a href="#">{{ $value }} đánh giá</a>
                                                     @endif
@@ -332,7 +332,7 @@
                             @foreach ($ratings as $rating)
                                 <div style="margintop:10px;">
                                     <div class="pro-rating">
-                                        <span><b>{{ optional($rating->user)->name }}</b></span> -
+                                        <span><b>{{ optional($rating->user)->name }}</b></span> - Đánh giá
                                         @for ($i = 1; $i <= 5; $i++)
                                             <i class="fa fa-star {{ $i <= $rating->number ? 'active' : '' }}"></i>
                                         @endfor
