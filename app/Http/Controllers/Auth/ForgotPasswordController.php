@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
-class ForgotPasswordController extends Controller
+class ForgotPasswordController extends CustomerController
 {
 
     public function __construct(UserRepository $userRepo)

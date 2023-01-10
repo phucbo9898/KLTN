@@ -1,0 +1,14 @@
+# Setting send Mail
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=phucbo9898@gmail.com
+MAIL_PASSWORD=iequpkgjbigjnssd
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=phucbo9898@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
+
+
+account
+admin@gmail.com		123456
+company@gmail.com	123456

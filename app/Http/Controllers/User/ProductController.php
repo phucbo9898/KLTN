@@ -7,7 +7,7 @@ use App\Models\Product;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProductController extends CustomerController
 {
     /**
      * Display a listing of the resource.
@@ -17,15 +17,15 @@ class ProductController extends Controller
     public function index($slug, $id)
     {
         $product = Product::find($id);
-        $ratings = Rating::where('product_id',$id)->orderBy('id','DESC')->get();
+        $ratings = Rating::where('product_id', $id)->orderBy('id', 'DESC')->get();
         // get number rating *
-        $fivestar = Rating::where('product_id',$id)->where('number',5)->count();
-        $forstar = Rating::where('product_id',$id)->where('number',4)->count();
-        $threestar = Rating::where('product_id',$id)->where('number',3)->count();
-        $twostar = Rating::where('product_id',$id)->where('number',2)->count();
-        $onestar = Rating::where('product_id',$id)->where('number',1)->count();
+        $fivestar = Rating::where('product_id', $id)->where('number', 5)->count();
+        $forstar = Rating::where('product_id', $id)->where('number', 4)->count();
+        $threestar = Rating::where('product_id', $id)->where('number', 3)->count();
+        $twostar = Rating::where('product_id', $id)->where('number', 2)->count();
+        $onestar = Rating::where('product_id', $id)->where('number', 1)->count();
         // push array for transmission
-        $eachstar =[
+        $eachstar = [
             1 => $onestar,
             2 => $twostar,
             3 => $threestar,
@@ -37,72 +37,6 @@ class ProductController extends Controller
             'ratings' => $ratings,
             'eachstar' => $eachstar
         ];
-        return view('fe.product.index',$data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return view('fe.product.index', $data);
     }
 }

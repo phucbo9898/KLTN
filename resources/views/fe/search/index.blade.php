@@ -1,4 +1,4 @@
-@extends('customer.layout.master')
+@extends('fe.layout.master')
 @section('content')
     <div class="breadcrumb-area">
         <div class="container">
@@ -25,16 +25,14 @@
                                     <div class="row product-layout-list">
                                         <div class="col-lg-3 col-md-5 ">
                                             <div class="product-image mb-3">
-                                                <a
-                                                    href="{{ route('product.index', [$product->pro_name_slug, $product->id]) }}">
-                                                    @if (isset($product->pro_image))
-                                                        <img src="{{ asset('upload/pro_image/' . $product->pro_image) }}"
-                                                            alt="Li's Product Image">
+                                                <a href="{{ route('product.index', [$product->slug, $product->id]) }}">
+                                                    @if (isset($product->image))
+                                                        <img src="{{ asset($product->image) }}" alt="Li's Product Image">
                                                     @else
                                                         <img src="{{ asset('noimg.png') }}" alt="Li's Product Image">
                                                     @endif
                                                 </a>
-                                                @if ($product->pro_hot == 1)
+                                                @if ($product->hot == 'yes')
                                                     <span class="sticker">Hot</span>
                                                 @endif
                                             </div>
@@ -45,11 +43,11 @@
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
                                                             <a href="#">Tình trạng:
-                                                                @if ($product->pro_number > 10)
+                                                                @if ($product->quantity > 10)
                                                                     <b style="color: green;">Còn hàng</b>
-                                                                @elseif($product->pro_number < 10 && $product->pro_number > 0)
+                                                                @elseif($product->quantity < 10 && $product->quantity > 0)
                                                                     <b style="color: #96ad1a;">Số lượng gần hết</b>
-                                                                @elseif($product->pro_number == 0)
+                                                                @elseif($product->quantity == 0)
                                                                     <b style="color: red;">Hết hàng</b>
                                                                 @else
                                                                     <b>Không xác định</b>
@@ -59,8 +57,8 @@
                                                         <div class="rating-box">
                                                             <?php
                                                             $point_product_searh = 0;
-                                                            if ($product->pro_number_of_reviewers > 0) {
-                                                                $point_product_searh = round($product->pro_total_star / $product->pro_number_of_reviewers);
+                                                            if ($product->number_of_reviewers > 0) {
+                                                                $point_product_searh = round($product->total_star / $product->number_of_reviewers);
                                                             } else {
                                                                 $point_product_searh = -1;
                                                             }
@@ -78,21 +76,22 @@
                                                                     @for ($i = 1; $i <= 5; $i++)
                                                                         <li
                                                                             class="{{ $i <= $point_product_searh ? '' : 'no-star' }}">
-                                                                            <i class="fa fa-star"></i></li>
+                                                                            <i class="fa fa-star"></i>
+                                                                        </li>
                                                                     @endfor
                                                                 @endif
                                                             </ul>
                                                         </div>
                                                     </div>
                                                     <h4><a class="product_name"
-                                                            href="{{ route('product.index', [$product->pro_name_slug, $product->id]) }}">{{ $product->pro_name }}</a>
+                                                            href="{{ route('product.index', [$product->slug, $product->id]) }}">{{ $product->name }}</a>
                                                     </h4>
                                                     <div class="price-box">
                                                         <span
-                                                            class="new-price">{{ number_format($product->pro_price, 0, ',', '.') }}
+                                                            class="new-price">{{ number_format($product->price, 0, ',', '.') }}
                                                             VNĐ</span>
                                                     </div>
-                                                    <!-- <p>{{ $product->pro_description }}</p> -->
+                                                    <!-- <p>{{ $product->description }}</p> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -100,16 +99,17 @@
                                             <div class="shop-add-action mb-xs-30">
                                                 <ul class="add-actions-link">
                                                     <li class="add-cart"><a class="button_add_cart"
-                                                            data-product-name="{{ $product->pro_name }}"
-                                                            href="{{ route('shopping.add.product', $product->id) }}">Mua sản
+                                                            data-product-name="{{ $product->name }}"
+                                                            href="{{ route('shopping.add.product', $product->id) }}">Mua
+                                                            sản
                                                             phẩm</a></li>
                                                     <li class="wishlist"><a class="button_add_favorite_product"
-                                                            href="{{ route('get.add.favorite.product', $product->id) }}"
-                                                            data-product-name="{{ $product->pro_name }}"><i
+                                                            href="{{ route('favorite-product.get.add', $product->id) }}"
+                                                            data-product-name="{{ $product->name }}"><i
                                                                 class="fa fa-heart-o"></i>Thêm vào sản phẩm yêu thích</a>
                                                     </li>
                                                     <li><a class="quick-view"
-                                                            href="{{ route('product.index', [$product->pro_name_slug, $product->id]) }}"><i
+                                                            href="{{ route('product.index', [$product->slug, $product->id]) }}"><i
                                                                 class="fa fa-eye"></i>Xem chi tiết</a></li>
                                                 </ul>
                                             </div>
@@ -177,7 +177,7 @@
                     }
                     if (result.status == 4) {
                         swal("Cảnh báo !", "Sản phẩm " + name_product + " đã hết hàng !",
-                        "warning");
+                            "warning");
                     }
                     if (result.error) {
                         swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");

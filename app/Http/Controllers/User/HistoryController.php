@@ -10,7 +10,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class HistoryController extends Controller
+class HistoryController extends CustomerController
 {
     /**
      * Display a listing of the resource.

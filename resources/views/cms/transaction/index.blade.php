@@ -62,14 +62,14 @@
                                     <td>{{ $transaction->note }}</td>
                                     <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
                                     <td style="text-align: center;">
-                                        @if ($transaction->status == 2)
+                                        @if ($transaction->status == 'completed')
                                             <a href="#"><span class="badge badge-success">Đã nhận hàng</span></a>
                                         @endif
-                                        @if ($transaction->status == 1)
+                                        @if ($transaction->status == 'processing')
                                             <a href="{{ route('admin.transaction.paid', $transaction->id) }}"><span
                                                     class="badge badge-warning text-white">Đã gửi hàng</span></a>
                                         @endif
-                                        @if ($transaction->status == 0)
+                                        @if ($transaction->status == 'pending')
                                             <a href="{{ route('admin.transaction.handle', ['send', $transaction->id]) }}"><span
                                                     class="badge badge-danger">Đang xử lý</span></a>
                                         @endif

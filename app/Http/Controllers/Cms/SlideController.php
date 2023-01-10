@@ -24,7 +24,7 @@ class SlideController extends Controller
     public function index()
     {
         $slides = $this->slideRepo->paginate(10);
-//        dd($slides);
+        //        dd($slides);
         return view('cms.slide.index', compact('slides'));
     }
 
@@ -46,7 +46,8 @@ class SlideController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),
+        $validator = Validator::make(
+            $request->all(),
             [
                 'name' => 'required|max:255',
                 'image' => 'required'
@@ -107,7 +108,8 @@ class SlideController extends Controller
         if (!$slide) {
             return redirect()->route('admin.slide.index')->with('error', __('The requested resource is not available'));
         }
-        $validator = Validator::make($request->all(),
+        $validator = Validator::make(
+            $request->all(),
             [
                 'name' => 'required|max:255',
                 'image' => 'required'
@@ -140,26 +142,19 @@ class SlideController extends Controller
         return redirect()->route('admin.slide.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Request $request, $id)
+    public function handle(Request $request, $action, $id)
     {
+        $slide = Slide::find($id);
+        switch ($action) {
+            case 'delete':
+                $slide->delete();
+                $request->session()->flash('delete_slide_success', 'Đã xóa thành công slide mang ID số' . $id . '!');
+                break;
 
-        $slide = $this->slideRepo->find($id);
-        dd($slide);
-        if (!$slide) {
-            return redirect()->back()->with('error', __('The requested resource is not available'));
+            default:
+                dd("Lỗi r");
+                break;
         }
-
-        $result = $slide->delete();
-//        if ($result) {
-//            return ['rs' => 'success'];
-//        }
-//
-//        return ['rs' => 'error'];
+        return redirect()->route('admin.slide.index');
     }
 }
