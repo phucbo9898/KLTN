@@ -7,7 +7,7 @@ use App\Models\FavoriteProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class FavoriteProductController extends Controller
+class FavoriteProductController extends CustomerController
 {
     public function index()
     {

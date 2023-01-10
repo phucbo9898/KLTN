@@ -89,14 +89,14 @@
                 <!-- Begin Header Middle Right Area -->
                 <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                     <!-- Begin Header Middle Searchbox Area -->
-                    <form action="#" class="hm-searchbox" method="GET">
-                        <select class="nice-select select-search-category" name="searh_category_id">
+                    <form action="{{ route('search.index') }}" class="hm-searchbox" method="GET">
+                        <select class="nice-select select-search-category" name="search_category_id">
                             <option value="0">@lang('All')</option>
-                            {{--                            @foreach ($categories_searh as $category) --}}
-                            {{--                                <option value="{{$category->id}}">{{$category->c_name}}</option> --}}
-                            {{--                            @endforeach --}}
+                            @foreach ($categories_search as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
                         </select>
-                        <input type="text" placeholder="@lang('Enter search value ...')" name="searh_key">
+                        <input type="text" placeholder="@lang('Enter search value ...')" name="search_key">
                         <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                     </form>
                     <!-- Header Middle Searchbox Area End Here -->
@@ -104,15 +104,15 @@
                     <div class="header-middle-right">
                         <ul class="hm-menu">
                             <!-- Begin Header Middle Wishlist Area -->
-                            {{--                            @if (Auth::check()) --}}
-                            {{--                            <li class="hm-wishlist"> --}}
-                            {{--                                <a href="#" data-toggle="modal" data-target="#exampleModal"> --}}
-                            {{--                                    <span class="cart-item-count wishlist-item-count">{{Auth::user()->NofiticationReceive->count()}}</span> --}}
-                            {{--                                    <i class="fa fa-bell-o"></i> --}}
-                            {{--                                </a> --}}
-
-                            {{--                            </li> --}}
-                            {{--                            @endif --}}
+                            @if (Auth::check())
+                                <li class="hm-wishlist">
+                                    <a href="#" data-toggle="modal" data-target="#exampleModal">
+                                        <span
+                                            class="cart-item-count wishlist-item-count">{{ Auth::user()->notificationReceivers->count() }}</span>
+                                        <i class="fa fa-bell-o"></i>
+                                    </a>
+                                </li>
+                            @endif
                             <!-- Header Middle Wishlist Area End Here -->
                             <!-- Begin Header Mini Cart Area -->
                             <li class="hm-minicart">
@@ -197,29 +197,29 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            {{--        @if (Auth::check()) --}}
-            {{--        <div class="modal-body"> --}}
-            {{--            @if (Auth::user()->NofiticationReceive->count() > 0) --}}
-            {{--                @foreach (Auth::user()->NofiticationReceive->sortByDesc('created_at') as $nofitication) --}}
-            {{--                    <div style="display: flex"> --}}
-            {{--                        <div class="col-sm-1"> --}}
-            {{--                            <a href="{{route('feature.user.delete.nofication',$nofitication->id)}}">Xóa</a> --}}
-            {{--                        </div> --}}
-            {{--                        <div class="col-sm-11"> --}}
-            {{--                            <div><b>{{$nofitication->created_at}}</b></div> --}}
-            {{--                            {!!$nofitication->nof_content!!} --}}
-            {{--                        </div> --}}
-            {{--                    </div> --}}
-            {{--                    <hr style="margin: 15px 0px"/> --}}
-            {{--                @endforeach --}}
-            {{--            @else --}}
-            {{--                <div style="display: flex"> --}}
-            {{--                    Không có thông báo gì cả !!! --}}
-            {{--                </div> --}}
-            {{--                <hr style="margin: 15px 0px"/> --}}
-            {{--            @endif --}}
-            {{--        </div> --}}
-            {{--        @endif --}}
+            @if (Auth::check())
+                <div class="modal-body">
+                    @if (Auth::user()->notificationReceivers->count() > 0)
+                        @foreach (Auth::user()->notificationReceivers->sortByDesc('created_at') as $nofitication)
+                            <div style="display: flex">
+                                <div class="col-sm-1">
+                                    <a href="{{ route('feature-user.delete.nofication', $nofitication->id) }}">Xóa</a>
+                                </div>
+                                <div class="col-sm-11">
+                                    <div><b>{{ $nofitication->created_at }}</b></div>
+                                    {!! $nofitication->content !!}
+                                </div>
+                            </div>
+                            <hr style="margin: 15px 0px" />
+                        @endforeach
+                    @else
+                        <div style="display: flex">
+                            Không có thông báo gì cả !!!
+                        </div>
+                        <hr style="margin: 15px 0px" />
+                    @endif
+                </div>
+            @endif
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>

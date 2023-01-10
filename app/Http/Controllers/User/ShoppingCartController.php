@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ShoppingCartController extends Controller
+class ShoppingCartController extends CustomerController
 {
     public function index()
     {
@@ -14,61 +14,59 @@ class ShoppingCartController extends Controller
         $data = [
             'products' => $products
         ];
-        return view('fe.shopping-cart.index',$data);
+        return view('fe.shopping-cart.index', $data);
     }
     //
-    public function addProduct(Request $request,$id)
+    public function addProduct(Request $request, $id)
     {
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             // find product
             $product = Product::find($id);
             //find product in cart for get number product in cart how many
             $product_in_cart = \Cart::content()->where('id', $id);
             // check product in cart exist and create variable test + 1 product to qty
-            if($product_in_cart->first())
-            {
-                $then_number_product_in_cart = $product_in_cart->first()->quantity +1;
+            if ($product_in_cart->first()) {
+                $then_number_product_in_cart = $product_in_cart->first()->quantity + 1;
                 // check if test variable qty not ennough number product return false
-                if($then_number_product_in_cart > $product->quantity)
+                if ($then_number_product_in_cart > $product->quantity)
                     return response()->json([
                         'status' => 2,
                         'product_less' => $product->quantity
                     ]);
             }
             // check product exist
-            if(!$product)
+            if (!$product)
                 return  response()->json([
                     'status' => 3
                 ]);
             // get price when customer add product to cart
             $price = $product->price;
-            if($product->sale){
-                $price = $price*(100-$product->sale)/100;
+            if ($product->sale) {
+                $price = $price * (100 - $product->sale) / 100;
             }
-            if($product->quantity==0)
+            if ($product->quantity == 0)
                 return  response()->json([
                     'status' => 4
                 ]);
             // add product to cart
             \Cart::add(
                 [
-                    'id'=>$id,
+                    'id' => $id,
                     'name' => $product->name,
-                    'qty' =>1,
+                    'qty' => 1,
                     'weight' => 0,
                     'price' => $price,
                     'options' => [
                         'image' => $product->image,
                         'price_old' => $product->price,
-                        'sale'=> $product->sale
+                        'sale' => $product->sale
                     ]
                 ]
             );
             return response()->json([
                 'status' => 1,
                 'number_product_in_cart' => \Cart::count(),
-                'price_total_cart' => \Cart::subtotal(0,',','.')
+                'price_total_cart' => \Cart::subtotal(0, ',', '.')
             ]);
         }
     }
@@ -84,12 +82,12 @@ class ShoppingCartController extends Controller
         //get number product in cart
         $number_product_in_cart = $cart->where('id', $pro_id)->first()->quantity;
         //check number product edit bigger number product in stock
-        if($number_product_edit > $number_product_in_stock)
-            return redirect()->back()->with('warning','Sản phẩm '.$product_in_stock_name.' chỉ còn '.$number_product_in_stock.' trong kho');
+        if ($number_product_edit > $number_product_in_stock)
+            return redirect()->back()->with('warning', 'Sản phẩm ' . $product_in_stock_name . ' chỉ còn ' . $number_product_in_stock . ' trong kho');
         //get rowId for update number product in cart
         $rowId = $cart->where('id', $pro_id)->first()->rowId;
         \Cart::update($rowId, $number_product_edit);
-        return redirect()->back()->with('success','Cập nhật số lượng sản phẩm thành công');
+        return redirect()->back()->with('success', 'Cập nhật số lượng sản phẩm thành công');
     }
     public function deleteProductItem($key)
     {

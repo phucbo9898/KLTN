@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class FeatureUserController extends Controller
+class FeatureUserController extends CustomerController
 {
     public function getFormPay()
     {
@@ -18,35 +18,34 @@ class FeatureUserController extends Controller
         $data = [
             'products' => $products
         ];
-        return view('fe.feature-user.formpay',$data);
+        return view('fe.feature-user.formpay', $data);
     }
     public function saveInfoShoppingCart(Request $request)
     {
         // get value in total money cart
-        $totalMoney = str_replace(',','',\Cart::subtotal(0));
+        $totalMoney = str_replace(',', '', \Cart::subtotal(0));
         // insert data transaction and get id then insert
         $transactionId = Transaction::insertGetId([
-            'user_id'=> Auth::user()->id,
+            'user_id' => Auth::user()->id,
             'total' => $totalMoney,
-            'note'=> $request->note,
+            'note' => $request->note,
             'address' => $request->address,
             'phone' => $request->phone,
             'created_at' => Carbon::now(),
-            'updated_at'=>Carbon::now()
+            'updated_at' => Carbon::now()
         ]);
         // check exist id transaction above and insert order
-        if($transactionId){
+        if ($transactionId) {
             $products = \Cart::content();
-            foreach($products as $product)
-            {
+            foreach ($products as $product) {
                 Order::insert([
-                    'transaction_id'=>$transactionId,
-                    'product_id'=>$product->id,
-                    'quantity'=>$product->qty,
-                    'price'=>$product->options->price_old,
-                    'sale'=>$product->options->sale,
+                    'transaction_id' => $transactionId,
+                    'product_id' => $product->id,
+                    'quantity' => $product->qty,
+                    'price' => $product->options->price_old,
+                    'sale' => $product->options->sale,
                     'created_at' => Carbon::now(),
-                    'updated_at'=>Carbon::now()
+                    'updated_at' => Carbon::now()
                 ]);
             }
             \Cart::destroy();
