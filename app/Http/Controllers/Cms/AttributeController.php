@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
+use App\Models\Attribute_Value;
 use App\Repositories\AttributeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -58,7 +59,7 @@ class AttributeController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withInput()->withErrors($validator, 'attributeErrors');
         }
-//        dd($request->all());
+
         $data = $request->all();
         if ($request->value) {
             $arrayAttributeValue = explode(';', $request->value);
@@ -72,8 +73,8 @@ class AttributeController extends Controller
         }
 
         $attribute = $this->attributeRepo->prepareAttribute($data);
-//        dd($attribute);
         $result = $this->attributeRepo->create($attribute);
+
         if ($result) {
             $request->session()->flash('create_attribute_success', 'Đã thêm 1 Attribute!');
             return redirect()->route('admin.attribute.index');
@@ -162,14 +163,19 @@ class AttributeController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function handle(Request $request,$action,$id){
+        //get Attribute
+        $attribute = Attribute::find($id);
+        switch ($action) {
+            case 'delete':
+                $attribute->delete();
+                $request->session()->flash('delete_attribute_success', 'Đã xóa thuộc tính ID='.$id.' !');
+                break;
+
+            default:
+                dd("Lỗi rồi");
+                break;
+        }
+        return redirect()->route('admin.attribute.index');
     }
 }

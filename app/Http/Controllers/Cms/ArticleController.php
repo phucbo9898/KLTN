@@ -165,14 +165,23 @@ class ArticleController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function handle(Request $request,$action,$id)
     {
-        //
+        $article = Article::find($id);
+        switch ($action) {
+            case 'delete':
+                $article->delete();
+                $request->session()->flash('delete_article_success',
+                    'Đã xóa thành công bài viết mang ID số '.$id.'!');
+                break;
+            case 'status':
+                $article->status = $article->status == 'active' ? 'inactive' : 'active';
+                $article->save();
+                break;
+            default:
+                dd("Lỗi r");
+                break;
+        }
+        return redirect()->route('admin.article.index');
     }
 }

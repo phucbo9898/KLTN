@@ -54,6 +54,7 @@ class StatisticsController extends Controller
 
     public function exportExcel(Request $request)
     {
-        return Excel::download(new ExportFile(), 'statistic.xlsx');
+//        dd($request->all());
+        return Excel::download(new ExportFile(), date('Y-m-d', strtotime($request->statistical_date_start_pdf)) . '_' .  date('Y-m-d', strtotime($request->statistical_date_end_pdf)) . '_' . 'by' . '_' . $request->user . '_' . 'statistic.xlsx');
     }
 }

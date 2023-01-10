@@ -551,6 +551,7 @@
                     content: content
                 }
             }).done(function(result) {
+                console.log(result)
                 if (result.code == 1) {
                     swal("Thành công!", "Bạn đã gửi đánh giá sản phẩm thành công", "success").then(
                     function() {

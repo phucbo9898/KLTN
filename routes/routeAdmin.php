@@ -49,7 +49,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
         Route::post('/create', [CategoryController::class, 'store']);
         Route::get('/update/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit');
         Route::post('/update/{id}', [CategoryController::class, 'update']);
-        Route::get('/{action}/{id}', [CategoryController::class, 'handle'])->name('admin.category.handle');
+        Route::get('/{action}/{id}',[CategoryController::class, 'handle'])->name('admin.category.handle');
     });
 
     Route::group(['prefix' => 'attribute'], function () {
