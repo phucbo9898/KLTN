@@ -59,6 +59,8 @@
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" id="type-payment" name="type_payment" value="">
+                        <input type="hidden" id="status-payment" name="status_payment" value="">
                     </form>
                 </div>
                 <div class="col-lg-6 col-12">
@@ -76,7 +78,7 @@
                                     @foreach ($products as $product)
                                         <tr class="cart_item">
                                             <td class="cart-product-name"> {{ $product->name }}<strong
-                                                    class="product-quantity"> × {{ $product->quantity }}</strong></td>
+                                                    class="product-quantity"> × {{ $product->qty }}</strong></td>
                                             <td class="cart-product-total"><span
                                                     class="amount">{{ number_format($product->price * $product->qty, 0, ',', '.') }}
                                                     VNĐ</span></td>
@@ -91,14 +93,63 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="payment-method">
-                            <div class="payment-accordion">
-                                <div class="order-button-payment">
-                                    <input value="Đặt Hàng" type="submit" id="submitFormSaveInfo">
+                        <div class="payment-method" style="margin-top: 0px !important;">
+                            @if(isset($_GET['partnerCode']))
+                                <button class="btn btn-info d-none" type="submit" style="width: 212px; height: 50px; margin-bottom: 5px;" data-toggle="modal" data-target="#exampleModalBanking">Chuyển khoản</button>
+                                <form action="{{ route('shopping.payment-momo') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" class="total-momo" name="total_momo" value="{{ $product->price * $product->qty }}">
+                                    <button class="btn btn-warning d-none" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>
+                                </form>
+                                <div class="order-button-payment d-none">
+                                    <button class="btn btn-primary" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Thanh toán khi nhận hàng</button>
                                 </div>
-                            </div>
+                                <div class="order-button-payment">
+                                    <span style="color:#1cc88a; font-size: 18px;"><i class="fa fa-check-circle-o"></i>&ensp;Đã thanh toán</span> <br>
+                                    <button class="btn btn-primary" type="submit" id="submitFormSaveInfoPayment" style="width: 212px; height: 50px;margin-top: 5px;">Đặt hàng</button>
+                                </div>
+                            @else
+                                <h5>Chọn phương thức thanh toán</h5>
+                                <div class="order-button-payment">
+                                    <input type="radio" name="payment" id="banking" value="banking" style="width: 15px; height: 13px; margin-bottom: 5px;">
+                                    <label>Chuyển khoản</label> <br>
+{{--                                    <button class="btn btn-info banking-payment" type="submit" style="width: 212px; height: 50px; margin-bottom: 5px;" data-toggle="modal" data-target="#exampleModalBanking">Chuyển khoản</button>--}}
+                                    <img class="banking-payment" src="{{ asset('banking.jpg') }}" style="width: 300px;">
+                                </div>
+                                <div class="order-button-payment">
+                                    <input type="radio" name="payment" id="momo" value="momo" style="width: 15px; height: 13px; margin-bottom: 5px;">
+                                    <label>Thanh toán bằng Momo</label>
+                                    <form action="{{ route('shopping.payment-momo') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" class="total-momo" name="total_momo" value="{{ $product->price * $product->qty }}">
+                                        <button class="btn btn-warning momo-payment" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>
+                                    </form>
+                                </div>
+                                <div class="order-button-payment">
+                                    <input type="radio" name="payment" id="payment" value="payment" style="width: 15px; height: 13px; margin-bottom: 5px;">
+                                    <label>Thanh toán khi nhận hàng</label> <br>
+                                    <button class="btn btn-primary payment-normal" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Đặt hàng</button>
+                                </div>
+                            @endif
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalBanking" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thông tin tài khoản ngân hàng của shop</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img src="{{ asset('banking.jpg') }}" alt="" style="width: 465px;">
                 </div>
             </div>
         </div>
@@ -108,7 +159,28 @@
 @section('javascript')
     <script>
         $(function() {
+            console.log($("input[name=payment]:checked").val())
+            if ($("input[name=payment]:checked").val() == '' || $("input[name=payment]:checked").val() == undefined) {
+                $(".banking-payment").addClass('d-none')
+                $(".momo-payment").addClass('d-none')
+            }
+            $("input[name=payment]").on("change", function() {
+                if ($("input[name=payment]:checked").val() == '' || $("input[name=payment]:checked").val() == undefined) {
+                    $(".banking-payment").addClass('d-none')
+                    $(".momo-payment").addClass('d-none')
+                } else if ($("input[name=payment]:checked").val() == 'banking') {
+                    $(".banking-payment").removeClass('d-none')
+                    $(".momo-payment").addClass('d-none')
+                } else if ($("input[name=payment]:checked").val() == 'momo') {
+                    $(".banking-payment").addClass('d-none')
+                    $(".momo-payment").removeClass('d-none')
+                    $(".payment-normal").addClass('d-none')
+                }
+            })
             $("#submitFormSaveInfo").click(function() {
+                if ($("input[name=payment]:checked").val() == 'banking') {
+                    $("#type-payment").val('Banking')
+                }
                 check_name = $("#check_name").val();
                 check_address = $("#check_address").val();
                 check_phone = $("#check_phone").val();
@@ -132,6 +204,43 @@
                             }],
                             successMode: true,
                         })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                swal("Thành công",
+                                    "Bạn đã đặt hàng thành công ! Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !",
+                                    'success').then(function() {
+                                    $("#formSaveInfo").submit();
+                                });
+                            }
+                        });
+                }
+            });
+            $("#submitFormSaveInfoPayment").click(function() {
+                $("#status-payment").val('Paуment received')
+                $("#type-payment").val('Paуment Momo')
+                check_name = $("#check_name").val();
+                check_address = $("#check_address").val();
+                check_phone = $("#check_phone").val();
+                check_note = $("#checkout-mess").val();
+                if (!check_name || !check_address || !check_phone || !check_note) {
+                    // swal("Thành công","Thanh toán không thành công","success");
+                    swal("Cảnh báo",
+                        "Yêu cầu bạn nhập dữ liệu đầy đủ để dễ dàng vận chuyển hàng ! Xin cảm ơn đã sử dụng dịch vụ của chúng tôi!",
+                        "warning");
+                } else {
+                    swal({
+                        title: "Bạn có chắc chắn?",
+                        text: "Các sản phẩm trong giỏ hàng của bạn sẽ được thanh toán ! Các sản phẩm sẽ đợi bên của hàng kiểm tra và gửi về",
+                        icon: "info",
+                        buttons: ["Không", {
+                            text: "Đồng ý",
+                            value: true,
+                            visible: true,
+                            className: "bg-success",
+                            closeModal: true
+                        }],
+                        successMode: true,
+                    })
                         .then((willDelete) => {
                             if (willDelete) {
                                 swal("Thành công",

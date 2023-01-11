@@ -41,16 +41,18 @@
                             </button>
                         </div>
                     @endif
-                    <table class="table table-hover table-striped" id="dataTable">
+                    <table class="table table-hover table-striped" id="dataTable" style="overflow-y: scroll;
+    white-space: nowrap;">
                         <thead class="thead-dark">
                             <th style="width: 1%">STT</th>
                             <th style="width: 15%">Tên khách hàng</th>
-                            <th style="width: 18%">Địa chỉ</th>
-                            <th style="width: 13%">Số điện thoại</th>
-                            <th style="width: 10%;">Ghi chú</th>
-                            <th style="width: 10%">Tổng tiền</th>
+                            <th style="width: 25%">Địa chỉ</th>
+                            <th style="width: 10%">Số điện thoại</th>
+                            <th style="width: 15%;">Trạng thái thanh toán</th>
+                            <th style="width: 15%;">Loại thanh toán</th>
+                            <th style="width: 15%">Tổng tiền</th>
                             <th style="width: 10%">Trạng thái</th>
-                            <th style="width: 5%">Thao tác</th>
+                            <th style="width: 3%">Thao tác</th>
                         </thead>
                         <tbody>
                             @foreach ($transactions as $transaction)
@@ -59,19 +61,32 @@
                                     <td>{{ optional($transaction->user)->name }}</td>
                                     <td>{{ $transaction->address }}</td>
                                     <td>{{ $transaction->phone }}</td>
-                                    <td>{{ $transaction->note }}</td>
+                                    <td style="text-align: center;">
+                                        <a href="{{ route('admin.transaction.handle', ['change-status', $transaction->id]) }}" class="badge badge-{{ $transaction->status_payment == 'Paуment received' ? 'success' : 'danger' }}" style="font-size: 14px;width: 113.11px;">
+                                            {{ $transaction->status_payment == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán' }}</a>
+                                    </td>
+                                    <td>
+{{--                                        {{ $transaction->type_payment }}--}}
+                                        @if($transaction->type_payment == 'Payment momo')
+                                            <span class="badge badge-warning" style="font-size: 14px;width: 204.41px;">Thanh toán bằng Momo</span>
+                                        @elseif($transaction->type_payment == 'Banking')
+                                            <span class="badge badge-primary" style="font-size: 14px;width: 204.41px;">Thanh toán bằng chuyển khoản</span>
+                                        @else
+                                            <span class="badge badge-info" style="font-size: 14px;width: 204.41px;">Thanh toán khi nhận hàng</span>
+                                        @endif
+                                    </td>
                                     <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
                                     <td style="text-align: center;">
                                         @if ($transaction->status == 'completed')
-                                            <a href="#"><span class="badge badge-success">Đã nhận hàng</span></a>
+                                            <a href="#"><span class="badge badge-success" style="font-size: 14px; width: 95.96px;">Đã nhận hàng</span></a>
                                         @endif
                                         @if ($transaction->status == 'processing')
                                             <a href="{{ route('admin.transaction.paid', $transaction->id) }}"><span
-                                                    class="badge badge-warning text-white">Đã gửi hàng</span></a>
+                                                    class="badge badge-warning text-white" style="font-size: 14px; width: 95.96px;">Đã gửi hàng</span></a>
                                         @endif
                                         @if ($transaction->status == 'pending')
                                             <a href="{{ route('admin.transaction.handle', ['send', $transaction->id]) }}"><span
-                                                    class="badge badge-danger">Đang xử lý</span></a>
+                                                    class="badge badge-danger" style="font-size: 14px; width: 95.96px;">Đang xử lý</span></a>
                                         @endif
                                     </td>
                                     <td style="width: 15%;">
@@ -153,7 +168,7 @@
         $(document).ready(function() {
             $('#dataTable').DataTable({
                 "order": [
-                    [6, "asc"]
+                    [0, "desc"]
                 ],
                 "language": {
                     "decimal": "",
