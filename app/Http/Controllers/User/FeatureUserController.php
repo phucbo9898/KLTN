@@ -22,6 +22,7 @@ class FeatureUserController extends CustomerController
     }
     public function saveInfoShoppingCart(Request $request)
     {
+//        dd($request->all());
         // get value in total money cart
         $totalMoney = str_replace(',', '', \Cart::subtotal(0));
         // insert data transaction and get id then insert
@@ -31,6 +32,9 @@ class FeatureUserController extends CustomerController
             'note' => $request->note,
             'address' => $request->address,
             'phone' => $request->phone,
+            'status' => 'pending',
+            'type_payment' => $request->type_payment,
+            'status_payment' => $request->status_payment,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

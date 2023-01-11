@@ -12,4 +12,9 @@ class Order extends Model
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+    public function transaction()
+    {
+        return $this->belongsTo(Transaction::class, 'transaction_id');
+    }
 }

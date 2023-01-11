@@ -82,6 +82,7 @@ Route::controller(ShoppingCartController::class)->group(function () {
             Route::get('add/{id}', 'addProduct')->name('add.product');
             Route::get('/delete/{key}', 'deleteProductItem')->name('delete.product');
             Route::post('/edit', 'editProductItem')->name('edit.product');
+            Route::post('/payment-momo', 'paymentMomo')->name('payment-momo');
         });
     });
 });

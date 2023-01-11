@@ -1,5 +1,25 @@
 @extends('fe.layout.master')
 @section('content')
+    <style>
+        .btn-primary {
+            color: #fff !important;
+            background-color: #007bff !important;
+            border-color: #007bff !important;
+        }
+        .btn-primary:hover {
+            background-color: #ffc107 !important;
+            border-color: #ffc107 !important;
+        }
+        .btn-warning {
+            color: #212529 !important;
+            background-color: #ffc107 !important;
+            border-color: #ffc107 !important;
+        }
+        .btn-warning:hover {
+            background-color: #47ea36 !important;
+            border-color: #47ea36 !important;
+        }
+    </style>
     <!-- Begin Li's Breadcrumb Area -->
     <div class="breadcrumb-area">
         <div class="container">
@@ -97,11 +117,14 @@
                                 <h2>Tổng tiền cần thanh toán:</h2>
                                 <ul>
                                     <li>Tổng <span>{{ \Cart::subtotal(0, ',', '.') }} VNĐ</span></li>
+                                    <input type="hidden" class="total" value="{{ \Cart::subtotal(0, ',', '.') }}">
                                 </ul>
-                                @if (\Cart::subtotal() > 0)
-                                    <a href="{{ route('feature-user.checkout') }}" style="float: right">Xác nhận đặt
-                                        hàng</a>
-                                @endif
+                                <div class="mt-15">
+                                    @if (\Cart::subtotal() > 0)
+                                        <a class="btn btn-primary" href="{{ route('feature-user.checkout') }}" style="float: right; margin-left: 20px;">Xác nhận đặt
+                                            hàng</a>
+                                    @endif
+                                </div>
                                 <div style="clear: both"></div>
                             </div>
                         </div>

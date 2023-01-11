@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="{{ asset('css/helper.css') }}">
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{ asset('style.css') }}">
+{{--    <link rel="stylesheet" href="resources/sass/style.css">--}}
     <!-- Responsive CSS -->
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
 
