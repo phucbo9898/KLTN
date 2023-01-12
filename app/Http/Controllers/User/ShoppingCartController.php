@@ -119,8 +119,7 @@ class ShoppingCartController extends CustomerController
 
     public function paymentMomo(Request $request)
     {
-        $amountTotal = $request->total_momo;
-//        if (strpos(round($amountTotal), '.'))
+        $amountTotal = (int)round($request->total_momo);
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 
         $partnerCode = 'MOMOBKUN20180529';
@@ -155,7 +154,6 @@ class ShoppingCartController extends CustomerController
             'requestType' => $requestType,
             'signature' => $signature
         );
-//        dd(json_encode($data));
         $result = $this->execPostRequest($endpoint, json_encode($data));
         $jsonResult = json_decode($result, true);  // decode json
 

@@ -120,7 +120,7 @@ Route::controller(HistoryController::class)->middleware('checkLoginUser')->group
         Route::name('history-user.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/get-order-item/{id}', 'getOrderItem')->name('get.order.item');
-            Route::get('/paid/{id}', 'transactionPaid')->name('transaction.paid');
+            Route::get('/paid/{action}/{id}', 'transactionPaid')->name('transaction.paid');
         });
     });
 });

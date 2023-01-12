@@ -43,47 +43,17 @@ class TransactionController extends Controller
         if ($action) {
             $transaction = Transaction::find($id);
             switch ($action) {
-                case 'delete':
-                    if ($transaction->status == 'pending') {
-                        $orders = Order::where('transaction_id', $id)->get();
-                        if ($orders) {
-                            foreach ($orders as $order) {
-                                $order->delete();
-                            }
-                        }
-                        Notification::insert(
-                            [
-                                'sender' => Auth::user()->id,
-                                'receiver' => $transaction->user_id,
-                                'content' => 'Giao dịch <b>mã số ' . $id . '</b> với ghi chú "' . $transaction->note . '" <b>ĐÃ BỊ HỦY</b> ! Có thể do thiếu số lượng sản phẩm bạn yêu cầu, liên hệ lại chủ cửa hàng để biết thêm chi tiết !!!',
-                                'created_at' => Carbon::now(),
-                            ]
-                        );
-                        $transaction->delete();
-                    } else if ($transaction->status == 'processing') {
-                        // find orders of customer in transaction
-                        $orders = Order::where('transaction_id', $id)->get();
-                        if ($orders) {
-                            foreach ($orders as $order) {
-                                // find product in order
-                                $product = Product::find($order->product_id);
-                                $product->quantity = $product->quantity + $order->quantity;
-                                $product->save();
-                                $order->delete();
-                            }
-                        }
-                        Notification::insert(
-                            [
-                                'sender' => Auth::user()->id,
-                                'receiver' => $transaction->user_id,
-                                'content' => 'Giao dịch <b>mã số ' . $id . '</b> với ghi chú "' . $transaction->note . '" <b>đã bị hủy</b> trong khi vận chuyển !! Liên lạc lại chủ cửa hàng để biết thêm chi tiết !',
-                                'created_at' => Carbon::now()
-                            ]
-                        );
-                        $transaction->delete();
-                    } else {
-                        $request->session()->flash('stopDelete', 'Giao dịch này đã thành công hoặc có dữ liệu quan trọng không thể xóa !!!');
-                    }
+                case 'cancel':
+                    $transaction->status = 'canceled';
+                    $transaction->save();
+                    Notification::insert(
+                        [
+                            'sender' => Auth::user()->id,
+                            'receiver' => $transaction->user_id,
+                            'content' => 'Giao dịch <b>mã số ' . $id . '</b> với ghi chú "' . $transaction->note . '" <b>ĐÃ BỊ HỦY</b> ! Khách hàng yêu ầu hủy đơn hàng !!!',
+                            'created_at' => Carbon::now(),
+                        ]
+                    );
                     return redirect()->route('admin.transaction.index')->with('success', 'Đã hủy giao dịch thành công');
                     break;
                 case 'send':

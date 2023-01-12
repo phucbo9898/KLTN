@@ -52,14 +52,14 @@ class AdminController extends Controller
         $fordago = Carbon::today()->subDays(4)->format('Y-m-d');
         $fivedago = Carbon::today()->subDays(5)->format('Y-m-d');
         $sixdago = Carbon::today()->subDays(6)->format('Y-m-d');
-        // get money redemm follow update status 2
-        $totaltoday = Transaction::where('updated_at', 'like', '%' . $today . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
-        $totalonedago = Transaction::where('updated_at', 'like', '%' . $onedago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
-        $totaltwodago = Transaction::where('updated_at', 'like', '%' . $twodago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
-        $totalthreedago = Transaction::where('updated_at', 'like', '%' . $threedago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
-        $totalfordago = Transaction::where('updated_at', 'like', '%' . $fordago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
-        $totalfivedago = Transaction::where('updated_at', 'like', '%' . $fivedago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
-        $totalsixdago = Transaction::where('updated_at', 'like', '%' . $sixdago . '%')->select('status', 'total', 'created_at')->where('status', 2)->sum('total');
+        // get money redemm follow update status completed
+        $totaltoday = Transaction::where('updated_at', 'like', '%' . $today . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');
+        $totalonedago = Transaction::where('updated_at', 'like', '%' . $onedago . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');
+        $totaltwodago = Transaction::where('updated_at', 'like', '%' . $twodago . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');
+        $totalthreedago = Transaction::where('updated_at', 'like', '%' . $threedago . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');
+        $totalfordago = Transaction::where('updated_at', 'like', '%' . $fordago . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');
+        $totalfivedago = Transaction::where('updated_at', 'like', '%' . $fivedago . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');
+        $totalsixdago = Transaction::where('updated_at', 'like', '%' . $sixdago . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');
         // get 7 day for time graph
         $one = Carbon::today()->subDays(1)->format('d-m');
         $two = Carbon::today()->subDays(2)->format('d-m');
@@ -70,7 +70,7 @@ class AdminController extends Controller
         $total_price_seven_days_edit = "" . $totalsixdago . "," . $totalfivedago . "," . $totalfordago . "," . $totalthreedago . "," . $totaltwodago . "," . $totalonedago . "," . $totaltoday . "";
         $time_chart = "" . $six . "," . $five . "," . $for . "," . $three . "," . $two . "," . $one . ",Today";
         //number transaction handle
-        $transaction_number = Transaction::where('status', '0')->count();
+        $transaction_number = Transaction::where('status', 'pending')->count();
         //number products
         $number_products = Product::all()->count();
         //number user
