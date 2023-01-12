@@ -62,17 +62,23 @@
                                     <td>{{ $transaction->address }}</td>
                                     <td>{{ $transaction->phone }}</td>
                                     <td style="text-align: center;">
-                                        <a href="{{ route('admin.transaction.handle', ['change-status', $transaction->id]) }}" class="badge badge-{{ $transaction->status_payment == 'Paуment received' ? 'success' : 'danger' }}" style="font-size: 14px;width: 113.11px;">
-                                            {{ $transaction->status_payment == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán' }}</a>
-                                    </td>
-                                    <td>
-{{--                                        {{ $transaction->type_payment }}--}}
-                                        @if($transaction->type_payment == 'Payment momo')
-                                            <span class="badge badge-warning" style="font-size: 14px;width: 204.41px;">Thanh toán bằng Momo</span>
-                                        @elseif($transaction->type_payment == 'Banking')
-                                            <span class="badge badge-primary" style="font-size: 14px;width: 204.41px;">Thanh toán bằng chuyển khoản</span>
+                                        @if($transaction->type_payment != '')
+                                            <a href="{{ route('admin.transaction.handle', ['change-status', $transaction->id]) }}" class="badge badge-@if($transaction->type_payment != ''){{ $transaction->status_payment == 'Paуment received' ? 'success' : 'danger' }}"@endif
+                                               style="font-size: 14px;width: 113.11px;">
+                                            {{ $transaction->status_payment == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán' }}
                                         @else
-                                            <span class="badge badge-info" style="font-size: 14px;width: 204.41px;">Thanh toán khi nhận hàng</span>
+                                            <span class="badge badge-dark d-none" style="font-size: 14px;width: 113.11px;">Chưa thanh toán</span>
+                                        @endif
+                                        </a>
+                                    </td>
+                                    <td class="get-payment">
+{{--                                        {{ $transaction->type_payment }}--}}
+                                        @if($transaction->type_payment == 'Paуment Momo')
+                                            <span class="badge badge-warning momo" style="font-size: 14px;width: 204.41px;">Thanh toán bằng Momo</span>
+                                        @elseif($transaction->type_payment == 'Banking')
+                                            <span class="badge badge-primary banking" style="font-size: 14px;width: 204.41px;">Thanh toán bằng chuyển khoản</span>
+                                        @else
+                                            <span class="badge badge-info payment-normal" style="font-size: 14px;width: 204.41px;">Thanh toán khi nhận hàng</span>
                                         @endif
                                     </td>
                                     <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
@@ -82,19 +88,30 @@
                                         @endif
                                         @if ($transaction->status == 'processing')
                                             <a href="{{ route('admin.transaction.paid', $transaction->id) }}"><span
-                                                    class="badge badge-warning text-white" style="font-size: 14px; width: 95.96px;">Đã gửi hàng</span></a>
+                                                    class="badge badge-secondary text-white" style="font-size: 14px; width: 95.96px;">Đã gửi hàng</span></a>
                                         @endif
                                         @if ($transaction->status == 'pending')
                                             <a href="{{ route('admin.transaction.handle', ['send', $transaction->id]) }}"><span
-                                                    class="badge badge-danger" style="font-size: 14px; width: 95.96px;">Đang xử lý</span></a>
+                                                    class="badge badge-warning" style="font-size: 14px; width: 95.96px;">Đang xử lý</span></a>
+                                        @endif
+                                        @if($transaction->status == 'canceled')
+                                            <span class="badge badge-danger" style="font-size: 14px; width: 95.96px;">Đã hủy</span>
                                         @endif
                                     </td>
                                     <td style="width: 15%;">
-                                        <a href="{{ route('admin.transaction.handle', ['delete', $transaction->id]) }}"
-                                            data-id="{{ $transaction->id }}"
-                                            class="btn_delete_sweet btn btn-danger btn-circle"><i
-                                                class="fas fa-trash-alt"></i></a>
-
+                                        @if($transaction->status == 'pending')
+                                            <a href="{{ route('admin.transaction.handle', ['cancel', $transaction->id]) }}"
+                                               data-id="{{ $transaction->id }}"
+                                               class="btn_delete_sweet btn btn-danger btn-circle">
+                                                <i class="fas fa-window-close"></i>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('admin.transaction.handle', ['delete', $transaction->id]) }}"
+                                               data-id="{{ $transaction->id }}"
+                                               class="btn_delete_sweet btn btn-danger btn-circle" style="visibility: hidden;">
+                                                <i class="fas fa-window-close"></i>
+                                            </a>
+                                        @endif
                                         <a href="{{ route('admin.get.order.item', $transaction->id) }}"
                                             data-id="{{ $transaction->id }}"
                                             class="js_order_item btn btn-primary btn-circle" data-toggle="modal"
@@ -204,7 +221,7 @@
             id = $(this).attr('data-id');
             swal({
                     title: "Bạn có chắc chắn?",
-                    text: "Bạn có chắc chắn muốn xóa giao dịch ID=" + id +
+                    text: "Bạn có chắc chắn muốn hủy giao dịch ID=" + id +
                         " không ? Điều này sẽ ảnh hưởng đến liên kết dữ liệu !",
                     icon: "info",
                     buttons: ["Không", "Có"],
@@ -212,7 +229,7 @@
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        swal("Thành công", "Hệ thống chuẩn bị xóa giao mang ID =" + id + " !", 'success').then(
+                        swal("Thành công", "Hệ thống chuẩn bị hủy giao dịch mang ID =" + id + " !", 'success').then(
                             function() {
                                 window.location.href = url;
                             });

@@ -13,9 +13,7 @@
             @foreach ($orders as $key => $order)
                 <tr>
                     <th scope="col">#{{ $i++ }}</th>
-                    <td><a
-                            href="{{ route('product.index', [$order->product->slug, $order->product->id]) }}">{{ $order->product->name }}</a>
-                    </td>
+                    <td>{{ $order->product->name }}</td>
                     @if ($order->product->image)
                         <td><img style="width:80px;height:60px"
                                 src="{{ asset($order->product->image) }}" /></td>

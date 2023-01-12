@@ -27,7 +27,7 @@
                 <th>Tổng tiền</th>
                 <th>Trạng thái</th>
                 <th>Ngày mua</th>
-                <th>Xử lý</th>
+                <th>Hủy đơn hàng</th>
             </thead>
 
             @if ($count > 0)
@@ -41,22 +41,30 @@
                             <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
                             <td>
                                 @if ($transaction->status == 'completed')
-                                    <a href="#"><span class="badge badge-success">Đã nhận hàng</span></a>
+                                    <span class="badge badge-success" style="font-size: 14px;width: 136px;">Đã nhận hàng</span>
                                 @endif
                                 @if ($transaction->status == 'processing')
-                                    <a href="{{ route('history-user.transaction.paid', $transaction->id) }}"
-                                        id="appect_receive_products"><span class="badge badge-warning text-white">Đã gửi
+                                    <a href="{{ route('history-user.transaction.paid', ['change-status', $transaction->id]) }}"
+                                        id="appect_receive_products"><span class="badge badge-warning text-white" style="font-size: 14px;width: 136px;">Đã gửi
                                             hàng</span></a>
                                 @endif
                                 @if ($transaction->status == 'pending')
-                                    <a href="#"><span class="badge badge-danger">Chưa xử lý</span></a>
+                                  <span class="badge badge-danger" style="font-size: 14px;width: 136px;">Chưa xử lý</span>
                                 @endif
+                                    @if ($transaction->status == 'canceled')
+                                        <span class="badge badge-danger" style="font-size: 14px;width: 136px;">Đã hủy đơn hàng</span>
+                                    @endif
                             </td>
                             <td>{{ $transaction->created_at }}</td>
-
-                            <td><a href="{{ route('history-user.get.order.item', $transaction->id) }}" class="js_order_item"
-                                    data-id="{{ $transaction->id }}" data-toggle="modal"
-                                    data-target="#showOrderItem">Xem</a>
+                            <td>
+                                <a href="{{ route('history-user.get.order.item', $transaction->id) }}" class="js_order_item badge badge-info"
+                                   data-id="{{ $transaction->id }}" data-toggle="modal"
+                                   data-target="#showOrderItem" style="font-size: 14px;width: 113.11px;">
+                                    Xem chi tiết
+                                </a>
+                                <a href="{{ route('history-user.transaction.paid', ['cancel-order', $transaction->id]) }}" id="">
+                                    <span class="badge badge-danger text-white" style="font-size: 14px;width: 113.11px;">Hủy đơn hàng</span>
+                                </a>
                             </td>
                             {{-- custom modal by me --}}
                             <div class="modal fade" id="showOrderItem" tabindex="-1" role="dialog"

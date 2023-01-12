@@ -4,9 +4,11 @@ namespace App\Http\Controllers\User;
 
 use App\Enums\StatusTransaction;
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,22 +41,42 @@ class HistoryController extends CustomerController
         }
     }
 
-    public function transactionPaid($id)
+    public function transactionPaid(Request $request, $action, $id)
     {
         $transaction = Transaction::find($id);
         $orders = Order::where('transaction_id', $id)->get();
-        if ($orders) {
-            foreach ($orders as $order) {
-                $product = Product::find($order->product_id);
-                if ($product->number < $order->quantity)
-                    return redirect()->route('admin.home');
-                $product->quantity = $product->quantity - $order->quantity;
-                $product->qty_pay = $product->qty_pay + $order->quantity;
-                $product->save();
+//        if ($orders) {
+//            foreach ($orders as $order) {
+//                $product = Product::find($order->product_id);
+//                $product->quantity = $product->quantity - $order->quantity;
+//                $product->qty_pay = $product->qty_pay + $order->quantity;
+//                $product->save();
+//            }
+//            $transaction->status = StatusTransaction::COMPLETED;
+//            $transaction->save();
+//        }
+//        return redirect()->back();
+
+        if ($action) {
+            switch ($action) {
+                case 'change-status':
+                    if ($orders) {
+                        foreach ($orders as $order) {
+                            $product = Product::find($order->product_id);
+                            $product->quantity = $product->quantity - $order->quantity;
+                            $product->qty_pay = $product->qty_pay + $order->quantity;
+                            $product->save();
+                        }
+                        $transaction->status = StatusTransaction::COMPLETED;
+                        $transaction->save();
+                    }
+                    break;
+                case 'cancel-order':
+                    $transaction->status = 'canceled';
+                    $transaction->save();
+                    break;
             }
-            $transaction->status = StatusTransaction::COMPLETED;
-            $transaction->save();
+            return redirect()->back();
         }
-        return redirect()->back();
     }
 }

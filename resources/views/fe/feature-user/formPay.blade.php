@@ -98,7 +98,7 @@
                                 <button class="btn btn-info d-none" type="submit" style="width: 212px; height: 50px; margin-bottom: 5px;" data-toggle="modal" data-target="#exampleModalBanking">Chuyển khoản</button>
                                 <form action="{{ route('shopping.payment-momo') }}" method="POST">
                                     @csrf
-                                    <input type="hidden" class="total-momo" name="total_momo" value="{{ $product->price * $product->qty }}">
+                                    <input type="hidden" class="total-momo" name="total_momo" value="{{ \Cart::subtotal(0, ',', '') }}">
                                     <button class="btn btn-warning d-none" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>
                                 </form>
                                 <div class="order-button-payment d-none">
