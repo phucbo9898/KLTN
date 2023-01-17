@@ -119,7 +119,13 @@ class ShoppingCartController extends CustomerController
 
     public function paymentMomo(Request $request)
     {
+//        dd($request->all());
         $amountTotal = (int)round($request->total_momo);
+        $userPayment = $request->name;
+        $addressPayment = $request->address;
+        $phonePayment = $request->phone_number;
+        $notePayment = $request->note;
+
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 
         $partnerCode = 'MOMOBKUN20180529';
@@ -127,14 +133,17 @@ class ShoppingCartController extends CustomerController
         $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
         $orderInfo = "Thanh toán qua ATM MoMo";
         $amount = $amountTotal;
-        $orderId = time() . "";
+        $orderId = $amountTotal . $phonePayment;
         $redirectUrl = "http://localhost:8080/webpc/public/feature-user/checkout";
         $ipnUrl = "http://localhost:8080/webpc/public/feature-user/checkout";
         $extraData = "";
+//        dd($extraData);
+//        dd($extraData);
 
         $requestId = time() . "";
         $requestType = "payWithATM";
 //        $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
+//        dd($extraData);
         //before sign HMAC SHA256 signature
         $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
         $signature = hash_hmac("sha256", $rawHash, $secretKey);
@@ -152,9 +161,14 @@ class ShoppingCartController extends CustomerController
             'lang' => 'vi',
             'extraData' => $extraData,
             'requestType' => $requestType,
-            'signature' => $signature
+            'signature' => $signature,
+            'name' => $userPayment,
+            'phone' => $phonePayment,
+            'address' => $addressPayment,
+            'note' => $notePayment
         );
         $result = $this->execPostRequest($endpoint, json_encode($data));
+//        dd($result);
         $jsonResult = json_decode($result, true);  // decode json
 
         return redirect()->to($jsonResult['payUrl']);

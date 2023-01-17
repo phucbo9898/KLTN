@@ -1,5 +1,7 @@
 @extends('fe.layout.master')
 @section('content')
+{{--    @dd($_GET['orderId'])--}}
+    <input type="hidden" class="order-id-momo" value="">
     <!-- Begin Li's Breadcrumb Area -->
     <div class="breadcrumb-area">
         <div class="container">
@@ -94,20 +96,23 @@
                             </table>
                         </div>
                         <div class="payment-method" style="margin-top: 0px !important;">
-                            @if(isset($_GET['partnerCode']))
-                                <button class="btn btn-info d-none" type="submit" style="width: 212px; height: 50px; margin-bottom: 5px;" data-toggle="modal" data-target="#exampleModalBanking">Chuyển khoản</button>
-                                <form action="{{ route('shopping.payment-momo') }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" class="total-momo" name="total_momo" value="{{ \Cart::subtotal(0, ',', '') }}">
-                                    <button class="btn btn-warning d-none" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>
-                                </form>
-                                <div class="order-button-payment d-none">
-                                    <button class="btn btn-primary" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Thanh toán khi nhận hàng</button>
-                                </div>
-                                <div class="order-button-payment">
-                                    <span style="color:#1cc88a; font-size: 18px;"><i class="fa fa-check-circle-o"></i>&ensp;Đã thanh toán</span> <br>
-                                    <button class="btn btn-primary" type="submit" id="submitFormSaveInfoPayment" style="width: 212px; height: 50px;margin-top: 5px;">Đặt hàng</button>
-                                </div>
+                            {{--                            @dd($payment['resultCode'] ?? '')--}}
+                            @if(isset($payment['resultCode']) && ($payment['resultCode'] == 1))
+{{--                                @if()--}}
+                                    <button class="btn btn-info d-none" type="submit" style="width: 212px; height: 50px; margin-bottom: 5px;" data-toggle="modal" data-target="#exampleModalBanking">Chuyển khoản</button>
+                                    <form action="{{ route('shopping.payment-momo') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" class="total-momo" name="total_momo" value="{{ \Cart::subtotal(0, ',', '') }}">
+                                        <button class="btn btn-warning d-none" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>
+                                    </form>
+                                    <div class="order-button-payment d-none">
+                                        <button class="btn btn-primary" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Thanh toán khi nhận hàng</button>
+                                    </div>
+                                    <div class="order-button-payment">
+                                        <span style="color:#1cc88a; font-size: 18px;"><i class="fa fa-check-circle-o"></i>&ensp;Đã thanh toán</span> <br>
+                                        <button class="btn btn-primary" type="submit" id="submitFormSaveInfoPayment" style="width: 212px; height: 50px;margin-top: 5px;">Đặt hàng</button>
+                                    </div>
+{{--                                @endif--}}
                             @else
                                 <h5>Chọn phương thức thanh toán</h5>
                                 <div class="order-button-payment">
@@ -121,7 +126,11 @@
                                     <label>Thanh toán bằng Momo</label>
                                     <form action="{{ route('shopping.payment-momo') }}" method="POST">
                                         @csrf
-                                        <input type="hidden" class="total-momo" name="total_momo" value="{{ $product->price * $product->qty }}">
+                                        <input type="hidden" class="name" name="name" value="">
+                                        <input type="hidden" class="address" name="address" value="{">
+                                        <input type="hidden" class="phone-number" name="phone_number" value="">
+                                        <input type="hidden" class="note" name="note" value="">
+                                        <input type="hidden" class="total-momo" name="total_momo" value="{{ \Cart::subtotal(0, ',', '') }}">
                                         <button class="btn btn-warning momo-payment" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>
                                     </form>
                                 </div>
@@ -159,6 +168,18 @@
 @section('javascript')
     <script>
         $(function() {
+            $("#check_name").on("change", function () {
+                $(".name").val($("#check_name").val())
+            })
+            $("#check_address").on("change", function () {
+                $(".address").val($("#check_address").val())
+            })
+            $("#check_phone").on("change", function () {
+                $(".phone-number").val($("#check_phone").val())
+            })
+            $("#checkout-mess").on("change", function () {
+                $(".note").val($("#checkout-mess").val())
+            })
             console.log($("input[name=payment]:checked").val())
             if ($("input[name=payment]:checked").val() == '' || $("input[name=payment]:checked").val() == undefined) {
                 $(".banking-payment").addClass('d-none')

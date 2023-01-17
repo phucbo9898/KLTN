@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\User\CustomerController;
+use App\Models\Category;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class RegisterController extends Controller
 {
     public function __construct(UserRepository $userRepo)
     {
         $this->userRepo = $userRepo;
+        $categories = Category::where('status', 'active')->get();
+        View::share('categories_search', $categories);
     }
 
     public function getRegister()
