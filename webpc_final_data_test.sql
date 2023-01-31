@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 11, 2023 at 11:04 AM
+-- Generation Time: Jan 31, 2023 at 10:22 AM
 -- Server version: 5.7.39
 -- PHP Version: 7.4.3
 
@@ -238,7 +238,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (5, '2022_11_19_092646_create_database', 1),
-(6, '2022_12_26_123349_change_column_url_to_slides_table', 2);
+(6, '2022_12_26_123349_change_column_url_to_slides_table', 2),
+(7, '2023_01_31_023620_add_column_to_transaction_table', 3),
+(8, '2023_01_31_035103_add_column_to_order_table', 4),
+(9, '2023_01_31_075254_change_column_to_transaction_table', 5),
+(10, '2023_01_31_075652_change_column_code_to_transaction_table', 6),
+(11, '2023_01_31_080237_change_column_to_orders_table', 7),
+(12, '2023_01_31_093922_change_column_total_to_transaction_table', 8);
 
 -- --------------------------------------------------------
 
@@ -266,7 +272,19 @@ INSERT INTO `notification` (`id`, `sender`, `receiver`, `content`, `created_at`,
 (3, 1, 1, 'Giao dịch <b>mã số 17</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!', '2023-01-10 02:54:29', NULL, NULL),
 (4, 1, 1, 'Giao dịch <b>mã số 17</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!', '2023-01-10 02:54:30', NULL, NULL),
 (5, 1, 1, 'Giao dịch <b>mã số 17</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!', '2023-01-10 02:56:10', NULL, NULL),
-(6, 1, 1, 'Giao dịch <b>mã số 21</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!', '2023-01-10 02:59:23', NULL, NULL);
+(6, 1, 1, 'Giao dịch <b>mã số 21</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!', '2023-01-10 02:59:23', NULL, NULL),
+(7, 1, 1, 'Giao dịch <b>mã số 28</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!', '2023-01-12 03:09:59', NULL, NULL),
+(8, 1, 1, 'Giao dịch mã số 20 có sản phẩm ASUS ROG STRIX RX 5600 XT-O6G GAMING đã hết hàng ! Chủ cửa hàng có thể nhập thêm hoặc đơn hàng này sẽ bị <b>HỦY</b> trong thời gian tới !!!', '2023-01-12 03:13:49', NULL, NULL),
+(9, 1, 1, 'Giao dịch <b>mã số 30</b> với ghi chú \"123123\" <b>ĐÃ BỊ HỦY</b> ! Khách hàng yêu ầu hủy đơn hàng !!!', '2023-01-12 03:38:27', NULL, NULL),
+(10, 1, 6, 'Giao dịch <b>mã số 22</b> với ghi chú \"123123\" <b>ĐÃ BỊ HỦY</b> ! Khách hàng yêu ầu hủy đơn hàng !!!', '2023-01-12 03:55:15', NULL, NULL),
+(11, 1, 1, 'Giao dịch <b>mã số 25</b> với ghi chú \"123123123\" <b>ĐÃ BỊ HỦY</b> ! Khách hàng yêu ầu hủy đơn hàng !!!', '2023-01-12 03:55:23', NULL, NULL),
+(12, 1, 1, 'Giao dịch mã số 18 có sản phẩm ASUS ROG STRIX RX 5600 XT-O6G GAMING đã hết hàng ! Chủ cửa hàng có thể nhập thêm hoặc đơn hàng này sẽ bị <b>HỦY</b> trong thời gian tới !!!', '2023-01-12 04:01:34', NULL, NULL),
+(13, 1, 1, 'Giao dịch <b>mã số 19</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!', '2023-01-12 04:03:12', NULL, NULL),
+(14, 1, 1, 'Giao dịch mã số 31 có sản phẩm test 123 123123123 đã hết hàng ! Chủ cửa hàng có thể nhập thêm hoặc đơn hàng này sẽ bị <b>HỦY</b> trong thời gian tới !!!', '2023-01-13 01:09:35', NULL, NULL),
+(15, 1, 1, 'Giao dịch mã số 31 có sản phẩm test 123 123123123 đã hết hàng ! Chủ cửa hàng có thể nhập thêm hoặc đơn hàng này sẽ bị <b>HỦY</b> trong thời gian tới !!!', '2023-01-13 01:10:13', NULL, NULL),
+(16, 1, 1, 'Giao dịch mã số 31 có sản phẩm test 123 123123123 đã hết hàng ! Chủ cửa hàng có thể nhập thêm hoặc đơn hàng này sẽ bị <b>HỦY</b> trong thời gian tới !!!', '2023-01-13 01:12:27', NULL, NULL),
+(17, 1, 1, 'Giao dịch <b>mã số 32</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!', '2023-01-13 01:12:31', NULL, NULL),
+(18, 1, 1, 'Giao dịch <b>mã số 31</b> với ghi chú \"123123123\" <b>ĐÃ BỊ HỦY</b> ! Khách hàng yêu ầu hủy đơn hàng !!!', '2023-01-13 01:14:09', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -283,27 +301,68 @@ CREATE TABLE `orders` (
   `sale` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `payment_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `quantity`, `price`, `sale`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(6, 17, 15, 1, 12000000, 5, '2023-01-01 01:22:57', '2023-01-01 01:22:57', NULL),
-(7, 18, 14, 1, 8599000, 5, '2023-01-07 01:23:15', '2023-01-07 01:23:15', NULL),
-(8, 19, 11, 1, 8899000, 10, '2023-01-07 01:23:34', '2023-01-07 01:23:34', NULL),
-(9, 20, 15, 1, 12000000, 5, '2023-01-07 01:24:17', '2023-01-07 01:24:17', NULL),
-(10, 20, 14, 1, 8599000, 5, '2023-01-07 01:24:17', '2023-01-07 01:24:17', NULL),
-(11, 20, 11, 1, 8899000, 10, '2023-01-07 01:24:17', '2023-01-07 01:24:17', NULL),
-(12, 20, 10, 1, 19299000, 0, '2023-01-07 01:24:17', '2023-01-07 01:24:17', NULL),
-(13, 21, 14, 100, 8599000, 5, '2023-01-08 21:54:55', '2023-01-08 21:54:55', NULL),
-(14, 22, 2, 1, 2949000, 0, '2023-01-10 21:56:34', '2023-01-10 21:56:34', NULL),
-(15, 23, 11, 1, 8899000, 10, '2023-01-11 02:31:42', '2023-01-11 02:31:42', NULL),
-(16, 23, 20, 1, 20000000, 20, '2023-01-11 02:31:42', '2023-01-11 02:31:42', NULL),
-(17, 24, 20, 1, 20000000, 20, '2023-01-11 03:13:58', '2023-01-11 03:13:58', NULL),
-(18, 25, 20, 1, 20000000, 20, '2023-01-11 03:14:34', '2023-01-11 03:14:34', NULL);
+INSERT INTO `orders` (`id`, `transaction_id`, `product_id`, `quantity`, `price`, `sale`, `created_at`, `updated_at`, `deleted_at`, `payment_code`) VALUES
+(6, 17, 15, 1, 12000000, 5, '2023-01-01 01:22:57', '2023-01-01 01:22:57', NULL, NULL),
+(7, 18, 14, 1, 8599000, 5, '2023-01-07 01:23:15', '2023-01-07 01:23:15', NULL, NULL),
+(8, 19, 11, 1, 8899000, 10, '2023-01-07 01:23:34', '2023-01-07 01:23:34', NULL, NULL),
+(9, 20, 15, 1, 12000000, 5, '2023-01-07 01:24:17', '2023-01-07 01:24:17', NULL, NULL),
+(10, 20, 14, 1, 8599000, 5, '2023-01-07 01:24:17', '2023-01-07 01:24:17', NULL, NULL),
+(11, 20, 11, 1, 8899000, 10, '2023-01-07 01:24:17', '2023-01-07 01:24:17', NULL, NULL),
+(12, 20, 10, 1, 19299000, 0, '2023-01-07 01:24:17', '2023-01-07 01:24:17', NULL, NULL),
+(13, 21, 14, 100, 8599000, 5, '2023-01-08 21:54:55', '2023-01-08 21:54:55', NULL, NULL),
+(14, 22, 2, 1, 2949000, 0, '2023-01-10 21:56:34', '2023-01-10 21:56:34', NULL, NULL),
+(15, 23, 11, 1, 8899000, 10, '2023-01-11 02:31:42', '2023-01-11 02:31:42', NULL, NULL),
+(16, 23, 20, 1, 20000000, 20, '2023-01-11 02:31:42', '2023-01-11 02:31:42', NULL, NULL),
+(17, 24, 20, 1, 20000000, 20, '2023-01-11 03:13:58', '2023-01-11 03:13:58', NULL, NULL),
+(18, 25, 20, 1, 20000000, 20, '2023-01-11 03:14:34', '2023-01-11 03:14:34', NULL, NULL),
+(19, 26, 19, 2, 23232323, 23, '2023-01-12 02:16:33', '2023-01-12 02:16:33', NULL, NULL),
+(20, 27, 20, 1, 20000000, 20, '2023-01-12 02:59:37', '2023-01-12 02:59:37', NULL, NULL),
+(21, 28, 19, 1, 23232323, 23, '2023-01-12 03:06:16', '2023-01-12 03:06:16', NULL, NULL),
+(22, 29, 20, 1, 20000000, 20, '2023-01-12 03:18:51', '2023-01-12 03:18:51', NULL, NULL),
+(23, 30, 15, 1, 12000000, 5, '2023-01-12 03:20:03', '2023-01-12 03:20:03', NULL, NULL),
+(24, 31, 19, 1, 23232323, 23, '2023-01-13 01:06:45', '2023-01-13 01:06:45', NULL, NULL),
+(25, 32, 19, 1, 23232323, 23, '2023-01-13 01:12:05', '2023-01-13 01:12:05', NULL, NULL),
+(26, 33, 11, 1, 8899000, 10, '2023-01-17 01:07:18', '2023-01-17 01:07:18', NULL, NULL),
+(27, 33, 10, 1, 19299000, 0, '2023-01-17 01:07:18', '2023-01-17 01:07:18', NULL, NULL),
+(28, 34, 20, 1, 200000000, 20, '2023-01-17 01:08:22', '2023-01-17 01:08:22', NULL, NULL),
+(29, 34, 11, 1, 8899000, 10, '2023-01-17 01:08:22', '2023-01-17 01:08:22', NULL, NULL),
+(30, 36, 11, 1, 8899000, 10, '2023-01-17 02:59:40', '2023-01-17 02:59:40', NULL, NULL),
+(31, 36, 10, 1, 19299000, 0, '2023-01-17 02:59:40', '2023-01-17 02:59:40', NULL, NULL),
+(32, 37, 11, 1, 8899000, 10, '2023-01-17 03:04:40', '2023-01-17 03:04:40', NULL, NULL),
+(33, 42, 20, 1, 200000000, 20, '2023-01-30 03:52:24', '2023-01-30 03:52:24', NULL, NULL),
+(34, 43, 20, 1, 200000000, 20, '2023-01-30 03:55:25', '2023-01-30 03:55:25', NULL, NULL),
+(35, 44, 20, 1, 200000000, 20, '2023-01-30 19:32:46', '2023-01-30 19:32:46', NULL, NULL),
+(36, 45, 20, 1, 200000000, 20, '2023-01-30 19:40:31', '2023-01-30 19:40:31', NULL, NULL),
+(37, 46, 20, 1, 200000000, 20, '2023-01-30 19:41:40', '2023-01-30 19:41:40', NULL, NULL),
+(38, 47, 10, 1, 19299000, 0, '2023-01-30 20:30:05', '2023-01-30 20:30:05', NULL, NULL),
+(42, 51, 20, 1, 200000000, 20, '2023-01-30 20:53:23', '2023-01-30 20:53:23', NULL, 'MGD-51'),
+(43, 52, 20, 1, 200000000, 20, '2023-01-31 00:51:20', '2023-01-31 00:51:20', NULL, NULL),
+(44, 53, 20, 1, 200000000, 20, '2023-01-31 01:00:02', '2023-01-31 01:00:02', NULL, NULL),
+(45, 54, 20, 1, 200000000, 20, '2023-01-31 01:01:54', '2023-01-31 01:01:54', NULL, NULL),
+(46, 55, 20, 1, 200000000, 20, '2023-01-31 01:03:55', '2023-01-31 01:03:55', NULL, 'MGD-55'),
+(47, 57, 11, 1, 8899000, 10, '2023-01-31 01:07:38', '2023-01-31 01:07:38', NULL, 'MGD-57'),
+(48, 58, 11, 1, 8899000, 10, '2023-01-31 01:16:38', '2023-01-31 01:16:38', NULL, 'MGD-58'),
+(49, 59, 11, 1, 8899000, 10, '2023-01-31 01:19:21', '2023-01-31 01:19:21', NULL, 'MGD-59'),
+(50, 60, 11, 1, 8899000, 10, '2023-01-31 01:20:30', '2023-01-31 01:20:30', NULL, 'MGD-60'),
+(51, 61, 11, 1, 8899000, 10, '2023-01-31 01:21:11', '2023-01-31 01:21:11', NULL, 'MGD-61'),
+(52, 62, 20, 1, 200000000, 20, '2023-01-31 02:27:20', '2023-01-31 02:27:20', NULL, 'MGD-62'),
+(53, 63, 20, 1, 200000000, 20, '2023-01-31 02:30:32', '2023-01-31 02:30:32', NULL, 'MGD-63'),
+(54, 64, 20, 1, 200000000, 20, '2023-01-31 02:31:00', '2023-01-31 02:31:00', NULL, 'MGD-64'),
+(55, 65, 20, 1, 200000000, 20, '2023-01-31 02:31:25', '2023-01-31 02:31:25', NULL, 'MGD-65'),
+(56, 66, 10, 1, 19299000, 0, '2023-01-31 02:35:11', '2023-01-31 02:35:11', NULL, 'MGD-66'),
+(57, 66, 11, 2, 8899000, 10, '2023-01-31 02:35:11', '2023-01-31 02:35:11', NULL, 'MGD-66'),
+(58, 67, 20, 2, 200000000, 20, '2023-01-31 02:40:51', '2023-01-31 02:40:51', NULL, 'MGD-67'),
+(59, 67, 11, 1, 8899000, 10, '2023-01-31 02:40:51', '2023-01-31 02:40:51', NULL, 'MGD-67'),
+(60, 67, 15, 1, 12000000000, 5, '2023-01-31 02:40:51', '2023-01-31 02:40:51', NULL, 'MGD-67'),
+(61, 67, 10, 1, 19299000, 0, '2023-01-31 02:40:51', '2023-01-31 02:40:51', NULL, 'MGD-67');
 
 -- --------------------------------------------------------
 
@@ -316,6 +375,27 @@ CREATE TABLE `password_resets` (
   `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment`
+--
+
+CREATE TABLE `payment` (
+  `partnerCode` varchar(255) NOT NULL,
+  `orderId` varchar(255) NOT NULL,
+  `requestId` varchar(255) DEFAULT NULL,
+  `amount` varchar(255) DEFAULT NULL,
+  `orderInfo` varchar(255) DEFAULT NULL,
+  `orderType` varchar(255) DEFAULT NULL,
+  `transId` varchar(255) DEFAULT NULL,
+  `payType` varchar(255) DEFAULT NULL,
+  `signature` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `resultCode` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -376,14 +456,14 @@ INSERT INTO `products` (`id`, `name`, `slug`, `category_id`, `price`, `author_id
 (8, 'ASUS DUAL RTX 2060 Super-8G EVO', 'asus-dual-rtx-2060-super-8g-evo', 3, 11099000, NULL, 0, 'active', 'no', 'Bỏ qua', '<h2>Đặc điểm nổi bật của Card m&agrave;n h&igrave;nh ASUS DUAL RTX 2060 Super-8G EVO (8GB GDDR6, 256-bit, DVI+HDMI+DP, 1x8-pin)</h2>\r\n\r\n<h3>Giới thiệu Card m&agrave;n h&igrave;nh Asus Dual RTX 2060 Super EVO 8GB GDDR6 (DUAL-RTX2060S-8G-EVO)</h3>\r\n\r\n<p>RTX 2060 Super EVO 8GB GDDR6 l&agrave; 1 trong những d&ograve;ng card m&agrave;n h&igrave;nh cao cấp mới nhất của ASUS, sử dụng bộ xử l&yacute; đồ họa RTX 2060 với hiệu năng chơi game tuyệt vời cộng th&ecirc;m với khả năng hỗ trợ c&aacute;c c&ocirc;ng nghệ h&igrave;nh ảnh mới nhất hiện nay như DLSS, Ray tracing VRS của NVIDIA v&agrave; thiết kế tản nhiệt tối ưu của ASUS.</p>\r\n\r\n<p>&nbsp;<img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47501_asugeforce_rtx_20_serieimage1024x512.jpg\" /></p>\r\n\r\n<h3>Tản nhiệt</h3>\r\n\r\n<p>RTX 2060 Super EVO 8GB GDDR6 sử dụng thiết kế quạt hướng trục, được thiết kế cho card đồ họa ROG cao cấp mới nhất, những chiếc quạt n&agrave;y c&oacute; một phần trục nhỏ hơn tạo cho c&aacute;c lưỡi dao d&agrave;i hơn v&agrave; chắc chắc để tăng &aacute;p suất kh&iacute; đi xuống.</p>\r\n\r\n<p>Tận dụng thiết kế 2,7 khe để c&oacute; được diện t&iacute;ch bề mặt tản nhiệt nhiều hơn, khoảng trống tăng th&ecirc;m khả năng &eacute;p xung v&agrave; cho ph&eacute;p người sử dụng chạy ở tốc độ thấp hơn.</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47501_Card-mn-hnh-ASUS-DUAL-RTX-2060-Super-8G-EVO-1.jpg\" width=\"100%\" /></p>\r\n\r\n<p>Ngo&agrave;i ra, để tối ưu hiệu năng tản nhiệt, cả 2 quạt l&agrave;m m&aacute;t đều ngừng hoạt động khi nhiệt độ thấp hơn 55 độ C nhằm giảm thiểu tối đa độ ồn đối với c&aacute;c nhu cầu giải tr&iacute; nhẹ nh&agrave;ng.</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47501_Card-mn-hnh-ASUS-DUAL-RTX-2060-Super-8G-EVO-2.gif\" width=\"100%\" /></p>\r\n\r\n<h3>Thiết kế</h3>\r\n\r\n<p>Mặt sau của card l&agrave; 1 tấm backplate lớn bằng nh&ocirc;m, gi&uacute;p tho&aacute;t 1 phần nhiệt từ card đồng thời tăng độ cứng c&aacute;p cho bo mạch v&agrave; tạo điểm nhấn trong thiết kế.</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47501_Card-mn-hnh-ASUS-DUAL-RTX-2060-Super-8G-EVO-3.png\" width=\"100%\" /></p>\r\n\r\n<p>RTX 2060 Super EVO 8GB GDDR6 được sản xuất dựa tr&ecirc;n d&acirc;y chuyền tự động c&ocirc;ng nghệ cao của ASUS gi&uacute;p giảm thiểu tối đa tỉ lệ lỗi sản phẩm cũng như tăng cường tuổi thọ hoạt động của c&aacute;c linh kiện.</p>\r\n\r\n<p>Hơn thế nữa tất cả những chiếc card RTX 2060 Super EVO 8GB GDDR6 đều được kiểm định với quy tr&igrave;nh nghi&ecirc;m ngặt l&ecirc;n tới 144 tiếng của ASUS nhằm đem lại trải nghiệm tốt nhất đến tay game thủ.</p>\r\n\r\n<h3>Đ&egrave;n</h3>\r\n\r\n<p>RTX 2060 Super EVO 8GB GDDR6 được thiết kế rất đơn giản, kh&ocirc;ng m&agrave;u m&egrave; như nhiều d&ograve;ng card m&agrave;n h&igrave;nh kh&aacute;c. Chỉ với 1 dải đ&egrave;n LED b&ecirc;n h&ocirc;ng nhằm tạo điểm nhấn nổi bật v&agrave; dễ phối m&agrave;u.</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47501_Card-mn-hnh-ASUS-DUAL-RTX-2060-Super-8G-EVO-4.png\" width=\"100%\" /></p>\r\n\r\n<h3>G-Sync</h3>\r\n\r\n<p>Với b&ocirc;̣ xử lý mạnh mẽ RTX 2060, game thủ sẽ được trải nghi&ecirc;̣m ch&acirc;́t lượng hình ảnh t&ocirc;́t nh&acirc;́t th&ocirc;ng qua c&ocirc;ng ngh&ecirc;̣ G-Sync của NVIDIA giúp loại bỏ hi&ecirc;̣n tượng rách hình khi chơi game.</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47501_Card-mn-hnh-ASUS-DUAL-RTX-2060-Super-8G-EVO-5.png\" width=\"100%\" /></p>\r\n\r\n<h3>Phần mềm</h3>\r\n\r\n<p>RTX 2060 Super EVO 8GB GDDR6, game thủ có th&ecirc;̉ thỏa sức tùy chỉnh th&acirc;̣m chí ép xung card theo ý thích đ&ecirc;̉ đạt được hi&ecirc;̣u năng cao nh&acirc;́t có th&ecirc;̉.</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47501_Card-mn-hnh-ASUS-DUAL-RTX-2060-Super-8G-EVO-6.png\" width=\"100%\" /></p>', 'qHJ_49798_msi_rtx_2060_super_ventugp_oc_01.jpg', 0, 200, 0, 0, '2020-06-11 12:11:54', '2023-01-01 06:32:11', NULL),
 (9, 'MSI RX 580 ARMOR 8G OC', 'msi-rx-580-armor-8g-oc', 2, 4999000, NULL, 0, 'active', 'no', 'Bỏ qua', '<h2>Đặc điểm nổi bật của Card m&agrave;n h&igrave;nh MSI RX 580 ARMOR 8G OC (8GB GDDR5, 256-bit, DVI+HDMI+DP, 1x8-pin)</h2>\r\n\r\n<h2>Những điểm nổi bật của MSI RX 580 ARMOR 8G OC</h2>\r\n\r\n<h3><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51491_RX580Amor.png\" width=\"100%\" />THIẾT KẾ ĐEN &amp; TRẮNG</h3>\r\n\r\n<p>Chơi game l&agrave; phải phong c&aacute;ch, phải kh&aacute;c biệt với card đồ họa độc nhất MSI&rsquo;s ARMOR. Thiết kế ti&ecirc;n tiến với gi&aacute;p che sang trọng cứng c&aacute;p. Card đồ họa ARMOR l&agrave; lựa chọn ho&agrave;n hảo cho game thủ hay c&aacute;c modder đang cần t&igrave;m kiếm những điều kh&aacute;c biệt.</p>\r\n\r\n<h3>QUẠT K&Eacute;P</h3>\r\n\r\n<p>ARMOR 2X sử dụng thiết kế tản nhiệt của quạt MSI TORX. Với thiết kế c&aacute;nh quạt l&aacute; l&uacute;a, quạt MSI TORX mang lại hiệu suất l&agrave;m m&aacute;t mạnh mẽ với độ ồn thấp nhất.</p>\r\n\r\n<h3>C&Ocirc;NG NGHỆ ZERO FROZR-STAY</h3>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51491_HNC580Amor2.jpg\" width=\"100%\" /></p>\r\n\r\n<p>Lần đầu được giới thiệu v&agrave;o năm 2008 bởi MSI, c&ocirc;ng nghệ ZeroFrozr đ&atilde; tạo được dấu ấn của ri&ecirc;ng n&oacute; v&agrave; giờ đ&acirc;y trở th&agrave;nh chuẩn c&ocirc;ng nghiệp chung giữa c&aacute;c card đồ họa. N&oacute; gi&uacute;p loại bỏ tiếng ồn của card bằng c&aacute;ch giảm hoạt động quạt trong những t&igrave;nh huống tải thấp. Điều n&agrave;y nghĩa l&agrave; bạn c&oacute; thể tập trung chơi game m&agrave; kh&ocirc;ng bị l&agrave;m phiền bởi tiếng quạt quay.</p>\r\n\r\n<h3>QUẠT TH&Ocirc;NG MINH</h3>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51491_HNC580Amor.jpg\" width=\"100%\" /></p>\r\n\r\n<p>Dưới vỏ ốp l&aacute;t sang trọng v&agrave; hệ thống quạt k&eacute;p l&agrave; một tản nhiệt khổng lồ với v&ocirc; số v&acirc;y nh&ocirc;m gi&uacute;p giải t&aacute;n nhiệt từ GPU. C&aacute;c ống dẫn bằng đồng được truyền v&agrave;o l&aacute; nh&ocirc;m để đảm bảo l&agrave;m m&aacute;t hiệu quả. V&acirc;y nh&ocirc;m được trang bị c&ocirc;ng nghệ Airflow Control để tối đa h&oacute;a luồng kh&ocirc;ng kh&iacute; hướng về ống dẫn nhiệt.</p>\r\n\r\n<p>Mang lại cảm gi&aacute;c chơi game mượt nhất, th&uacute; vị nhất bằng c&aacute;ch loại bỏ x&eacute; h&igrave;nh, lag h&igrave;nh v&agrave; tăng cao tốc độ m&agrave;n trập.</p>\r\n\r\n<p>Độ ph&acirc;n giải cực cao (UHD) tăng l&ecirc;n 4x độ ph&acirc;n giải so với 1080p, cho ph&eacute;p mang lại h&igrave;nh ảnh sắc n&eacute;t v&agrave; sinh động hơn cho c&aacute;c chi tiết trong game.</p>\r\n\r\n<h3>CHUẨN BỊ CHO TRẢI NGHIỆM VR VỚI MSI</h3>\r\n\r\n<p>Để tận hưởng thể giới ảo một c&aacute;ch ch&acirc;n thật nhất, hiệu suất phần cứng l&agrave; một yếu tố kh&ocirc;ng thể thiếu. MSI, thương hiệu h&agrave;ng đầu thế giới về game v&agrave; esport, mang lại những hỗ trợ tuyệt vời cho hệ thống VR Ready. Với c&aacute;c t&iacute;ch hợp phần cứng tốt nhất v&agrave; ti&ecirc;n tiến gi&uacute;p cho MSI VR hoạt động trơn tru nhất. C&ugrave;ng với c&aacute;c đối t&aacute;c, MSI mang đến cho game thủ một trải nghiệm thực tế ảo sống động đến kh&oacute; tin.</p>\r\n\r\n<h3>AFTERBURNER</h3>\r\n\r\n<p>MSI Afterburner đứng đầu thế giới&rsquo;s l&agrave; card đồ họa được c&ocirc;ng nhận v&agrave; sử dụng rộng r&atilde;i về t&iacute;nh năng cho ph&eacute;p bạn kiểm so&aacute;t to&agrave;n bộ card đồ họa trong qu&aacute; tr&igrave;nh &eacute;p xung. N&oacute; mạng lại một c&aacute;i nh&igrave;n tổng quan v&agrave; chi tiết về phần cứng card đồ họa, hơn nữa c&ograve;n đi k&egrave;m với một số t&iacute;nh năng t&ugrave;y biến quạt tản nhiệt, quay video v&agrave; benchmarking.</p>', 'xwX_51491_msi_rx_580_armor_8g_oc_01.jpg', 1, 99, 0, 0, '2020-06-11 12:14:01', '2020-06-12 03:07:12', NULL),
 (10, 'EVGA GeForce RTX 2080 XC BLACK EDITION GAMING-8GB', 'evga-geforce-rtx-2080-xc-black-edition-gaming-8gb', 1, 19299000, NULL, 0, 'active', 'yes', 'Bỏ qua', '<h2>Đặc điểm nổi bật của Card m&agrave;n h&igrave;nh EVGA GeForce RTX 2080 XC BLACK EDITION GAMING-8GB (8GB GDDR6, 256-bit, HDMI+DP+Type C, 1x6-pin+1x8-pin)&nbsp;</h2>\r\n\r\n<h2><strong>Giới thiệu card đồ họa&nbsp;EVGA GeForce RTX 2080 XC BLACK EDITION GAMING 8GB&nbsp;</strong></h2>\r\n\r\n<p><strong><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47192_EVGAGeForceRTX2080XCBLACKEDITIONGAMING8GB002.jpg\" width=\"100%\" /></strong></p>\r\n\r\n<p><strong>EVGA GeForce RTX 2080 XC BLACK EDITION GAMING 8GB</strong>&nbsp;mang trong m&igrave;nh rất nhiều cải tiến so với d&ograve;ng card GTX 10 Series trước đ&oacute;. Ch&uacute;ng ta sẽ c&oacute; một chiếc card đồ hoạ mang kiến tr&uacute;c mới Turing, c&oacute; tới 4352 nh&acirc;n Cuda Core, 8Gb bộ nhớ đệm DDR6 với tốc độ của bộ nhớ l&ecirc;n tới 14Gbps, giao diện bộ nhớ 256bit v&agrave; tốc độ băng th&ocirc;ng đạt 448 Gb/s.&nbsp;<strong>RTX2080</strong>&nbsp;hỗ trợ l&ecirc;n tới 4 m&agrave;n h&igrave;nh c&ugrave;ng l&uacute;c với độ ph&acirc;n giải tối đa l&agrave; 7680x4320.</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47192_EVGAGeForceRTX2080XCBLACKEDITION001.jpg\" width=\"100%\" /></p>\r\n\r\n<p><strong>Real-Time Ray Tracing</strong>: Đổ b&oacute;ng v&agrave; tăng khả năng tương phản giữa c&aacute;c vật, đem lại trải nghiệm ch&acirc;n thực.</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47192_EVGAGeForceRTX2080XCBLACKEDITIONGAMING8GB.jpg\" width=\"100%\" /></p>\r\n\r\n<p><strong>Nvidia Geforce Experience</strong>: Hỗ trợ người d&ugrave;ng Record, Stream Game&hellip;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47192_NvidiaGeforceExperience004.jpg\" width=\"100%\" /></p>\r\n\r\n<p><strong>Nvidia Ansel</strong>: Hỗ trợ chụp ảnh 360 khi chơi game VR v&agrave; c&oacute; hỗ trợ tới cả HDR</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47192_EVGAGeForceRTX2080XCBLACKEDITIONGAMING8GB005.jpg\" width=\"100%\" /></p>\r\n\r\n<p><strong>Nvidia Highlight</strong></p>\r\n\r\n<p><strong><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47192_EVGAGeForceRTX2080XCBLACKEDITIONGAMING8GB006.jpg\" width=\"100%\" /></strong></p>\r\n\r\n<p><strong>Nvidia G-Sync Compatible</strong>: Hỗ trợ đồng bộ khung h&igrave;nh đạt được c&ugrave;ng với tần số qu&eacute;t cao của m&agrave;n h&igrave;nh để cho trải nghiệm tốt nhất.</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47192_EVGAGeForceRTX2080XCBLACKEDITIONGAMING8GB006.png\" width=\"100%\" /></p>\r\n\r\n<p><strong>Nvidia NVLink (SLI ready)</strong></p>\r\n\r\n<p><strong><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47192_EVGAGeForceRTX2080XCBLACKEDITIONGAMING8GB007.gif\" width=\"100%\" /></strong></p>\r\n\r\n<p><strong>VR Ready:&nbsp;</strong>Hỗ trợ chơi game thực tế ảo VR</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47192_EVGAGeForceRTX2080XCBLACKEDITIONGAMING8GB008.png\" width=\"100%\" /></p>\r\n\r\n<p><strong>Microsoft&reg; DirectX&reg; 12 API, Vulkan API, OpenGL 4/5</strong></p>\r\n\r\n<p><strong><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/47192_EVGAGeForceRTX2080XCBLACKEDITIONGAMING8GB009.jpg\" width=\"100%\" /></strong></p>', 'YGH_47192_evga_geforce_rtx_2080_xc_black_edition_gaming___8gb_____01.jpg', 5, 199, 1, 4, '2020-06-11 12:16:28', '2023-01-01 06:32:06', NULL),
-(11, 'MSI RX 5600 XT GAMING X', 'msi-rx-5600-xt-gaming-x', 2, 8899000, NULL, 10, 'active', 'yes', 'Bỏ quaBỏ quaBỏ qua', '<h2>Đặc điểm nổi bật của Card m&agrave;n h&igrave;nh MSI RX 5600 XT GAMING X (6GB GDDR6, 192-bit, HDMI+DP, 2x8-pin)</h2>\r\n\r\n<h3>Thiết kế cao cấp</h3>\r\n\r\n<p>Sự trở lại rất được mong đợi đến từ card đồ họa&nbsp;<strong><a href=\"https://www.hanoicomputer.vn/card-man-hinh-msi-rx-5600-xt-gaming-x-6gd/p51709.html\" title=\"MSI RX 5600 XT GAMING X - 6GD\">MSI RX 5600 XT GAMING X - 6GD</a></strong>&nbsp;với thiết kế quạt tản nhiệt k&eacute;p mang t&iacute;nh biểu tượng của MSI. Kết hợp ho&agrave;n h&atilde;o giữa m&agrave;u đen v&agrave; m&agrave;u x&aacute;m gunmetal với tấm ốp kim loại được thiết kế phay xước, sự ho&agrave;n hảo n&agrave;y mang đến cho bạn thiết kế cao cấp với hiệu ứng &aacute;nh s&aacute;ng RGB tuyệt đẹp v&agrave; mượt m&agrave; ở lớp vỏ, đảm bảo đem lại sự ấn tượng mạnh mẽ cho bạn v&agrave; mọi người xung quanh.</p>\r\n\r\n<p><img alt=\"Thiet Ke Card Man Hinh MSI RX 5600 XT GAMING X - 6GD\" height=\"813\" src=\"https://hanoicomputercdn.com/media/lib/51709_ThietKeCardManHinhMSIRX5600XTGAMINGX-6GD.jpg\" width=\"1650\" /></p>\r\n\r\n<h3>Tản nhiệt độc quyền</h3>\r\n\r\n<p>Thế hệ thứ 7 của tản nhiệt MSI TWIN FROZR Thermal Design nổi tiếng mang đến c&ocirc;ng nghệ ti&ecirc;n tiến nhất cho hiệu suất l&agrave;m m&aacute;t tuyệt đỉnh.&nbsp;MSI RX 5600 XT GAMING X - 6GD được trang bị TORX FAN 3.0 mới kết hợp với c&aacute;c cơ chế kh&iacute; động học đột ph&aacute;. Điều n&agrave;y sẽ đem lại cho hệ thống PC một hiệu suất ổn định v&agrave; hoạt động y&ecirc;n tĩnh nhờ nhiệt độ được đảm bảo ở mức thấp nhất.</p>\r\n\r\n<p><img alt=\"Tan Nhiet Card Man Hinh MSI RX 5600 XT GAMING X - 6GD\" height=\"511\" src=\"https://hanoicomputercdn.com/media/lib/51709_TanNhietCardManHinhMSIRX5600XTGAMINGX-6GD.png\" width=\"1650\" /></p>\r\n\r\n<h3>Đường v&acirc;n nổi bật</h3>\r\n\r\n<p>B&ecirc;n dưới tất cả c&aacute;c tấm kim loại l&agrave; c&aacute;c đường v&acirc;n bo mạch xen kẽ nhiều lớp tạo n&ecirc;n bảng mạch in ho&agrave;n chỉnh tr&ecirc;n&nbsp;MSI RX 5600 XT GAMING X - 6GD. Ch&uacute;ng kết nối tất cả c&aacute;c th&agrave;nh phần quan trọng tr&ecirc;n bo mạch v&agrave; cho ph&eacute;p giao tiếp với tốc độ cực nhanh.</p>\r\n\r\n<p><img alt=\"Bo Mach Card Man Hinh MSI RX 5600 XT GAMING X - 6GD\" height=\"773\" src=\"https://hanoicomputercdn.com/media/lib/51709_BoMachCardManHinhMSIRX5600XTGAMINGX-6GD.jpg\" width=\"1650\" /></p>\r\n\r\n<h3>Trải nghiệm chơi game tối đa</h3>\r\n\r\n<p>Tận dụng tối đa&nbsp;<strong><a href=\"https://www.hanoicomputer.vn/vga-card-man-hinh/c34.html\" title=\"card đồ họa\">card đồ họa</a></strong>&nbsp;MSI RX 5600 XT GAMING X - 6GD của bạn về hiệu suất xử đồ họa v&agrave; trải nghiệm c&aacute;c t&ugrave;y chọn t&ugrave;y chỉnh gần như kh&ocirc;ng giới hạn với phần mềm hỗ trợ đi k&egrave;m như: t&ugrave;y chỉnh thiết lập với Dragon Center, t&ugrave;y chỉnh &aacute;nh s&aacute;ng với Mystic Light, &eacute;p xung xử l&yacute; với MSI Afterburner...</p>\r\n\r\n<p><img alt=\"Trai Nghiem Card Man Hinh MSI RX 5600 XT GAMING X - 6GD\" height=\"773\" src=\"https://hanoicomputercdn.com/media/lib/51709_TraiNghiemCardManHinhMSIRX5600XTGAMINGX-6GD.jpg\" width=\"1650\" /></p>', 'Ji0_51709_vo_hop_card_man_hinh_msi_rx_5600_xt_gaming_x___6gd.jpg', 3, 199, 1, 5, '2020-06-11 12:30:32', '2023-01-01 06:32:02', NULL),
-(14, 'ASUS ROG STRIX RX 5600 XT-O6G GAMING', 'asus-rog-strix-rx-5600-xt-o6g-gaming', 2, 8599000, NULL, 5, 'active', 'yes', 'Bỏ quaBỏ qua', '<h2>Đặc điểm nổi bật của Card m&agrave;n h&igrave;nh ASUS ROG STRIX RX 5600 XT-O6G GAMING (6GB GDDR6, 192-bit,HDMI+DP, 1x6-pin + 1x8-pin)</h2>\r\n\r\n<h3><strong>Giới thiệu&nbsp;VGA ASUS</strong><strong>&nbsp;</strong><strong>ROG-STRIX-RX5600XT-O6G-GAMING</strong></h3>\r\n\r\n<p><strong><img alt=\"\" src=\"https://hanoicomputercdn.com/media/product/51851_asus_radeon_rx_5600_xt_rog_strix_top_packs_14gbps_gddr6_2.jpg\" width=\"100%\" /></strong></p>\r\n\r\n<h3><strong>Khả năng l&agrave;m m&aacute;t</strong></h3>\r\n\r\n<p>Thiết kế quạt hướng trục</p>\r\n\r\n<p>C&ocirc;ng nghệ 0dB&nbsp;cho ph&eacute;p bạn thưởng thức c&aacute;c game nhẹ ở trạng th&aacute;i tương đối tĩnh lặng.</p>\r\n\r\n<p>C&ocirc;ng tắc&nbsp;<strong>BIOS k&eacute;p</strong>&nbsp;cho ph&eacute;p bạn chuyển đổi giữa c&aacute;c thiết lập Quiet v&agrave; Performance BIOS</p>\r\n\r\n<p>Thiết kế 2,7 khe với độ d&agrave;y 2.7 để c&oacute; thể chứa được một bộ tản nhiệt lớn hơn v&igrave; tản nhiệt c&agrave;ng lớn c&agrave;ng tốt hơn.&nbsp; &nbsp; &nbsp;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_Explode.png\" />&nbsp; &nbsp; &nbsp;&nbsp;</p>\r\n\r\n<h3><strong>C&ocirc;ng nghệ Auto-Extreme</strong></h3>\r\n\r\n<p>Được sản xuất bằng c&ocirc;ng nghệ Auto-Extreme- quy tr&igrave;nh sản xuất tự động h&oacute;a đề ra những ti&ecirc;u chuẩn mới trong ng&agrave;nh c&ocirc;ng nghiệp, giảm được biến dạng do nhiệt l&ecirc;n c&aacute;c linh kiện v&agrave; tr&aacute;nh được phải sử dụng c&aacute;c h&oacute;a chất tẩy rửa mạnh&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_asus-auto-extreme-technology.jpg\" />&nbsp; &nbsp; &nbsp; &nbsp;</p>\r\n\r\n<h3>GPU Tweak II</h3>\r\n\r\n<p>Tiện &iacute;ch ASUS GPU Tweak II hỗ trợ điều chỉnh hiệu năng card đồ họa v&agrave; n&acirc;ng l&ecirc;n một đẳng cấp mới. Tiện &iacute;ch n&agrave;y cho ph&eacute;p bạn tinh chỉnh c&aacute;c tham số quan trọng bao gồm c&aacute;c thiết lập xung l&otilde;i GPU, tần suất bộ nhớ, điện &aacute;p,...</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_product-gpu-TweakII.png\" /></p>\r\n\r\n<h3><strong>C&ocirc;ng nghệ MaxContact</strong></h3>\r\n\r\n<p>MaxContact l&agrave; một c&ocirc;ng nghệ đầu ng&agrave;nh ứng dụng gia c&ocirc;ng ch&iacute;nh x&aacute;c để tạo một bề mặt tản nhiệt tiếp x&uacute;c nhiều hơn 2 lần với chip GPU, gi&uacute;p cải thiện truyền nhiệt.&nbsp; &nbsp;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_cooling-pic4.jpg\" />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>\r\n\r\n<h3><strong>Điều khiển quạt th&ocirc;ng minh</strong></h3>\r\n\r\n<p>ASUS FanConnect II c&oacute; hai đầu cắm 4 ch&acirc;n điều khiển kết hợp được kết nối với c&aacute;c quạt hệ thống PWM v&agrave; DC để l&agrave;m m&aacute;t hệ thống tối ưu. C&aacute;c quạt được kết nối phản ứng với nhiệt độ của GPU v&agrave; CPU để hệ thống của bạn được l&agrave;m m&aacute;t tối ưu bất kể bạn l&agrave;m g&igrave;.&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<h3>AMD Radeon FreeSync&nbsp;&trade;</h3>\r\n\r\n<p>Trải nghiệm chơi game kh&ocirc;ng bị r&aacute;ch, kh&ocirc;ng bị r&aacute;ch với c&ocirc;ng nghệ AMD Radeon FreeSync &trade;&nbsp;<sup>1</sup>&nbsp;v&agrave; FreeSync &trade; 2 HDR&nbsp;<sup>2</sup>&nbsp; &nbsp;&nbsp;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_amd_radeon_freesync_on.png\" /></p>\r\n\r\n<h3><strong>Aura Sync</strong></h3>\r\n\r\n<p>Trang bị phần mềm Aura Sync để kết nối c&aacute;c sản phẩm tương th&iacute;ch, gi&uacute;p c&agrave;i đặt t&ugrave;y chỉnh game được ho&agrave;n to&agrave;n. Bạn c&oacute; thể đồng bộ với nhạc, thay m&agrave;u dựa tr&ecirc;n nhiệt độ hoặc chọn từ một số lượng mẫu v&agrave; t&ugrave;y chọn m&agrave;u tĩnh lớn.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_Aura-Sync.png\" /></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>', 'upload/product/2022-12-31_X4q_51851_asus_radeon_rx_5600_xt_rog_strix_top_packs_14gbps_gddr6_2.jpg', 100, 0, 1, 5, '2022-12-30 21:00:52', '2023-01-10 03:30:15', NULL),
-(15, 'test', 'test', 1, 12000000, NULL, 5, 'active', 'yes', 'Bỏ qua', '<p>test</p>', 'upload/product/2023-01-01_vpsk.png', 6, 99, NULL, NULL, '2023-01-01 06:50:28', '2023-01-10 02:56:10', NULL),
+(11, 'MSI RX 5600 XT GAMING X', 'msi-rx-5600-xt-gaming-x', 2, 8899000, NULL, 10, 'active', 'yes', 'Bỏ quaBỏ quaBỏ qua', '<h2>Đặc điểm nổi bật của Card m&agrave;n h&igrave;nh MSI RX 5600 XT GAMING X (6GB GDDR6, 192-bit, HDMI+DP, 2x8-pin)</h2>\r\n\r\n<h3>Thiết kế cao cấp</h3>\r\n\r\n<p>Sự trở lại rất được mong đợi đến từ card đồ họa&nbsp;<strong><a href=\"https://www.hanoicomputer.vn/card-man-hinh-msi-rx-5600-xt-gaming-x-6gd/p51709.html\" title=\"MSI RX 5600 XT GAMING X - 6GD\">MSI RX 5600 XT GAMING X - 6GD</a></strong>&nbsp;với thiết kế quạt tản nhiệt k&eacute;p mang t&iacute;nh biểu tượng của MSI. Kết hợp ho&agrave;n h&atilde;o giữa m&agrave;u đen v&agrave; m&agrave;u x&aacute;m gunmetal với tấm ốp kim loại được thiết kế phay xước, sự ho&agrave;n hảo n&agrave;y mang đến cho bạn thiết kế cao cấp với hiệu ứng &aacute;nh s&aacute;ng RGB tuyệt đẹp v&agrave; mượt m&agrave; ở lớp vỏ, đảm bảo đem lại sự ấn tượng mạnh mẽ cho bạn v&agrave; mọi người xung quanh.</p>\r\n\r\n<p><img alt=\"Thiet Ke Card Man Hinh MSI RX 5600 XT GAMING X - 6GD\" height=\"813\" src=\"https://hanoicomputercdn.com/media/lib/51709_ThietKeCardManHinhMSIRX5600XTGAMINGX-6GD.jpg\" width=\"1650\" /></p>\r\n\r\n<h3>Tản nhiệt độc quyền</h3>\r\n\r\n<p>Thế hệ thứ 7 của tản nhiệt MSI TWIN FROZR Thermal Design nổi tiếng mang đến c&ocirc;ng nghệ ti&ecirc;n tiến nhất cho hiệu suất l&agrave;m m&aacute;t tuyệt đỉnh.&nbsp;MSI RX 5600 XT GAMING X - 6GD được trang bị TORX FAN 3.0 mới kết hợp với c&aacute;c cơ chế kh&iacute; động học đột ph&aacute;. Điều n&agrave;y sẽ đem lại cho hệ thống PC một hiệu suất ổn định v&agrave; hoạt động y&ecirc;n tĩnh nhờ nhiệt độ được đảm bảo ở mức thấp nhất.</p>\r\n\r\n<p><img alt=\"Tan Nhiet Card Man Hinh MSI RX 5600 XT GAMING X - 6GD\" height=\"511\" src=\"https://hanoicomputercdn.com/media/lib/51709_TanNhietCardManHinhMSIRX5600XTGAMINGX-6GD.png\" width=\"1650\" /></p>\r\n\r\n<h3>Đường v&acirc;n nổi bật</h3>\r\n\r\n<p>B&ecirc;n dưới tất cả c&aacute;c tấm kim loại l&agrave; c&aacute;c đường v&acirc;n bo mạch xen kẽ nhiều lớp tạo n&ecirc;n bảng mạch in ho&agrave;n chỉnh tr&ecirc;n&nbsp;MSI RX 5600 XT GAMING X - 6GD. Ch&uacute;ng kết nối tất cả c&aacute;c th&agrave;nh phần quan trọng tr&ecirc;n bo mạch v&agrave; cho ph&eacute;p giao tiếp với tốc độ cực nhanh.</p>\r\n\r\n<p><img alt=\"Bo Mach Card Man Hinh MSI RX 5600 XT GAMING X - 6GD\" height=\"773\" src=\"https://hanoicomputercdn.com/media/lib/51709_BoMachCardManHinhMSIRX5600XTGAMINGX-6GD.jpg\" width=\"1650\" /></p>\r\n\r\n<h3>Trải nghiệm chơi game tối đa</h3>\r\n\r\n<p>Tận dụng tối đa&nbsp;<strong><a href=\"https://www.hanoicomputer.vn/vga-card-man-hinh/c34.html\" title=\"card đồ họa\">card đồ họa</a></strong>&nbsp;MSI RX 5600 XT GAMING X - 6GD của bạn về hiệu suất xử đồ họa v&agrave; trải nghiệm c&aacute;c t&ugrave;y chọn t&ugrave;y chỉnh gần như kh&ocirc;ng giới hạn với phần mềm hỗ trợ đi k&egrave;m như: t&ugrave;y chỉnh thiết lập với Dragon Center, t&ugrave;y chỉnh &aacute;nh s&aacute;ng với Mystic Light, &eacute;p xung xử l&yacute; với MSI Afterburner...</p>\r\n\r\n<p><img alt=\"Trai Nghiem Card Man Hinh MSI RX 5600 XT GAMING X - 6GD\" height=\"773\" src=\"https://hanoicomputercdn.com/media/lib/51709_TraiNghiemCardManHinhMSIRX5600XTGAMINGX-6GD.jpg\" width=\"1650\" /></p>', 'Ji0_51709_vo_hop_card_man_hinh_msi_rx_5600_xt_gaming_x___6gd.jpg', 6, 195, 1, 5, '2020-06-11 12:30:32', '2023-01-12 04:03:12', NULL),
+(14, 'ASUS ROG STRIX RX 5600 XT-O6G GAMING', 'asus-rog-strix-rx-5600-xt-o6g-gaming', 2, 8599000, NULL, 5, 'active', 'yes', 'Bỏ quaBỏ qua', '<h2>Đặc điểm nổi bật của Card m&agrave;n h&igrave;nh ASUS ROG STRIX RX 5600 XT-O6G GAMING (6GB GDDR6, 192-bit,HDMI+DP, 1x6-pin + 1x8-pin)</h2>\r\n\r\n<h3><strong>Giới thiệu&nbsp;VGA ASUS</strong><strong>&nbsp;</strong><strong>ROG-STRIX-RX5600XT-O6G-GAMING</strong></h3>\r\n\r\n<p><strong><img alt=\"\" src=\"https://hanoicomputercdn.com/media/product/51851_asus_radeon_rx_5600_xt_rog_strix_top_packs_14gbps_gddr6_2.jpg\" width=\"100%\" /></strong></p>\r\n\r\n<h3><strong>Khả năng l&agrave;m m&aacute;t</strong></h3>\r\n\r\n<p>Thiết kế quạt hướng trục</p>\r\n\r\n<p>C&ocirc;ng nghệ 0dB&nbsp;cho ph&eacute;p bạn thưởng thức c&aacute;c game nhẹ ở trạng th&aacute;i tương đối tĩnh lặng.</p>\r\n\r\n<p>C&ocirc;ng tắc&nbsp;<strong>BIOS k&eacute;p</strong>&nbsp;cho ph&eacute;p bạn chuyển đổi giữa c&aacute;c thiết lập Quiet v&agrave; Performance BIOS</p>\r\n\r\n<p>Thiết kế 2,7 khe với độ d&agrave;y 2.7 để c&oacute; thể chứa được một bộ tản nhiệt lớn hơn v&igrave; tản nhiệt c&agrave;ng lớn c&agrave;ng tốt hơn.&nbsp; &nbsp; &nbsp;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_Explode.png\" />&nbsp; &nbsp; &nbsp;&nbsp;</p>\r\n\r\n<h3><strong>C&ocirc;ng nghệ Auto-Extreme</strong></h3>\r\n\r\n<p>Được sản xuất bằng c&ocirc;ng nghệ Auto-Extreme- quy tr&igrave;nh sản xuất tự động h&oacute;a đề ra những ti&ecirc;u chuẩn mới trong ng&agrave;nh c&ocirc;ng nghiệp, giảm được biến dạng do nhiệt l&ecirc;n c&aacute;c linh kiện v&agrave; tr&aacute;nh được phải sử dụng c&aacute;c h&oacute;a chất tẩy rửa mạnh&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_asus-auto-extreme-technology.jpg\" />&nbsp; &nbsp; &nbsp; &nbsp;</p>\r\n\r\n<h3>GPU Tweak II</h3>\r\n\r\n<p>Tiện &iacute;ch ASUS GPU Tweak II hỗ trợ điều chỉnh hiệu năng card đồ họa v&agrave; n&acirc;ng l&ecirc;n một đẳng cấp mới. Tiện &iacute;ch n&agrave;y cho ph&eacute;p bạn tinh chỉnh c&aacute;c tham số quan trọng bao gồm c&aacute;c thiết lập xung l&otilde;i GPU, tần suất bộ nhớ, điện &aacute;p,...</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_product-gpu-TweakII.png\" /></p>\r\n\r\n<h3><strong>C&ocirc;ng nghệ MaxContact</strong></h3>\r\n\r\n<p>MaxContact l&agrave; một c&ocirc;ng nghệ đầu ng&agrave;nh ứng dụng gia c&ocirc;ng ch&iacute;nh x&aacute;c để tạo một bề mặt tản nhiệt tiếp x&uacute;c nhiều hơn 2 lần với chip GPU, gi&uacute;p cải thiện truyền nhiệt.&nbsp; &nbsp;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_cooling-pic4.jpg\" />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>\r\n\r\n<h3><strong>Điều khiển quạt th&ocirc;ng minh</strong></h3>\r\n\r\n<p>ASUS FanConnect II c&oacute; hai đầu cắm 4 ch&acirc;n điều khiển kết hợp được kết nối với c&aacute;c quạt hệ thống PWM v&agrave; DC để l&agrave;m m&aacute;t hệ thống tối ưu. C&aacute;c quạt được kết nối phản ứng với nhiệt độ của GPU v&agrave; CPU để hệ thống của bạn được l&agrave;m m&aacute;t tối ưu bất kể bạn l&agrave;m g&igrave;.&nbsp;</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<h3>AMD Radeon FreeSync&nbsp;&trade;</h3>\r\n\r\n<p>Trải nghiệm chơi game kh&ocirc;ng bị r&aacute;ch, kh&ocirc;ng bị r&aacute;ch với c&ocirc;ng nghệ AMD Radeon FreeSync &trade;&nbsp;<sup>1</sup>&nbsp;v&agrave; FreeSync &trade; 2 HDR&nbsp;<sup>2</sup>&nbsp; &nbsp;&nbsp;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_amd_radeon_freesync_on.png\" /></p>\r\n\r\n<h3><strong>Aura Sync</strong></h3>\r\n\r\n<p>Trang bị phần mềm Aura Sync để kết nối c&aacute;c sản phẩm tương th&iacute;ch, gi&uacute;p c&agrave;i đặt t&ugrave;y chỉnh game được ho&agrave;n to&agrave;n. Bạn c&oacute; thể đồng bộ với nhạc, thay m&agrave;u dựa tr&ecirc;n nhiệt độ hoặc chọn từ một số lượng mẫu v&agrave; t&ugrave;y chọn m&agrave;u tĩnh lớn.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><img alt=\"\" src=\"https://hanoicomputercdn.com/media/lib/51851_Aura-Sync.png\" /></p>\r\n\r\n<p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>', 'upload/product/2022-12-31_X4q_51851_asus_radeon_rx_5600_xt_rog_strix_top_packs_14gbps_gddr6_2.jpg', 0, 0, 1, 5, '2022-12-30 21:00:52', '2023-01-10 03:30:15', NULL),
+(15, 'test', 'test', 1, 12000000000, NULL, 5, 'active', 'yes', 'Bỏ qua', '<p>test</p>', 'upload/product/2023-01-01_vpsk.png', 6, 98, NULL, NULL, '2023-01-01 06:50:28', '2023-01-12 03:13:49', NULL),
 (16, 'Admin 123123123', 'admin-123123123', 1, 20000000, NULL, 2, 'active', 'yes', 'Bỏ qua', '<p>123123123123</p>', 'upload/product/2023-01-10_anh.jpg', NULL, NULL, NULL, NULL, '2023-01-09 20:57:06', '2023-01-09 20:57:06', NULL),
 (17, 'Admin 9999', 'admin-9999', 1, 200000, NULL, 2, 'active', 'yes', 'Bỏ qua', '<p>99999999</p>', '', NULL, NULL, NULL, NULL, '2023-01-09 20:58:38', '2023-01-09 20:58:38', NULL),
 (18, '231231231231 23232', '231231231231-23232', 1, 222222222222, NULL, 22, 'active', 'yes', 'Bỏ qua', '<p>323232323</p>', '', NULL, NULL, NULL, NULL, '2023-01-09 21:01:49', '2023-01-09 21:01:49', NULL),
-(19, 'test 123 123123123', 'test-123-123123123', 1, 23232323, NULL, 23, 'active', 'yes', 'Bỏ qua', '<p>123123123</p>', '', NULL, 1, NULL, NULL, '2023-01-09 21:03:50', '2023-01-09 21:50:23', NULL),
-(20, 'test product value', 'test-product-value', 1, 20000000, NULL, 20, 'active', 'yes', 'Bỏ quaBỏ quaBỏ quaBỏ qua', '<p>test product value</p>', '', NULL, 100, NULL, NULL, '2023-01-09 21:04:55', '2023-01-11 00:47:46', NULL);
+(19, 'test 123 123123123', 'test-123-123123123', 1, 23232323, NULL, 23, 'active', 'yes', 'Bỏ qua', '<p>123123123</p>', '', 3, 0, NULL, NULL, '2023-01-09 21:03:50', '2023-01-13 01:12:31', NULL),
+(20, 'test product value', 'test-product-value', 1, 200000000, NULL, 20, 'active', 'yes', 'Bỏ quaBỏ quaBỏ quaBỏ qua', '<p>test product value</p>', '', 5, 92, NULL, NULL, '2023-01-09 21:04:55', '2023-01-12 04:00:06', NULL);
 
 -- --------------------------------------------------------
 
@@ -507,7 +587,7 @@ INSERT INTO `slides` (`id`, `name`, `image`, `url`, `created_at`, `updated_at`, 
 CREATE TABLE `transaction` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
-  `total` int(11) NOT NULL,
+  `total` bigint(20) NOT NULL,
   `note` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -516,23 +596,63 @@ CREATE TABLE `transaction` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `type_payment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status_payment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `status_payment` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `payment_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `transaction`
 --
 
-INSERT INTO `transaction` (`id`, `user_id`, `total`, `note`, `address`, `phone`, `status`, `created_at`, `updated_at`, `deleted_at`, `type_payment`, `status_payment`) VALUES
-(17, 1, 11400000, '123', 'Đề Thám Thái Bình', '0987324831', 'completed', '2023-01-01 01:22:57', '2023-01-11 03:47:06', NULL, NULL, 'Paуment received'),
-(18, 1, 8169050, '456', 'Đề Thám Thái Bình', '0987324831', 'pending', '2023-01-07 01:23:15', '2023-01-11 03:47:25', NULL, NULL, 'Paуment received'),
-(19, 1, 8009100, '789', 'Đề Thám Thái Bình', '0987324831', 'pending', '2023-01-07 01:23:34', '2023-01-07 01:23:34', NULL, NULL, NULL),
-(20, 1, 46877150, '160198', 'Đề Thám Thái Bình', '0964938256', 'pending', '2023-01-07 01:24:16', '2023-01-07 01:24:16', NULL, NULL, NULL),
-(21, 1, 816905000, '123', 'Đề Thám Thái Bình', '(+84) 987324831', 'completed', '2023-01-08 21:54:55', '2023-01-11 03:47:24', NULL, NULL, 'Paуment received'),
-(22, 6, 2949000, '123123', 'Đề Thám Thái Bình', '(+84) 987324831', 'pending', '2023-01-10 21:56:34', '2023-01-10 21:56:34', NULL, NULL, NULL),
-(23, 1, 24009100, '123123', 'Đề Thám Thái Bình', '0987324831', 'pending', '2023-01-11 02:31:42', '2023-01-11 02:31:42', NULL, 'Payment momo', 'Paуment received'),
-(24, 1, 16000000, '123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-11 03:13:58', '2023-01-11 03:46:10', NULL, NULL, 'Paуment received'),
-(25, 1, 16000000, '123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-11 03:14:34', '2023-01-11 03:47:12', NULL, 'Banking', '');
+INSERT INTO `transaction` (`id`, `user_id`, `total`, `note`, `address`, `phone`, `status`, `created_at`, `updated_at`, `deleted_at`, `type_payment`, `status_payment`, `payment_code`) VALUES
+(17, 1, 11400000, '123', 'Đề Thám Thái Bình', '0987324831', 'completed', '2023-01-01 01:22:57', '2023-01-11 03:47:06', NULL, NULL, 'Paуment received', NULL),
+(18, 1, 8169050, '456', 'Đề Thám Thái Bình', '0987324831', 'pending', '2023-01-07 01:23:15', '2023-01-11 03:47:25', NULL, NULL, 'Paуment received', NULL),
+(19, 1, 8009100, '789', 'Đề Thám Thái Bình', '0987324831', 'completed', '2023-01-07 01:23:34', '2023-01-12 04:03:12', NULL, NULL, NULL, NULL),
+(20, 1, 46877150, '160198', 'Đề Thám Thái Bình', '0964938256', 'pending', '2023-01-07 01:24:16', '2023-01-07 01:24:16', NULL, NULL, NULL, NULL),
+(21, 1, 816905000, '123', 'Đề Thám Thái Bình', '(+84) 987324831', 'completed', '2023-01-08 21:54:55', '2023-01-11 03:47:24', NULL, NULL, 'Paуment received', NULL),
+(22, 6, 2949000, '123123', 'Đề Thám Thái Bình', '(+84) 987324831', 'canceled', '2023-01-10 21:56:34', '2023-01-12 03:55:15', NULL, NULL, NULL, NULL),
+(23, 1, 24009100, '123123', 'Đề Thám Thái Bình', '0987324831', 'completed', '2023-01-11 02:31:42', '2023-01-12 03:59:57', NULL, 'Paуment Momo', 'Paуment received', NULL),
+(24, 1, 16000000, '123123123', 'Đề Thám Thái Bình', '0969908298', 'completed', '2023-01-11 03:13:58', '2023-01-12 03:58:58', NULL, NULL, 'Paуment received', NULL),
+(25, 1, 16000000, '123123123', 'Đề Thám Thái Bình', '0969908298', 'canceled', '2023-01-11 03:14:34', '2023-01-12 03:55:23', NULL, 'Banking', 'Paуment received', NULL),
+(26, 1, 35777777, 'test', 'Đề Thám Thái Bình', '0969908298', 'canceled', '2023-01-12 02:16:33', '2023-01-12 03:58:10', NULL, 'Paуment Momo', 'Paуment received', NULL),
+(27, 1, 16000000, '123123', 'Đề Thám Thái Bình', '0964938256', 'processing', '2023-01-12 02:59:37', '2023-01-12 03:13:43', NULL, 'Paуment Momo', 'Paуment received', NULL),
+(28, 1, 17888889, '123123', 'Đề Thám Thái Bình', '0964938256', 'completed', '2023-01-12 03:06:16', '2023-01-12 04:00:25', NULL, NULL, NULL, NULL),
+(29, 1, 16000000, '123123', 'Đề Thám Thái Bình', '0987324831', 'canceled', '2023-01-12 03:18:51', '2023-01-12 03:58:27', NULL, NULL, NULL, NULL),
+(30, 1, 11400000, '123123', 'Đề Thám Thái Bình', '0969908298', 'canceled', '2023-01-12 03:20:03', '2023-01-12 03:38:27', NULL, NULL, NULL, NULL),
+(31, 1, 17888889, '123123123', 'Đề Thám Thái Bình', '(+84) 987324831', 'canceled', '2023-01-13 01:06:45', '2023-01-13 01:14:09', NULL, 'Paуment Momo', 'Paуment received', NULL),
+(32, 1, 17888889, '123123123123', 'Đề Thám Thái Bình', '098732483112312', 'completed', '2023-01-13 01:12:05', '2023-01-13 01:12:31', NULL, NULL, NULL, NULL),
+(33, 1, 27308100, '1231232', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-17 01:07:18', '2023-01-17 01:07:18', NULL, NULL, NULL, NULL),
+(34, 1, 168009100, '123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-17 01:08:22', '2023-01-17 01:08:22', NULL, NULL, NULL, NULL),
+(35, 1, 27308100, '123123123', 'Đề Thám Thái Bình', '0987324831', 'pending', '2023-01-17 02:57:06', '2023-01-17 02:57:06', NULL, 'Paуment Momo', 'Paуment received', NULL),
+(36, 1, 27308100, '123123123', 'Đề Thám Thái Bình', '0987324831', 'pending', '2023-01-17 02:59:40', '2023-01-17 02:59:40', NULL, 'Paуment Momo', 'Paуment received', NULL),
+(37, 1, 8009100, '123123', 'Đề Thám Thái Bình', '0987324831', 'pending', '2023-01-17 03:04:40', '2023-01-17 03:04:40', NULL, 'Paуment Momo', 'Paуment received', NULL),
+(38, 1, 160000000, '123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-30 03:50:38', '2023-01-30 03:50:38', NULL, NULL, NULL, NULL),
+(39, 1, 160000000, '123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-30 03:50:50', '2023-01-30 03:50:50', NULL, NULL, NULL, NULL),
+(40, 1, 160000000, '313123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-30 03:51:34', '2023-01-30 03:51:34', NULL, NULL, NULL, NULL),
+(41, 1, 160000000, '313123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-30 03:51:48', '2023-01-30 03:51:48', NULL, NULL, NULL, NULL),
+(42, 1, 160000000, '313123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-30 03:52:24', '2023-01-30 03:52:24', NULL, NULL, NULL, NULL),
+(43, 1, 160000000, '123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-30 03:55:25', '2023-01-30 03:55:25', NULL, NULL, NULL, NULL),
+(44, 1, 160000000, 'test vnpayment', 'Đề Thám Thái Bình', '(+84) 987324831', 'pending', '2023-01-30 19:32:46', '2023-01-30 19:32:46', NULL, NULL, NULL, NULL),
+(45, 1, 160000000, 'test payment with vnpay', 'Đề Thám Thái Bình', '(+84) 987324831', 'pending', '2023-01-30 19:40:31', '2023-01-30 19:40:31', NULL, NULL, NULL, '45'),
+(46, 1, 160000000, 'test', 'Đề Thám Thái Bình', '(+84) 987324831', 'pending', '2023-01-30 19:41:40', '2023-01-30 19:41:40', NULL, NULL, NULL, 'MGD-46'),
+(47, 1, 19299000, 'test thank payment', 'Đề Thám Thái Bình', '(+84) 987324831', 'pending', '2023-01-30 20:30:05', '2023-01-30 20:30:05', NULL, NULL, NULL, 'MGD-47'),
+(51, 1, 160000000, '123123123', 'Đề Thám Thái Bình', '0969.908.298', 'pending', '2023-01-30 20:53:23', '2023-01-30 20:53:23', NULL, NULL, NULL, 'MGD-51'),
+(52, 1, 160000000, '123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-31 00:51:20', '2023-01-31 00:51:20', NULL, 'normal', NULL, NULL),
+(53, 1, 160000000, '123123123', 'Đề Thám Thái Bình', '0969.908.298', 'pending', '2023-01-31 01:00:02', '2023-01-31 01:00:02', NULL, 'normal', NULL, 'MGD-53'),
+(54, 1, 160000000, 'test', 'Đề Thám Thái Bình', '(+84) 987324831', 'pending', '2023-01-31 01:01:54', '2023-01-31 01:01:54', NULL, 'normal', NULL, 'MGD-54'),
+(55, 1, 160000000, '123123123', 'Đề Thám Thái Bình', '(+84) 987324831', 'pending', '2023-01-31 01:03:55', '2023-01-31 01:03:55', NULL, 'normal', NULL, 'MGD-55'),
+(56, 6, 8009100, '123123123', 'Đề Thám Thái Bình', '0964938256', 'pending', '2023-01-31 01:07:11', '2023-01-31 01:07:11', NULL, 'vnpay', NULL, NULL),
+(57, 6, 8009100, '123123123', 'Đề Thám Thái Bình', '0964938256', 'pending', '2023-01-31 01:07:38', '2023-01-31 01:12:10', NULL, 'vnpay', 'Paуment received', 'MGD-57'),
+(58, 6, 8009100, '123123123', 'Đề Thám Thái Bình', '0987324831', 'pending', '2023-01-31 01:16:38', '2023-01-31 01:16:38', NULL, 'momo', NULL, 'MGD-58'),
+(59, 6, 8009100, '123123123', 'Đề Thám Thái Bình', '0987324831', 'pending', '2023-01-31 01:19:21', '2023-01-31 01:19:21', NULL, 'momo', NULL, 'MGD-59'),
+(60, 6, 8009100, '123123123', 'Đề Thám Thái Bình', '0964938256', 'pending', '2023-01-31 01:20:30', '2023-01-31 01:20:30', NULL, 'momo', NULL, 'MGD-60'),
+(61, 6, 8009100, '123123123', 'Đề Thám Thái Bình', '0987324831', 'pending', '2023-01-31 01:21:11', '2023-01-31 01:24:13', NULL, 'momo', 'Paуment received', 'MGD-61'),
+(62, 6, 160000000, '123123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-31 02:27:20', '2023-01-31 02:27:20', NULL, 'normal', NULL, 'MGD-62'),
+(63, 6, 160000000, '123123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-31 02:30:32', '2023-01-31 02:30:32', NULL, 'normal', NULL, 'MGD-63'),
+(64, 6, 160000000, '123123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-31 02:31:00', '2023-01-31 02:31:00', NULL, 'normal', NULL, 'MGD-64'),
+(65, 6, 160000000, '123123123123', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-31 02:31:25', '2023-01-31 02:31:25', NULL, 'normal', NULL, 'MGD-65'),
+(66, 6, 35317200, 'giao vào giờ hành chính', 'thái bình', '0969908298', 'pending', '2023-01-31 02:35:11', '2023-01-31 02:35:47', NULL, 'momo', 'Paуment received', 'MGD-66'),
+(67, 6, 11747308100, 'giao vào giờ hành chính', 'Đề Thám Thái Bình', '0969908298', 'pending', '2023-01-31 02:40:51', '2023-01-31 02:40:51', NULL, 'normal', NULL, 'MGD-67');
 
 -- --------------------------------------------------------
 
@@ -564,11 +684,12 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `avatar`, `role`, `status`, `email_verified_at`, `password`, `code`, `time_code`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin@gmail.com', '0969908298', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoVki-W_uujCaTvpNM11TDow7Quak0v3sC-4HKViNS4pdPnqUdydTBFn0TQunXiPzQOUM&usqp=CAU', 'admin', 'active', NULL, '$2y$10$KqAOLLY1fx./OXBNnuU7C.DCRF6w6pcM8.XWsVm.C280ix1HNSo.y', NULL, NULL, NULL, NULL, '2022-12-26 05:28:55', '2022-12-26 05:28:55'),
-(2, 'company', 'company@gmail.com', '0964938256', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoVki-W_uujCaTvpNM11TDow7Quak0v3sC-4HKViNS4pdPnqUdydTBFn0TQunXiPzQOUM&usqp=CAU', 'user', 'active', NULL, '$2y$10$Ht8DES6iIhEwz5oPU8oM2.s3c5d.Mb6GYJhCcAIvCvMhE1a5mPunC', NULL, NULL, NULL, NULL, '2022-12-26 05:28:55', '2022-12-26 05:28:55'),
+(2, 'company', 'company@gmail.com', '0964938256', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoVki-W_uujCaTvpNM11TDow7Quak0v3sC-4HKViNS4pdPnqUdydTBFn0TQunXiPzQOUM&usqp=CAU', 'user', 'active', NULL, '$2y$10$KqAOLLY1fx./OXBNnuU7C.DCRF6w6pcM8.XWsVm.C280ix1HNSo.y', NULL, NULL, NULL, NULL, '2022-12-26 05:28:55', '2022-12-26 05:28:55'),
 (3, 'admin 1', 'admin1@gmail.com', NULL, NULL, 'admin', 'active', NULL, '$2y$10$RiedqTKiiUtqjF0Lb0UEVuXEvotqfOLnLTM0HCFaaOE8llm80oHha', NULL, NULL, NULL, NULL, '2023-01-08 23:14:54', '2023-01-08 23:14:54'),
 (4, 'Vector Presents', 'vector99999@gmail.com', NULL, NULL, 'user', 'active', NULL, '$2y$10$YiqxdBrEjYLieNA5sPp9tO4tH/qTH2Ajq65yK3kC/tZ9Gao6erbt2', NULL, NULL, NULL, NULL, '2023-01-08 23:19:17', '2023-01-08 23:19:17'),
 (5, 'Vũ Ngọc Phúc', 'phucbo9898@gmail.com', NULL, NULL, 'user', 'active', NULL, '$2y$10$SMZw6AdxZ/s9vYIJiDaNwO9sfyG3ShfjS/oG7KKt80YcanGfnsYgS', '$2y$10$fUjVoPpQ.zRADIJ34fJpsugwRFlQCiRk07/tAdZ4znisRI/rYupTK', '2023-01-08 23:44:58', NULL, NULL, '2023-01-08 23:19:59', '2023-01-08 23:44:58'),
-(6, 'Nguyễn Thị Huyền', 'higirl0303@gmail.com', NULL, NULL, 'user', 'active', NULL, '$2y$10$aWhZAu.35d0w2In8cwloQe/4ZQbVlTUHI6IAm/InLUSLHpoIPXitu', '$2y$10$wYYb4ujwWOXpMvyFR2ZgEuPqfw.wauiMhFs5i8g1hM6GAwB95tZbW', '2023-01-08 23:51:36', NULL, NULL, '2023-01-08 23:45:41', '2023-01-09 00:10:30');
+(6, 'Nguyễn Thị Huyền', 'higirl0303@gmail.com', NULL, NULL, 'user', 'active', NULL, '$2y$10$aWhZAu.35d0w2In8cwloQe/4ZQbVlTUHI6IAm/InLUSLHpoIPXitu', '$2y$10$wYYb4ujwWOXpMvyFR2ZgEuPqfw.wauiMhFs5i8g1hM6GAwB95tZbW', '2023-01-08 23:51:36', NULL, NULL, '2023-01-08 23:45:41', '2023-01-09 00:10:30'),
+(7, 'Vector Presents', 'vector@gmail.com', NULL, NULL, 'user', 'active', NULL, '$2y$10$KQHYfkJvMK1xDxJ5TBGyZee2SfyjqiEyU6g7VuRYHc7S9Hhvfp8em', NULL, NULL, NULL, NULL, '2023-01-15 19:43:35', '2023-01-15 19:43:35');
 
 --
 -- Indexes for dumped tables
@@ -648,6 +769,12 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `password_resets`
   ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `payment`
+--
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`orderId`) USING BTREE;
 
 --
 -- Indexes for table `personal_access_tokens`
@@ -764,19 +891,19 @@ ALTER TABLE `favorite_product`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -818,13 +945,13 @@ ALTER TABLE `slides`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

@@ -83,6 +83,7 @@ Route::controller(ShoppingCartController::class)->group(function () {
             Route::get('/delete/{key}', 'deleteProductItem')->name('delete.product');
             Route::post('/edit', 'editProductItem')->name('edit.product');
             Route::post('/payment-momo', 'paymentMomo')->name('payment-momo');
+            Route::post('/vnpay_payment', 'paymentVNPay')->name('payment-vnpay');
         });
     });
 });
@@ -92,6 +93,8 @@ Route::controller(FeatureUserController::class)->middleware('checkLoginUser')->g
             Route::get('/checkout', 'getFormPay')->name('checkout');
             Route::post('/checkout', 'saveInfoShoppingCart');
             Route::get('/delete/nofitication/{id}', 'deleteNofication')->name('delete.nofication');
+            Route::get('/checkout/vnpay-check', 'vnpayCheck')->name('vnpay-check');
+            Route::get('/checkout/momo-check', 'momoCheck')->name('momo-check');
         });
     });
 });

@@ -1,5 +1,7 @@
 @extends('fe.layout.master')
 @section('content')
+{{--    @dd($_GET['orderId'])--}}
+    <input type="hidden" class="order-id-momo" value="">
     <!-- Begin Li's Breadcrumb Area -->
     <div class="breadcrumb-area">
         <div class="container">
@@ -26,14 +28,14 @@
                                     <div class="checkout-form-list">
                                         <label>Họ và tên <span class="required">*</span></label>
                                         <input placeholder="Nhập họ và tên..." type="text" name="name" id="check_name"
-                                            value="{{ Auth::user()->name }}">
+                                            value="{{ old('name') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
                                         <label>Địa chỉ <span class="required">*</span></label>
                                         <input placeholder="Nhập địa chỉ giao hàng của bạn..." name="address"
-                                            id="check_address" required type="text">
+                                            id="check_address" required type="text" value="{{ old('address') }}">
                                     </div>
                                 </div>
                                 {{-- <div class="col-md-6">
@@ -46,14 +48,14 @@
                                     <div class="checkout-form-list">
                                         <label>Số điện thoại <span class="required">*</span></label>
                                         <input name="phone" type="text" id="check_phone"
-                                            placeholder="Nhập số điện thoại của bạn...">
+                                            placeholder="Nhập số điện thoại của bạn..." value="{{ old('phone') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="">
                                         <div class="checkout-form-list">
                                             <label>Ghi chú</label>
-                                            <textarea id="checkout-mess" name="note" cols="30" rows="10" required placeholder="Nhập ghi chú..."></textarea>
+                                            <textarea id="checkout-mess" name="note" cols="30" rows="10" required placeholder="Nhập ghi chú...">{{ old('note') }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -94,43 +96,84 @@
                             </table>
                         </div>
                         <div class="payment-method" style="margin-top: 0px !important;">
-                            @if(isset($_GET['partnerCode']))
-                                <button class="btn btn-info d-none" type="submit" style="width: 212px; height: 50px; margin-bottom: 5px;" data-toggle="modal" data-target="#exampleModalBanking">Chuyển khoản</button>
+{{--                                                        @dd($payment['resultCode'] ?? '')--}}
+{{--                            @if(isset($payment['resultCode']) && ($payment['resultCode'] == 1))--}}
+{{--                                @if()--}}
+{{--                                    <button class="btn btn-info d-none" type="submit" style="width: 212px; height: 50px; margin-bottom: 5px;" data-toggle="modal" data-target="#exampleModalBanking">Chuyển khoản</button>--}}
+{{--                                    <form action="{{ route('shopping.payment-momo') }}" method="POST">--}}
+{{--                                        @csrf--}}
+{{--                                        <input type="hidden" class="total-momo" name="total_momo" value="{{ \Cart::subtotal(0, ',', '') }}">--}}
+{{--                                        <button class="btn btn-warning d-none" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>--}}
+{{--                                    </form>--}}
+{{--                                    <div class="order-button-payment d-none">--}}
+{{--                                        <button class="btn btn-primary" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Thanh toán khi nhận hàng</button>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="order-button-payment">--}}
+{{--                                        <span style="color:#1cc88a; font-size: 18px;"><i class="fa fa-check-circle-o"></i>&ensp;Đã thanh toán</span> <br>--}}
+{{--                                        <button class="btn btn-primary" type="submit" id="submitFormSaveInfoPayment" style="width: 212px; height: 50px;margin-top: 5px;">Đặt hàng</button>--}}
+{{--                                    </div>--}}
+{{--                                @endif--}}
+{{--                            @else--}}
+{{--                                <h5>Chọn phương thức thanh toán</h5>--}}
+{{--                                <div class="order-button-payment">--}}
+{{--                                    <input type="radio" name="payment" id="banking" value="banking" style="width: 15px; height: 13px; margin-bottom: 5px;">--}}
+{{--                                    <label>Chuyển khoản</label> <br>--}}
+{{--                                    <button class="btn btn-info banking-payment" type="submit" style="width: 212px; height: 50px; margin-bottom: 5px;" data-toggle="modal" data-target="#exampleModalBanking">Chuyển khoản</button>--}}
+{{--                                    <img class="banking-payment" src="{{ asset('banking.jpg') }}" style="width: 300px;">--}}
+{{--                                </div>--}}
+{{--                                <div class="order-button-payment">--}}
+{{--                                    <input type="radio" name="payment" id="momo" value="momo" style="width: 15px; height: 13px; margin-bottom: 5px;">--}}
+{{--                                    <label>Thanh toán bằng Momo</label>--}}
+{{--                                    <form action="{{ route('shopping.payment-momo') }}" method="POST">--}}
+{{--                                        @csrf--}}
+{{--                                        <input type="hidden" class="name" name="name" value="">--}}
+{{--                                        <input type="hidden" class="address" name="address" value="">--}}
+{{--                                        <input type="hidden" class="phone-number" name="phone_number" value="">--}}
+{{--                                        <input type="hidden" class="note" name="note" value="">--}}
+{{--                                        <input type="hidden" class="total-momo" name="total_momo" value="{{ \Cart::subtotal(0, ',', '') }}">--}}
+{{--                                        <button class="btn btn-warning momo-payment" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>--}}
+{{--                                    </form>--}}
+{{--                                </div>--}}
+{{--                                <div class="order-button-payment">--}}
+{{--                                    <input type="radio" name="payment" id="payment" value="payment" style="width: 15px; height: 13px; margin-bottom: 5px;">--}}
+{{--                                    <label>Thanh toán khi nhận hàng</label> <br>--}}
+{{--                                    <button class="btn btn-primary payment-normal" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Đặt hàng</button>--}}
+{{--                                </div>--}}
+{{--                            @endif--}}
+                            <h5>Chọn phương thức thanh toán</h5>
+                            <div class="order-button-payment">
+                                <input type="radio" name="payment" id="vnpay" value="vnpay" style="width: 15px; height: 13px; margin-bottom: 5px;">
+                                <label>Thanh toán bằng VNPay</label>
+                                <form action="{{ route('shopping.payment-vnpay') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" class="name" name="name" value="">
+                                    <input type="hidden" class="address" name="address" value="">
+                                    <input type="hidden" class="phone-number" name="phone_number" value="">
+                                    <input type="hidden" class="note" name="note" value="">
+                                    <input type="hidden" class="type-payment" name="type_payment" value="">
+                                    <input type="hidden" class="total-momo" name="total_money" value="{{ \Cart::subtotal(0, ',', '') }}">
+                                    <button class="btn btn-danger payment-vnpay d-none" type="submit" name="redirect" style="width: 212px; height: 50px;">Đặt hàng</button>
+                                </form>
+                            </div>
+                            <div class="order-button-payment">
+                                <input type="radio" name="payment" id="momo" value="momo" style="width: 15px; height: 13px; margin-bottom: 5px;">
+                                <label>Thanh toán bằng Momo</label>
                                 <form action="{{ route('shopping.payment-momo') }}" method="POST">
                                     @csrf
+                                    <input type="hidden" class="name" name="name" value="">
+                                    <input type="hidden" class="address" name="address" value="">
+                                    <input type="hidden" class="phone-number" name="phone_number" value="">
+                                    <input type="hidden" class="note" name="note" value="">
+                                    <input type="hidden" class="type-payment" name="type_payment" value="">
                                     <input type="hidden" class="total-momo" name="total_momo" value="{{ \Cart::subtotal(0, ',', '') }}">
-                                    <button class="btn btn-warning d-none" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>
+                                    <button class="btn btn-warning payment-momo d-none" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>
                                 </form>
-                                <div class="order-button-payment d-none">
-                                    <button class="btn btn-primary" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Thanh toán khi nhận hàng</button>
-                                </div>
-                                <div class="order-button-payment">
-                                    <span style="color:#1cc88a; font-size: 18px;"><i class="fa fa-check-circle-o"></i>&ensp;Đã thanh toán</span> <br>
-                                    <button class="btn btn-primary" type="submit" id="submitFormSaveInfoPayment" style="width: 212px; height: 50px;margin-top: 5px;">Đặt hàng</button>
-                                </div>
-                            @else
-                                <h5>Chọn phương thức thanh toán</h5>
-                                <div class="order-button-payment">
-                                    <input type="radio" name="payment" id="banking" value="banking" style="width: 15px; height: 13px; margin-bottom: 5px;">
-                                    <label>Chuyển khoản</label> <br>
-{{--                                    <button class="btn btn-info banking-payment" type="submit" style="width: 212px; height: 50px; margin-bottom: 5px;" data-toggle="modal" data-target="#exampleModalBanking">Chuyển khoản</button>--}}
-                                    <img class="banking-payment" src="{{ asset('banking.jpg') }}" style="width: 300px;">
-                                </div>
-                                <div class="order-button-payment">
-                                    <input type="radio" name="payment" id="momo" value="momo" style="width: 15px; height: 13px; margin-bottom: 5px;">
-                                    <label>Thanh toán bằng Momo</label>
-                                    <form action="{{ route('shopping.payment-momo') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" class="total-momo" name="total_momo" value="{{ $product->price * $product->qty }}">
-                                        <button class="btn btn-warning momo-payment" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>
-                                    </form>
-                                </div>
-                                <div class="order-button-payment">
-                                    <input type="radio" name="payment" id="payment" value="payment" style="width: 15px; height: 13px; margin-bottom: 5px;">
-                                    <label>Thanh toán khi nhận hàng</label> <br>
-                                    <button class="btn btn-primary payment-normal" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Đặt hàng</button>
-                                </div>
-                            @endif
+                            </div>
+                            <div class="order-button-payment">
+                                <input type="radio" name="payment" id="normal" value="normal" style="width: 15px; height: 13px; margin-bottom: 5px;">
+                                <label>Thanh toán khi nhận hàng</label>
+                            </div>
+                            <button class="btn btn-primary payment-normal d-none" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Đặt hàng</button>
                         </div>
                     </div>
                 </div>
@@ -158,29 +201,74 @@
 @endsection
 @section('javascript')
     <script>
-        $(function() {
-            console.log($("input[name=payment]:checked").val())
-            if ($("input[name=payment]:checked").val() == '' || $("input[name=payment]:checked").val() == undefined) {
-                $(".banking-payment").addClass('d-none')
-                $(".momo-payment").addClass('d-none')
+        $(document).ready(function() {
+            $("#check_name").on("change", function () {
+                $(".name").val($("#check_name").val())
+            })
+            $("#check_address").on("change", function () {
+                $(".address").val($("#check_address").val())
+            })
+            $("#check_phone").on("change", function () {
+                $(".phone-number").val($("#check_phone").val())
+            })
+            $("#checkout-mess").on("change", function () {
+                $(".note").val($("#checkout-mess").val())
+            })
+            $("#checkout-mess").on("change", function () {
+                $(".note").val($("#checkout-mess").val())
+            })
+            // console.log($("input[name=payment]:checked").val())
+            // if ($("input[name=payment]:checked").val() == '' || $("input[name=payment]:checked").val() == undefined) {
+            //     $(".banking-payment").addClass('d-none')
+            //     $(".momo-payment").addClass('d-none')
+            // }
+            // $("input[name=payment]").on("change", function() {
+            //     if ($("input[name=payment]:checked").val() == '' || $("input[name=payment]:checked").val() == undefined) {
+            //         $(".banking-payment").addClass('d-none')
+            //         $(".momo-payment").addClass('d-none')
+            //     } else if ($("input[name=payment]:checked").val() == 'banking') {
+            //         $(".banking-payment").removeClass('d-none')
+            //         $(".momo-payment").addClass('d-none')
+            //     } else if ($("input[name=payment]:checked").val() == 'momo') {
+            //         $(".banking-payment").addClass('d-none')
+            //         $(".momo-payment").removeClass('d-none')
+            //         $(".payment-normal").addClass('d-none')
+            //     }
+            // })
+            if ($("input[name=payment]:checked").val() == 'vnpay') {
+                $(".payment-normal").addClass('d-none')
+                $(".payment-momo").addClass('d-none')
+                $(".payment-vnpay").removeClass('d-none')
+            } else if ($("input[name=payment]:checked").val() == 'momo') {
+                $(".payment-momo").removeClass('d-none')
+                $(".payment-normal").addClass('d-none')
+                $(".payment-vnpay").addClass('d-none')
+            } else if ($("input[name=payment]:checked").val() == 'normal') {
+                $(".payment-normal").removeClass('d-none')
+                $(".payment-momo").addClass('d-none')
+                $(".payment-vnpay").addClass('d-none')
             }
+
             $("input[name=payment]").on("change", function() {
-                if ($("input[name=payment]:checked").val() == '' || $("input[name=payment]:checked").val() == undefined) {
-                    $(".banking-payment").addClass('d-none')
-                    $(".momo-payment").addClass('d-none')
-                } else if ($("input[name=payment]:checked").val() == 'banking') {
-                    $(".banking-payment").removeClass('d-none')
-                    $(".momo-payment").addClass('d-none')
-                } else if ($("input[name=payment]:checked").val() == 'momo') {
-                    $(".banking-payment").addClass('d-none')
-                    $(".momo-payment").removeClass('d-none')
+                if ($("input[name=payment]:checked").val() == 'vnpay') {
+                    $(".payment-vnpay").removeClass('d-none')
                     $(".payment-normal").addClass('d-none')
+                    $(".payment-momo").addClass('d-none')
+                    $(".type-payment").val('vnpay')
+                } else if ($("input[name=payment]:checked").val() == 'momo') {
+                    $(".payment-momo").removeClass('d-none')
+                    $(".payment-normal").addClass('d-none')
+                    $(".payment-vnpay").addClass('d-none')
+                    $(".type-payment").val('momo')
+                } else if ($("input[name=payment]:checked").val() == 'normal') {
+                    $(".payment-normal").removeClass('d-none')
+                    $(".payment-momo").addClass('d-none')
+                    $(".payment-vnpay").addClass('d-none')
+                    $(".type-payment").val('normal')
                 }
             })
             $("#submitFormSaveInfo").click(function() {
-                if ($("input[name=payment]:checked").val() == 'banking') {
-                    $("#type-payment").val('Banking')
-                }
+                $("#type-payment").val('normal')
                 check_name = $("#check_name").val();
                 check_address = $("#check_address").val();
                 check_phone = $("#check_phone").val();
@@ -216,8 +304,8 @@
                 }
             });
             $("#submitFormSaveInfoPayment").click(function() {
-                $("#status-payment").val('Paуment received')
-                $("#type-payment").val('Paуment Momo')
+                // $("#status-payment").val('Paуment received')
+                // $("#type-payment").val('Paуment Momo')
                 check_name = $("#check_name").val();
                 check_address = $("#check_address").val();
                 check_phone = $("#check_phone").val();
