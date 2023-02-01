@@ -1,4 +1,7 @@
 @extends('cms.layout.master')
+
+@section('title', 'Kho hàng - Nhập hàng')
+
 @section('content')
     <style>
         .rating .active {

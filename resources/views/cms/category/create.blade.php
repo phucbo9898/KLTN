@@ -1,4 +1,7 @@
 @extends('cms.layout.master')
+
+@section('title', 'Thêm mới danh mục')
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -12,7 +15,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Loại sản phẩm - Thêm mới</li>
+                            <li class="breadcrumb-item active">Danh mục sản phẩm - Thêm mới</li>
                         </ol>
                     </div>
                 </div>

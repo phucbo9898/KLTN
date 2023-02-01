@@ -1,4 +1,6 @@
 @extends('cms.layout.master')
+
+@section('title', 'Danh sách người dùng')
 <?php use App\Enums\UserType; ?>
 @section('content')
     <!-- Content Wrapper. Contains page content -->

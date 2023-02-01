@@ -1,4 +1,7 @@
 @extends('cms.layout.master')
+
+@section('title', 'Chính sửa bài viết')
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

@@ -1,4 +1,7 @@
 @extends('cms.layout.master')
+
+@section('title', 'Trang quản trị')
+
 @section('css')
     <!-- Tempusdominus Bbootstrap 4 -->
     <link rel="stylesheet"

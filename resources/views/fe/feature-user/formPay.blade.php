@@ -1,6 +1,5 @@
 @extends('fe.layout.master')
 @section('content')
-{{--    @dd($_GET['orderId'])--}}
     <input type="hidden" class="order-id-momo" value="">
     <!-- Begin Li's Breadcrumb Area -->
     <div class="breadcrumb-area">
@@ -155,9 +154,9 @@
                                     <button class="btn btn-danger payment-vnpay d-none" type="submit" name="redirect" style="width: 212px; height: 50px;">Đặt hàng</button>
                                 </form>
                             </div>
-                            <div class="order-button-payment">
+                            <div class="order-button-payment {{ Cart::subtotal(0, ',', '') > 30000000 ? 'd-none' : '' }}">
                                 <input type="radio" name="payment" id="momo" value="momo" style="width: 15px; height: 13px; margin-bottom: 5px;">
-                                <label>Thanh toán bằng Momo</label>
+                                <label>Thanh toán bằng Momo</label> <br>
                                 <form action="{{ route('shopping.payment-momo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" class="name" name="name" value="">
@@ -217,6 +216,7 @@
             $("#checkout-mess").on("change", function () {
                 $(".note").val($("#checkout-mess").val())
             })
+
             // console.log($("input[name=payment]:checked").val())
             // if ($("input[name=payment]:checked").val() == '' || $("input[name=payment]:checked").val() == undefined) {
             //     $(".banking-payment").addClass('d-none')
@@ -235,6 +235,35 @@
             //         $(".payment-normal").addClass('d-none')
             //     }
             // })
+
+            $(".payment-momo").on("click", function() {
+                check_name = $("#check_name").val();
+                check_address = $("#check_address").val();
+                check_phone = $("#check_phone").val();
+                check_note = $("#checkout-mess").val();
+                if (!check_name || !check_address || !check_phone || !check_note) {
+                    // swal("Thành công","Thanh toán không thành công","success");
+                    swal("Cảnh báo",
+                        "Yêu cầu bạn nhập dữ liệu đầy đủ để dễ dàng vận chuyển hàng ! Xin cảm ơn đã sử dụng dịch vụ của chúng tôi!",
+                        "warning");
+                    return false;
+                }
+            })
+
+            $(".payment-vnpay").on("click", function() {
+                check_name = $("#check_name").val();
+                check_address = $("#check_address").val();
+                check_phone = $("#check_phone").val();
+                check_note = $("#checkout-mess").val();
+                if (!check_name || !check_address || !check_phone || !check_note) {
+                    // swal("Thành công","Thanh toán không thành công","success");
+                    swal("Cảnh báo",
+                        "Yêu cầu bạn nhập dữ liệu đầy đủ để dễ dàng vận chuyển hàng ! Xin cảm ơn đã sử dụng dịch vụ của chúng tôi!",
+                        "warning");
+                    return false;
+                }
+            })
+
             if ($("input[name=payment]:checked").val() == 'vnpay') {
                 $(".payment-normal").addClass('d-none')
                 $(".payment-momo").addClass('d-none')
@@ -303,43 +332,43 @@
                         });
                 }
             });
-            $("#submitFormSaveInfoPayment").click(function() {
-                // $("#status-payment").val('Paуment received')
-                // $("#type-payment").val('Paуment Momo')
-                check_name = $("#check_name").val();
-                check_address = $("#check_address").val();
-                check_phone = $("#check_phone").val();
-                check_note = $("#checkout-mess").val();
-                if (!check_name || !check_address || !check_phone || !check_note) {
-                    // swal("Thành công","Thanh toán không thành công","success");
-                    swal("Cảnh báo",
-                        "Yêu cầu bạn nhập dữ liệu đầy đủ để dễ dàng vận chuyển hàng ! Xin cảm ơn đã sử dụng dịch vụ của chúng tôi!",
-                        "warning");
-                } else {
-                    swal({
-                        title: "Bạn có chắc chắn?",
-                        text: "Các sản phẩm trong giỏ hàng của bạn sẽ được thanh toán ! Các sản phẩm sẽ đợi bên của hàng kiểm tra và gửi về",
-                        icon: "info",
-                        buttons: ["Không", {
-                            text: "Đồng ý",
-                            value: true,
-                            visible: true,
-                            className: "bg-success",
-                            closeModal: true
-                        }],
-                        successMode: true,
-                    })
-                        .then((willDelete) => {
-                            if (willDelete) {
-                                swal("Thành công",
-                                    "Bạn đã đặt hàng thành công ! Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !",
-                                    'success').then(function() {
-                                    $("#formSaveInfo").submit();
-                                });
-                            }
-                        });
-                }
-            });
+            // $("#submitFormSaveInfoPayment").click(function() {
+            //     // $("#status-payment").val('Paуment received')
+            //     // $("#type-payment").val('Paуment Momo')
+            //     check_name = $("#check_name").val();
+            //     check_address = $("#check_address").val();
+            //     check_phone = $("#check_phone").val();
+            //     check_note = $("#checkout-mess").val();
+            //     if (!check_name || !check_address || !check_phone || !check_note) {
+            //         // swal("Thành công","Thanh toán không thành công","success");
+            //         swal("Cảnh báo",
+            //             "Yêu cầu bạn nhập dữ liệu đầy đủ để dễ dàng vận chuyển hàng ! Xin cảm ơn đã sử dụng dịch vụ của chúng tôi!",
+            //             "warning");
+            //     } else {
+            //         swal({
+            //             title: "Bạn có chắc chắn?",
+            //             text: "Các sản phẩm trong giỏ hàng của bạn sẽ được thanh toán ! Các sản phẩm sẽ đợi bên của hàng kiểm tra và gửi về",
+            //             icon: "info",
+            //             buttons: ["Không", {
+            //                 text: "Đồng ý",
+            //                 value: true,
+            //                 visible: true,
+            //                 className: "bg-success",
+            //                 closeModal: true
+            //             }],
+            //             successMode: true,
+            //         })
+            //             .then((willDelete) => {
+            //                 if (willDelete) {
+            //                     swal("Thành công",
+            //                         "Bạn đã đặt hàng thành công ! Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !",
+            //                         'success').then(function() {
+            //                         $("#formSaveInfo").submit();
+            //                     });
+            //                 }
+            //             });
+            //     }
+            // });
         });
     </script>
 @endsection
