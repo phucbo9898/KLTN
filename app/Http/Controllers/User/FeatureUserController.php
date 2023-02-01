@@ -84,11 +84,14 @@ class FeatureUserController extends CustomerController
                 'time_order' => $time_order,
                 'delivery_time' => $delivery_time,
             ];
-            Mail::send('fe.email.payment',compact('transactionId', 'data', 'products'), function($email) {
-                $email->from(env('MAIL_USERNAME'), 'Kaiser Computer');
-                $email->subject('Hóa đơn thanh toán');  //Tieu de mail
-                $email->to(auth()->user()->email);
-            });
+
+            if (isset($products)) {
+                Mail::send('fe.email.payment',compact('transactionId', 'data', 'products'), function($email) {
+                    $email->from(env('MAIL_USERNAME'), 'Kaiser Computer');
+                    $email->subject('Hóa đơn thanh toán');  //Tieu de mail
+                    $email->to(auth()->user()->email);
+                });
+            }
             \Cart::destroy();
 
             //Send mail

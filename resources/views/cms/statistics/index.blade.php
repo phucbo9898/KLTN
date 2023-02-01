@@ -1,4 +1,7 @@
 @extends('cms.layout.master')
+
+@section('title', 'Báo cáo thống kê')
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">

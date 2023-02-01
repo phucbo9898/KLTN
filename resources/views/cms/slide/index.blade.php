@@ -1,6 +1,8 @@
 @extends('cms.layout.master')
-@section('content')
 
+@section('title', 'Danh sách slide')
+
+@section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->

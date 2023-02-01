@@ -1,4 +1,7 @@
 @extends('cms.layout.master')
+
+@section('title', 'Danh sách giao dịch')
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -63,20 +66,20 @@
                                     <td>{{ $transaction->phone }}</td>
                                     <td style="text-align: center;">
                                         @if($transaction->type_payment != '')
-                                            <a href="{{ route('admin.transaction.handle', ['change-status', $transaction->id]) }}" class="badge badge-@if($transaction->type_payment != ''){{ $transaction->status_payment == 'Paуment received' ? 'success' : 'danger' }}"@endif
+                                            <span class="badge badge-@if($transaction->type_payment != ''){{ $transaction->status_payment == 'Paуment received' ? 'success' : 'danger' }}"@endif
                                                style="font-size: 14px;width: 113.11px;">
                                             {{ $transaction->status_payment == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán' }}
                                         @else
                                             <span class="badge badge-dark d-none" style="font-size: 14px;width: 113.11px;">Chưa thanh toán</span>
                                         @endif
-                                        </a>
+                                        </span>
                                     </td>
                                     <td class="get-payment">
 {{--                                        {{ $transaction->type_payment }}--}}
-                                        @if($transaction->type_payment == 'Paуment Momo')
-                                            <span class="badge badge-warning momo" style="font-size: 14px;width: 204.41px;">Thanh toán bằng Momo</span>
-                                        @elseif($transaction->type_payment == 'Banking')
-                                            <span class="badge badge-primary banking" style="font-size: 14px;width: 204.41px;">Thanh toán bằng chuyển khoản</span>
+                                        @if($transaction->type_payment == 'momo')
+                                            <span class="badge badge-warning momo" style="font-size: 14px;width: 204.41px;">Thanh toán qua Momo</span>
+                                        @elseif($transaction->type_payment == 'vnpay')
+                                            <span class="badge badge-primary banking" style="font-size: 14px;width: 204.41px;">Thanh toán qua VNPay</span>
                                         @else
                                             <span class="badge badge-info payment-normal" style="font-size: 14px;width: 204.41px;">Thanh toán khi nhận hàng</span>
                                         @endif
@@ -99,6 +102,15 @@
                                         @endif
                                     </td>
                                     <td style="width: 15%;">
+                                        <a href="{{ route('admin.get.order.item', $transaction->id) }}"
+                                            data-id="{{ $transaction->id }}"
+                                            class="js_order_item btn btn-primary btn-circle" data-toggle="modal"
+                                            data-target="#showOrderItem"> <i class="fas fa-eye"></i></a>
+
+                                        <a href="{{ route('admin.get.export.transaction', $transaction->id) }}"
+                                            class="btn btn-success btn-circle">
+                                            <i class="fa-solid fa-print"></i>
+                                        </a>
                                         @if($transaction->status == 'pending')
                                             <a href="{{ route('admin.transaction.handle', ['cancel', $transaction->id]) }}"
                                                data-id="{{ $transaction->id }}"
@@ -112,15 +124,6 @@
                                                 <i class="fas fa-window-close"></i>
                                             </a>
                                         @endif
-                                        <a href="{{ route('admin.get.order.item', $transaction->id) }}"
-                                            data-id="{{ $transaction->id }}"
-                                            class="js_order_item btn btn-primary btn-circle" data-toggle="modal"
-                                            data-target="#showOrderItem"> <i class="fas fa-eye"></i></a>
-
-                                        <a href="{{ route('admin.get.export.transaction', $transaction->id) }}"
-                                            class="btn btn-success btn-circle">
-                                            <i class="fa-solid fa-print"></i>
-                                        </a>
                                     </td>
                                 </tr>
                                 {{-- custom modal by me --}}

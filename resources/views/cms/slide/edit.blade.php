@@ -1,4 +1,7 @@
 @extends('cms.layout.master')
+
+@section('title', 'Chỉnh sửa slide')
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -12,7 +15,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Loại sản phẩm - Cập nhật</li>
+                            <li class="breadcrumb-item active">Slide - Cập nhật</li>
                         </ol>
                     </div>
                 </div>

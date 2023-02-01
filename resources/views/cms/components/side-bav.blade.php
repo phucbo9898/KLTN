@@ -10,14 +10,12 @@
     <!--Sidebar -->
     <div class="sidebar">
         {{-- Sidebar user(optional) --}}
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="user-panel mt-3 pb-3 mb-3">
             <div class="image">
-                {{-- <img src="{{asset('noimg.png')}}" class="img-circle elevation-2" alt="User Image"> --}}
-            </div>
-            <div class="info">
-                <a href="#" class="d-block">Admin -
-                    {{ Auth::user()->name }}
-                </a>
+                 <img src="{{ Auth::user()->avatar }}" class="img-circle elevation-2" alt="User Image" style="display: block;margin-left: auto;margin-right: auto;width: 50%;">
+            </div> <br>
+            <div class="info" style="width: 100%; color: white; text-align: center;">
+                {{ Auth::user()->name }}
             </div>
         </div>
 

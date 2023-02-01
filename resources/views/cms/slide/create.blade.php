@@ -1,4 +1,7 @@
 @extends('cms.layout.master')
+
+@section('title', 'Thêm mới slide')
+
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
