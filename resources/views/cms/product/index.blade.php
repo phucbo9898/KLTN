@@ -65,7 +65,7 @@
                             <th>Ảnh</th>
                             <th style="width: 11%;">Trạng thái</th>
                             <th>Nổi bật</th>
-                            <th style="width: 12%;">Thao tác</th>
+                            <th style="width: 12%;">Hành động</th>
                         </thead>
                         <tbody>
                             @if (isset($products))

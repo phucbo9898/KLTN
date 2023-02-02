@@ -512,12 +512,11 @@
                     </div>
                     <div class="row li-main-content" style="margin-top: 22px;">
                         @foreach ($articles as $article)
-                            {{--                            @dd($article) --}}
                             <div class="col-lg-4 col-md-6">
                                 <div class="li-blog-single-item pb-25">
-                                    <div class="li-blog-banner">
+                                    <div class="li-blog-banner" style="max-height: 250px; max-width: 370px;">
                                         <a href="{{ route('article.detail', ['id' => $article->id]) }}">
-                                            <img class="img-full" src="{{ asset($article->image) }}" alt="">
+                                            <img class="img-full" src="{{ asset($article->image) }}" alt="" style="width: 370px !important; height: 250px !important; object-fit: cover !important;">
                                         </a>
                                     </div>
                                     <div class="li-blog-content">
@@ -526,11 +525,13 @@
                                                     href="{{ route('article.detail', ['id' => $article->id]) }}"
                                                     class="block-ellipsis">{{ $article->name }}</a></h5>
                                             <div class="li-blog-meta" style="padding: 0px 0 10px;">
-                                                <a class="author" href="#"><i
+                                                <span class="author" style="color: #aba3a3;"><i
                                                         class="fa fa-user"></i>{{ isset($article->user->name) ? $article->user->name : 'Admin' }}
-                                                </a>
-                                                <a class="post-time" href="#"><i class="fa fa-calendar"></i>
-                                                    {{ $article->created_at }}</a>
+                                                </span>
+                                                <span class="post-time" style="color: #aba3a3;">
+                                                    <i class="fa fa-calendar"></i>
+                                                    {{ $article->created_at }}
+                                                </span>
                                             </div>
                                             <p class="block-ellipsis-description">{{ $article->description }}</p>
                                             <a class="read-more" href="{{ route('article.detail', ['id' => $article->id]) }}">

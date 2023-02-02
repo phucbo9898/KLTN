@@ -1,4 +1,4 @@
-@extends('Admin.layout.master')
+@extends('cms.layout.master')
 
 @section('title', 'Chỉnh sửa người dùng')
 
@@ -39,7 +39,7 @@
                                 </div>
                             @endforeach
                         @endif
-                        @include('Admin.user.form')
+                        @include('cms.user.form')
                     </form>
                 </div>
                 <!-- /.card-body -->

@@ -57,7 +57,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         @if (Auth::check())
-                            <img src="{{ Auth::user()->avatar }}" alt=""
+                            <img src="{{ Auth::user()->avatar ?? asset('unimg.jpg') }}" alt=""
                                  style="width: 20px; object-fit: cover;">
                             {{ Auth::user()->name }}
                         @endif
@@ -99,6 +99,10 @@
     <script src="{{ asset('sweetalert.min.js') }}"></script>
     {{-- Datatable --}}
     <script src="{{ asset('jquery-datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+            integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-with-data-2012-2022.min.js"></script>
     @yield('javascript')
     @yield('javascript2')
     @yield('my_js')

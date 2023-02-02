@@ -5,7 +5,7 @@
     <div id="data-statistical-date-start" data-statistical-date-start="{{ $statistical_date_start }}"></div>
     <div id="data-statistical-date-end" data-statistical-date-end="{{ $statistical_date_end }}"></div>
     <table class="table table-hover table-bordered">
-        <thead class="thead-dark">
+        <thead class="thead-dark" style="text-align: left !important;">
             <th scope="col">STT</th>
             <th scope="col" style="">Tên Sản phẩm</th>
             <th scope="col">Số lượng</th>
@@ -19,17 +19,17 @@
             <tr></tr>
             @foreach ($transactions as $transaction)
                 @foreach ($transaction->orders as $order)
-                    <tr>
-                        <td>{{ $i++ }}</td>
+                    <tr style="text-align: left !important;">
+                        <td style="text-align: center !important;">{{ $i++ }}</td>
                         <td>{{ $order->product->name }}</td>
-                        <td>{{ $order->quantity }}</td>
+                        <td style="text-align: center !important;">{{ $order->quantity }}</td>
                         <td>{{ number_format($order->price, 0, ',', '.') }} VNĐ</td>
-                        <td>{{ $order->sale > 0 ? number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . 'VNĐ (-' . $order->sale . '%)' : 'Không giảm giá' }}
+                        <td>{{ $order->sale > 0 ? $order->sale . "%" : 'Không giảm giá' }}
                         </td>
                         <td>{{ $order->sale > 0 ? number_format($order->quantity * (($order->price * (100 - $order->sale)) / 100), 0, '.', '.') : number_format($order->quantity * $order->price, 0, ',', '.') }}
                             VNĐ</td>
                         <td>{{ $transaction->user->name }}</td>
-                        <td>{{ $transaction->id }}</td>
+                        <td>{{ $transaction->payment_code }}</td>
                         <?php $total_earn_money = $total_earn_money + ($order->sale > 0 ? $order->quantity * (($order->price * (100 - $order->sale)) / 100) : $order->quantity * $order->price); ?>
                     </tr>
                 @endforeach

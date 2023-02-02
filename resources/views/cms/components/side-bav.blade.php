@@ -12,7 +12,7 @@
         {{-- Sidebar user(optional) --}}
         <div class="user-panel mt-3 pb-3 mb-3">
             <div class="image">
-                 <img src="{{ Auth::user()->avatar }}" class="img-circle elevation-2" alt="User Image" style="display: block;margin-left: auto;margin-right: auto;width: 50%;">
+                 <img src="{{ Auth::user()->avatar ?? asset('unimg.jpg') }}" class="img-circle elevation-2" alt="User Image" style="display: block;margin-left: auto;margin-right: auto;width: 50%;">
             </div> <br>
             <div class="info" style="width: 100%; color: white; text-align: center;">
                 {{ Auth::user()->name }}
@@ -276,7 +276,7 @@
                 </li>
                 {{-- End tab transaction --}}
                 {{-- Tab setting --}}
-                <li class="nav-item has-treeview {{ request()->is('admin/setting*') ? 'menu-open' : '' }}">
+                <li class="nav-item has-treeview {{ request()->is('admin/setting*') ? 'menu-open' : '' }} d-none">
                     <a href="{{ route('admin.setting.index') }}"
                         class="nav-link {{ request()->is('admin/setting*') ? 'active' : '' }}">
                         <i class="fa fa-cog"></i>

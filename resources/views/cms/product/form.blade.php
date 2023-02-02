@@ -43,7 +43,7 @@
             <label>Ảnh minh họa:</label>
             @if (isset($product->image))
                 <img id="img_output" style="width:240px;height:180px; margin-bottom:10px"
-                    src="{{ asset('upload/pro_image/' . $product->image) }}" />
+                    src="{{ asset($product->image) }}" />
             @else
                 <img id="img_output" style="width:240px;height:180px; margin-bottom:10px"
                     src="{{ asset('unimg.jpg') }}" />

@@ -55,7 +55,7 @@
                             <th style="width: 15%;">Loại thanh toán</th>
                             <th style="width: 15%">Tổng tiền</th>
                             <th style="width: 10%">Trạng thái</th>
-                            <th style="width: 3%">Thao tác</th>
+                            <th style="width: 3%">Hành động</th>
                         </thead>
                         <tbody>
                             @foreach ($transactions as $transaction)
