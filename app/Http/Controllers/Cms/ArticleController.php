@@ -153,6 +153,8 @@ class ArticleController extends Controller
             $path_upload = 'upload/article/';
             $file->move($path_upload, $filename);
             $data['image'] = $path_upload . $filename;
+        } else {
+            $data['image'] = $article->image;
         }
         $articles = $this->articleRepo->prepareArticle($data);
         $result = $this->articleRepo->update($article->id, $articles);

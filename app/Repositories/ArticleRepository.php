@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Article;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ArticleRepository extends BaseRepository
@@ -19,7 +20,8 @@ class ArticleRepository extends BaseRepository
             'slug' => Str::slug($data['name'] ?? ''),
             'description' => $data['description'] ?? '',
             'content' => $data['content'] ?? '',
-            'image' => $data['image'] ?? ''
+            'image' => $data['image'] ?? '',
+            'author_id' => Auth::user()->id ?? ''
         ];
 
         return $article;

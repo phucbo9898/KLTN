@@ -57,7 +57,7 @@
                                 <th>Tên loại sản phẩm</th>
                                 <th style="width: 11%; text-align: center;">Trạng thái</th>
                                 <th>Thuộc tính</th>
-                                <th>Thao tác</th>
+                                <th>Hành động</th>
                             </thead>
                             <tbody>
                                 @foreach ($categories as $category)
@@ -102,7 +102,7 @@
         $(document).ready(function() {
             $('#dataTable').DataTable({
                 "order": [
-                    [0, "asc"]
+                    [0, "desc"]
                 ],
                 "language": {
                     "decimal": "",

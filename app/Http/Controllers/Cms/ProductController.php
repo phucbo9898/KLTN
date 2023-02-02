@@ -225,6 +225,8 @@ class ProductController extends Controller
             $path_upload = 'upload/product/';
             $file->move($path_upload, $filename);
             $data['image'] = $path_upload . $filename;
+        } else {
+            $data['image'] = $product->image;
         }
         $products = $this->productRepo->prepareProduct($data);
         $result = $this->productRepo->update($product->id, $products);

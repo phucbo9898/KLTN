@@ -28,14 +28,14 @@
                 <form class="form-inline" style="width: 917px; margin: 0 auto" action="#">
                     <div class="form-group">
                         <label>Ngày bắt đầu: &nbsp</label>
-                        <input type="datetime-local" value="02/27/2020 00:00:00" name="statistical_date_start" required
+                        <input type="date" value="" name="statistical_date_start" required
                             id="statistical_date_start" class="form-control mr-1" />
                     </div>
                     <a href="{{ route('admin.get.list.statistical') }}" value="Thống kê" class="btn btn-primary ml-5 mr-5"
                         id="button_statistical">Thống kê</a>
                     <div class="form-group">
                         <label>Ngày kết thúc: &nbsp</label>
-                        <input type="datetime-local" value="02/27/2020 23:59:59" name="statistical_date_end" required
+                        <input type="date" value="" name="statistical_date_end" required
                             id="statistical_date_end" class="form-control ml-1" />
                     </div>
                     {{--            <input type="submit" value="Xuất pdf" class="btn btn-success" style=""/> --}}

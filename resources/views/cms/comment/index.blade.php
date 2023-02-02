@@ -29,7 +29,7 @@
             <div class="card">
                 @if (isset($ratings))
                     <div class="card-body">
-                        <table class="table table-hover table-striped" id="dataTable">
+                        <table class="table table-hover table-striped table-list" id="dataTable">
                             <thead class="thead-dark">
                                 <th style="width: 5%">ID</th>
                                 <th style="width: 10%">Người đánh giá</th>
@@ -37,7 +37,7 @@
                                 <th style="width: 35%">Nội dung</th>
                                 <th style="width: 7%">Rating</th>
                                 <th style="width: 13%">Ngày tạo</th>
-                                <th style="width: 5%">Thao tác</th>
+                                <th style="width: 5%">Hành động</th>
                             </thead>
                             <tbody>
                                 @foreach ($ratings as $rating)
@@ -45,9 +45,13 @@
                                         <td>{{ $rating->id }}</td>
                                         <td>{{ optional($rating->User)->name }}</td>
                                         <td>{{ $rating->Product->name }}</td>
-                                        <td>{{ $rating->ra_content }}</td>
+                                        <td>{{ $rating->content }}</td>
                                         <td style="text-align: center; width: 5%;">{{ $rating->number }} sao</td>
-                                        <td>{{ $rating->created_at }}</td>
+                                        <td>
+                                            <input type="hidden" class="convert-time"
+                                                   value="{{ date('Y-m-d h:i:s A', strtotime($rating->created_at ?? '')) }}">
+                                            {{ $rating->created_at ?? '' }}
+                                        </td>
                                         <td style="text-align: center; width: 10%;"><a
                                                 href="{{ route('admin.comment.action', ['delete', $rating->id]) }}"
                                                 class="btn_delete_sweet btn btn-danger btn-circle"
@@ -69,6 +73,11 @@
 @endsection
 @section('javascript')
     <script>
+        $('.table-list').find('.convert-time').each(function() {
+            var a = moment.tz($(this).val(), Intl.DateTimeFormat().resolvedOptions().timeZone)
+            console.log(a)
+            $(this).parent('td').html(a.format('YYYY-MM-DD HH:mm:ss'))
+        });
         $(document).ready(function() {
             $('#dataTable').DataTable({
                 "order": [

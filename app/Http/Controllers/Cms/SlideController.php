@@ -112,11 +112,9 @@ class SlideController extends Controller
             $request->all(),
             [
                 'name' => 'required|max:255',
-                'image' => 'required'
             ],
             [
                 'name.required' => __('Please enter slide name'),
-                'image.required' => __('Please choose slide photo'),
             ]
         );
         if ($validator->fails()) {
@@ -130,6 +128,8 @@ class SlideController extends Controller
             $path_upload = 'upload/slide/';
             $file->move($path_upload, $filename);
             $data['image'] = $path_upload . $filename;
+        } else {
+            $data['image'] = $slide->image;
         }
         $slides = $this->slideRepo->prepareSlide($data);
         $result = $this->slideRepo->update($slide->id, $slides);

@@ -52,7 +52,7 @@
                             </button>
                         </div>
                     @endif
-                    <table class="table table-hover table-striped" id="dataTable">
+                    <table class="table table-hover table-striped table-list" id="dataTable">
                         <thead class="thead-dark">
                             <th>ID</th>
                             <th>Tên bài viết</th>
@@ -60,7 +60,7 @@
                             <th>Mô tả</th>
                             <th>Trạng thái</th>
                             <th>Ngày tạo</th>
-                            <th>Thao tác</th>
+                            <th>Hành động</th>
                         </thead>
                         <tbody>
                             @foreach ($articles as $article)
@@ -74,7 +74,11 @@
                                             href="{{ route('admin.article.handle', ['status', $article->id]) }}"
                                             class="badge badge-{{ $article->status == 'active' ? 'success' : 'danger' }}">{{ $article->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
                                     </td>
-                                    <td style="width:11%">{{ $article->created_at }}</td>
+                                    <td style="width:11%">
+                                        <input type="hidden" class="convert-time"
+                                               value="{{ date('Y-m-d h:i:s A', strtotime($article->created_at ?? '')) }}">
+                                        {{ $article->created_at ?? '' }}
+                                    </td>
                                     <td style="width: 11%">
                                         <a href="{{ route('admin.article.edit', $article->id) }}"
                                             class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
@@ -100,6 +104,11 @@
 @endsection
 @section('javascript')
     <script>
+        $('.table-list').find('.convert-time').each(function() {
+            var a = moment.tz($(this).val(), Intl.DateTimeFormat().resolvedOptions().timeZone)
+            console.log(a)
+            $(this).parent('td').html(a.format('YYYY-MM-DD HH:mm:ss'))
+        });
         $(document).ready(function() {
             $('#dataTable').DataTable({
                 "order": [

@@ -59,7 +59,7 @@
                                 <th>Tên thuộc tính</th>
                                 <th>Kiểu</th>
                                 <th>Giá trị</th>
-                                <th>Thao tác</th>
+                                <th>Hành động</th>
                             </thead>
                             <tbody>
                                 @foreach ($attributes as $attribute)

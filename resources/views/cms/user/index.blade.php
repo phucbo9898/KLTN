@@ -57,10 +57,10 @@
                             <th>ID</th>
                             <th>Avatar</th>
                             <th>Họ và tên</th>
-                            <th>email</th>
+                            <th>Email</th>
                             <th>Số điện thoại</th>
                             <th style="width: 12%; ">Phân quyền</th>
-                            <th style="width: 18%; text-align: center">Thao tác</th>
+                            <th style="width: 18%; text-align: center">Hành động</th>
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
@@ -253,6 +253,7 @@
                             swal("Thành công", "Đã thay đổi mật khẩu thành công !",
                                 "success").then(function() {
                                 $("#exampleModalCenter").modal("hide");
+                                location.reload();
                             });
 
                         } else if (result.status == 2) {

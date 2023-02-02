@@ -56,7 +56,7 @@
                             <th>Loại sản phẩm</th>
                             <th>Ảnh</th>
                             <th>Số lượng</th>
-                            <th style="width: 10%;">Thao tác</th>
+                            <th style="width: 10%;">Hành động</th>
                         </thead>
                         <tbody>
                             @if (isset($products))

@@ -56,7 +56,7 @@
                                 <th style="width: 5%; text-align: center;">ID</th>
                                 <th style="width: 50%">Tên Slide</th>
                                 <th style="width: 25%">Ảnh</th>
-                                <th style="width: 15%">Thao tác</th>
+                                <th style="width: 15%">Hành động</th>
                             </thead>
                             <tbody>
                                 @foreach ($slides as $slide)
@@ -98,7 +98,9 @@
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({
-                // "order": [[ 0, "desc" ]],
+                "order": [
+                    [0, "desc"]
+                ],
                 "language": {
                     "decimal": "",
                     "emptyTable": "Không có dữ liệu hiển thị trong bảng",

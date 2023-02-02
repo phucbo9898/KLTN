@@ -15,11 +15,11 @@ class UserRepository extends BaseRepository
     public function prepareUser(array $data)
     {
         $user = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'phone' => $data['phone'],
-            'avatar' => $data['image']
+            'name' => $data['name'] ?? '',
+            'email' => $data['email'] ?? '',
+            'password' => $data['password'] ?? '',
+            'phone' => $data['phone'] ?? '',
+            'avatar' => $data['image'] ?? ''
         ];
 
         return $user;
@@ -28,9 +28,9 @@ class UserRepository extends BaseRepository
     public function prepareRegister(array $data)
     {
         $user = [
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'name' => $data['name'] ?? '',
+            'email' => $data['email'] ?? '',
+            'password' => bcrypt($data['password']) ?? '',
             'role' => UserType::USER
         ];
 
