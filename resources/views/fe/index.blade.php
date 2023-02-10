@@ -571,7 +571,7 @@
                             " đã tồn tại trong danh sách sản phẩm ưa thích của bạn !", "info");
                     }
                     if (result.error) {
-                        swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
+                        swal("@lang('Warning')!", "Bạn cần đăng nhập cho chức năng này!", "warning");
                     }
                 })
             })
@@ -584,25 +584,25 @@
                     url: url
                 }).done(function(result) {
                     if (result.status == 1) {
-                        swal("Thành công !", "Đã thêm sản phẩm " + name_product + " vào giỏ hàng !",
+                        swal("@lang('Success') !", "@lang('Product added') " + name_product + " @lang('to cart') !",
                             "success");
                         $(".cart-item-count-number").text(result.number_product_in_cart);
                         $(".price_total_cart").text(result.price_total_cart);
                     }
                     if (result.status == 2) {
-                        swal("Cảnh báo !", "Trong kho chỉ còn " + result.product_less +
-                            " sản phẩm " + name_product, "warning");
+                        swal("@lang('Warning')!", "@lang('Only in stock') " + result.product_less +
+                            " @lang('product')" + name_product, "warning");
                     }
                     if (result.status == 3) {
-                        swal("Cảnh báo !", "Sản phẩm " + name_product + " không tồn tại !",
+                        swal("@lang('Warning')!", "@lang('Product') " + ' "' + name_product + '" ' + " @lang('Unknown') !",
                             "warning");
                     }
                     if (result.status == 4) {
-                        swal("Cảnh báo !", "Sản phẩm " + name_product + " đã hết hàng !",
+                        swal("@lang('Warning')!", "@lang('Product') " + ' "' + name_product + '" ' + "@lang('out of stock')!",
                         "warning");
                     }
                     if (result.error) {
-                        swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
+                        swal("@lang('Warning')!", "@lang('You need to login for this function')!", "warning");
                     }
                 });
             });

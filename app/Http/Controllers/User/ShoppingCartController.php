@@ -90,11 +90,11 @@ class ShoppingCartController extends CustomerController
         $number_product_in_cart = $cart->where('id', $pro_id)->first()->quantity;
         //check number product edit bigger number product in stock
         if ($number_product_edit > $number_product_in_stock)
-            return redirect()->back()->with('warning', 'Sản phẩm ' . $product_in_stock_name . ' chỉ còn ' . $number_product_in_stock . ' trong kho');
+            return redirect()->back()->with('warning', __('Product') . ' ' . $product_in_stock_name . ' ' .  __('only'). ' ' . $number_product_in_stock . ' ' .  __('in stock'));
         //get rowId for update number product in cart
         $rowId = $cart->where('id', $pro_id)->first()->rowId;
         \Cart::update($rowId, $number_product_edit);
-        return redirect()->back()->with('success', 'Cập nhật số lượng sản phẩm thành công');
+        return redirect()->back()->with('success', __('Update the number of successful products'));
     }
 
     public function deleteProductItem($key)

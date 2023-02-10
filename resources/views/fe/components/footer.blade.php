@@ -14,7 +14,7 @@
                             </div>
                             <div class="shipping-text">
                                 <h2>@lang('Free shipping')</h2>
-                                <p>Miễn phí trả lại. Hãy xem thanh toán cho ngày giao dịch.</p>
+                                <p>@lang('Free return. See payment for the transaction date.')</p>
                             </div>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                             </div>
                             <div class="shipping-text">
                                 <h2>@lang('Cost savings')</h2>
-                                <p>Giá thành sản phẩm sẽ vì lợi ích của khách hàng.</p>
+                                <p>@lang('The cost of the product will be for the benefit of the customer.')</p>
                             </div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                             </div>
                             <div class="shipping-text">
                                 <h2>@lang('Information security')</h2>
-                                <p>Thông tin của khách hàng sẽ không được chia sẻ với bên thứ ba.</p>
+                                <p>@lang('Customer information will not be shared with third parties.')</p>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="shipping-text">
                                 <h2>@lang('Support 24/7')</h2>
-                                <p>Nếu bạn có câu hỏi? Hãy liên hệ ngay với chúng tôi.</p>
+                                <p>@lang('If you have questions? Please contact us immediately.')</p>
                             </div>
                         </div>
                     </div>
@@ -98,10 +98,10 @@
                         <div class="footer-block">
                             <h3 class="footer-block-title">@lang('Outstanding')</h3>
                             <ul id="hover_inf">
-                                <li><a href="#" style="text-decoration: none;">@lang('Free shipping')</a></li>
-                                <li><a href="#" style="text-decoration: none;">@lang('Cost savings')</a></li>
-                                <li><a href="#" style="text-decoration: none;">@lang('Security')</a></li>
-                                <li><a href="#" style="text-decoration: none;">@lang('Support 24/7')</a></li>
+                                <li><span style="text-decoration: none;">@lang('Free shipping')</span></li>
+                                <li><span style="text-decoration: none;">@lang('Cost savings')</span></li>
+                                <li><span style="text-decoration: none;">@lang('Security')</span></li>
+                                <li><span style="text-decoration: none;">@lang('Support 24/7')</span></li>
                             </ul>
                         </div>
                     </div>
@@ -151,10 +151,10 @@
                 <div class="col-lg-12">
                     <div class="copy-right" style="text-align: center; color: white;">
                         <p>
-                            This project is made with
-                            <i class="icon-heart color-danger" aria-hidden="true"></i> by <span
+                            @lang('This project is made with')
+                            <i class="icon-heart color-danger" aria-hidden="true"></i> @lang('by') <span
                                 style="color: red; font-size: 20px">♥</span>
-                            <a href="#" target="_blank" style="color: #3b7fce;">Kaiser</a> on
+                            <a href="#" target="_blank" style="color: #3b7fce;">Vũ Ngọc Phúc</a> @lang('on')
                             <script>
                                 document.write(new Date().getFullYear());
                             </script>
