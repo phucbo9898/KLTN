@@ -71,7 +71,7 @@
                             <div class="li-paginatoin-area text-center pt-25">
                                 <div class="row">
                                     <div class="col-2 mx-auto">
-                                        {{ $check_link == 1 ? $articles->links() : '' }}
+                                        {{ ($check_link == 1) ? $articles->links() : '' }}
                                     </div>
                                 </div>
                             </div>

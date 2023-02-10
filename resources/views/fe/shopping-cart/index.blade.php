@@ -25,8 +25,8 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                    <li class="active">Giỏ hàng</li>
+                    <li><a href="{{ route('home') }}">@lang("Home")</a></li>
+                    <li class="active">@lang("Shopping")</li>
                 </ul>
             </div>
         </div>
@@ -39,7 +39,7 @@
                 <div class="col-12">
                     @if (\Session::has('success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Thành công!</strong> {{ \Session::get('success') }}
+                            <strong>@lang('Success')!</strong> {{ \Session::get('success') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -47,7 +47,7 @@
                     @endif
                     @if (\Session::has('warning'))
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>Thất bại!</strong> {{ \Session::get('warning') }}
+                            <strong>@lang('Error')!</strong> {{ \Session::get('warning') }}
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -57,12 +57,12 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th class="li-product-remove">Xóa</th>
-                                    <th class="li-product-thumbnail">Ảnh</th>
-                                    <th class="cart-product-name">Tên sản phẩm</th>
-                                    <th class="li-product-price">Giá</th>
-                                    <th class="li-product-quantity">Số lượng</th>
-                                    <th class="li-product-subtotal">Tổng</th>
+                                    <th class="li-product-remove">@lang("Delete")</th>
+                                    <th class="li-product-thumbnail">@lang("Image")</th>
+                                    <th class="cart-product-name">@lang('Product name')</th>
+                                    <th class="li-product-price">@lang('Price')</th>
+                                    <th class="li-product-quantity">@lang('Quantity')</th>
+                                    <th class="li-product-subtotal">@lang('Total')</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -83,28 +83,28 @@
                                         @endif
                                         <td class="li-product-name"><a href="#">{{ $product->name }}</a></td>
                                         <td class="li-product-price"><span
-                                                class="amount">{{ number_format($product->price, 2, ',', '.') }} VNĐ</span>
+                                                class="amount">{{ number_format($product->price, 2, ',', '.') }} @lang('VND')</span>
                                         </td>
                                         <td class="quantity">
                                             <form action="{{ route('shopping.edit.product') }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="pro_id" value="{{ $product->id }}" />
-                                                <span
-                                                    style="color: #242424l;font-size: 16px;font-weight: 700;">{{ $product->qty }}
-                                                    Sản phẩm</span>
+                                                <span style="color: #242424l;font-size: 16px;font-weight: 700;">{{ $product->qty }}
+                                                    @if ($product->qty > 1) @lang('products') @else @lang('product') @endif
+                                                </span>
                                                 <div class="cart-plus-minus">
                                                     <input class="cart-plus-minus-box" value="{{ $product->qty }}"
                                                         name="number_product_edit" type="number" min="1">
                                                     <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
                                                     <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
                                                 </div>
-                                                <button class="btn btn-primary mt-2">Cập nhật</button>
+                                                <button class="btn btn-primary mt-2">@lang('Update')</button>
                                             </form>
                                         </td>
                                         <td class="product-subtotal"><span
                                                 class="amount">{{ number_format($product->price * $product->qty, 2, ',', '.') }}
-                                                VNĐ<br /> Thành:
-                                                {{ number_format($product->price * $product->qty, 0, ',', '.') }} VNĐ</span>
+                                                @lang('VND')<br /> @lang('Into money'):
+                                                {{ number_format($product->price * $product->qty, 0, ',', '.') }} @lang('VND')</span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -114,15 +114,16 @@
                     <div class="row">
                         <div class="col-md-5 ml-auto">
                             <div class="cart-page-total">
-                                <h2>Tổng tiền cần thanh toán:</h2>
+                                <h2>@lang('Total Amount To Pay'):</h2>
                                 <ul>
-                                    <li>Tổng <span>{{ \Cart::subtotal(0, ',', '.') }} VNĐ</span></li>
+                                    <li>@lang('Total') <span>{{ \Cart::subtotal(0, ',', '.') }} @lang('VND')</span></li>
                                     <input type="hidden" class="total" value="{{ \Cart::subtotal(0, ',', '.') }}">
                                 </ul>
                                 <div class="mt-15">
                                     @if (\Cart::subtotal() > 0)
-                                        <a class="btn btn-primary" href="{{ route('feature-user.checkout') }}" style="float: right; margin-left: 20px;">Xác nhận đặt
-                                            hàng</a>
+                                        <a class="btn btn-primary" href="{{ route('feature-user.checkout') }}" style="float: right; margin-left: 20px;">
+                                            @lang('Order confirmation')
+                                        </a>
                                     @endif
                                 </div>
                                 <div style="clear: both"></div>

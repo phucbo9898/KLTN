@@ -192,7 +192,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
+                <h5 class="modal-title" id="exampleModalLabel">@lang('Notification')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -202,10 +202,10 @@
                     @if (Auth::user()->notificationReceivers->count() > 0)
                         @foreach (Auth::user()->notificationReceivers->sortByDesc('created_at') as $nofitication)
                             <div style="display: flex">
-                                <div class="col-sm-1">
-                                    <a href="{{ route('feature-user.delete.nofication', $nofitication->id) }}">Xóa</a>
+                                <div class="col-sm-2">
+                                    <a href="{{ route('feature-user.delete.nofication', $nofitication->id) }}">@lang('Delete')</a>
                                 </div>
-                                <div class="col-sm-11">
+                                <div class="col-sm-10">
                                     <div><b>{{ $nofitication->created_at }}</b></div>
                                     {!! $nofitication->content !!}
                                 </div>

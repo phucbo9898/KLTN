@@ -6,8 +6,8 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                    <li class="active">Xác nhận đặt hàng</li>
+                    <li><a href="{{ route('home') }}">@lang('Home')</a></li>
+                    <li class="active">@lang('Order confirmation')</li>
                 </ul>
             </div>
         </div>
@@ -21,19 +21,19 @@
                     <form method="POST" id="formSaveInfo">
                         @csrf
                         <div class="checkbox-form">
-                            <h3>Chi tiết giao dịch</h3>
+                            <h3>@lang('Transaction details')</h3>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
-                                        <label>Họ và tên <span class="required">*</span></label>
-                                        <input placeholder="Nhập họ và tên..." type="text" name="name" id="check_name"
+                                        <label>@lang('Name') <span class="required">*</span></label>
+                                        <input placeholder="@lang('Enter your name')" type="text" name="name" id="check_name"
                                             value="{{ old('name') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
-                                        <label>Địa chỉ <span class="required">*</span></label>
-                                        <input placeholder="Nhập địa chỉ giao hàng của bạn..." name="address"
+                                        <label>@lang('Address') <span class="required">*</span></label>
+                                        <input placeholder="@lang('Enter your address')" name="address"
                                             id="check_address" required type="text" value="{{ old('address') }}">
                                     </div>
                                 </div>
@@ -45,16 +45,16 @@
                             </div> --}}
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
-                                        <label>Số điện thoại <span class="required">*</span></label>
+                                        <label>@lang('Phone Number') <span class="required">*</span></label>
                                         <input name="phone" type="text" id="check_phone"
-                                            placeholder="Nhập số điện thoại của bạn..." value="{{ old('phone') }}">
+                                            placeholder="@lang('Enter your phone number')" value="{{ old('phone') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="">
                                         <div class="checkout-form-list">
-                                            <label>Ghi chú</label>
-                                            <textarea id="checkout-mess" name="note" cols="30" rows="10" required placeholder="Nhập ghi chú...">{{ old('note') }}</textarea>
+                                            <label>@lang('Note')</label>
+                                            <textarea id="checkout-mess" name="note" cols="30" rows="10" required placeholder="@lang('Enter your note')">{{ old('note') }}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -66,13 +66,13 @@
                 </div>
                 <div class="col-lg-6 col-12">
                     <div class="your-order">
-                        <h3>Giỏ hàng của bạn: </h3>
+                        <h3>@lang('Your cart'): </h3>
                         <div class="your-order-table table-responsive">
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class="cart-product-name">Sản phẩm</th>
-                                        <th class="cart-product-total">Giá</th>
+                                        <th class="cart-product-name">@lang('Product')</th>
+                                        <th class="cart-product-total">@lang('Price')</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,14 +82,14 @@
                                                     class="product-quantity"> × {{ $product->qty }}</strong></td>
                                             <td class="cart-product-total"><span
                                                     class="amount">{{ number_format($product->price * $product->qty, 0, ',', '.') }}
-                                                    VNĐ</span></td>
+                                                    @lang('VND')</span></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr class="cart-subtotal">
-                                        <th>Tổng tiền thanh toán</th>
-                                        <td><span class="amount">{{ \Cart::subtotal(0, ',', '.') }} VNĐ</span></td>
+                                        <th>@lang('Total payment')</th>
+                                        <td><span class="amount">{{ \Cart::subtotal(0, ',', '.') }} @lang('VND')</span></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -139,10 +139,10 @@
 {{--                                    <button class="btn btn-primary payment-normal" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Đặt hàng</button>--}}
 {{--                                </div>--}}
 {{--                            @endif--}}
-                            <h5>Chọn phương thức thanh toán</h5>
+                            <h5>@lang('Select a payment method')</h5>
                             <div class="order-button-payment">
                                 <input type="radio" name="payment" id="vnpay" value="vnpay" style="width: 15px; height: 13px; margin-bottom: 5px;">
-                                <label>Thanh toán bằng VNPay</label>
+                                <label>@lang('Payment with VNPay')</label>
                                 <form action="{{ route('shopping.payment-vnpay') }}" method="POST">
                                     @csrf
                                     <input type="hidden" class="name" name="name" value="">
@@ -151,12 +151,12 @@
                                     <input type="hidden" class="note" name="note" value="">
                                     <input type="hidden" class="type-payment" name="type_payment" value="">
                                     <input type="hidden" class="total-momo" name="total_money" value="{{ \Cart::subtotal(0, ',', '') }}">
-                                    <button class="btn btn-danger payment-vnpay d-none" type="submit" name="redirect" style="width: 212px; height: 50px;">Đặt hàng</button>
+                                    <button class="btn btn-danger payment-vnpay d-none" type="submit" name="redirect" style="width: 212px; height: 50px;">@lang('Order')</button>
                                 </form>
                             </div>
                             <div class="order-button-payment {{ Cart::subtotal(0, ',', '') > 30000000 ? 'd-none' : '' }}">
                                 <input type="radio" name="payment" id="momo" value="momo" style="width: 15px; height: 13px; margin-bottom: 5px;">
-                                <label>Thanh toán bằng Momo</label> <br>
+                                <label>@lang('Payment with Momo')</label> <br>
                                 <form action="{{ route('shopping.payment-momo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" class="name" name="name" value="">
@@ -165,14 +165,14 @@
                                     <input type="hidden" class="note" name="note" value="">
                                     <input type="hidden" class="type-payment" name="type_payment" value="">
                                     <input type="hidden" class="total-momo" name="total_momo" value="{{ \Cart::subtotal(0, ',', '') }}">
-                                    <button class="btn btn-warning payment-momo d-none" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">Thanh toán bằng Momo</button>
+                                    <button class="btn btn-warning payment-momo d-none" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">@lang('Order')</button>
                                 </form>
                             </div>
                             <div class="order-button-payment">
                                 <input type="radio" name="payment" id="normal" value="normal" style="width: 15px; height: 13px; margin-bottom: 5px;">
-                                <label>Thanh toán khi nhận hàng</label>
+                                <label>@lang('Payment on delivery')</label>
                             </div>
-                            <button class="btn btn-primary payment-normal d-none" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Đặt hàng</button>
+                            <button class="btn btn-primary payment-normal d-none" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">@lang('Order')</button>
                         </div>
                     </div>
                 </div>
@@ -304,16 +304,16 @@
                 check_note = $("#checkout-mess").val();
                 if (!check_name || !check_address || !check_phone || !check_note) {
                     // swal("Thành công","Thanh toán không thành công","success");
-                    swal("Cảnh báo",
-                        "Yêu cầu bạn nhập dữ liệu đầy đủ để dễ dàng vận chuyển hàng ! Xin cảm ơn đã sử dụng dịch vụ của chúng tôi!",
+                    swal("@lang('Warning')",
+                        "@lang('Requires you to enter complete data for easy shipping ! Thank you for using our service!')",
                         "warning");
                 } else {
                     swal({
-                            title: "Bạn có chắc chắn?",
-                            text: "Các sản phẩm trong giỏ hàng của bạn sẽ được thanh toán ! Các sản phẩm sẽ đợi bên của hàng kiểm tra và gửi về",
+                            title: "@lang('Are you sure')?",
+                            text: "@lang('The products in your cart will be paid ! The products will wait for the shop side to check and send for you')",
                             icon: "info",
-                            buttons: ["Không", {
-                                text: "Đồng ý",
+                            buttons: ["@lang('No')", {
+                                text: "@lang('Yes')",
                                 value: true,
                                 visible: true,
                                 className: "bg-success",
@@ -323,8 +323,8 @@
                         })
                         .then((willDelete) => {
                             if (willDelete) {
-                                swal("Thành công",
-                                    "Bạn đã đặt hàng thành công ! Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi !",
+                                swal("@lang('Success')",
+                                    "@lang('Your order has been successfully placed! Thank you for using our service!')",
                                     'success').then(function() {
                                     $("#formSaveInfo").submit();
                                 });
