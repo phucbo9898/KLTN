@@ -22,7 +22,8 @@ class HistoryController extends CustomerController
     public function index()
     {
         $user = Auth::user();
-        $transactions = $user->transactions->sortByDesc('id');
+//        dd($user);
+        $transactions = Transaction::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10);
         $countTransaction = $transactions->count();
         $data = [
             'transactions' => $transactions,
@@ -60,18 +61,28 @@ class HistoryController extends CustomerController
         if ($action) {
             switch ($action) {
                 case 'change-status':
-                    if ($orders) {
-                        foreach ($orders as $order) {
-                            $product = Product::find($order->product_id);
-                            $product->quantity = $product->quantity - $order->quantity;
-                            $product->qty_pay = $product->qty_pay + $order->quantity;
-                            $product->save();
-                        }
-                        $transaction->status = StatusTransaction::COMPLETED;
-                        $transaction->save();
-                    }
+//                    if ($orders) {
+//                        foreach ($orders as $order) {
+//                            $product = Product::find($order->product_id);
+//                            $product->quantity = $product->quantity - $order->quantity;
+//                            $product->qty_pay = $product->qty_pay + $order->quantity;
+//                            $product->save();
+//                        }
+//                    }
+                    $transaction->status = StatusTransaction::COMPLETED;
+                    $transaction->save();
                     break;
                 case 'cancel-order':
+                    if ($orders) {
+                        foreach ($orders as $order) {
+                            // find product in order
+                            $product = Product::find($order->product_id);
+                            // subtract number product in stock
+                            $product->quantity =  $product->quantity + $order->quantity;
+                            $product->qty_pay = $product->qty_pay - $order->quantity;
+                            $product->save();
+                        }
+                    }
                     $transaction->status = 'canceled';
                     $transaction->save();
                     break;

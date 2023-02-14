@@ -4,21 +4,19 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Attribute;
 use App\Models\Product;
 
-if (!function_exists('uploadToS3')) {
-   /**
-    * @param $request
-    * @param $folder
-    * @param $files
-    * @return string|void
-    */
-   function uploadToS3($request, $folder, $files)
-   {
-       if ($request->hasFile($files)) {
-           $path = Storage::disk('s3')->put('images/' . $folder, $request->file($files));
-           $path = Storage::disk('s3')->url($path);
-           return $path;
-       }
-   }
+if (!function_exists('escape_like')) {
+    /**
+     * escape_like
+     *
+     * @param $string
+     * @return mixed
+     */
+    function escape_like($string)
+    {
+        $search = array('%', '_', '&', '*', ',', '|');
+        $replace = array('\%', '\_', '\&', '\*', '\,', '\|');
+        return str_replace($search, $replace, $string);
+    }
 }
 
 if (!function_exists('dataAttributeValue')) {

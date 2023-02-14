@@ -23,11 +23,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->userRepo->paginate(10);
+        $options = $request->all();
+        $users = $this->userRepo->query($options)->get();
 
-        return view('cms.user.index', compact('users'));
+        return view('cms.user.index', compact('users', 'options'));
     }
 
     /**
@@ -73,6 +74,7 @@ class UserController extends Controller
         }
 
         $data = $request->all();
+        dd($data);
         $data['password'] = bcrypt(1);
         if ($request->hasFile('image')) {     // image
             $file = $request->file('image');

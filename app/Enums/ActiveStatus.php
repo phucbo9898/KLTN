@@ -11,7 +11,15 @@ use BenSampo\Enum\Enum;
  */
 final class ActiveStatus extends Enum
 {
-    const OptionOne =   0;
-    const OptionTwo =   1;
-    const OptionThree = 2;
+    const ACTIVE = 'active';
+    const INACTIVE = 'inactive';
+
+    public static function getStatusName($status)
+    {
+        $typeStatus = [
+            'active' => __('active'),
+            'inactive' => __('inactive'),
+        ];
+        return $typeStatus[$status];
+    }
 }

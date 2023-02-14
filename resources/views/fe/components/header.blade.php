@@ -35,9 +35,11 @@
                                 <div class="setting ht-setting">
                                     <ul class="ht-setting-list">
                                         @if (Auth::check())
-                                            <li><a href="{{ route('admin.home') }}">@lang('Admin Page')</a></li>
-                                            <li><a href="{{ route('favorite-product.index') }}">@lang('Favorite Product')</a>
-                                            </li>
+                                            @if(Auth::user()->role == 'admin')
+                                                <li><a href="{{ route('admin.home') }}">@lang('Admin Page')</a></li>
+                                            @endif
+                                            <li><a href="{{ route('profile.index') }}">@lang('Profile')</a></li>
+                                            <li><a href="{{ route('favorite-product.index') }}">@lang('Favorite Product')</a></li>
                                             <li><a href="{{ route('history-user.index') }}">@lang('Purchase history')</a></li>
                                             <li><a href="{{ route('get.logout') }}">@lang('Logout')</a></li>
                                         @else

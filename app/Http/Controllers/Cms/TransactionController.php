@@ -54,6 +54,18 @@ class TransactionController extends Controller
                             'created_at' => Carbon::now(),
                         ]
                     );
+
+                    $orders = Order::where('transaction_id', $id)->get();
+                    if ($orders) {
+                        foreach ($orders as $order) {
+                            // find product in order
+                            $product = Product::find($order->product_id);
+                            // subtract number product in stock
+                            $product->quantity =  $product->quantity + $order->quantity;
+                            $product->qty_pay = $product->qty_pay - $order->quantity;
+                            $product->save();
+                        }
+                    }
                     return redirect()->route('admin.transaction.index')->with('success', 'Đã hủy giao dịch thành công');
                     break;
                 case 'send':
@@ -76,10 +88,6 @@ class TransactionController extends Controller
                                 $request->session()->flash('OutOfStock', 'Sản phẩm ' . $product->name . ' đã hết hàng không thể thay đổi trạng thái giao dịch này !!!');
                                 return redirect()->back();
                             }
-
-                            // subtract number product in stock
-                            $product->quantity =  $product->quantity - $order->quantity;
-                            $product->save();
                         }
                         $transaction->status = 'processing';
                         $transaction->save();
@@ -100,13 +108,13 @@ class TransactionController extends Controller
         // find orders of customer in transaction
         $orders = Order::where('transaction_id', $id)->get();
         if ($orders) {
-            foreach ($orders as $order) {
-                // find product in order
-                $product = Product::find($order->product_id);
-                //Add number product bought in table product
-                $product->qty_pay = $product->qty_pay + $order->quantity;
-                $product->save();
-            }
+//            foreach ($orders as $order) {
+//                // find product in order
+//                $product = Product::find($order->product_id);
+//                //Add number product bought in table product
+//                $product->qty_pay = $product->qty_pay + $order->quantity;
+//                $product->save();
+//            }
             $transaction->status = 'completed';
             Notification::insert(
                 [

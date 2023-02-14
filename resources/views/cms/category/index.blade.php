@@ -26,6 +26,11 @@
             <!-- Default box -->
             <div class="card">
                 @if (isset($categories))
+                    <div class="card-header">
+                        <div class="form-group">
+                            <x-category.search-form :options="$options ?? ''" :dataAttributes="$dataAttributes ?? ''" />
+                        </div>
+                    </div>
                     <div class="card-body">
                         @if (Session::has('create_category_success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">

@@ -29,9 +29,13 @@
 
         <!-- Main content -->
         <section class="content">
-
             <!-- Default box -->
             <div class="card">
+                <div class="card-header">
+                    <div class="form-group">
+                        <x-product.search-form :options="$options ?? ''" :categories="$categories ?? ''" />
+                    </div>
+                </div>
                 <div class="card-body">
                     @if (Session::has('create_product_success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -75,31 +79,32 @@
                                         <td>
                                             <b>{{ $product->name }}</b><br />
                                             <ul style="padding:0px">
-                                                <li>Số lượng: {{ $product->quantity }}</li>
-                                                <li>Giá: {{ number_format($product->price, 0, ',', '.') }} VNĐ</li>
+                                                <li>Số lượng tồn kho: {{ $product->quantity > 0 ? $product->quantity : 0 }}</li>
                                                 @if ($product->sale)
                                                     <li>Đang giảm giá ( -{{ $product->sale }}% )</li>
                                                 @else
                                                     <li>Không giảm giá</li>
                                                 @endif
+                                                <li>Giá: {{ number_format($product->price, 0, ',', '.') }} VNĐ</li>
                                                 <li>
-                                                    <?php
-                                                    $point = 0;
-                                                    if ($product->number_of_reviewers > 0) {
-                                                        $point = round($product->total_star / $product->number_of_reviewers);
-                                                    }
-                                                    ?>
-                                                    Đánh giá: <span class="rating">
-                                                        @for ($i = 1; $i <= 5; $i++)
-                                                            <i class="fa fa-star {{ $i <= $point ? 'active' : '' }}"
-                                                                style="color:#999"></i>
-                                                        @endfor
-                                                        @if ($product->number_of_reviewers > 0)
-                                                            {{ $point }} sao
-                                                        @else
-                                                            Chưa đánh giá
-                                                        @endif
-                                                    </span>
+{{--                                                    <?php--}}
+{{--                                                    $point = 0;--}}
+{{--                                                    if ($product->number_of_reviewers > 0) {--}}
+{{--                                                        $point = round($product->total_star / $product->number_of_reviewers);--}}
+{{--                                                    }--}}
+{{--                                                    ?>--}}
+{{--                                                    Đánh giá: <span class="rating">--}}
+{{--                                                        @for ($i = 1; $i <= 5; $i++)--}}
+{{--                                                            <i class="fa fa-star {{ $i <= $point ? 'active' : '' }}"--}}
+{{--                                                                style="color:#999"></i>--}}
+{{--                                                        @endfor--}}
+{{--                                                        @if ($product->number_of_reviewers > 0)--}}
+{{--                                                            {{ $point }} sao--}}
+{{--                                                        @else--}}
+{{--                                                            Chưa đánh giá--}}
+{{--                                                        @endif--}}
+{{--                                                    </span>--}}
+                                                    <span>Số lượng đã bán: {{ $product->qty_pay > 0 ? $product->qty_pay : 0 }}</span>
                                                 </li>
                                             </ul>
                                         </td>

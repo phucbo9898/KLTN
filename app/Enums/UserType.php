@@ -12,12 +12,14 @@ use BenSampo\Enum\Enum;
 final class UserType extends Enum
 {
     const ADMIN = 'admin';
+    const SYSTEMADMIN = 'system_admin';
     const USER = 'user';
 
     public static function getUserType($role)
     {
         $typeName = [
             'admin' => __('Admin'),
+            'system_admin' => __('System Admin'),
             'user' => __('User'),
         ];
         return $typeName[$role];
@@ -27,6 +29,7 @@ final class UserType extends Enum
     {
         return [
           self::ADMIN,
+          self::SYSTEMADMIN,
           self::USER
         ];
     }

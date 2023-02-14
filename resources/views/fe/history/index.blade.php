@@ -21,24 +21,24 @@
         <table class="table table-hover table-striped">
             <thead class="thead-dark">
                 <th>ID</th>
+                <th>Mã giao dịch</th>
                 <th style="width: 20%">Địa chỉ giao hàng</th>
-                <th>Số điện thoại</th>
                 <th style="width: 20%">Ghi chú</th>
-                <th>Tổng tiền</th>
-                <th>Trạng thái</th>
+                <th>Trạng thái đơn hàng</th>
+                <th>Trạng thái thanh toán</th>
                 <th>Ngày mua</th>
-                <th>Hủy đơn hàng</th>
+                <th>Tổng tiền</th>
+                <th>Hành động</th>
             </thead>
 
             @if ($count > 0)
                 <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
-                            <td>{{ $transaction->id }}</td>
+                            <td>{{ ($transactions->currentPage() - 1) * $transactions->perPage() + $loop->index + 1 }}</td>
+                            <td>{{ $transaction->payment_code }}</td>
                             <td>{{ $transaction->address }}</td>
-                            <td>{{ $transaction->phone }}</td>
                             <td>{{ $transaction->note }}</td>
-                            <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
                             <td>
                                 @if ($transaction->status == 'completed')
                                     <span class="badge badge-success" style="font-size: 14px;width: 136px;">Đã nhận hàng</span>
@@ -49,21 +49,31 @@
                                             hàng</span></a>
                                 @endif
                                 @if ($transaction->status == 'pending')
-                                  <span class="badge badge-danger" style="font-size: 14px;width: 136px;">Chưa xử lý</span>
+                                  <span class="badge badge-info" style="font-size: 14px;width: 136px;">Chưa xử lý</span>
                                 @endif
                                     @if ($transaction->status == 'canceled')
-                                        <span class="badge badge-danger" style="font-size: 14px;width: 136px;">Đã hủy đơn hàng</span>
+                                        <span class="badge badge-danger" style="font-size: 14px;width: 136px;">Đã hủy</span>
                                     @endif
                             </td>
+                            <td>
+                                @if ($transaction->status_payment == 'Paуment received')
+                                    <span class="badge badge-success" style="font-size: 14px;width: 136px;">Đã thanh toán</span>
+                                @else
+                                    <span class="badge badge-warning" style="font-size: 14px;width: 136px;">Chưa thanh toán</span>
+                                @endif
+                            </td>
                             <td>{{ $transaction->created_at }}</td>
+                            <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
                             <td>
                                 <a href="{{ route('history-user.get.order.item', $transaction->id) }}" class="js_order_item badge badge-info"
                                    data-id="{{ $transaction->id }}" data-toggle="modal"
-                                   data-target="#showOrderItem" style="font-size: 14px;width: 113.11px;">
-                                    Xem chi tiết
+                                   data-target="#showOrderItem" style="">
+{{--                                    Xem chi tiết--}}
+                                    <i class="fa fa-eye fs-25"></i>
                                 </a>
-                                <a href="{{ route('history-user.transaction.paid', ['cancel-order', $transaction->id]) }}" id="">
-                                    <span class="badge badge-danger text-white" style="font-size: 14px;width: 113.11px;">Hủy đơn hàng</span>
+                                <a href="{{ route('history-user.transaction.paid', ['cancel-order', $transaction->id]) }}" id="" class="badge badge-danger">
+{{--                                    <span class="badge badge-danger text-white" style="font-size: 14px;width: 113.11px;">Hủy đơn hàng</span>--}}
+                                    <i class="fa fa-ban fs-25"></i>
                                 </a>
                             </td>
                             {{-- custom modal by me --}}
@@ -102,6 +112,17 @@
                 </tbody>
             @endif
         </table>
+        @if($count > 0)
+            <div class="col-lg-12 pb-15">
+                <div class="li-paginatoin-area text-center pt-25">
+                    <div class="row">
+                        <div class="col-2 mx-auto">
+                            {{ $transactions->links() }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     </div>
 
     {{-- End History user --}}

@@ -25,15 +25,14 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $options = $request->all();
         //get list Category
-        $categories = Category::all();
-        //create variable transfer
-        $data = [
-            'categories' => $categories
-        ];
-        return view('cms.category.index', $data);
+        $categories = $this->categoryRepo->query($options)->get();
+        $dataAttributes = $this->attributeRepo->all();
+
+        return view('cms.category.index', compact('categories', 'dataAttributes', 'options'));
     }
 
     /**
@@ -91,17 +90,6 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
@@ -143,11 +131,10 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $category = $this->categoryRepo->find($id);
-//        dd($category);
         if (!$category) {
             return redirect()->route('admin.category.index')->with('error', __('The requested resource is not available'));
         }
-        //check Input
+
         $validator = Validator::make($request->all(),
             [
                 'name' => 'required',
@@ -156,18 +143,14 @@ class CategoryController extends Controller
                 'name.required' => 'Bạn cần nhập trường tên loại sản phẩm',
             ]
         );
-//        dd(/$validator->fails());
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator, 'attributeErrors');
         }
-//        dd(2);
-//        dd(1);
 
         $data = $request->all();
-//        dd($data);
         $categories = $this->categoryRepo->prepareCategory($data);
         $result = $this->categoryRepo->update($category->id, $categories);
-//        dd($result);
         Category_Attribute::where('category_id', $category->id)->delete();
         foreach ($request->all() as $key => $value) {
             if (is_int($key)) {

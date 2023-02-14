@@ -9,6 +9,7 @@ use App\Http\Controllers\User\FavoriteProductController;
 use App\Http\Controllers\User\FeatureUserController;
 use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\User\RatingController;
 use App\Http\Controllers\User\SearchController;
@@ -35,6 +36,15 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/about-us', 'aboutUs')->name('about-us');
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/change-language/{locale}', 'changeLanguage')->name('change-language');
+});
+
+Route::controller(ProfileController::class)->group(function () {
+    Route::prefix('profile')->group(function () {
+        Route::name('profile.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::put('/update/{id}', 'update')->name('update');
+        });
+    });
 });
 
 Route::controller(SearchController::class)->group(function () {

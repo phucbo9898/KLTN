@@ -255,12 +255,12 @@
                                                     <span>
                                                         @if ($product_best_pay->quantity > 10)
                                                             <b style="color: #3d3de3;">@lang('Stocking')</b>
-                                                        @elseif($product_best_pay->quantity < 10 && $product_best_pay->quantity > 0)
+                                                        @elseif($product_best_pay->quantity <= 10 && $product_best_pay->quantity > 0)
                                                             <b style="color: #bfbf50;">@lang('Almost out of stock')</b>
-                                                        @elseif($product_best_pay->quantity == 0)
+                                                        @elseif($product_best_pay->quantity <= 0)
                                                             <b style="color: red;">@lang('Out of stock')</b>
-                                                        @else
-                                                            <b>@lang('Unknown')</b>
+{{--                                                        @else--}}
+{{--                                                            <b>@lang('Unknown')</b>--}}
                                                         @endif
                                                     </span>
                                                     @if ($product_best_pay->hot == 1)

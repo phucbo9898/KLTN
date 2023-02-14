@@ -2,12 +2,14 @@
 
 namespace App\Repositories;
 
-use App\Models\Product;
+use App\Models\ProductHistory;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class ProductRepository extends BaseRepository
+class ProductHistoryRepository extends BaseRepository
 {
-    public function __construct(Product $model)
+    public function __construct(ProductHistory $model)
     {
         $this->model = $model;
     }
@@ -26,12 +28,20 @@ class ProductRepository extends BaseRepository
             });
         }
 
-        if (isset($options['filter_sold'])) {
-            $query = $query->orderBy('qty_pay', $options['filter_sold']);
+        if (empty($options['end_time']) && !empty($options['start_time'])) {
+            $startOfDay = Carbon::parse($options['start_time'])->format('Y-m-d');
+            $query = $query->where(DB::raw('date_format(time_import, "%Y-%m-%d")'), $startOfDay);
         }
 
-        if (isset($options['status'])) {
-            $query = $query->whereIn('status', $options['status']);
+        if (empty($options['start_time']) && !empty($options['end_time'])) {
+            $endOfDay = Carbon::parse($options['end_time'])->format('Y-m-d');
+            $query = $query->where(DB::raw('date_format(time_import, "%Y-%m-%d")'), $endOfDay);
+        }
+
+        if (!empty($options['end_time']) && !empty($options['start_time'])) {
+            $startOfTime = Carbon::parse($options['start_time'])->startOfDay();
+            $endOfTime = Carbon::parse($options['end_time'])->endOfDay();
+            $query = $query->where('time_import', '>=', $startOfTime)->where('time_import', '<=', $endOfTime);
         }
 
         return $query;

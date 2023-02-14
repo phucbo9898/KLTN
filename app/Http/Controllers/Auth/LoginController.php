@@ -12,6 +12,9 @@ class LoginController extends CustomerController
     //    use AuthenticatesUsers;
     public function getLogin()
     {
+        if (Auth::check() == true) {
+            return redirect()->route('home');
+        }
         return view('fe.auth.login');
     }
     public function getLogout()

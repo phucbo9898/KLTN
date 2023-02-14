@@ -29,18 +29,22 @@
 
         <!-- Main content -->
         <section class="content">
-
             <!-- Default box -->
             <div class="card">
+                <div class="card-header">
+                    <div class="form-group">
+                        <x-product-history.search-form :options="$options ?? ''" :categories="$categories ?? ''" />
+                    </div>
+                </div>
                 <div class="card-body">
                     <table class="table table-hover table-striped table-list" id="dataTable">
                         <thead class="thead-dark">
-                        <th style="width: 20px">ID</th>
-                        <th style="width:28%">Tên sản phẩm</th>
-                        <th style="width: 185px">Loại sản phẩm</th>
-                        <th style="width: 125px">Ảnh</th>
-                        <th style="width: 150px;">Số lượng hàng nhập</th>
-                        <th style="width: 15%;">Thời gian nhập</th>
+                            <th style="width: 20px">ID</th>
+                            <th style="width:28%">Tên sản phẩm</th>
+                            <th style="width: 185px">Loại sản phẩm</th>
+                            <th style="width: 125px">Ảnh</th>
+                            <th style="width: 150px;">Số lượng hàng nhập</th>
+                            <th style="width: 15%;">Thời gian nhập</th>
                         </thead>
                         <tbody>
                         @if (isset($productHistory))
