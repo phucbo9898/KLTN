@@ -24,9 +24,13 @@
 
         <!-- Main content -->
         <section class="content">
-
             <!-- Default box -->
             <div class="card">
+                <div class="card-header">
+                    <div class="form-group">
+                        <x-user.search-form :options="$options ?? ''"/>
+                    </div>
+                </div>
                 <div class="card-body">
                     @if (Session::has('create_user_success'))
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -52,90 +56,89 @@
                             </button>
                         </div>
                     @endif
-                    <table class="table table-hover table-striped" id="dataTable">
+                    <table class="table table-hover table-striped table-list" id="dataTable">
                         <thead class="thead-dark">
-                            <th>ID</th>
-                            <th>Avatar</th>
-                            <th>Họ và tên</th>
-                            <th>Email</th>
-                            <th>Số điện thoại</th>
-                            <th style="width: 12%; ">Phân quyền</th>
-                            <th style="width: 18%; text-align: center">Hành động</th>
+                        <th>ID</th>
+                        <th>Avatar</th>
+                        <th>Họ và tên</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th style="width: 12%; ">Phân quyền</th>
+                        <th style="width: 18%; text-align: center">Hành động</th>
                         </thead>
                         <tbody>
-                            @foreach ($users as $user)
-                                <tr>
-                                    <td style="text-align: center;">
-                                        {{ ($users->currentPage() - 1) * $users->perPage() + $loop->index + 1 }}</td>
-                                    <td>
-                                        <img class="avatar-user" src="{{ asset($user->avatar) }}" alt="">
-                                    </td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->phone }}</td>
-                                    <td style="">
-                                        <a href="{{ route('admin.user.action', ['role', $user->id]) }}">
+                        @foreach ($users as $user)
+                            <tr>
+                                <td style="text-align: center;">
+                                    {{ $user->id }}</td>
+                                <td>
+                                    <img class="avatar-user" src="{{ asset($user->avatar) }}" alt="">
+                                </td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->phone }}</td>
+                                <td style="">
+                                    <a href="{{ route('admin.user.action', ['role', $user->id]) }}">
                                             <span
                                                 class="badge badge-{{ $user->role == UserType::ADMIN ? 'success' : 'secondary' }}">
                                                 {{ $user->getUserType() ?? '' }}
                                             </span>
-                                        </a>
-                                    </td>
-                                    <td style="width: 16%; text-align: center;">
-                                        <a href="{{ route('admin.user.edit', $user->id) }}"
-                                            class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a> &nbsp;
-                                        <a href="{{ route('admin.user.action', ['delete', $user->id]) }}"
-                                            class="btn_delete_sweet btn btn-danger btn-circle"
-                                            data-id="{{ $user->id }}"><i class="fas fa-trash-alt"></i></a> &nbsp;
-                                        <a href="{{ route('admin.change.password', $user->id) }}"
-                                            class="button_change_password btn btn-warning btn-circle"
-                                            data-email='{{ $user->email }}' data-toggle="modal"
-                                            data-target="#exampleModalCenter"><i class="fas fa-key"></i></a>
-                                    </td>
-                                </tr>
-                                {{-- custom modal by me --}}
-                                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLongTitle">Đổi mật khẩu tài khoản
-                                                    <span class="model_change_password_email"></span>
-                                                </h5>
-                                                <button type="button" class="close" data-dismiss="modal"
+                                    </a>
+                                </td>
+                                <td style="width: 16%; text-align: center;">
+                                    <a href="{{ route('admin.user.edit', $user->id) }}"
+                                       class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a> &nbsp;
+                                    <a href="{{ route('admin.user.action', ['delete', $user->id]) }}"
+                                       class="btn_delete_sweet btn btn-danger btn-circle"
+                                       data-id="{{ $user->id }}"><i class="fas fa-trash-alt"></i></a> &nbsp;
+                                    <a href="{{ route('admin.change.password', $user->id) }}"
+                                       class="button_change_password btn btn-warning btn-circle"
+                                       data-email='{{ $user->email }}' data-toggle="modal"
+                                       data-target="#exampleModalCenter"><i class="fas fa-key"></i></a>
+                                </td>
+                            </tr>
+                            {{-- custom modal by me --}}
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Đổi mật khẩu tài khoản
+                                                <span class="model_change_password_email"></span>
+                                            </h5>
+                                            <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div>
+                                                Mật khẩu mới:
+                                                <input type="password" name="new_password" minlength="3"
+                                                       class="form-control new_password_class">
                                             </div>
-                                            <div class="modal-body">
-                                                <div>
-                                                    Mật khẩu mới:
-                                                    <input type="password" name="new_password" minlength="3"
-                                                        class="form-control new_password_class">
-                                                </div>
-                                                <div>
-                                                    Nhập lại mật khẩu mới:
-                                                    <input type="password" name="confirm_password" minlength="3"
-                                                        class="form-control confirm_password_class">
-                                                </div>
-                                                <div class="form-group">
-                                                    <button class="btn btn-success mt-2 button_appect_change_password"
+                                            <div>
+                                                Nhập lại mật khẩu mới:
+                                                <input type="password" name="confirm_password" minlength="3"
+                                                       class="form-control confirm_password_class">
+                                            </div>
+                                            <div class="form-group">
+                                                <button class="btn btn-success mt-2 button_appect_change_password"
                                                         style="float: right">Lưu mật khẩu</button>
-                                                    <div style="clear: both"></div>
-                                                </div>
+                                                <div style="clear: both"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                {{-- end custom modal by me --}}
-                            @endforeach
+                            </div>
+                            {{-- end custom modal by me --}}
+                        @endforeach
                         </tbody>
                     </table>
                 </div>
                 <!-- /.card-body -->
             </div>
             <!-- /.card -->
-
         </section>
         <!-- /.content -->
     </div>
@@ -145,36 +148,6 @@
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({
-                processing: true,
-                serverSide: false,
-                {{-- ajax: "{{ route('datatable.example') }}", --}}
-                columns: [{
-                        data: 'id',
-                        name: 'name'
-                    },
-                    {
-                        data: 'name',
-                        name: 'name'
-                    },
-                    {
-                        data: 'email',
-                        name: 'email'
-                    },
-                    {
-                        data: 'phone',
-                        name: 'phone'
-                    },
-                    {
-                        data: 'role',
-                        name: 'role'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-
-                    },
-                ],
                 "order": [
                     [0, "desc"]
                 ],

@@ -1716,7 +1716,27 @@ textarea:focus {
     border-bottom: 1px solid #e1e1e1;
 }
 
+.image-profile {
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
 
+.d-hide {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.d-hide.d-show {
+    max-height: 100vh;
+    transition: all 2s;
+}
+
+.fs-25 {
+    font-size: 25px !important;
+}
 /*Phone Wrap*/
 
 .phone-wrap > li > span {

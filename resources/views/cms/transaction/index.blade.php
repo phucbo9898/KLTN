@@ -10,7 +10,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Giao Dịch</h1>
+                        <h1>Danh sách giao dịch</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -24,7 +24,6 @@
 
         <!-- Main content -->
         <section class="content">
-
             <!-- Default box -->
             <div class="card">
                 <div class="card-body">
@@ -44,18 +43,18 @@
                             </button>
                         </div>
                     @endif
-                    <table class="table table-hover table-striped" id="dataTable" style="overflow-y: scroll;
-    white-space: nowrap;">
+                    <table class="table table-hover table-striped" id="dataTable" style="overflow-y: scroll; white-space: nowrap; font-size: 16px !important;">
                         <thead class="thead-dark">
                             <th style="width: 1%">STT</th>
-                            <th style="width: 15%">Tên khách hàng</th>
+                            <th style="width: 10%">Tên khách hàng</th>
                             <th style="width: 25%">Địa chỉ</th>
                             <th style="width: 10%">Số điện thoại</th>
-                            <th style="width: 15%;">Trạng thái thanh toán</th>
+                            <th style="width: 10%;">Trạng thái thanh toán</th>
                             <th style="width: 15%;">Loại thanh toán</th>
-                            <th style="width: 15%">Tổng tiền</th>
+                            <th style="width: 12%">Tổng tiền</th>
                             <th style="width: 10%">Trạng thái</th>
-                            <th style="width: 3%">Hành động</th>
+                            <th style="width: 3%">MGD</th>
+                            <th style="width: 1%">Hành động</th>
                         </thead>
                         <tbody>
                             @foreach ($transactions as $transaction)
@@ -66,22 +65,21 @@
                                     <td>{{ $transaction->phone }}</td>
                                     <td style="text-align: center;">
                                         @if($transaction->type_payment != '')
-                                            <span class="badge badge-@if($transaction->type_payment != ''){{ $transaction->status_payment == 'Paуment received' ? 'success' : 'danger' }}"@endif
-                                               style="font-size: 14px;width: 113.11px;">
+                                            <span class="" style="font-size: 16px;width: 113.11px;">
                                             {{ $transaction->status_payment == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán' }}
                                         @else
-                                            <span class="badge badge-dark d-none" style="font-size: 14px;width: 113.11px;">Chưa thanh toán</span>
+                                            <span class=" d-none" style="font-size: 14px;width: 113.11px;">Chưa thanh toán</span>
                                         @endif
                                         </span>
                                     </td>
                                     <td class="get-payment">
 {{--                                        {{ $transaction->type_payment }}--}}
                                         @if($transaction->type_payment == 'momo')
-                                            <span class="badge badge-warning momo" style="font-size: 14px;width: 204.41px;">Thanh toán qua Momo</span>
+                                            <span class=" momo" style="font-size: 16px;width: 204.41px;">Thanh toán qua Momo</span>
                                         @elseif($transaction->type_payment == 'vnpay')
-                                            <span class="badge badge-primary banking" style="font-size: 14px;width: 204.41px;">Thanh toán qua VNPay</span>
+                                            <span class=" banking" style="font-size: 16px;width: 204.41px;">Thanh toán qua VNPay</span>
                                         @else
-                                            <span class="badge badge-info payment-normal" style="font-size: 14px;width: 204.41px;">Thanh toán khi nhận hàng</span>
+                                            <span class=" payment-normal" style="font-size: 16px;width: 204.41px;">Thanh toán khi nhận hàng</span>
                                         @endif
                                     </td>
                                     <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
@@ -101,7 +99,8 @@
                                             <span class="badge badge-danger" style="font-size: 14px; width: 95.96px;">Đã hủy</span>
                                         @endif
                                     </td>
-                                    <td style="width: 15%;">
+                                    <td style="text-align: center;">{{ $transaction->payment_code }}</td>
+                                    <td style="width: 10%;">
                                         <a href="{{ route('admin.get.order.item', $transaction->id) }}"
                                             data-id="{{ $transaction->id }}"
                                             class="js_order_item btn btn-primary btn-circle" data-toggle="modal"
@@ -125,6 +124,7 @@
                                             </a>
                                         @endif
                                     </td>
+
                                 </tr>
                                 {{-- custom modal by me --}}
                                 <div class="modal fade" id="showOrderItem" tabindex="-1" role="dialog"

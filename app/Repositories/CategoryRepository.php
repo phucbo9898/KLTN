@@ -12,6 +12,27 @@ class CategoryRepository extends BaseRepository
         $this->model = $model;
     }
 
+    public function query($options)
+    {
+        $query = $this->model;
+
+        if (isset($options['name'])) {
+            $query = $query->where('name', 'LIKE', '%' . escape_like($options['name']) . '%');
+        }
+
+        if (isset($options['attribute'])) {
+            $query = $query->whereHas('attributes', function ($sub) use ($options) {
+                $sub->where('attributes.id', $options['attribute']);
+            });
+        }
+
+        if (isset($options['status'])) {
+            $query = $query->whereIn('status', $options['status']);
+        }
+
+        return $query;
+    }
+
     public function prepareCategory(array $data)
     {
         $category = [

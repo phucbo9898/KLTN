@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Product;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -70,7 +71,12 @@ class FeatureUserController extends CustomerController
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
+                $product_qty = Product::find($product->id);
+                $quantity = $product_qty->quantity - $product->qty;
+                $quantity_pay = $product_qty->qty_pay + $product->qty;
+                Product::where('id', $product->id)->update(['quantity' => $quantity, 'qty_pay' => $quantity_pay]);
             }
+
             $data = [
                 'name' => $name,
                 'address' => $address,

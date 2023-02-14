@@ -19,7 +19,8 @@ class CreateDatabase extends Migration
             $table->string('email')->unique();
             $table->string('phone')->nullable();
             $table->string('avatar')->nullable();
-            $table->enum('role', ['admin', 'user']);
+            $table->string('address')->nullable();
+            $table->enum('role', ['admin', 'system_admin', 'user']);
             $table->enum('status', ['active', 'inactive']);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

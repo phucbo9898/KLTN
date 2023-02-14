@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Product_Attribute;
 use App\Repositories\AttributeValueRepository;
+use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,10 +16,11 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    public function __construct(ProductRepository $productRepo, AttributeValueRepository $attributeValueRepo)
+    public function __construct(ProductRepository $productRepo, AttributeValueRepository $attributeValueRepo, CategoryRepository $categoryRepo)
     {
         $this->productRepo = $productRepo;
         $this->attributeValueRepo = $attributeValueRepo;
+        $this->categoryRepo = $categoryRepo;
     }
 
     /**
@@ -26,13 +28,13 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::all();
-        $data = [
-            'products' => $products
-        ];
-        return view('cms.product.index', $data);
+        $options = $request->all();
+        $products = $this->productRepo->query($options)->get();
+        $categories = $this->categoryRepo->all();
+
+        return view('cms.product.index', compact('options', 'products', 'categories'));
     }
 
     /**

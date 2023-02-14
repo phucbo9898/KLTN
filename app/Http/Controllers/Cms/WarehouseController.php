@@ -5,11 +5,19 @@ namespace App\Http\Controllers\Cms;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductHistory;
+use App\Repositories\CategoryRepository;
+use App\Repositories\ProductHistoryRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class WarehouseController extends Controller
 {
+    public function __construct(ProductHistoryRepository $productHistoryRepo, CategoryRepository $categoryRepo)
+    {
+        $this->productHistoryRepo = $productHistoryRepo;
+        $this->categoryRepo = $categoryRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -45,12 +53,12 @@ class WarehouseController extends Controller
         return redirect()->route('admin.warehouse.import');
     }
 
-    public function history()
+    public function history(Request $request)
     {
-        $productHistory = ProductHistory::all();
-        $data = [
-            'productHistory' => $productHistory
-        ];
-        return view('cms.warehouse.history',$data);
+        $options = $request->all();
+        $categories = $this->categoryRepo->all();
+        $productHistory = $this->productHistoryRepo->query($options)->get();
+
+        return view('cms.warehouse.history', compact('categories', 'productHistory', 'options'));
     }
 }

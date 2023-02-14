@@ -20,7 +20,7 @@ class CheckAdminLogin
     {
         if(Auth::check()){
             $user = Auth::user();
-            if($user->role == UserType::ADMIN){
+            if($user->role == UserType::ADMIN || $user->role == UserType::SYSTEMADMIN){
                 return $next($request);
             }
         }

@@ -42,7 +42,7 @@
                                 <div class="li-blog-single-item pb-25">
                                     <div class="li-blog-banner">
                                         <a href="{{ route('article.detail', ['id' => $article->id]) }}">
-                                            <img class="img-full" src="{{ asset($article->image) }}" alt="">
+                                            <img class="img-full" src="{{ asset($article->image) }}" alt="" style="height: 250px !important;">
                                         </a>
                                     </div>
                                     <div class="li-blog-content">

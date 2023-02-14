@@ -152,6 +152,10 @@ class ShoppingCartController extends CustomerController
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
+                $product_qty = Product::find($product->id);
+                $quantity = $product_qty->quantity - $product->qty;
+                $quantity_pay = $product_qty->qty_pay + $product->qty;
+                Product::where('id', $product->id)->update(['quantity' => $quantity, 'qty_pay' => $quantity_pay]);
             }
         }
 
@@ -228,6 +232,10 @@ class ShoppingCartController extends CustomerController
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
+                $product_qty = Product::find($product->id);
+                $quantity = $product_qty->quantity - $product->qty;
+                $quantity_pay = $product_qty->qty_pay + $product->qty;
+                Product::where('id', $product->id)->update(['quantity' => $quantity, 'qty_pay' => $quantity_pay]);
             }
         }
 
