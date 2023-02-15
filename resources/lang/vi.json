@@ -121,5 +121,11 @@
     "Attribute": "Thuộc tính",
     "Role": "Phân quyền",
     "User Name": "Tên người dùng",
-    "Choose role": "Chọn quyền"
+    "Choose role": "Chọn quyền",
+    "pending": "Đang xử lý",
+    "processing": "Đang gửi hàng",
+    "completed": "Đã nhận hàng",
+    "canceled": "Đã hủy",
+    "Customer Name": "Tên khách hàng",
+    "Trading code": "Mã giao dịch"
 }

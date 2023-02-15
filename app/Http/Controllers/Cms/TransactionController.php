@@ -7,6 +7,7 @@ use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Repositories\TransactionRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,18 +15,22 @@ use PDF;
 
 class TransactionController extends Controller
 {
+    public function __construct(TransactionRepository $transactionRepo)
+    {
+        $this->transactionRepo = $transactionRepo;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $transactions = Transaction::all();
-        $data = [
-            'transactions' => $transactions
-        ];
-        return view('cms.transaction.index', $data);
+        $options = $request->all();
+        $transactions = $this->transactionRepo->query($options)->get();
+
+        return view('cms.transaction.index', compact('options', 'transactions'));
     }
 
     public function getOrderItem(Request $request, $id)
