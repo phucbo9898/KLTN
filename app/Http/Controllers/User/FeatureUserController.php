@@ -51,7 +51,7 @@ class FeatureUserController extends CustomerController
             'phone' => $request->phone,
             'status' => 'pending',
             'type_payment' => $request->type_payment,
-            'status_payment' => $request->status_payment,
+            'status_payment' => $request->status_payment ?? 'Paуment not received',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

@@ -26,6 +26,11 @@
         <section class="content">
             <!-- Default box -->
             <div class="card">
+                <div class="card-header">
+                    <div class="form-group">
+                        <x-transaction.search-form :options="$options ?? ''"/>
+                    </div>
+                </div>
                 <div class="card-body">
                     @if (Session::has('OutOfStock'))
                         <div class="alert alert-danger alert-dismissible fade show" role="alert">

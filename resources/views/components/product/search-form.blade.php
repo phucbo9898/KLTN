@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-3 mt-3">
                 <label for="entertainment" class="col-form-label">@lang('Category Name')</label> <br>
-                <select name="category_id" class="form-control">
+                <select name="category_id" class="form-control select2-blue">
                     <option value="">@lang('Choose category')</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id ?? $options['category_id'] }}"
