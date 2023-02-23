@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\StoreRequest;
+use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Category_Attribute;
@@ -54,22 +56,8 @@ class CategoryController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        // Check data input
-        $validator = Validator::make($request->all(),
-            [
-                'name' => 'required|unique:categories,name',
-            ],
-            [
-                'name.required' => 'Bạn cần nhập trường tên loại sản phẩm',
-            ]
-        );
-//        dd($validator->fails());
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator, 'categoryErrors');
-        }
-
         $data = $request->all();
         $category = $this->categoryRepo->prepareCategory($data);
         $result = $this->categoryRepo->create($category);
@@ -82,11 +70,10 @@ class CategoryController extends Controller
             }
         }
         if ($result) {
-            $request->session()->flash('create_category_success', 'Đã thêm 1 Category!');
-            return redirect()->route('admin.category.index');
+            return redirect()->route('admin.category.index')->with('success', 'Đã thêm 1 Category!');
         }
-        $request->session()->flash('create_category_error', 'Thêm Category không thành công');
-        return redirect()->back();
+
+        return redirect()->back()->with('error', 'Thêm Category không thành công');
     }
 
     /**
@@ -128,24 +115,11 @@ class CategoryController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         $category = $this->categoryRepo->find($id);
         if (!$category) {
             return redirect()->route('admin.category.index')->with('error', __('The requested resource is not available'));
-        }
-
-        $validator = Validator::make($request->all(),
-            [
-                'name' => 'required',
-            ],
-            [
-                'name.required' => 'Bạn cần nhập trường tên loại sản phẩm',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator, 'attributeErrors');
         }
 
         $data = $request->all();
@@ -161,11 +135,9 @@ class CategoryController extends Controller
             }
         }
         if ($result) {
-            $request->session()->flash('edit_category_success', 'Đã sửa thành công loại sản phẩm mang ID số'.$category->id.'!');
-            return redirect()->route('admin.category.index');
+            return redirect()->route('admin.category.index')->with('success', 'Đã sửa thành công loại sản phẩm mang ID số'.$category->id.'!');
         }
-        $request->session()->flash('create_category_error', 'Sửa không thành công loại sản phẩm mang ID số'.$category->id.'!');
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Sửa không thành công loại sản phẩm mang ID số'.$category->id.'!');
     }
 
     public function handle(Request $request,$action,$id)
@@ -174,7 +146,7 @@ class CategoryController extends Controller
         switch ($action) {
             case 'delete':
                 $category->delete();
-                $request->session()->flash('delete_category_success', 'Đã xóa thành công loại sản phẩm mang ID số'.$id.'!');
+                $request->session()->flash('success', 'Đã xóa thành công loại sản phẩm mang ID số '.$id.'!');
                 break;
             case 'status':
                 $category->status= $category->status== 'active' ? 'inactive' : 'active';

@@ -51,11 +51,10 @@
                     <table class="table table-hover table-striped" id="dataTable" style="overflow-y: scroll; white-space: nowrap; font-size: 16px !important;">
                         <thead class="thead-dark">
                             <th style="width: 1%">STT</th>
-                            <th style="width: 10%">Tên khách hàng</th>
-                            <th style="width: 25%">Địa chỉ</th>
+                            <th style="width: 10%">Người mua</th>
                             <th style="width: 10%">Số điện thoại</th>
                             <th style="width: 10%;">Trạng thái thanh toán</th>
-                            <th style="width: 15%;">Loại thanh toán</th>
+                            <th style="width: 10%;">Loại thanh toán</th>
                             <th style="width: 12%">Tổng tiền</th>
                             <th style="width: 10%">Trạng thái</th>
                             <th style="width: 3%">MGD</th>
@@ -66,25 +65,24 @@
                                 <tr>
                                     <td style="text-align: center;">{{ $transaction->id }}</td>
                                     <td>{{ optional($transaction->user)->name }}</td>
-                                    <td>{{ $transaction->address }}</td>
                                     <td>{{ $transaction->phone }}</td>
                                     <td style="text-align: center;">
-                                        @if($transaction->type_payment != '')
-                                            <span class="" style="font-size: 16px;width: 113.11px;">
-                                            {{ $transaction->status_payment == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán' }}
+                                        @if($transaction->status_payment == 'Paуment not received')
+                                            <a href="{{ route('admin.transaction.handle', ['change-status', $transaction->id]) }}" class="badge badge-warning" style="font-size: 14px;width: 113.11px; color: black">
+                                                {{ $transaction->status_payment == 'Paуment not received' ? 'Chưa thanh toán' : 'Đã thanh toán' }}
+                                            </a>
                                         @else
-                                            <span class=" d-none" style="font-size: 14px;width: 113.11px;">Chưa thanh toán</span>
+                                            <span class="badge badge-success" style="font-size: 14px;width: 113.11px;">{{ $transaction->status_payment == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán'}}</span>
                                         @endif
-                                        </span>
                                     </td>
                                     <td class="get-payment">
 {{--                                        {{ $transaction->type_payment }}--}}
                                         @if($transaction->type_payment == 'momo')
-                                            <span class=" momo" style="font-size: 16px;width: 204.41px;">Thanh toán qua Momo</span>
+                                            <span class="momo" style="font-size: 16px;">Thanh toán qua Momo</span>
                                         @elseif($transaction->type_payment == 'vnpay')
-                                            <span class=" banking" style="font-size: 16px;width: 204.41px;">Thanh toán qua VNPay</span>
+                                            <span class="banking" style="font-size: 16px;">Thanh toán qua VNPay</span>
                                         @else
-                                            <span class=" payment-normal" style="font-size: 16px;width: 204.41px;">Thanh toán khi nhận hàng</span>
+                                            <span class="payment-normal" style="font-size: 16px;">Thanh toán khi nhận hàng</span>
                                         @endif
                                     </td>
                                     <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>

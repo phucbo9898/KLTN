@@ -127,5 +127,15 @@
     "completed": "Đã nhận hàng",
     "canceled": "Đã hủy",
     "Customer Name": "Tên khách hàng",
-    "Trading code": "Mã giao dịch"
+    "Trading code": "Mã giao dịch",
+    "Choose status": "Chọn trạng thái",
+    "Choose Status Payment": "Chọn trạng thái thanh toán",
+    "Choose Payment method": "Chọn loại hình thanh toán",
+    "Search": "Tìm kiếm",
+    "Choose attribute": "Chọn thuộc tính",
+    "Choose category": "Chọn danh mục sản phẩm",
+    "Filter by price": "Lọc theo giá",
+    "Filter by sold": "Lọc theo số sản phẩm đã bán",
+    "Start date": "Ngày bắt đầu",
+    "End date": "Ngày kết thúc"
 }
