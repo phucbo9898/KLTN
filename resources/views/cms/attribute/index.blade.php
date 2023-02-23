@@ -13,30 +13,6 @@
             </div>
             @if (isset($attributes))
                 <div class="card-body">
-                    @if (Session::has('create_attribute_success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Thành công !</strong> {{ Session::get('create_attribute_success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    @if (Session::has('edit_attribute_success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Thành công !</strong> {{ Session::get('edit_attribute_success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    @if (Session::has('delete_attribute_success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Thành công !</strong> {{ Session::get('delete_attribute_success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
                     <table class="table table-hover table-striped" id="dataTable">
                         <thead class="thead-dark">
                         <th>ID</th>
