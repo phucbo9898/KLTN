@@ -35,8 +35,8 @@
                 @endforeach
             @endforeach
             <tr>
-                <td colspan="7" style="text-align: right;font-weight: bold;font-size: 20px;">Tổng tiền:</td>
-                <td colspan="2" style="text-align: left;font-weight: bold;font-size: 20px;">
+                <td colspan="6" style="text-align: right;font-weight: bold;font-size: 20px;">Tổng tiền:</td>
+                <td colspan="3" style="text-align: left;font-weight: bold;font-size: 20px;">
                     {{ number_format($total_earn_money, '0', ',', '.') }} VNĐ</td>
             </tr>
         </tbody>

@@ -3,151 +3,132 @@
 @section('title', 'Danh sách người dùng')
 <?php use App\Enums\UserType; ?>
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Thành viên - Danh sách</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Thành viên - Danh sách</li>
-                        </ol>
-                    </div>
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Danh sách thành viên</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <x-user.search-form :options="$options ?? ''"/>
                 </div>
-            </div><!-- /.container-fluid -->
-        </section>
-
-        <!-- Main content -->
-        <section class="content">
-            <!-- Default box -->
-            <div class="card">
-                <div class="card-header">
-                    <div class="form-group">
-                        <x-user.search-form :options="$options ?? ''"/>
+                @if (Session::has('create_user_success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Thành công !</strong> {{ Session::get('create_user_success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </div>
-                <div class="card-body">
-                    @if (Session::has('create_user_success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Thành công !</strong> {{ Session::get('create_user_success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    @if (Session::has('edit_user_success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Thành công !</strong> {{ Session::get('edit_user_success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    @if (Session::has('delete_user_success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>Thành công !</strong> {{ Session::get('delete_user_success') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    <table class="table table-hover table-striped table-list" id="dataTable">
-                        <thead class="thead-dark">
-                        <th>ID</th>
-                        <th>Avatar</th>
-                        <th>Họ và tên</th>
-                        <th>Email</th>
-                        <th>Số điện thoại</th>
-                        <th style="width: 12%; ">Phân quyền</th>
-                        <th style="width: 18%; text-align: center">Hành động</th>
-                        </thead>
-                        <tbody>
-                        @foreach ($users as $user)
-                            <tr>
-                                <td style="text-align: center;">
-                                    {{ $user->id }}</td>
-                                <td>
-                                    <img class="avatar-user" src="{{ asset($user->avatar) }}" alt="">
-                                </td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->phone }}</td>
-                                <td style="">
-                                    <a href="{{ route('admin.user.action', ['role', $user->id]) }}">
+                @endif
+                @if (Session::has('edit_user_success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Thành công !</strong> {{ Session::get('edit_user_success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                @if (Session::has('delete_user_success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Thành công !</strong> {{ Session::get('delete_user_success') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+                <table class="table table-hover table-striped table-list" id="dataTable">
+                    <thead class="thead-dark">
+                    <th>ID</th>
+                    <th>Avatar</th>
+                    <th>Họ và tên</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th style="width: 12%; ">Phân quyền</th>
+                    <th style="width: 18%; text-align: center">Hành động</th>
+                    </thead>
+                    <tbody>
+                    @foreach ($users as $user)
+                        <tr>
+                            <td style="text-align: center;">
+                                {{ $user->id }}</td>
+                            <td>
+                                <img class="avatar-user" src="{{ asset($user->avatar) }}" alt="">
+                            </td>
+                            <td>{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->phone }}</td>
+                            <td style="">
+                                <a href="{{ route('admin.user.action', ['role', $user->id]) }}">
                                             <span
                                                 class="badge badge-{{ $user->role == UserType::ADMIN ? 'success' : 'secondary' }}">
                                                 {{ $user->getUserType() ?? '' }}
                                             </span>
-                                    </a>
-                                </td>
-                                <td style="width: 16%; text-align: center;">
-                                    <a href="{{ route('admin.user.edit', $user->id) }}"
-                                       class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a> &nbsp;
-                                    <a href="{{ route('admin.user.action', ['delete', $user->id]) }}"
-                                       class="btn_delete_sweet btn btn-danger btn-circle"
-                                       data-id="{{ $user->id }}"><i class="fas fa-trash-alt"></i></a> &nbsp;
-                                    <a href="{{ route('admin.change.password', $user->id) }}"
-                                       class="button_change_password btn btn-warning btn-circle"
-                                       data-email='{{ $user->email }}' data-toggle="modal"
-                                       data-target="#exampleModalCenter"><i class="fas fa-key"></i></a>
-                                </td>
-                            </tr>
-                            {{-- custom modal by me --}}
-                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Đổi mật khẩu tài khoản
-                                                <span class="model_change_password_email"></span>
-                                            </h5>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
+                                </a>
+                            </td>
+                            <td style="width: 16%; text-align: center;">
+                                <a href="{{ route('admin.user.edit', $user->id) }}"
+                                   class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a> &nbsp;
+                                <a href="{{ route('admin.user.action', ['delete', $user->id]) }}"
+                                   class="btn_delete_sweet btn btn-danger btn-circle"
+                                   data-id="{{ $user->id }}"><i class="fas fa-trash-alt"></i></a> &nbsp;
+                                <a href="{{ route('admin.change.password', $user->id) }}"
+                                   class="button_change_password btn btn-warning btn-circle"
+                                   data-email='{{ $user->email }}' data-toggle="modal"
+                                   data-target="#exampleModalCenter"><i class="fas fa-key"></i></a>
+                            </td>
+                        </tr>
+                        {{-- custom modal by me --}}
+                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                             aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">Đổi mật khẩu tài khoản
+                                            <span class="model_change_password_email"></span>
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div>
+                                            Mật khẩu mới:
+                                            <input type="password" name="new_password" minlength="3"
+                                                   class="form-control new_password_class">
                                         </div>
-                                        <div class="modal-body">
-                                            <div>
-                                                Mật khẩu mới:
-                                                <input type="password" name="new_password" minlength="3"
-                                                       class="form-control new_password_class">
-                                            </div>
-                                            <div>
-                                                Nhập lại mật khẩu mới:
-                                                <input type="password" name="confirm_password" minlength="3"
-                                                       class="form-control confirm_password_class">
-                                            </div>
-                                            <div class="form-group">
-                                                <button class="btn btn-success mt-2 button_appect_change_password"
-                                                        style="float: right">Lưu mật khẩu</button>
-                                                <div style="clear: both"></div>
-                                            </div>
+                                        <div>
+                                            Nhập lại mật khẩu mới:
+                                            <input type="password" name="confirm_password" minlength="3"
+                                                   class="form-control confirm_password_class">
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-success mt-2 button_appect_change_password"
+                                                    style="float: right">Lưu mật khẩu
+                                            </button>
+                                            <div style="clear: both"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {{-- end custom modal by me --}}
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.card-body -->
+                        </div>
+                        {{-- end custom modal by me --}}
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
-            <!-- /.card -->
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
 @endsection
 @section('javascript')
     <script>
-        $(document).ready(function() {
-            $("img").bind("error", function() {
+        $(document).ready(function () {
+            $("img").bind("error", function () {
                 $(this).addClass('d-none');
             });
             $('#dataTable').DataTable({
@@ -182,22 +163,22 @@
         });
     </script>
     <script>
-        $(".btn_delete_sweet").click(function(e) {
+        $(".btn_delete_sweet").click(function (e) {
             e.preventDefault();
             url = $(this).attr('href');
             id = $(this).attr('data-id');
             swal({
-                    title: "Bạn có chắc chắn?",
-                    text: "Bạn có chắc chắn muốn xóa tài khoản ID=" + id +
-                        " không ? Điều này sẽ ảnh hưởng đến liên kết dữ liệu!",
-                    icon: "info",
-                    buttons: ["Không", "Có"],
-                    dangerMode: true,
-                })
+                title: "Bạn có chắc chắn?",
+                text: "Bạn có chắc chắn muốn xóa tài khoản ID=" + id +
+                    " không ? Điều này sẽ ảnh hưởng đến liên kết dữ liệu!",
+                icon: "info",
+                buttons: ["Không", "Có"],
+                dangerMode: true,
+            })
                 .then((willDelete) => {
                     if (willDelete) {
                         swal("Thành công", "Hệ thống chuẩn bị xóa tài khoản mang ID =" + id + " !", 'success')
-                            .then(function() {
+                            .then(function () {
                                 window.location.href = url;
                             });
                     }
@@ -205,14 +186,14 @@
         });
     </script>
     <script>
-        $(function() {
-            $(".button_change_password").click(function(e) {
+        $(function () {
+            $(".button_change_password").click(function (e) {
                 e.preventDefault();
                 email = $(this).attr('data-email');
                 url = $(this).attr('href');
                 $(".model_change_password_email").text(email);
 
-                $(".button_appect_change_password").click(function(e) {
+                $(".button_appect_change_password").click(function (e) {
                     e.preventDefault();
                     var new_password = $('.new_password_class').val();
                     var confirm_password = $('.confirm_password_class').val();
@@ -224,10 +205,10 @@
                             "new_password": new_password,
                             "confirm_password": confirm_password
                         }
-                    }).done(function(result) {
+                    }).done(function (result) {
                         if (result.status == 1) {
                             swal("Thành công", "Đã thay đổi mật khẩu thành công !",
-                                "success").then(function() {
+                                "success").then(function () {
                                 $("#exampleModalCenter").modal("hide");
                                 location.reload();
                             });
