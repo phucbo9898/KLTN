@@ -192,6 +192,7 @@
     <script>
         $(document).ready(function() {
             $('#dataTable').DataTable({
+                scrollX: true,
                 "order": [
                     [0, "desc"]
                 ],

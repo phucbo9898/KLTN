@@ -71,10 +71,12 @@
 {{--                                    Xem chi tiết--}}
                                     <i class="fa fa-eye fs-25"></i>
                                 </a>
-                                <a href="{{ route('history-user.transaction.paid', ['cancel-order', $transaction->id]) }}" id="" class="badge badge-danger">
-{{--                                    <span class="badge badge-danger text-white" style="font-size: 14px;width: 113.11px;">Hủy đơn hàng</span>--}}
-                                    <i class="fa fa-ban fs-25"></i>
-                                </a>
+                                @if($transaction->status == 'pending')
+                                    <a href="{{ route('history-user.transaction.paid', ['cancel-order', $transaction->id]) }}" id="" class="badge badge-danger">
+                                        {{--                                    <span class="badge badge-danger text-white" style="font-size: 14px;width: 113.11px;">Hủy đơn hàng</span>--}}
+                                        <i class="fa fa-ban fs-25"></i>
+                                    </a>
+                                @endif
                             </td>
                             {{-- custom modal by me --}}
                             <div class="modal fade" id="showOrderItem" tabindex="-1" role="dialog"
