@@ -18,7 +18,7 @@
         <center class="mt-20">LỊCH SỬ MUA HÀNG</center>
     </h4>
     <div class="col-sm-10 mx-auto">
-        <table class="table table-hover table-striped">
+        <table class="table table-hover table-striped table-list">
             <thead class="thead-dark">
                 <th>ID</th>
                 <th>Mã giao dịch</th>
@@ -62,7 +62,12 @@
                                     <span class="badge badge-warning" style="font-size: 14px;width: 136px;">Chưa thanh toán</span>
                                 @endif
                             </td>
-                            <td>{{ $transaction->created_at }}</td>
+
+                            <td>
+                                <input type="hidden" class="convert-time"
+                                       value="{{ date('Y-m-d h:i:s A', strtotime($transaction->created_at ?? '')) }}">
+                                {{ $transaction->created_at }}
+                            </td>
                             <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
                             <td>
                                 <a href="{{ route('history-user.get.order.item', $transaction->id) }}" class="js_order_item badge badge-info"
@@ -72,9 +77,9 @@
                                     <i class="fa fa-eye fs-25"></i>
                                 </a>
                                 @if($transaction->status == 'pending')
-                                    <a href="{{ route('history-user.transaction.paid', ['cancel-order', $transaction->id]) }}" id="" class="badge badge-danger">
-                                        {{--                                    <span class="badge badge-danger text-white" style="font-size: 14px;width: 113.11px;">Hủy đơn hàng</span>--}}
+                                    <a href="{{ route('history-user.transaction.paid', ['cancel-order', $transaction->id]) }}" id="" class="badge badge-danger btn-cancel">
                                         <i class="fa fa-ban fs-25"></i>
+                                        {{-- <span class="badge badge-danger text-white" style="font-size: 14px;width: 113.11px;">Hủy đơn hàng</span>--}}
                                     </a>
                                 @endif
                             </td>
@@ -132,6 +137,12 @@
 @section('javascript')
     <script>
         $(function() {
+            $('.table-list').find('.convert-time').each(function() {
+                var a = moment.tz($(this).val(), Intl.DateTimeFormat().resolvedOptions().timeZone)
+                console.log(a)
+                $(this).parent('td').html(a.format('YYYY-MM-DD HH:mm:ss'))
+            });
+
             $("#appect_receive_products").click(function(event) {
                 event.preventDefault();
                 url = $(this).attr("href");

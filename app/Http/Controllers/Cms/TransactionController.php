@@ -99,7 +99,7 @@ class TransactionController extends Controller
                     }
                     return redirect()->route('admin.transaction.index')->with('success', 'Đã gửi hàng thành công !');
                 case 'change-status':
-                    $transaction->status_payment = $transaction->status_payment == '' ? 'Paуment received' : '';
+                    $transaction->status_payment = 'Paуment received';
                     $transaction->save();
                     break;
             }

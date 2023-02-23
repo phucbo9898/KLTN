@@ -139,7 +139,7 @@ class CreateDatabase extends Migration
 
         Schema::create('transaction', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('user_id');
+            $table->string('name');
             $table->bigInteger('total');
             $table->string('note');
             $table->string('address');

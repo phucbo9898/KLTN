@@ -147,6 +147,9 @@
 @section('javascript')
     <script>
         $(document).ready(function() {
+            $("img").bind("error", function() {
+                $(this).addClass('d-none');
+            });
             $('#dataTable').DataTable({
                 "order": [
                     [0, "desc"]

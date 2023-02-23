@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Attribute\StoreRequest;
+use App\Http\Requests\Attribute\UpdateRequest;
 use App\Models\Attribute;
 use App\Models\Attribute_Value;
 use App\Repositories\AttributeRepository;
@@ -23,7 +25,7 @@ class AttributeController extends Controller
      */
     public function index()
     {
-        $attributes = $this->attributeRepo->paginate(10);
+        $attributes = $this->attributeRepo->get();
 //        dd($slides);
         return view('cms.attribute.index', compact('attributes'));
     }
@@ -44,54 +46,28 @@ class AttributeController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validator = Validator::make($request->all(),
-            [
-                'name' => 'required|unique:attributes,name',
-                'type' => 'required'
-            ],
-            [
-                'name.required' => 'Tên thuộc tính bắt buộc',
-                'name.unique' => 'Thuộc tính đã tồn tại',
-                'type.required' => 'Kiểu dữ liệu là bắt buộc'
-            ]);
-        if ($validator->fails()) {
-            return redirect()->back()->withInput()->withErrors($validator, 'attributeErrors');
-        }
-
         $data = $request->all();
         if ($request->value) {
             $arrayAttributeValue = explode(';', $request->value);
             for ($i = 0; $i < count($arrayAttributeValue); $i++) {
                 for ($j = $i + 1; $j < count($arrayAttributeValue); $j++) {
                     if ($arrayAttributeValue[$i] == $arrayAttributeValue[$j]) {
-                        return redirect()->back()->with('sameValue', 'Giá trị giống nhau');
+                        return back()->withInput()->with('sameValue', 'Giá trị thuộc tính nhập không được giống nhau');
                     }
                 }
             }
         }
 
         $attribute = $this->attributeRepo->prepareAttribute($data);
+//        dd($attribute);
         $result = $this->attributeRepo->create($attribute);
 
         if ($result) {
-            $request->session()->flash('create_attribute_success', 'Đã thêm 1 Attribute!');
-            return redirect()->route('admin.attribute.index');
+            return redirect()->route('admin.attribute.index')->with('success', 'Đã thêm 1 Attribute!');
         }
-        $request->session()->flash('create_attribute_error', 'Thêm Attribute không thành công');
-        return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->back()->with('error', 'Thêm Attribute không thành công');
     }
 
     /**
@@ -118,7 +94,7 @@ class AttributeController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         $attribute = $this->attributeRepo->find($id);
         if (!$attribute) {

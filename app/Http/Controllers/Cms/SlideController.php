@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Slide\StoreRequest;
+use App\Http\Requests\Slide\UpdateRequest;
 use App\Models\Slide;
 use App\Repositories\SlideRepository;
 use Carbon\Carbon;
@@ -24,7 +26,7 @@ class SlideController extends Controller
     public function index()
     {
         $slides = $this->slideRepo->paginate(10);
-        //        dd($slides);
+
         return view('cms.slide.index', compact('slides'));
     }
 
@@ -44,23 +46,8 @@ class SlideController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => 'required|max:255',
-                'image' => 'required'
-            ],
-            [
-                'name.required' => __('Please enter slide name'),
-                'image.required' => __('Please choose slide photo'),
-            ]
-        );
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator, 'slideErrors');
-        }
-
         $data = $request->all();
         if ($request->hasFile('image')) {     // image
             $file = $request->file('image');
@@ -72,11 +59,10 @@ class SlideController extends Controller
         $slide = $this->slideRepo->prepareSlide($data);
         $result = $this->slideRepo->create($slide);
         if ($result) {
-            $request->session()->flash('create_slide_success', 'Đã thêm 1 Slide!');
-            return redirect()->route('admin.slide.index');
+            return redirect()->route('admin.slide.index')->with('success', 'Đã thêm 1 Slide!');
         }
-        $request->session()->flash('create_slide_error', 'Thêm Slide không thành công');
-        return redirect()->back();
+
+        return redirect()->back()->with('error', 'Thêm Slide không thành công');
     }
 
     /**
@@ -102,23 +88,11 @@ class SlideController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         $slide = $this->slideRepo->find($id);
         if (!$slide) {
             return redirect()->route('admin.slide.index')->with('error', __('The requested resource is not available'));
-        }
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => 'required|max:255',
-            ],
-            [
-                'name.required' => __('Please enter slide name'),
-            ]
-        );
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator, 'slideErrors');
         }
 
         $data = $request->all();
@@ -134,12 +108,12 @@ class SlideController extends Controller
         $slides = $this->slideRepo->prepareSlide($data);
         $result = $this->slideRepo->update($slide->id, $slides);
         if ($result) {
-            $request->session()->flash('edit_slide_success', 'Đã sửa thành công slide id số ' . $slide->id . '!');
-            return redirect()->route('admin.slide.index');
+//            $request->session()->flash('edit_slide_success', 'Đã sửa thành công slide id số ' . $slide->id . '!');
+            return redirect()->route('admin.slide.index')->with('success', 'Đã sửa thành công slide id số ' . $slide->id . '!');
         }
 
         $request->session()->flash('edit_slide_error', 'Sửa không thành công slide id số ' . $slide->id . '!');
-        return redirect()->route('admin.slide.index');
+        return redirect()->back()->with('error', 'Sửa không thành công slide id số ' . $slide->id . '!');
     }
 
     public function handle(Request $request, $action, $id)
@@ -148,7 +122,7 @@ class SlideController extends Controller
         switch ($action) {
             case 'delete':
                 $slide->delete();
-                $request->session()->flash('delete_slide_success', 'Đã xóa thành công slide mang ID số' . $id . '!');
+                return redirect()->back()->with('success', 'Đã xóa thành công slide mang ID số ' . $id . '!');
                 break;
 
             default:
