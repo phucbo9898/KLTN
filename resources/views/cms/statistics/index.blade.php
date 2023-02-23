@@ -3,59 +3,44 @@
 @section('title', 'Báo cáo thống kê')
 
 @section('content')
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1>Báo cáo - Thống kê</h1>
-                    </div>
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Trang chủ</a></li>
-                            <li class="breadcrumb-item active">Báo cáo - Thống kê</li>
-                        </ol>
-                    </div>
-                </div>
-            </div><!-- /.container-fluid -->
-        </section>
-
-        <!-- Main content -->
-        <section class="content">
-            <div style="text-align: center">
+    <!-- Main content -->
+    <section class="content">
+        <div class="card">
+            <div class="card-header">
+                <h3>Báo cáo thống kê</h3>
+            </div>
+            <div class="card-body" style="text-align: center">
                 <form class="form-inline" style="width: 917px; margin: 0 auto" action="#">
                     <div class="form-group">
                         <label>Ngày bắt đầu: &nbsp</label>
                         <input type="date" value="" name="statistical_date_start" required
-                            id="statistical_date_start" class="form-control mr-1" />
+                               id="statistical_date_start" class="form-control mr-1"/>
                     </div>
-                    <a href="{{ route('admin.get.list.statistical') }}" value="Thống kê" class="btn btn-primary ml-5 mr-5"
-                        id="button_statistical">Thống kê</a>
+                    <a href="{{ route('admin.get.list.statistical') }}" value="Thống kê"
+                       class="btn btn-primary ml-5 mr-5"
+                       id="button_statistical">Thống kê</a>
                     <div class="form-group">
                         <label>Ngày kết thúc: &nbsp</label>
                         <input type="date" value="" name="statistical_date_end" required
-                            id="statistical_date_end" class="form-control ml-1" />
+                               id="statistical_date_end" class="form-control ml-1"/>
                     </div>
                     {{--            <input type="submit" value="Xuất pdf" class="btn btn-success" style=""/> --}}
                 </form>
-                <hr />
+                <hr/>
                 <input type="hidden" id="user_statistic" name="user_statistic" value="{{ Auth::user()->name }}">
                 <a href="#" class="btn btn-success mb-2" id="export_pdf" style="float:right;display:none">Xuất báo
                     cáo</a>
                 <div style="clear: both"></div>
                 <div id="list_render_statistical">Không có dữ liệu !!!</div>
             </div>
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
+        </div>
+    </section>
+    <!-- /.content -->
 @endsection
 @section('javascript')
     <script>
-        $(function() {
-            $("#button_statistical").click(function(event) {
+        $(function () {
+            $("#button_statistical").click(function (event) {
                 event.preventDefault();
                 var user = $("#user_statistic").val();
                 console.log(user)
@@ -79,7 +64,7 @@
                             statistical_date_end: statistical_date_end,
                             user: user
                         }
-                    }).done(function(result) {
+                    }).done(function (result) {
                         $("#list_render_statistical").html('').append(result);
                         $("#export_pdf").css({
                             'display': ''
@@ -89,7 +74,7 @@
                     console.log("Giá trị nhập sai kiểm tra lại");
                 }
             });
-            $("#export_pdf").click(function(event) {
+            $("#export_pdf").click(function (event) {
                 event.preventDefault();
                 var user = $("#user_statistic").val();
                 console.log(user)

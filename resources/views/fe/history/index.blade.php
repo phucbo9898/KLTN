@@ -21,7 +21,7 @@
         <table class="table table-hover table-striped table-list">
             <thead class="thead-dark">
                 <th>ID</th>
-                <th>Mã giao dịch</th>
+                <th>MGD</th>
                 <th style="width: 20%">Địa chỉ giao hàng</th>
                 <th style="width: 20%">Ghi chú</th>
                 <th>Trạng thái đơn hàng</th>
