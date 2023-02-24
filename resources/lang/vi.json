@@ -137,5 +137,10 @@
     "Filter by price": "Lọc theo giá",
     "Filter by sold": "Lọc theo số sản phẩm đã bán",
     "Start date": "Ngày bắt đầu",
-    "End date": "Ngày kết thúc"
+    "End date": "Ngày kết thúc",
+    "Only PNG, JPEG and JPG files can be uploaded.": "Chỉ có thể tải lên các tệp PNG, JPEG và JPG.",
+    "Please enter slide name": "Vui lòng nhập tên slide",
+    "Please choose slide photo": "Vui Lòng chọn ảnh slide",
+    "The name field is required.": "Trường tên là bắt buộc",
+    "The name has already been taken.": "Tên đã tồn tại"
 }

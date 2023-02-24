@@ -40,7 +40,8 @@ class UserRepository extends BaseRepository
             'email' => $data['email'] ?? '',
             'password' => $data['password'] ?? '',
             'phone' => $data['phone'] ?? '',
-            'avatar' => $data['image'] ?? ''
+            'avatar' => $data['image'] ?? '',
+            'role' => UserType::ADMIN
         ];
 
         return $user;

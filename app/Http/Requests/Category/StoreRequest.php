@@ -31,7 +31,8 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Bạn cần nhập trường tên loại sản phẩm',
+            'name.required' => __('Trường tên danh mục là bắt buộc'),
+            'name.unique' => __('Tên danh mục đã tồn tại')
         ];
     }
 }

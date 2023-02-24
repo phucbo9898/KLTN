@@ -7,6 +7,7 @@ use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Repositories\ProductRepository;
 use App\Repositories\TransactionRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,9 +16,10 @@ use PDF;
 
 class TransactionController extends Controller
 {
-    public function __construct(TransactionRepository $transactionRepo)
+    public function __construct(TransactionRepository $transactionRepo, ProductRepository $productRepo)
     {
         $this->transactionRepo = $transactionRepo;
+        $this->productRepo = $productRepo;
     }
 
     /**
@@ -46,7 +48,7 @@ class TransactionController extends Controller
     public function handle(Request $request, $action, $id)
     {
         if ($action) {
-            $transaction = Transaction::find($id);
+            $transaction = $this->transactionRepo->find($id);
             switch ($action) {
                 case 'cancel':
                     $transaction->status = 'canceled';
@@ -64,9 +66,9 @@ class TransactionController extends Controller
                     if ($orders) {
                         foreach ($orders as $order) {
                             // find product in order
-                            $product = Product::find($order->product_id);
+                            $product = $this->productRepo->find($order->product_id);
                             // subtract number product in stock
-                            $product->quantity =  $product->quantity + $order->quantity;
+                            $product->quantity = $product->quantity + $order->quantity;
                             $product->qty_pay = $product->qty_pay - $order->quantity;
                             $product->save();
                         }
@@ -79,7 +81,7 @@ class TransactionController extends Controller
                     if ($orders) {
                         foreach ($orders as $order) {
                             // find product in order
-                            $product = Product::find($order->product_id);
+                            $product = $this->productRepo->find($order->product_id);
                             // check number product enough number product customer buy
                             if ($product->quantity < $order->quantity) {
                                 Notification::insert(
@@ -109,7 +111,7 @@ class TransactionController extends Controller
 
     public function transactionPaid($id)
     {
-        $transaction = Transaction::find($id);
+        $transaction = $this->transactionRepo->find($id);
         // find orders of customer in transaction
         $orders = Order::where('transaction_id', $id)->get();
         if ($orders) {
@@ -139,7 +141,7 @@ class TransactionController extends Controller
         $day = Carbon::now()->day;
         $month = Carbon::now()->month;
         $year = Carbon::now()->year;
-        $transaction = Transaction::find($id);
+        $transaction = $this->transactionRepo->find($id);
         $data = [
             'transaction' => $transaction,
             'day' => $day,

@@ -3,9 +3,7 @@
 @section('title', 'Thêm mới thuộc tính')
 <?php use App\Enums\TypeAttribute; ?>
 @section('content')
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header">
                 <h3>Thêm mới thuộc tính</h3>
@@ -14,62 +12,59 @@
                 <form action="" method="POST" class="col-md-10 mx-auto">
                     @csrf
                     <div class="form-group">
-                        <label>Tên thuộc tính: </label>
-                        <input type="text" class="form-control" name="name"
-                               value="{{ old('name') }}"
-                               placeholder="Nhập tên thuộc tính...">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label>Tên thuộc tính</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Nhập tên thuộc tính...">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group ">
-                        <label>Kiểu: </label>
-                        <select class="form-control" name="type" id="selectForAttribute" value="{{ old('type') }}">
-                            {{--        <option value="">@lang('Choose Type')</option> --}}
-                            {{--        @foreach (\App\Enums\AttributeType::getValues() as $key => $value) --}}
-                            {{--            --}}
-                            {{--        @endforeach --}}
-{{--                            <option--}}
-{{--                                value="text" {{ isset($attribute) ? ($attribute->type == 'Text' ? 'selected' : '') : '' }}>--}}
-{{--                                Text--}}
-{{--                            </option>--}}
-{{--                            <option--}}
-{{--                                value="number" {{ isset($attribute) ? ($attribute->type == 'Number' ? 'selected' : '') : '' }}>--}}
-{{--                                Number--}}
-{{--                            </option>--}}
-{{--                            <option--}}
-{{--                                value="numberfloat" {{ isset($attribute) ? ($attribute->type == 'Number Float' ? 'selected' : '') : '' }}>--}}
-{{--                                Number--}}
-{{--                                Float--}}
-{{--                            </option>--}}
-{{--                            <option--}}
-{{--                                value="select" {{ isset($attribute) ? ($attribute->type == 'Select' ? 'selected' : '') : '' }}>--}}
-{{--                                Select--}}
-{{--                            </option>--}}
-                            {{-- <option value="checkbox"  {{isset($attribute)?(($attribute->at_type=="checkbox")?"selected":""):""}}>Checkbox</option>
-                            <option value="radiobox"  {{isset($attribute)?(($attribute->at_type=="radiobox")?"selected":""):""}}>Radio box</option> --}}
-                            <option value="">@lang('Choose Type Attribute')</option>
-                            @foreach(TypeAttribute::getValues() as $type)
-                                <option value="{{ $type }}"
-                                @if ( old('type') == $type) {{ 'selected' }} @endif>
-                                    @lang(TypeAttribute::getTypeAttr($type))
-                                </option>
-                            @endforeach
-                        </select>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label>Kiểu</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" name="type" id="selectForAttribute" value="{{ old('type') }}">
+                                    <option value="">@lang('Choose Type Attribute')</option>
+                                    @foreach(TypeAttribute::getValues() as $type)
+                                        <option value="{{ $type }}"
+                                        @if ( old('type') == $type) {{ 'selected' }} @endif>
+                                            @lang(TypeAttribute::getTypeAttr($type))
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group d-none" id="textAreaForAttribute" >
-                        <label>Giá trị (Các giá trị phân cách bằng dấu chấp phẩy( ; )):</label>
-                        <textarea class="form-control" rows="5" name="value"
-                                  id="contentTextAreaForAttribute">{{ old('value') }}</textarea>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label>Giá trị (Các giá trị phân cách bằng dấu chấp phẩy( ; )):</label>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea class="form-control" rows="5" name="value"
+                                          id="contentTextAreaForAttribute">{{ old('value') }}</textarea>
+                            </div>
+                        </div>
                     </div>
-                    <input type="submit" value="Lưu thông tin" class="btn btn-success btn_save_attribute"
-                           style="float: right"/>
-                    <div style="clear: both"></div>
+
+                    <div style="padding: 0.5rem!important;"></div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-right"></div>
+                            <div class="col-md-8">
+                                <input type="submit" value="Lưu thông tin" class="btn btn-success btn_save_attribute" style="margin-right: 2px;"/>
+                                <a class="btn btn-secondary" href="{{ route('admin.attribute.index') }}">Hủy bỏ</a>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
-
     </section>
-    <!-- /.content -->
 @endsection
 @section('javascript')
     <script>

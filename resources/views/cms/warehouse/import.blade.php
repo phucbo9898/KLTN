@@ -8,7 +8,6 @@
             color: #ff9705 !important;
         }
     </style>
-
     <!-- Main content -->
     <section class="content">
         <!-- Default box -->
@@ -17,22 +16,6 @@
                 <h3>Nhập hàng</h3>
             </div>
             <div class="card-body">
-                @if (Session::has('import_success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công !</strong> {{ Session::get('import_success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                @if (Session::has('import_error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Thất bại !</strong> {{ Session::get('import_error') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
                 <table class="table table-hover table-striped" id="dataTable">
                     <thead class="thead-dark">
                     <th>ID</th>

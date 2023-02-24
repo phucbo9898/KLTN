@@ -9,6 +9,7 @@ use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Category_Attribute;
 use App\Repositories\AttributeRepository;
+use App\Repositories\CategoryAttributeRepository;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -16,10 +17,11 @@ use Illuminate\Support\Facades\Validator;
 class CategoryController extends Controller
 {
 
-    public function __construct(CategoryRepository $categoryRepo, AttributeRepository $attributeRepo)
+    public function __construct(CategoryRepository $categoryRepo, AttributeRepository $attributeRepo, CategoryAttributeRepository $categoryAttrRepo)
     {
         $this->categoryRepo = $categoryRepo;
         $this->attributeRepo = $attributeRepo;
+        $this->categoryAttrRepo = $categoryAttrRepo;
     }
 
     /**
@@ -63,7 +65,7 @@ class CategoryController extends Controller
         $result = $this->categoryRepo->create($category);
         foreach ($request->all() as $key => $value) {
             if (is_int($key)) {
-                Category_Attribute::create([
+                $this->categoryAttrRepo->create([
                     'category_id' => $result->id,
                     'attribute_id' => $key
                 ]);
@@ -89,23 +91,22 @@ class CategoryController extends Controller
         //get category
         $category = $this->categoryRepo->find($id);
         //get attribute in category
-        $categoryAttribute = Category_Attribute::where('category_id',$id)->get();
+        $categoryAttribute = $this->categoryAttrRepo->where('category_id', $id)->get();
         $arrayCategoryAttribute = array();
         // push attribute of category in array for compare attribute in form
-        foreach($categoryAttribute as $ca)
-        {
-            $arrayCategoryAttribute[]= $ca->attribute_id;
+        foreach ($categoryAttribute as $ca) {
+            $arrayCategoryAttribute[] = $ca->attribute_id;
         }
         //variable transfer
 
         $data = [
-            'attributes' =>$attributes,
+            'attributes' => $attributes,
             'category' => $category,
             'arrayCategoryAttribute' => $arrayCategoryAttribute
 
         ];
 
-        return view('cms.category.edit',$data);
+        return view('cms.category.edit', $data);
     }
 
     /**
@@ -128,28 +129,28 @@ class CategoryController extends Controller
         Category_Attribute::where('category_id', $category->id)->delete();
         foreach ($request->all() as $key => $value) {
             if (is_int($key)) {
-                Category_Attribute::create([
+                $this->categoryAttrRepo->create([
                     'category_id' => $result->id,
                     'attribute_id' => $key
                 ]);
             }
         }
         if ($result) {
-            return redirect()->route('admin.category.index')->with('success', 'Đã sửa thành công loại sản phẩm mang ID số'.$category->id.'!');
+            return redirect()->route('admin.category.index')->with('success', 'Đã sửa thành công loại sản phẩm mang ID số' . $category->id . '!');
         }
-        return redirect()->back()->with('error', 'Sửa không thành công loại sản phẩm mang ID số'.$category->id.'!');
+        return redirect()->back()->with('error', 'Sửa không thành công loại sản phẩm mang ID số' . $category->id . '!');
     }
 
-    public function handle(Request $request,$action,$id)
+    public function handle(Request $request, $action, $id)
     {
-        $category = Category::find($id);
+        $category = $this->categoryRepo->find($id);
         switch ($action) {
             case 'delete':
                 $category->delete();
-                $request->session()->flash('success', 'Đã xóa thành công loại sản phẩm mang ID số '.$id.'!');
+                $request->session()->flash('success', 'Đã xóa thành công loại sản phẩm mang ID số ' . $id . '!');
                 break;
             case 'status':
-                $category->status= $category->status== 'active' ? 'inactive' : 'active';
+                $category->status = $category->status == 'active' ? 'inactive' : 'active';
                 $category->save();
                 break;
             default:

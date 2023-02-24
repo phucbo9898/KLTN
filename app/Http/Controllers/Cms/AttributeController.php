@@ -49,6 +49,7 @@ class AttributeController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->all();
+
         if ($request->value) {
             $arrayAttributeValue = explode(';', $request->value);
             for ($i = 0; $i < count($arrayAttributeValue); $i++) {
@@ -61,7 +62,6 @@ class AttributeController extends Controller
         }
 
         $attribute = $this->attributeRepo->prepareAttribute($data);
-//        dd($attribute);
         $result = $this->attributeRepo->create($attribute);
 
         if ($result) {
@@ -100,20 +100,6 @@ class AttributeController extends Controller
         if (!$attribute) {
             return redirect()->route('admin.attribute.index')->with('error', __('The requested resource is not available'));
         }
-        //check Input
-        $validator = Validator::make($request->all(),
-            [
-                'name' => 'required',
-                'type' => 'required'
-            ],
-            [
-                'name.required' => 'Tên thuộc tính bắt buộc',
-                'type.required' => 'Kiểu dữ liệu là bắt buộc'
-            ]
-        );
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator, 'attributeErrors');
-        }
 
         $data = $request->all();
         //Check same value
@@ -129,23 +115,23 @@ class AttributeController extends Controller
         }
 
         $attributes = $this->attributeRepo->prepareAttribute($data);
-//        dd($attribute);
         $result = $this->attributeRepo->update($attribute->id, $attributes);
+
         if ($result) {
-            $request->session()->flash('create_attribute_success', 'Đã thêm 1 Attribute!');
-            return redirect()->route('admin.attribute.index');
+            return redirect()->route('admin.attribute.index')->with('success', 'Đã sửa thành công thuộc tính mang ID số ' . $attribute->id . '!');
         }
-        $request->session()->flash('create_attribute_error', 'Thêm Attribute không thành công');
-        return redirect()->back();
+
+        return redirect()->back()->with('error', 'Sửa không thành công thuộc tính mang ID số ' . $attribute->id . '!');
     }
 
-    public function handle(Request $request,$action,$id){
+    public function handle(Request $request, $action, $id)
+    {
         //get Attribute
-        $attribute = Attribute::find($id);
+        $attribute = $this->attributeRepo->find($id);
         switch ($action) {
             case 'delete':
                 $attribute->delete();
-                $request->session()->flash('delete_attribute_success', 'Đã xóa thuộc tính ID='.$id.' !');
+                $request->session()->flash('success', 'Đã xóa thuộc tính ID = ' . $id . ' !');
                 break;
 
             default:

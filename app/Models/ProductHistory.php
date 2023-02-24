@@ -9,6 +9,7 @@ class ProductHistory extends Model
 {
     use HasFactory;
     protected $table = 'product_history';
+    protected $guarded = [];
 
     public function product()
     {

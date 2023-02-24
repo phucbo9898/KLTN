@@ -26,13 +26,14 @@
                         <th>Hành động</th>
                         </thead>
                         <tbody>
+                            <?php $stt = 1; ?>
                         @foreach ($categories as $category)
                             <tr>
-                                <td style="text-align: center;">{{ $category->id }}</td>
+                                <td style="text-align: center;">{{ $stt++ }}</td>
                                 <td>{{ $category->name }}</td>
-                                <td style="text-align: center"><a
-                                        href="{{ route('admin.category.handle', ['status', $category->id]) }}"
-                                        class="badge badge-{{ $category->status == 'active' ? 'success' : 'danger' }}">{{ $category->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
+                                <td style="text-align: center">
+                                    <a href="{{ route('admin.category.handle', ['status', $category->id]) }}"
+                                       class="badge badge-{{ $category->status == 'active' ? 'success' : 'danger' }}">{{ $category->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
                                 </td>
                                 <td>
                                     <ul>

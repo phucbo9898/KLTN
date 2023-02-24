@@ -21,7 +21,6 @@ class AdminController extends Controller
 
     public function postLogin(Request $request)
     {
-        //        $credentials = $request->only('email', 'password');
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
             if ($user->role == UserType::ADMIN) {
