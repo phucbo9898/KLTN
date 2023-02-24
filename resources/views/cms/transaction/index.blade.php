@@ -37,7 +37,7 @@
                     <th style="width: 10%">Người mua</th>
                     <th style="width: 10%">Số điện thoại</th>
                     <th style="width: 10%;">Trạng thái thanh toán</th>
-                    <th style="width: 10%;">Loại thanh toán</th>
+                    <th style="width: 5%;">Loại thanh toán</th>
                     <th style="width: 12%">Tổng tiền</th>
                     <th style="width: 10%">Trạng thái</th>
                     <th style="width: 3%">MGD</th>
@@ -62,14 +62,12 @@
                                 @endif
                             </td>
                             <td class="get-payment">
-                                {{--                                        {{ $transaction->type_payment }}--}}
                                 @if($transaction->type_payment == 'momo')
-                                    <span class="momo" style="font-size: 16px;">Thanh toán qua Momo</span>
+                                    <span class="momo" style="font-size: 16px;">Momo</span>
                                 @elseif($transaction->type_payment == 'vnpay')
-                                    <span class="banking" style="font-size: 16px;">Thanh toán qua VNPay</span>
+                                    <span class="banking" style="font-size: 16px;">VNPay</span>
                                 @else
-                                    <span class="payment-normal"
-                                          style="font-size: 16px;">Thanh toán khi nhận hàng</span>
+                                    <span class="payment-normal" style="font-size: 16px;">Thông thường</span>
                                 @endif
                             </td>
                             <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>

@@ -20,10 +20,11 @@
                         <th style="width: 15%">Hành động</th>
                         </thead>
                         <tbody>
+                        <?php $stt = 1; ?>
                         @foreach ($slides as $slide)
                             <tr>
                                 <td style="text-align: center;">
-                                    {{ ($slides->currentPage() - 1) * $slides->perPage() + $loop->index + 1 }}</td>
+                                    {{ $stt++ }}</td>
                                 <td>{{ $slide->name }}</td>
                                 <td>
                                     @if ($slide->image)

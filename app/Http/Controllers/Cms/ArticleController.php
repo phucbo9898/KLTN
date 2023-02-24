@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Cms;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Article\StoreRequest;
+use App\Http\Requests\Article\UpdateRequest;
 use App\Models\Article;
 use App\Repositories\ArticleRepository;
 use Carbon\Carbon;
@@ -24,11 +26,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::all();
-        $data = [
-            'articles' => $articles
-        ];
-        return view('cms.article.index', $data);
+        $articles = $this->articleRepo->all();
+
+        return view('cms.article.index', compact('articles'));
     }
 
     /**
@@ -47,29 +47,17 @@ class ArticleController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        // Check data input
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => 'required|unique:articles,name|min:3|max:255',
-                'description' => 'required|min:3',
-                'content' => 'required|min:3'
-            ],
-            [
-                'name.required' => 'Bạn cần nhập trường tên bài viết',
-                'name.unique' => 'Tên bài viết đã tồn tại',
-                'description.required' => 'Mô tả bài viết còn trống',
-                'description.min' => 'Mô tả bài viết cần ít nhất 3 kí tự',
-                'content.required' => 'Nội dung bài viết còn trống',
-                'content.min' => 'Nội dung bài viết cần ít nhất 3 kí tự',
-            ]
-        );
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator, 'articleErrors');
+        if (!empty($request->file('image'))) {
+            $extention = $request->file('image')->getClientOriginalExtension();
+            if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+            }
         }
+
         $data = $request->all();
+
         if ($request->hasFile('image')) {     // image
             $file = $request->file('image');
             $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
@@ -81,22 +69,9 @@ class ArticleController extends Controller
         $result = $this->articleRepo->create($article);
 
         if ($result) {
-            $request->session()->flash('create_article_success', 'Đã thêm 1 Article!');
-            return redirect()->route('admin.article.index');
+            return redirect()->route('admin.article.index')->with('success', 'Đã thêm 1 Article!');
         }
-        $request->session()->flash('create_article_error', 'Thêm Article không thành công');
-        return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->back()->with('error', 'Thêm Article không thành công');
     }
 
     /**
@@ -107,11 +82,9 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        $article = Article::find($id);
-        $data = [
-            'article' => $article
-        ];
-        return view('cms.article.edit', $data);
+        $article = $this->articleRepo->find($id);
+
+        return view('cms.article.edit', compact('article'));
     }
 
     /**
@@ -121,29 +94,18 @@ class ArticleController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         $article = $this->articleRepo->find($id);
         if (!$article) {
             return redirect()->route('admin.article.index')->with('error', __('The requested resource is not available'));
         }
 
-        $validator = Validator::make($request->all(),
-            [
-                'name' => 'required|min:3|max:255',
-                'description' => 'required|min:3',
-                'content' => 'required|min:3'
-            ],
-            [
-                'name.required' => 'Bạn cần nhập trường tên bài viết',
-                'description.required' => 'Mô tả bài viết còn trống',
-                'description.min' => 'Mô tả bài viết cần ít nhất 3 kí tự',
-                'content.required' => 'Nội dung bài viết còn trống',
-                'content.min' => 'Nội dung bài viết cần ít nhất 3 kí tự',
-            ]
-        );
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator, 'articleErrors');
+        if (!empty($request->file('image'))) {
+            $extention = $request->file('image')->getClientOriginalExtension();
+            if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+            }
         }
 
         $data = $request->all();
@@ -156,25 +118,24 @@ class ArticleController extends Controller
         } else {
             $data['image'] = $article->image;
         }
+
         $articles = $this->articleRepo->prepareArticle($data);
         $result = $this->articleRepo->update($article->id, $articles);
 
         if ($result) {
-            $request->session()->flash('edit_product_success', 'Đã thêm 1 Product!');
-            return redirect()->route('admin.article.index');
+            return redirect()->route('admin.article.index')->with('success', 'Đã sửa thành công bài viết mang ID số ' . $article->id . '!');
         }
-        $request->session()->flash('edit_product_error', 'Thêm Product không thành công');
-        return redirect()->back();
+
+        return redirect()->back()->with('error', 'Sửa không thành công bài viết mang ID số ' . $article->id . '!');
     }
 
-    public function handle(Request $request,$action,$id)
+    public function handle(Request $request, $action, $id)
     {
-        $article = Article::find($id);
+        $article = $this->articleRepo->find($id);
         switch ($action) {
             case 'delete':
                 $article->delete();
-                $request->session()->flash('delete_article_success',
-                    'Đã xóa thành công bài viết mang ID số '.$id.'!');
+                $request->session()->flash('success', 'Đã xóa thành công bài viết mang ID số ' . $id . '!');
                 break;
             case 'status':
                 $article->status = $article->status == 'active' ? 'inactive' : 'active';

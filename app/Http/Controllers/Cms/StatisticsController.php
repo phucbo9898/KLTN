@@ -36,6 +36,7 @@ class StatisticsController extends Controller
         }
         dd("Lỗi");
     }
+
     public function exportPdf(Request $request)
     {
         $day = Carbon::now()->day;

@@ -25,7 +25,7 @@ class SlideController extends Controller
      */
     public function index()
     {
-        $slides = $this->slideRepo->paginate(10);
+        $slides = $this->slideRepo->get();
 
         return view('cms.slide.index', compact('slides'));
     }
@@ -48,6 +48,13 @@ class SlideController extends Controller
      */
     public function store(StoreRequest $request)
     {
+        if (!empty($request->file('image'))) {
+            $extention = $request->file('image')->getClientOriginalExtension();
+            if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+            }
+        }
+
         $data = $request->all();
         if ($request->hasFile('image')) {     // image
             $file = $request->file('image');
@@ -95,6 +102,13 @@ class SlideController extends Controller
             return redirect()->route('admin.slide.index')->with('error', __('The requested resource is not available'));
         }
 
+        if (!empty($request->file('image'))) {
+            $extention = $request->file('image')->getClientOriginalExtension();
+            if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+            }
+        }
+
         $data = $request->all();
         if ($request->hasFile('image')) {     // image
             $file = $request->file('image');
@@ -108,17 +122,15 @@ class SlideController extends Controller
         $slides = $this->slideRepo->prepareSlide($data);
         $result = $this->slideRepo->update($slide->id, $slides);
         if ($result) {
-//            $request->session()->flash('edit_slide_success', 'Đã sửa thành công slide id số ' . $slide->id . '!');
             return redirect()->route('admin.slide.index')->with('success', 'Đã sửa thành công slide id số ' . $slide->id . '!');
         }
 
-        $request->session()->flash('edit_slide_error', 'Sửa không thành công slide id số ' . $slide->id . '!');
         return redirect()->back()->with('error', 'Sửa không thành công slide id số ' . $slide->id . '!');
     }
 
     public function handle(Request $request, $action, $id)
     {
-        $slide = Slide::find($id);
+        $slide = $this->slideRepo->find($id);
         switch ($action) {
             case 'delete':
                 $slide->delete();

@@ -5,7 +5,6 @@
 @section('content')
     <!-- Main content -->
     <section class="content">
-
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
@@ -22,10 +21,10 @@
                         <th>Hành động</th>
                         </thead>
                         <tbody>
+                        <?php $stt = 1; ?>
                         @foreach ($attributes as $attribute)
                             <tr>
-                                {{--                                    <td style="text-align: center;">{{ ($attributes->currentPage() - 1) * $attributes->perPage() + $loop->index + 1 }}</td> --}}
-                                <td>{{ $attribute->id }}</td>
+                                <td>{{ $stt++ }}</td>
                                 <td>{{ $attribute->name }}</td>
                                 <td>{{ $attribute->type }}</td>
                                 <td>

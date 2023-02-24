@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Attribute;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -24,8 +25,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'type' => 'required'
+            'name' => ['required', Rule::unique('attributes')->ignore($this->id)],
+            'type' => 'required',
+            'value' => 'required_if:type,select'
         ];
     }
 
@@ -33,7 +35,9 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên thuộc tính bắt buộc',
-            'type.required' => 'Kiểu dữ liệu là bắt buộc'
+            'name.unique' => 'Thuộc tính đã tồn tại',
+            'type.required' => 'Kiểu dữ liệu là bắt buộc',
+            'value.required_if' => 'Giá trị là bắt buộc khi kiểu thuộc tính là select'
         ];
     }
 }

@@ -11,31 +11,58 @@
                 <h3>Cập nhật thuộc tính</h3>
             </div>
             <div class="card-body">
-                <form action="" method="POST" class="col-md-10 mx-auto">
+                <form action="" method="POST" class="col-md-10 mx-auto" id="form-update">
                     @csrf
                     <div class="form-group">
-                        <label>Tên thuộc tính: </label>
-                        <input type="text" class="form-control" name="name"
-                               value="{{ old('name', isset($attribute->name) ? $attribute->name : '') }}"
-                               placeholder="Nhập tên thuộc tính...">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label>Tên thuộc tính: </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="name"
+                                       value="{{ old('name', isset($attribute->name) ? $attribute->name : '') }}"
+                                       placeholder="Nhập tên thuộc tính...">
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group ">
-                        <label>Kiểu: </label>
-                        <select class="form-control" name="type" id="selectForAttribute" value="{{ old('type') }}">
-                            @foreach(TypeAttribute::getValues() as $type)
-                                <option @if (old('type') == $type || $type == $attribute->type) selected
-                                        @endif value="{{ $type }}">@lang(TypeAttribute::getTypeAttr($type))</option>
-                            @endforeach
-                        </select>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label>Kiểu: </label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" name="type" id="selectForAttribute" value="{{ old('type') }}">
+                                    @foreach(TypeAttribute::getValues() as $type)
+                                        <option @if (old('type') == $type || $type == $attribute->type) selected
+                                                @endif value="{{ $type }}">@lang(TypeAttribute::getTypeAttr($type))</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group" id="textAreaForAttribute" style="display: none">
-                        <label>Giá trị (Các giá trị phân cách bằng dấu chấp phẩy( ; )):</label>
-                        <textarea class="form-control" rows="5" name="value"
-                                  id="contentTextAreaForAttribute">{{ isset($attribute) ? $attribute->value : '' }}</textarea>
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label>Giá trị (Các giá trị phân cách bằng dấu chấp phẩy( ; )):</label>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea class="form-control" rows="5" name="value"
+                                          id="contentTextAreaForAttribute">{{ isset($attribute) ? $attribute->value : '' }}</textarea>
+                            </div>
+                        </div>
                     </div>
-                    <input type="submit" value="Lưu thông tin" class="btn btn-success btn_save_attribute"
-                           style="float: right"/>
-                    <div style="clear: both"></div>
+
+                    <div style="padding: 0.5rem!important;"></div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-right"></div>
+                            <div class="col-md-8">
+                                <input type="submit" value="Lưu thông tin" class="btn btn-success btn_save_attribute"
+                                       style="margin-right: 2px;"/>
+                                <a class="btn btn-secondary" href="{{ route('admin.attribute.index') }}">Hủy bỏ</a>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <!-- /.card-body -->
@@ -68,7 +95,7 @@
                     if (willDelete) {
                         swal("Thành công", "Hệ thống chuẩn bị sửa loại sản phẩm mang ID =" +
                             {{ $attribute->id }} + " !", 'success').then(function () {
-                            form.submit();
+                            $("#form-update").submit();
                         });
                     }
                 });

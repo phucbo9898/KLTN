@@ -9,9 +9,7 @@
         }
     </style>
 
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header">
                 <h3>Danh sách sản phẩm</h3>
@@ -20,30 +18,6 @@
                 <div class="form-group">
                     <x-product.search-form :options="$options ?? ''" :categories="$categories ?? ''"/>
                 </div>
-                @if (Session::has('create_product_success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công !</strong> {{ Session::get('create_product_success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                @if (Session::has('edit_product_success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công !</strong> {{ Session::get('edit_product_success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                @if (Session::has('delete_product_success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công !</strong> {{ Session::get('delete_product_success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
                 <table class="table table-hover table-striped" id="dataTable">
                     <thead class="thead-dark">
                     <th>ID</th>
@@ -70,28 +44,31 @@
                                         @endif
                                         <li>Giá: {{ number_format($product->price, 0, ',', '.') }} VNĐ</li>
                                         <li>
-                                            {{--                                                    <?php--}}
-                                            {{--                                                    $point = 0;--}}
-                                            {{--                                                    if ($product->number_of_reviewers > 0) {--}}
-                                            {{--                                                        $point = round($product->total_star / $product->number_of_reviewers);--}}
-                                            {{--                                                    }--}}
-                                            {{--                                                    ?>--}}
-                                            {{--                                                    Đánh giá: <span class="rating">--}}
-                                            {{--                                                        @for ($i = 1; $i <= 5; $i++)--}}
-                                            {{--                                                            <i class="fa fa-star {{ $i <= $point ? 'active' : '' }}"--}}
-                                            {{--                                                                style="color:#999"></i>--}}
-                                            {{--                                                        @endfor--}}
-                                            {{--                                                        @if ($product->number_of_reviewers > 0)--}}
-                                            {{--                                                            {{ $point }} sao--}}
-                                            {{--                                                        @else--}}
-                                            {{--                                                            Chưa đánh giá--}}
-                                            {{--                                                        @endif--}}
-                                            {{--                                                    </span>--}}
                                             <span>Số lượng đã bán: {{ $product->qty_pay > 0 ? $product->qty_pay : 0 }}</span>
                                         </li>
+                                        {{--                                        <li>--}}
+                                        {{--                                            <?php--}}
+                                        {{--                                                $point = 0;--}}
+                                        {{--                                                if ($product->number_of_reviewers > 0) {--}}
+                                        {{--                                                    $point = round($product->total_star / $product->number_of_reviewers);--}}
+                                        {{--                                                }--}}
+                                        {{--                                            ?>--}}
+                                        {{--                                            Đánh giá:--}}
+                                        {{--                                            <span class="rating">--}}
+                                        {{--                                                @for ($i = 1; $i <= 5; $i++)--}}
+                                        {{--                                                    <i class="fa fa-star {{ $i <= $point ? 'active' : '' }}"--}}
+                                        {{--                                                       style="color:#999"></i>--}}
+                                        {{--                                                @endfor--}}
+                                        {{--                                                @if ($product->number_of_reviewers > 0)--}}
+                                        {{--                                                    {{ $point }} sao--}}
+                                        {{--                                                @else--}}
+                                        {{--                                                    Chưa đánh giá--}}
+                                        {{--                                                @endif--}}
+                                        {{--                                            </span>--}}
+                                        {{--                                        </li>--}}
                                     </ul>
                                 </td>
-                                <td>{{ $product->Category->name }}</td>
+                                <td>{{ $product->category->name }}</td>
                                 <td>
                                     @if ($product->image)
                                         <img style="width:80px;height:80px" src="{{ asset($product->image) }}"
@@ -123,12 +100,8 @@
                     </tbody>
                 </table>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
-
     </section>
-    <!-- /.content -->
 @endsection
 @section('javascript')
     <script>

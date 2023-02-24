@@ -28,4 +28,12 @@ class UpdateRequest extends FormRequest
             'name' => ['required', Rule::unique('categories')->ignore($this->id)]
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'name.required' => __('Trường tên danh mục là bắt buộc'),
+            'name.unique' => __('Tên danh mục đã tồn tại')
+        ];
+    }
 }

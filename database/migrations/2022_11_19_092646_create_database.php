@@ -193,6 +193,7 @@ class CreateDatabase extends Migration
            $table->unsignedBigInteger('product_id');
            $table->integer('number_import');
            $table->timestamp('time_import');
+           $table->timestamps();
            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade');
         });
     }
