@@ -48,25 +48,25 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
         Route::get('/create', [CategoryController::class, 'create'])->name('admin.category.create');
         Route::post('/create', [CategoryController::class, 'store'])->name('admin.category.store');
         Route::get('/update/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit');
-        Route::post('/update/{id}', [CategoryController::class, 'update']);
+        Route::post('/update/{id}', [CategoryController::class, 'update'])->name('admin.category.update');
         Route::get('/{action}/{id}',[CategoryController::class, 'handle'])->name('admin.category.handle');
     });
 
     Route::group(['prefix' => 'attribute'], function () {
         Route::get('/', [AttributeController::class, 'index'])->name('admin.attribute.index');
         Route::get('/create', [AttributeController::class, 'create'])->name('admin.attribute.create');
-        Route::post('/create', [AttributeController::class, 'store']);
+        Route::post('/create', [AttributeController::class, 'store'])->name('admin.attribute.store');
         Route::get('/update/{id}', [AttributeController::class, 'edit'])->name('admin.attribute.edit');
-        Route::post('/update/{id}', [AttributeController::class, 'update']);
+        Route::post('/update/{id}', [AttributeController::class, 'update'])->name('admin.attribute.update');
         Route::get('/{action}/{id}', [AttributeController::class, 'handle'])->name('admin.attribute.handle');
     });
 
     Route::group(['prefix' => 'product'], function () {
         Route::get('/', [ProductController::class, 'index'])->name('admin.product.index');
         Route::get('/create', [ProductController::class, 'create'])->name('admin.product.create');
-        Route::post('/create', [ProductController::class, 'store']);
+        Route::post('/create', [ProductController::class, 'store'])->name('admin.product.store');
         Route::get('/update/{id}', [ProductController::class, 'edit'])->name('admin.product.edit');
-        Route::post('/update/{id}', [ProductController::class, 'update']);
+        Route::post('/update/{id}', [ProductController::class, 'update'])->name('admin.product.update');
         Route::get('/{action}/{id}', [ProductController::class, 'handle'])->name('admin.product.handle');
         Route::get('/getAttribute', [ProductController::class, 'getAttribute'])->name('admin.ajax.get.attribute');
     });
@@ -74,9 +74,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
     Route::group(['prefix' => 'article'], function () {
         Route::get('/', [ArticleController::class, 'index'])->name('admin.article.index');
         Route::get('/create', [ArticleController::class, 'create'])->name('admin.article.create');
-        Route::post('/create', [ArticleController::class, 'store']);
+        Route::post('/create', [ArticleController::class, 'store'])->name('admin.article.store');
         Route::get('/update/{id}', [ArticleController::class, 'edit'])->name('admin.article.edit');
-        Route::post('/update/{id}', [ArticleController::class, 'update']);
+        Route::post('/update/{id}', [ArticleController::class, 'update'])->name('admin.article.update');
         Route::get('/{action}/{id}', [ArticleController::class, 'handle'])->name('admin.article.handle');
     });
 
@@ -96,9 +96,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
     Route::group(['prefix' => 'user'], function () {
         Route::get('/', [UserController::class, 'index'])->name('admin.user.index');
         Route::get('/create', [UserController::class, 'create'])->name('admin.user.create');
-        Route::post('/create', [UserController::class, 'store']);
-        Route::get('/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
-        Route::post('/edit/{id}', [UserController::class, 'update']);
+        Route::post('/create', [UserController::class, 'store'])->name('admin.user.store');
+        Route::get('/update/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
+        Route::post('/update/{id}', [UserController::class, 'update'])->name('admin.user.update');
         Route::post('/changepassword/{id}', [UserController::class, 'changePassword'])->name('admin.change.password');
         Route::get('/{action}/{id}', [UserController::class, 'action'])->name('admin.user.action');
     });
@@ -112,10 +112,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
     Route::group(['prefix' => 'slide'], function () {
         Route::get('/', [SlideController::class, 'index'])->name('admin.slide.index');
         Route::get('/create', [SlideController::class, 'create'])->name('admin.slide.create');
-        Route::post('/create', [SlideController::class, 'store']);
+        Route::post('/create', [SlideController::class, 'store'])->name('admin.slide.store');
         Route::get('/update/{id}', [SlideController::class, 'edit'])->name('admin.slide.edit');
-        Route::post('/update/{id}', [SlideController::class, 'update']);
-        //        Route::delete('/delete/{id}', [SlideController::class, 'destroy'])->name('delete');
+        Route::post('/update/{id}', [SlideController::class, 'update'])->name('admin.slide.update');
         Route::get('/{action}/{id}', [SlideController::class, 'handle'])->name('admin.slide.handle');
     });
     Route::group(['prefix' => 'warehouse'], function () {

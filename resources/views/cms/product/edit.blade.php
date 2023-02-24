@@ -11,7 +11,7 @@
                 <h3>Cập nhật sản phẩm</h3>
             </div>
             <div class="card-body">
-                <form action="" method="POST" id="form-update" class="mx-auto" enctype="multipart/form-data">
+                <form action="{{ route('admin.product.update', ['id' => $product->id]) }}" method="POST" id="form-update" class="mx-auto form-update" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <div class="row">
@@ -103,7 +103,7 @@
                             <div class="col-md-8">
                                 <input type="submit" value="Lưu thông tin" class="btn btn-success btn_save_product"
                                        style="margin-right: 2px;"/>
-                                <a class="btn btn-secondary" href="{{ route('admin.product.index') }}">Hủy bỏ</a>
+                                <button class="btn btn-secondary btn-update-product-cancel" type="button">Hủy bỏ</button>
                             </div>
                         </div>
                     </div>
@@ -114,34 +114,6 @@
         <!-- /.card -->
     </section>
     <!-- /.content -->
-@endsection
-@section('javascript2')
-    <script>
-        $(".btn_save_product").click(function (e) {
-            e.preventDefault();
-            form = $(this).parent('form').get(0);
-            swal({
-                title: "Bạn có chắc chắn?",
-                text: "Bạn có chắc chắn muốn sửa sản phẩm ID=" + {{ $product->id }} + " không ?",
-                icon: "info",
-                buttons: ["Không", {
-                    text: "OK",
-                    value: true,
-                    visible: true,
-                    className: "bg-success",
-                    closeModal: true,
-                }],
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("Thành công", "Hệ thống chuẩn bị sửa sản phẩm mang ID =" + {{ $product->id }} +
-                            " !", 'success').then(function () {
-                            $("#form-update").submit();
-                        });
-                    }
-                });
-        });
-    </script>
 @endsection
 @section('javascript')
     <script>

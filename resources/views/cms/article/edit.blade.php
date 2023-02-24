@@ -9,7 +9,7 @@
                 <h3>Cập nhật bài viết</h3>
             </div>
             <div class="card-body">
-                <form action="" method="POST" class="col-md-10 mx-auto" id="form-update" enctype="multipart/form-data">
+                <form action="{{ route('admin.article.update', ['id' => $article->id]) }}" method="POST" class="col-md-10 mx-auto form-update" id="frm-update" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <div class="row">
@@ -68,7 +68,7 @@
                             <div class="col-md-8">
                                 <input type="submit" value="Lưu thông tin" class="btn btn-success btn_save_article"
                                        style="margin-right: 2px;"/>
-                                <a class="btn btn-secondary" href="{{ route('admin.article.index') }}">Hủy bỏ</a>
+                                <button class="btn btn-secondary btn-update-article-cancel" type="button">Hủy bỏ</button>
                             </div>
                         </div>
                     </div>
@@ -76,34 +76,6 @@
             </div>
         </div>
     </section>
-@endsection
-@section('javascript2')
-    <script>
-        $(".btn_save_article").click(function (e) {
-            e.preventDefault();
-            form = $(this).parent('form').get(0);
-            swal({
-                title: "Bạn có chắc chắn?",
-                text: "Bạn có chắc chắn muốn sửa bài viết ID=" + {{ $article->id }} + " không ?",
-                icon: "info",
-                buttons: ["Không", {
-                    text: "OK",
-                    value: true,
-                    visible: true,
-                    className: "bg-success",
-                    closeModal: true,
-                }],
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("Thành công", "Hệ thống chuẩn bị sửa loại tin tức mang ID =" +
-                            {{ $article->id }} + " !", 'success').then(function () {
-                            $("#form-update").submit();
-                        });
-                    }
-                });
-        });
-    </script>
 @endsection
 @section('javascript')
     <script>

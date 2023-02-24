@@ -11,7 +11,7 @@
                 <h3>Thêm mới Slide</h3>
             </div>
             <div class="card-body">
-                <form action="" method="POST" class="col-md-10 mx-auto" enctype="multipart/form-data">
+                <form action="{{ route('admin.slide.store') }}" method="POST" class="col-md-10 mx-auto form-create" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <div class="row">
@@ -45,7 +45,7 @@
                                 <button type="submit" class="btn btn-success" style="float: left; margin-right: 5px;">
                                     Lưu thông tin
                                 </button>
-                                <a class="btn btn-secondary" href="{{ route('admin.slide.index') }}">Hủy bỏ</a>
+                                <button class="btn btn-secondary btn-create-slide-cancel" type="button">Hủy bỏ</button>
                             </div>
                         </div>
                     </div>

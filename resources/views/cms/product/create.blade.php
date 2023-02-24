@@ -11,7 +11,7 @@
                 <h3>Thêm mới sản phẩm</h3>
             </div>
             <div class="card-body">
-                <form action="" method="POST" class="mx-auto" enctype="multipart/form-data">
+                <form action="{{ route('admin.product.store') }}" method="POST" class="mx-auto form-create" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <div class="row">
@@ -93,7 +93,7 @@
                             <div class="col-md-2 text-right"></div>
                             <div class="col-md-8">
                                 <input type="submit" value="Lưu thông tin" class="btn btn-success btn_save_product" style="margin-right: 2px;"/>
-                                <a class="btn btn-secondary" href="{{ route('admin.product.index') }}">Hủy bỏ</a>
+                                <button class="btn btn-secondary btn-create-product-cancel" type="button">Hủy bỏ</button>
                             </div>
                         </div>
                     </div>

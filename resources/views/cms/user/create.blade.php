@@ -11,7 +11,7 @@
                 <h3>Thêm mới thành viên</h3>
             </div>
             <div class="card-body">
-                <form action="" method="POST" class="col-md-10 mx-auto" enctype="multipart/form-data">
+                <form action="{{ route('admin.user.store') }}" method="POST" class="col-md-10 mx-auto form-create" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <div class="row">
@@ -61,7 +61,7 @@
                             <div class="col-md-2 text-right"></div>
                             <div class="col-md-8">
                                 <input type="submit" class="btn btn-success btn_save_user" value="Lưu thông tin" style="margin-right: 2px;"/>
-                                <a class="btn btn-secondary" href="{{ route('admin.user.index') }}">Hủy bỏ</a>
+                                <button class="btn btn-secondary btn-create-user-cancel" type="button">Hủy bỏ</button>
                             </div>
                         </div>
                     </div>
