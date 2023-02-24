@@ -11,7 +11,7 @@
                 <h3>Chỉnh sửa người dùng</h3>
             </div>
             <div class="card-body">
-                <form action="" method="POST" class="col-md-10 mx-auto" id="form-update" enctype="multipart/form-data">
+                <form action="{{ route('admin.user.update', ['id' => $user->id]) }}" method="POST" class="col-md-10 mx-auto form-update" id="form-update" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <div class="row">
@@ -61,7 +61,7 @@
                             <div class="col-md-2 text-right"></div>
                             <div class="col-md-8">
                                 <input type="submit" class="btn btn-success btn_save_user" value="Lưu thông tin" style="margin-right: 2px;"/>
-                                <a class="btn btn-secondary" href="{{ route('admin.user.index') }}">Hủy bỏ</a>
+                                <button class="btn btn-secondary btn-update-user-cancel" type="button">Hủy bỏ</button>
                             </div>
                         </div>
                     </div>
@@ -73,34 +73,6 @@
 
     </section>
     <!-- /.content -->
-@endsection
-@section('javascript2')
-    <script>
-        $(".btn_save_user").click(function (e) {
-            e.preventDefault();
-            form = $(this).parent('form').get(0);
-            swal({
-                title: "Bạn có chắc chắn?",
-                text: "Bạn có chắc chắn muốn sửa tài khoản ID=" + {{ $user->id }} + " không ?",
-                icon: "info",
-                buttons: ["Không", {
-                    text: "OK",
-                    value: true,
-                    visible: true,
-                    className: "bg-success",
-                    closeModal: true,
-                }],
-            })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("Vui lòng đợi chút", "Hệ thống check thông tin tài khoản mang ID =" +
-                            {{ $user->id }} + " !", 'success').then(function () {
-                            $("#form-update").submit();
-                        });
-                    }
-                });
-        });
-    </script>
 @endsection
 @section('javascript')
     <script>

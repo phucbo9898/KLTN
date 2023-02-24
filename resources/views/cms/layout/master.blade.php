@@ -82,6 +82,7 @@
     @yield('javascript')
     @yield('javascript2')
     @yield('my_js')
+    <script src="{{ asset('main.js') }}"></script>
 </body>
 
 </html>

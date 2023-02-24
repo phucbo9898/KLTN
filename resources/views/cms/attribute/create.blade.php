@@ -9,7 +9,7 @@
                 <h3>Thêm mới thuộc tính</h3>
             </div>
             <div class="card-body">
-                <form action="" method="POST" class="col-md-10 mx-auto">
+                <form action="{{ route('admin.attribute.store') }}" method="POST" class="col-md-10 mx-auto form-create">
                     @csrf
                     <div class="form-group">
                         <div class="row">
@@ -57,7 +57,7 @@
                             <div class="col-md-2 text-right"></div>
                             <div class="col-md-8">
                                 <input type="submit" value="Lưu thông tin" class="btn btn-success btn_save_attribute" style="margin-right: 2px;"/>
-                                <a class="btn btn-secondary" href="{{ route('admin.attribute.index') }}">Hủy bỏ</a>
+                                <button class="btn btn-secondary btn-create-attribute-cancel" type="button">Hủy bỏ</button>
                             </div>
                         </div>
                     </div>
