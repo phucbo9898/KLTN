@@ -51,7 +51,7 @@
                             <div class="col-md-8">
                                 @foreach (ActiveStatus::getValues() as $status)
                                     <span class="mr-2">
-                                        <input type="radio" name="status" value="{{ $status }}" @if (old('status') == $status || $status == $category->status) checked @endif>
+                                        <input type="radio" name="status" value="{{ $status }}" {{old('status', $category->status) == $status ? 'checked' : ''}}>
                                         <label for="{{ ActiveStatus::getStatusName($status) }}">@lang(ActiveStatus::getStatusName($status))</label>
                                     </span>
                                 @endforeach
