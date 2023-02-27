@@ -24,6 +24,8 @@
                     <th>Sản phẩm</th>
                     <th>Loại sản phẩm</th>
                     <th>Ảnh</th>
+{{--                    <th>Giá</th>--}}
+{{--                    <th>SL đã bán</th>--}}
                     <th style="width: 11%;">Trạng thái</th>
                     <th>Nổi bật</th>
                     <th style="width: 12%;">Hành động</th>
@@ -46,26 +48,6 @@
                                         <li>
                                             <span>Số lượng đã bán: {{ $product->qty_pay > 0 ? $product->qty_pay : 0 }}</span>
                                         </li>
-                                        {{--                                        <li>--}}
-                                        {{--                                            <?php--}}
-                                        {{--                                                $point = 0;--}}
-                                        {{--                                                if ($product->number_of_reviewers > 0) {--}}
-                                        {{--                                                    $point = round($product->total_star / $product->number_of_reviewers);--}}
-                                        {{--                                                }--}}
-                                        {{--                                            ?>--}}
-                                        {{--                                            Đánh giá:--}}
-                                        {{--                                            <span class="rating">--}}
-                                        {{--                                                @for ($i = 1; $i <= 5; $i++)--}}
-                                        {{--                                                    <i class="fa fa-star {{ $i <= $point ? 'active' : '' }}"--}}
-                                        {{--                                                       style="color:#999"></i>--}}
-                                        {{--                                                @endfor--}}
-                                        {{--                                                @if ($product->number_of_reviewers > 0)--}}
-                                        {{--                                                    {{ $point }} sao--}}
-                                        {{--                                                @else--}}
-                                        {{--                                                    Chưa đánh giá--}}
-                                        {{--                                                @endif--}}
-                                        {{--                                            </span>--}}
-                                        {{--                                        </li>--}}
                                     </ul>
                                 </td>
                                 <td>{{ $product->category->name }}</td>
@@ -78,6 +60,8 @@
                                              alt="No Avatar"/>
                                     @endif
                                 </td>
+{{--                                <td>{{ number_format($product->price, 0, ',', '.') }} VNĐ</td>--}}
+{{--                                <td>{{ $product->qty_pay > 0 ? $product->qty_pay : 0 }}</td>--}}
                                 <td style="text-align: center"><a
                                         href="{{ route('admin.product.handle', ['status', $product->id]) }}"
                                         class="badge badge-{{ $product->status == 'active' ? 'success' : 'danger' }}">{{ $product->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
@@ -107,9 +91,7 @@
     <script>
         $(document).ready(function () {
             $('#dataTable').DataTable({
-                "order": [
-                    [0, "desc"]
-                ],
+                "ordering": false,
                 "language": {
                     "decimal": "",
                     "emptyTable": "Không có dữ liệu hiển thị trong bảng",

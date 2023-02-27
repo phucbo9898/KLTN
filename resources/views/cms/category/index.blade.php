@@ -3,64 +3,57 @@
 @section('title', 'Danh sách danh mục sản phẩm')
 
 @section('content')
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header">
                 <h3>Danh sách danh mục sản phẩm</h3>
             </div>
             @if (isset($categories))
-                <div class="card-header">
+                <div class="card-body">
                     <div class="form-group">
                         <x-category.search-form :options="$options ?? ''" :dataAttributes="$dataAttributes ?? ''"/>
                     </div>
-                </div>
-                <div class="card-body">
                     <table class="table table-hover table-striped" id="dataTable">
                         <thead class="thead-dark">
-                        <th style="width: 5%">ID</th>
-                        <th>Tên loại sản phẩm</th>
-                        <th style="width: 11%; text-align: center;">Trạng thái</th>
-                        <th>Thuộc tính</th>
-                        <th>Hành động</th>
+                            <th style="width: 5%">ID</th>
+                            <th>Tên loại sản phẩm</th>
+                            <th style="width: 11%; text-align: center;">Trạng thái</th>
+                            <th>Thuộc tính</th>
+                            <th>Hành động</th>
                         </thead>
                         <tbody>
                             <?php $stt = 1; ?>
-                        @foreach ($categories as $category)
-                            <tr>
-                                <td style="text-align: center;">{{ $stt++ }}</td>
-                                <td>{{ $category->name }}</td>
-                                <td style="text-align: center">
-                                    <a href="{{ route('admin.category.handle', ['status', $category->id]) }}"
-                                       class="badge badge-{{ $category->status == 'active' ? 'success' : 'danger' }}">{{ $category->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
-                                </td>
-                                <td>
-                                    <ul>
-                                        @foreach ($category->attributes as $attribute)
-                                            <li>{{ $attribute->name }}</li>
-                                        @endforeach
-                                    </ul>
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.category.edit', $category->id) }}"
-                                       class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
-                                    &nbsp;
-                                    <a class="btn_delete_sweet btn btn-danger btn-circle"
-                                       href="{{ route('admin.category.handle', ['delete', $category->id]) }}"
-                                       data-id="{{ $category->id }}"><i class="fas fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
+                            @foreach ($categories as $category)
+                                <tr>
+                                    <td style="text-align: center;">{{ $stt++ }}</td>
+                                    <td>{{ $category->name }}</td>
+                                    <td style="text-align: center">
+                                        <a href="{{ route('admin.category.handle', ['status', $category->id]) }}"
+                                           class="badge badge-{{ $category->status == 'active' ? 'success' : 'danger' }}">{{ $category->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            @foreach ($category->attributes as $attribute)
+                                                <li>{{ $attribute->name }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.category.edit', $category->id) }}"
+                                           class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
+                                        &nbsp;
+                                        <a class="btn_delete_sweet btn btn-danger btn-circle"
+                                           href="{{ route('admin.category.handle', ['delete', $category->id]) }}"
+                                           data-id="{{ $category->id }}"><i class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                <!-- /.card-body -->
             @endif
         </div>
-        <!-- /.card -->
     </section>
-    <!-- /.content -->
 @endsection
 @section('javascript')
     <script>

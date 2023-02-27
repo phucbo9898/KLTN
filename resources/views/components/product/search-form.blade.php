@@ -32,8 +32,8 @@
                 <label for="name" class="col-form-label">@lang('Filter by sold')</label>
                 <select name="filter_sold" class="form-control">
                     <option value=""></option>
-                    <option value="asc">Sắp xếp tăng dần</option>
-                    <option value="desc">Sắp xếp giảm dần</option>
+                    <option value="asc" {{ ($options['filter_sold'] ?? '') == 'asc' ? 'selected' : '' }}>Sắp xếp tăng dần</option>
+                    <option value="desc" {{ ($options['filter_sold'] ?? '') == 'desc' ? 'selected' : '' }}>Sắp xếp giảm dần</option>
                 </select>
             </div>
         </div>

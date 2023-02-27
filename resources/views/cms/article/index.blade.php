@@ -3,9 +3,7 @@
 @section('title', 'Danh sách bài viết')
 
 @section('content')
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header">
                 <h3>Danh sách bài viết</h3>
@@ -37,49 +35,46 @@
                 @endif
                 <table class="table table-hover table-striped table-list" id="dataTable">
                     <thead class="thead-dark">
-                    <th>ID</th>
-                    <th>Tên bài viết</th>
-                    <th>Ảnh</th>
-                    <th>Mô tả</th>
-                    <th>Trạng thái</th>
-                    <th>Ngày tạo</th>
-                    <th>Hành động</th>
+                        <th>ID</th>
+                        <th>Tên bài viết</th>
+                        <th>Ảnh</th>
+                        <th>Mô tả</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th>Hành động</th>
                     </thead>
                     <tbody>
-                    @foreach ($articles as $article)
-                        <tr>
-                            <td>{{ $article->id }}</td>
-                            <td style="width:15%">{{ $article->name }}</td>
-                            <td><img style="width:80px;height:80px" src="{{ asset($article->image) }}"
-                                     alt="No Avatar"/></td>
-                            <td>{{ $article->description }}</td>
-                            <td style="width: 11%; text-align: center"><a
-                                    href="{{ route('admin.article.handle', ['status', $article->id]) }}"
-                                    class="badge badge-{{ $article->status == 'active' ? 'success' : 'danger' }}">{{ $article->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
-                            </td>
-                            <td style="width:11%">
-                                <input type="hidden" class="convert-time"
-                                       value="{{ date('Y-m-d h:i:s A', strtotime($article->created_at ?? '')) }}">
-                                {{ $article->created_at ?? '' }}
-                            </td>
-                            <td style="width: 11%">
-                                <a href="{{ route('admin.article.edit', $article->id) }}"
-                                   class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
-                                <a href="{{ route('admin.article.handle', ['delete', $article->id]) }}"
-                                   data-id="{{ $article->id }}"
-                                   class="btn_delete_sweet btn btn-danger btn-circle"><i
-                                        class="fas fa-trash-alt"></i></a>
-                            </td>
-                        </tr>
-                    @endforeach
+                        @foreach ($articles as $article)
+                            <tr>
+                                <td>{{ $article->id }}</td>
+                                <td style="width:15%">{{ $article->name }}</td>
+                                <td><img style="width:80px;height:80px" src="{{ asset($article->image) }}"
+                                         alt="No Avatar"/></td>
+                                <td>{{ $article->description }}</td>
+                                <td style="width: 11%; text-align: center"><a
+                                        href="{{ route('admin.article.handle', ['status', $article->id]) }}"
+                                        class="badge badge-{{ $article->status == 'active' ? 'success' : 'danger' }}">{{ $article->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
+                                </td>
+                                <td style="width:11%">
+                                    <input type="hidden" class="convert-time"
+                                           value="{{ date('Y-m-d h:i:s A', strtotime($article->created_at ?? '')) }}">
+                                    {{ $article->created_at ?? '' }}
+                                </td>
+                                <td style="width: 11%">
+                                    <a href="{{ route('admin.article.edit', $article->id) }}"
+                                       class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ route('admin.article.handle', ['delete', $article->id]) }}"
+                                       data-id="{{ $article->id }}"
+                                       class="btn_delete_sweet btn btn-danger btn-circle"><i
+                                            class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
     </section>
-    <!-- /.content -->
 @endsection
 @section('javascript')
     <script>

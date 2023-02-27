@@ -1,28 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Đăng nhập</title>
-
     <!-- Custom fonts for this template-->
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-
     <!-- Custom styles for this template-->
     <link href="{{ asset('login/sb-admin-2.min.css') }}" rel="stylesheet">
-
 </head>
 
 <body class="bg-gradient-primary">
-
     <div class="container">
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -61,30 +54,11 @@
                                                 placeholder="Password">
                                         </div>
                                         <div class="form-group">
-                                            {{-- <div class="custom-control custom-checkbox small">
-                                          <input type="checkbox" class="custom-control-input" id="customCheck">
-                                          <label class="custom-control-label" for="customCheck">Remember Me</label>
-                                        </div> --}}
-                                        </div>
-                                        <div class="form-group">
                                             <input type="submit" class="btn btn-primary btn-user btn-block mt-2"
                                                 value="Đăng nhập" />
                                         </div>
-                                        {{-- <hr> --}}
-                                        {{-- <a href="index.html" class="btn btn-google btn-user btn-block">
-                                      <i class="fab fa-google fa-fw"></i> Login with Google
-                                    </a>
-                                    <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                      <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                    </a> --}}
                                     </form>
                                     <hr>
-                                    {{-- <div class="text-center">
-                                  <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                </div>
-                                <div class="text-center">
-                                  <a class="small" href="register.html">Create an Account!</a>
-                                </div> --}}
                                 </div>
                             </div>
                         </div>
