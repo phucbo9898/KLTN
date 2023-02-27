@@ -1,7 +1,10 @@
 @extends('cms.layout.master')
 
 @section('title', 'Chỉnh sửa sản phẩm')
-
+<?php
+use App\Enums\ActiveHot;
+use App\Enums\ActiveStatus;
+?>
 @section('content')
     <!-- Main content -->
     <section class="content">
@@ -11,7 +14,8 @@
                 <h3>Cập nhật sản phẩm</h3>
             </div>
             <div class="card-body">
-                <form action="{{ route('admin.product.update', ['id' => $product->id]) }}" method="POST" id="form-update" class="mx-auto form-update" enctype="multipart/form-data">
+                <form action="{{ route('admin.product.update', ['id' => $product->id]) }}" method="POST"
+                      id="form-update" class="mx-auto form-update" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <div class="row">
@@ -87,11 +91,45 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-2 text-right">
+                                <label>Sản phẩm hot</label>
+                            </div>
+                            <div class="col-md-8">
+                                @foreach (ActiveHot::getValues() as $hot)
+                                    <span class="mr-2">
+                                        <input name="hot" type="radio"
+                                               {{ old('hot') == $hot || $product->hot == $hot ? 'checked' : '' }} value="{{ $hot }}">
+                                        <label for="">@lang(ActiveHot::getHotName($hot))</label>
+                                    </span>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
                                 <label>Nội dung sản phẩm</label>
                             </div>
                             <div class="col-md-8">
                                 <textarea name="content" id="ckeditor" rows="5" class="form-control"
                                           placeholder="Nhập nội dung sản phẩm...">{{ old('content') ?? ($product->content ?? '') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label>Trạng thái</label>
+                            </div>
+                            <div class="col-md-8">
+                                @foreach (ActiveStatus::getValues() as $status)
+                                    <span class="mr-2">
+                                        <input name="status" type="radio"
+                                               {{ old('status') == $status || $status == $product->status ? "checked" : '' }} value="{{ $status }}">
+                                        <label for="">@lang(ActiveStatus::getStatusName($status))</label>
+                                    </span>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -103,7 +141,8 @@
                             <div class="col-md-8">
                                 <input type="submit" value="Lưu thông tin" class="btn btn-success btn_save_product"
                                        style="margin-right: 2px;"/>
-                                <button class="btn btn-secondary btn-update-product-cancel" type="button">Hủy bỏ</button>
+                                <button class="btn btn-secondary btn-update-product-cancel" type="button">Hủy bỏ
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -121,7 +160,7 @@
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     $('#img_output').attr('src', e.target.result);
                 }
 
@@ -129,12 +168,12 @@
             }
         }
 
-        $("#img_input").change(function() {
+        $("#img_input").change(function () {
             readURL(this);
         });
     </script>
     <script>
-        $("#select_category_id").change(function() {
+        $("#select_category_id").change(function () {
             var selected = $(this).children("option:selected").val();
             var url = "{{ route('admin.ajax.get.attribute') }}";
             if (selected != '') {
@@ -144,7 +183,7 @@
                     data: {
                         category_id: selected
                     }
-                }).done(function(result) {
+                }).done(function (result) {
                     $("#attribute_for_product").html('').append(result);
                 });
             }
@@ -161,7 +200,7 @@
                 id: id
 
             }
-        }).done(function(result) {
+        }).done(function (result) {
             $("#attribute_for_product").html('').append(result);
         });
     </script>

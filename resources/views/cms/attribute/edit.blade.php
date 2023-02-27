@@ -3,9 +3,7 @@
 @section('title', 'Chỉnh sửa thuộc tính')
 <?php use App\Enums\TypeAttribute; ?>
 @section('content')
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header">
                 <h3>Cập nhật thuộc tính</h3>
@@ -65,14 +63,8 @@
                     </div>
                 </form>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
-
     </section>
-    <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
 @endsection
 @section('javascript')
     <script>

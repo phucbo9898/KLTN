@@ -3,9 +3,7 @@
 @section('title', 'Danh sách thuộc tính')
 
 @section('content')
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header">
                 <h3>Danh sách thuộc tính</h3>
@@ -14,48 +12,45 @@
                 <div class="card-body">
                     <table class="table table-hover table-striped" id="dataTable">
                         <thead class="thead-dark">
-                        <th>ID</th>
-                        <th>Tên thuộc tính</th>
-                        <th>Kiểu</th>
-                        <th>Giá trị</th>
-                        <th>Hành động</th>
+                            <th>ID</th>
+                            <th>Tên thuộc tính</th>
+                            <th>Kiểu</th>
+                            <th>Giá trị</th>
+                            <th>Hành động</th>
                         </thead>
                         <tbody>
-                        <?php $stt = 1; ?>
-                        @foreach ($attributes as $attribute)
-                            <tr>
-                                <td>{{ $stt++ }}</td>
-                                <td>{{ $attribute->name }}</td>
-                                <td>{{ $attribute->type }}</td>
-                                <td>
-                                    @if ($attribute->value)
-                                        <ul>
-                                            @foreach (explode(';', $attribute->value) as $attr)
-                                                <li>{{ $attr }}</li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.attribute.edit', $attribute->id) }}"
-                                       class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
-                                    &nbsp;
-                                    <a href="{{ route('admin.attribute.handle', ['delete', $attribute->id]) }}"
-                                       data-id="{{ $attribute->id }}"
-                                       class="btn_delete_sweet btn btn-danger btn-circle"><i
-                                            class="fas fa-trash-alt"></i></a>
-                                </td>
-                            </tr>
-                        @endforeach
+                            <?php $stt = 1; ?>
+                            @foreach ($attributes as $attribute)
+                                <tr>
+                                    <td>{{ $stt++ }}</td>
+                                    <td>{{ $attribute->name }}</td>
+                                    <td>{{ $attribute->type }}</td>
+                                    <td>
+                                        @if ($attribute->value)
+                                            <ul>
+                                                @foreach (explode(';', $attribute->value) as $attr)
+                                                    <li>{{ $attr }}</li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('admin.attribute.edit', $attribute->id) }}"
+                                           class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
+                                        &nbsp;
+                                        <a href="{{ route('admin.attribute.handle', ['delete', $attribute->id]) }}"
+                                           data-id="{{ $attribute->id }}"
+                                           class="btn_delete_sweet btn btn-danger btn-circle"><i
+                                                class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
-                <!-- /.card-body -->
             @endif
         </div>
-        <!-- /.card -->
     </section>
-    <!-- /.content -->
 @endsection
 @section('javascript')
     <script>

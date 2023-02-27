@@ -9,7 +9,6 @@
 
     <!--Sidebar -->
     <div class="sidebar">
-        {{-- Sidebar user(optional) --}}
         <div class="user-panel mt-3 pb-3 mb-3">
             <div class="image">
                  <img src="{{ Auth::user()->avatar ?? asset('unimg.jpg') }}" class="img-circle elevation-2" alt="User Image" style="display: block;margin-left: auto;margin-right: auto;width: 50%;">
@@ -22,8 +21,6 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-             with font-awesome or any other icon font library -->
                 <li class="nav-item has-treeview ">
                     <a href="{{ route('admin.home') }}" class="nav-link {{ request()->is('admin') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -39,6 +36,7 @@
                     </a>
                 </li>
                 {{-- End tab transaction --}}
+
                 {{-- Tab Slide --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/slide*') ? 'menu-open' : '' }}">
                     <a class="nav-link {{ request()->is('admin/slide*') ? 'active' : '' }}">
@@ -68,11 +66,11 @@
                     </ul>
                 </li>
                 {{-- Entab Slide --}}
+
                 {{-- Tab category --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/category*') ? 'menu-open' : '' }}">
                     <a class="nav-link {{ request()->is('admin/category*') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-cubes"></i>
-                        {{-- <i class=""></i> --}}
                         <p>
                             @lang('Loại sản phẩm')
                             <i class="fas fa-angle-left right"></i>
@@ -129,6 +127,7 @@
                     </ul>
                 </li>
                 {{-- End tab Attribute --}}
+
                 {{-- Tab product --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/product*') ? 'menu-open' : '' }}">
                     <a class="nav-link {{ request()->is('admin/product*') ? 'active' : '' }}">
@@ -158,6 +157,7 @@
                     </ul>
                 </li>
                 {{-- End tab product --}}
+
                 {{-- Tab warehouse --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/warehouse*') ? 'menu-open' : '' }}">
                     <a class="nav-link {{ request()->is('admin/warehouse*') ? 'active' : '' }}">
@@ -188,6 +188,7 @@
                     </ul>
                 </li>
                 {{-- End tab warehouse --}}
+
                 {{-- Tab article --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/article*') ? 'menu-open' : '' }}">
                     <a class="nav-link {{ request()->is('admin/article*') ? 'active' : '' }}">
@@ -227,6 +228,7 @@
                     </a>
                 </li>
                 {{-- End tab transaction --}}
+
                 {{-- Tab transaction --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/comment*') ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.comment.index') }}"
@@ -236,6 +238,7 @@
                     </a>
                 </li>
                 {{-- End tab transaction --}}
+
                 {{-- Tab transaction --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/statistics*') ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.statistics.index') }}"
@@ -245,6 +248,7 @@
                     </a>
                 </li>
                 {{-- End tab transaction --}}
+
                 {{-- Tab transaction --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/user*') ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.user.index') }}"
@@ -275,6 +279,7 @@
                     </ul>
                 </li>
                 {{-- End tab transaction --}}
+
                 {{-- Tab setting --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/setting*') ? 'menu-open' : '' }} d-none">
                     <a href="{{ route('admin.setting.index') }}"
@@ -283,62 +288,6 @@
                         <p>@lang('Thiết lập website')</p>
                     </a>
                 </li>
-                {{-- End tab setting --}}
-                {{-- Start Multi level --}}
-                {{-- <li class="nav-header">MULTI LEVEL EXAMPLE</li>
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-circle"></i>
-            <p>
-              Level 1
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Level 2</p>
-              </a>
-            </li>
-            <li class="nav-item has-treeview">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>
-                  Level 2
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-dot-circle nav-icon"></i>
-                    <p>Level 3</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-dot-circle nav-icon"></i>
-                    <p>Level 3</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-dot-circle nav-icon"></i>
-                    <p>Level 3</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Level 2</p>
-              </a>
-            </li>
-          </ul>
-        </li> --}}
-                {{-- End Multi level --}}
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

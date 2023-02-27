@@ -3,9 +3,7 @@
 @section('title', 'Thêm mới bài viết')
 
 @section('content')
-    <!-- Main content -->
     <section class="content">
-        <!-- Default box -->
         <div class="card">
             <div class="card-header">
                 <h3>Thêm mới bài viết</h3>
@@ -70,12 +68,8 @@
                     </div>
                 </form>
             </div>
-            <!-- /.card-body -->
         </div>
-        <!-- /.card -->
-
     </section>
-    <!-- /.content -->
 @endsection
 @section('javascript')
     <script>

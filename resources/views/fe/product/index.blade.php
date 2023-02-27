@@ -141,12 +141,12 @@
                             </ul>
                             <div class="price-box pt-20">
                                 @if ($product->sale > 0)
-                                    <span class="new-price" style="color: black; text-decoration: line-through;">
-                                        {{ number_format($product->price, 0, ',', '.') }}@lang('VND')
-                                    </span>
-                                    <div class="new-price new-price-2" style="padding-top: 6px; color: black">@lang('Discount'){{ $product->sale }}
-                                        % @lang('only'):
+                                    <div class="new-price new-price-2" style="padding-top: 6px; color: black">
+                                        @lang('Discount') {{ $product->sale }}% @lang('only'):
                                         <span style="color: red">{{ number_format(($product->price * (100 - $product->sale)) / 100, 0, ',', '.') }}@lang('VND')</span>
+                                        <span class="new-price" style="color: black; text-decoration: line-through; font-size: 15px;">
+                                            {{ number_format($product->price, 0, ',', '.') }}@lang('VND')
+                                        </span>
                                     </div>
                                 @else
                                     <span class="new-price">{{ number_format($product->price, 0, ',', '.') }} @lang('VND')</span>
@@ -311,7 +311,7 @@
                             </div>
                             <div style="margin-top:15px">
                                 <a href="{{ route('post.rating.product', $product->id) }}" class="btn btn-primary js_rating_product_button">
-                                    @lang('Submit a review')
+                                    @lang('Submit your review')
                                 </a>
                             </div>
                         </div>

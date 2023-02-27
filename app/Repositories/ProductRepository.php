@@ -14,7 +14,7 @@ class ProductRepository extends BaseRepository
 
     public function query($options)
     {
-        $query = $this->model;
+        $query = $this->model->orderBy('updated_at', 'desc');
 
         if (isset($options['name'])) {
             $query = $query->where('name', 'LIKE', '%' . escape_like($options['name']) . '%');
@@ -24,6 +24,10 @@ class ProductRepository extends BaseRepository
             $query = $query->whereHas('category', function ($sub) use ($options) {
                 $sub->where('categories.id', $options['category_id']);
             });
+        }
+
+        if (isset($options['filter_price'])) {
+            $query = $query->orderBy('price', $options['filter_price']);
         }
 
         if (isset($options['filter_sold'])) {
@@ -48,6 +52,8 @@ class ProductRepository extends BaseRepository
             'category_id' => $data['category_id'] ?? '',
             'price' => $data['price'] ?? '',
             'sale' => $data['sale'] ?? '',
+            'hot' => $data['hot'] ?? '',
+            'status' => $data['status'] ?? ''
         ];
 
         return $product;

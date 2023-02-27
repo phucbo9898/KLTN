@@ -95,17 +95,14 @@
                                 <a href="{{ route('admin.get.order.item', $transaction->id) }}"
                                    data-id="{{ $transaction->id }}"
                                    class="js_order_item btn btn-primary btn-circle" data-toggle="modal"
-                                   data-target="#showOrderItem"> <i class="fas fa-eye"></i></a>
-
-                                <a href="{{ route('admin.get.export.transaction', $transaction->id) }}"
-                                   class="btn btn-success btn-circle">
-                                    <i class="fa-solid fa-print"></i>
+                                   data-target="#showOrderItem">
+                                    <i class="fas fa-eye"></i>
                                 </a>
                                 @if($transaction->status == 'pending')
                                     <a href="{{ route('admin.transaction.handle', ['cancel', $transaction->id]) }}"
                                        data-id="{{ $transaction->id }}"
                                        class="btn_delete_sweet btn btn-danger btn-circle">
-                                        <i class="fas fa-window-close"></i>
+                                        <i class="fas fa-trash-alt"></i>
                                     </a>
                                 @else
                                     <a href="{{ route('admin.transaction.handle', ['delete', $transaction->id]) }}"
@@ -127,6 +124,10 @@
                                             Chi tiết đơn hàng #
                                             <span class="modal_id_transaction"></span>
                                         </h5>
+                                        <a href="{{ route('admin.get.export.transaction', $transaction->id) }}"
+                                           class="btn btn-success ml-2">
+                                            Xuất PDF
+                                        </a>
                                         <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
