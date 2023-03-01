@@ -21,6 +21,10 @@ class AdminController extends Controller
 
     public function postLogin(Request $request)
     {
+        $account = User::where('email', $request->email)->first();
+        if (($account->status ?? '') == 'inactive') {
+            return redirect()->back()->with('error', __('Your account has been deactivated.'));
+        }
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
             if ($user->role == UserType::ADMIN) {
@@ -67,7 +71,7 @@ class AdminController extends Controller
         $five = Carbon::today()->subDays(5)->format('d-m');
         $six = Carbon::today()->subDays(6)->format('d-m');
         $total_price_seven_days_edit = "" . $totalsixdago . "," . $totalfivedago . "," . $totalfordago . "," . $totalthreedago . "," . $totaltwodago . "," . $totalonedago . "," . $totaltoday . "";
-        $time_chart = "" . $six . "," . $five . "," . $for . "," . $three . "," . $two . "," . $one . ",Today";
+        $time_chart = "" . $six . "," . $five . "," . $for . "," . $three . "," . $two . "," . $one . ",Hôm nay";
         //number transaction handle
         $transaction_number = Transaction::where('status', 'pending')->count();
         //number products
