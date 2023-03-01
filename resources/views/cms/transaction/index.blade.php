@@ -47,7 +47,7 @@
                     @foreach ($transactions as $transaction)
                         <tr>
                             <td style="text-align: center;">{{ $transaction->id }}</td>
-                            <td>{{ optional($transaction->user)->name }}</td>
+                            <td>{{ optional($transaction->user)->name ?? $transaction->customer_name }}</td>
                             <td>{{ $transaction->phone }}</td>
                             <td style="text-align: center;">
                                 @if($transaction->status_payment == 'Paуment not received')

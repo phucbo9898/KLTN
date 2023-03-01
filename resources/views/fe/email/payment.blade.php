@@ -18,7 +18,8 @@
             <span>Điện thoại: {{$data['phone']}}</span><br>
             <span>Địa chỉ: {{$data['address']}}</span><br>
             <span>Ghi chú: {{$data['note']}}</span><br>
-            <span>Tình trạng thanh toán: {{$data['type_payment'] == 'normal' ? 'Chưa thanh toán' : 'Đã thanh toán'}}</span>
+            <span>Phương thức thanh toán: {{$data['type_payment']}}</span><br>
+            <span>Tình trạng thanh toán: {{$data['status_payment'] == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán'}}</span>
         </div>
     </div>
     <table border="1" cellspacing="0" cellpadding="0" width="100%" style="border:1px solid;">

@@ -120,6 +120,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
     Route::group(['prefix' => 'warehouse'], function () {
         Route::get('/', [WarehouseController::class, 'import'])->name('admin.warehouse.import');
         Route::get('/import/{id}', [WarehouseController::class, 'importProduct'])->name('admin.warehouse.import.product');
+        Route::get('/export/{id}', [WarehouseController::class, 'exportProduct'])->name('admin.warehouse.export.product');
         Route::get('/history', [WarehouseController::class, 'history'])->name('admin.warehouse.history');
         Route::get('/iventory', [WarehouseController::class, 'iventory'])->name('admin.warehouse.iventory');
         Route::get('/bestseller', [WarehouseController::class, 'bestSeller'])->name('admin.warehouse.bestseller');

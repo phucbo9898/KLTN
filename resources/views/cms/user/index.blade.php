@@ -1,7 +1,10 @@
 @extends('cms.layout.master')
 
 @section('title', 'Danh sách người dùng')
-<?php use App\Enums\UserType; ?>
+<?php
+use App\Enums\UserType;
+use App\Enums\ActiveStatus;
+?>
 @section('content')
     <!-- Main content -->
     <section class="content">
@@ -45,8 +48,9 @@
                     <th>Họ và tên</th>
                     <th>Email</th>
                     <th>Số điện thoại</th>
-                    <th style="width: 12%; ">Phân quyền</th>
-                    <th style="width: 18%; text-align: center">Hành động</th>
+                    <th style=" ">Phân quyền</th>
+                    <th style=" ">Trạng thái</th>
+                    <th style=" text-align: center">Hành động</th>
                     </thead>
                     <tbody>
                     @foreach ($users as $user)
@@ -54,18 +58,22 @@
                             <td style="text-align: center;">
                                 {{ $user->id }}</td>
                             <td>
-                                <img class="avatar-user" src="{{ asset($user->avatar) }}" alt="">
+                                <img class="avatar-user" src="{{ asset($user->avatar ?? '') }}" alt="">
                             </td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->phone }}</td>
-                            <td style="">
+                            <td>{{ $user->name ?? '' }}</td>
+                            <td>{{ $user->email ?? '' }}</td>
+                            <td>{{ $user->phone ?? '' }}</td>
+                            <td class="">
                                 <a href="{{ route('admin.user.action', ['role', $user->id]) }}">
-                                            <span
-                                                class="badge badge-{{ $user->role == UserType::ADMIN ? 'success' : 'secondary' }}">
-                                                {{ $user->getUserType() ?? '' }}
-                                            </span>
+                                    <span class="badge badge-{{ $user->role == UserType::ADMIN ? 'success' : 'secondary' }}" style="font-size: 14px;width: 113.11px;">
+                                        @lang($user->getUserType() ?? '')
+                                    </span>
                                 </a>
+                            </td>
+                            <td>
+                                <span class="badge badge-{{ $user->status == ActiveStatus::ACTIVE ? 'primary' : 'danger' }}" style="font-size: 14px; width: 113.11px;">
+                                    @lang($user->status ?? '')
+                                </span>
                             </td>
                             <td style="width: 16%; text-align: center;">
                                 <a href="{{ route('admin.user.edit', $user->id) }}"
@@ -132,9 +140,7 @@
                 $(this).addClass('d-none');
             });
             $('#dataTable').DataTable({
-                "order": [
-                    [0, "desc"]
-                ],
+                ,
                 "language": {
                     "decimal": "",
                     "emptyTable": "Không có dữ liệu hiển thị trong bảng",
@@ -188,6 +194,7 @@
     <script>
         $(function () {
             $(".button_change_password").click(function (e) {
+                console.log(123)
                 e.preventDefault();
                 email = $(this).attr('data-email');
                 url = $(this).attr('href');

@@ -43,12 +43,29 @@
                                              alt="No Avatar"/>
                                     @endif
                                 </td>
-                                <td style="text-align: center">{{ $product->quantity }}</td>
+                                <td style="text-align: center">
+                                    @if($product->quantity > 0)
+                                        {{ $product->quantity }}
+                                    @else
+                                        0
+                                    @endif
+                                </td>
                                 <td style="text-align: center">
                                     <a href="{{ route('admin.warehouse.import.product', $product->id) }}"
                                        data-name="{{ $product->name }}"
-                                       class="btn_import_product btn btn-success btn-circle"><i
-                                            class="fa fa-plus-circle"></i></a>
+                                       class="btn_import_product btn btn-success btn-circle">
+                                        <i class="fa fa-plus-circle"></i></a>
+                                    @if($product->quantity > 0)
+                                        <a href="{{ route('admin.warehouse.export.product', $product->id) }}"
+                                           data-name="{{ $product->name }}"
+                                           class="btn_export_product btn btn-danger btn-circle">
+                                            <i class="fa fa-minus-circle"></i></a>
+                                    @else
+                                        <a href="{{ route('admin.warehouse.export.product', $product->id) }}"
+                                           data-name="{{ $product->name }}"
+                                           class="btn_export_product btn btn-danger btn-circle" style="visibility: hidden;">
+                                            <i class="fa fa-minus-circle"></i></a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -89,7 +106,37 @@
             </div>
         </div>
     </div>
-    {{-- end modalimport products --}}
+    {{-- end modal-import products --}}
+
+    {{-- modal export products --}}
+    <div class="modal fade" id="modal_export_product" tabindex="-1" role="dialog" aria-labelledby="modal_export_product"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Xuất sản phẩm " <span
+                            class="name_product_export"></span> "</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="#" class="form_export_product">
+                        <div class="form-group">
+                            Số lượng
+                            <input type="number" name="product_number" class="form-control"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary btn_accept_export">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- end modal-export products --}}
+
 @endsection
 @section('javascript')
     <script>
@@ -134,9 +181,24 @@
             $(".form_import_product").attr("action", url);
             $("#modal_import_product").modal('show');
         });
+
         $(".btn_accept_import").click(function (e) {
             e.preventDefault();
             $(".form_import_product").submit();
+        });
+
+        $(".btn_export_product").click(function (e) {
+            e.preventDefault();
+            url = $(this).attr('href');
+            name = $(this).attr('data-name');
+            $(".name_product_export").text(name);
+            $(".form_export_product").attr("action", url);
+            $("#modal_export_product").modal('show');
+        });
+
+        $(".btn_accept_export").click(function (e) {
+            e.preventDefault();
+            $(".form_export_product").submit();
         });
     </script>
 @endsection

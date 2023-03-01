@@ -30,6 +30,7 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Tên Slide</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="name"

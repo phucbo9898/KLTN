@@ -1,7 +1,7 @@
 @extends('cms.layout.master')
 
 @section('title', 'Chỉnh sửa bài viết')
-
+<?php use App\Enums\ActiveStatus; ?>
 @section('content')
     <section class="content">
         <div class="card">
@@ -15,6 +15,7 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Tên Bài viết</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="name"
@@ -28,6 +29,7 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Ảnh mô tả</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <img id="img_output" class="form-control" src="{{ asset($article->image ?? '') }}"
@@ -41,6 +43,7 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Mô tả bài viết</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <textarea class="form-control" rows="3" name="description"
@@ -53,10 +56,28 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Nội dung bài viết</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <textarea class="form-control" cols="30" rows="5" name="content" id="ckeditor"
                                           placeholder="Nhập nội dung bài viết">{{ old('content') ?? ($article->content ?? '') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label>Trạng thái</label>
+                            </div>
+                            <div class="col-md-8">
+                                @foreach (ActiveStatus::getValues() as $status)
+                                    <span class="mr-2">
+                                        <input name="status" type="radio"
+                                               {{ old('status', $article->status) == $status ? 'checked' : '' }} value="{{ $status }}">
+                                        <label for="">@lang(ActiveStatus::getStatusName($status))</label>
+                                    </span>
+                                @endforeach
                             </div>
                         </div>
                     </div>

@@ -16,18 +16,8 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-2 text-right">
-                                <label>Tên Slide</label>
-                            </div>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}"
-                                       placeholder="Nhập tên slide...">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-2 text-right">
                                 <label>Ảnh mô tả</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <img id="img_output" class="form-control d-none"
@@ -37,6 +27,20 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label>Tên Slide</label>
+                                <span style="color: red;">*</span>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="name" value="{{ old('name') }}"
+                                       placeholder="Nhập tên slide...">
+                            </div>
+                        </div>
+                    </div>
+
                     <div style="padding: 0.5rem!important;"></div>
                     <div class="form-group">
                         <div class="row">

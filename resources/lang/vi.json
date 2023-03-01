@@ -143,5 +143,10 @@
     "Please choose slide photo": "Vui Lòng chọn ảnh slide",
     "The name field is required.": "Trường tên là bắt buộc",
     "The name has already been taken.": "Tên đã tồn tại",
-    "Your account has been deactivated.": "Tài khoản của bạn đã bị vô hiệu hóa"
+    "Your account has been deactivated.": "Tài khoản của bạn đã bị vô hiệu hóa",
+    "Choose Type Attribute": "Chọn loại thuộc tính",
+    "Text": "Văn bản",
+    "Number": "Số nguyên",
+    "Number Float": "Số thực",
+    "Select": "Lựa chọn"
 }
