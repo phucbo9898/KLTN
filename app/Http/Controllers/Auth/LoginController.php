@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\User\CustomerController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -30,6 +31,10 @@ class LoginController extends CustomerController
     public function postLogin(Request $request)
     {
         $infologin = $request->only('email', 'password');
+        $account = User::where('email', $request->email)->first();
+        if (($account->status ?? '') == 'inactive') {
+            return redirect()->back()->with('error-email', __('Your account has been deactivated.'));
+        }
         if (Auth::attempt($infologin)) {
             return Redirect::to(Session::get('url.intended'));
         } else {

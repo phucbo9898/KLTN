@@ -32,6 +32,14 @@
                         </button>
                     </div>
                 @endif
+                @if (Session::has('error-email'))
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Cảnh báo!!!</strong> {{ Session::get('error-email') }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-md-12 col-12 mb-20">
                         <label>Email*</label>
