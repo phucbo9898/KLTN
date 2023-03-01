@@ -1,7 +1,7 @@
 @extends('cms.layout.master')
 
 @section('title', 'Tạo mới thành viên')
-
+<?php use App\Enums\ActiveStatus; ?>
 @section('content')
     <!-- Main content -->
     <section class="content">
@@ -17,6 +17,7 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Ảnh đại diện</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <img id="img-preview" class="d-none" style="width:240px;height:180px; margin-bottom: 5px;">
@@ -28,6 +29,7 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Tên thành viên</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Nhập vào họ và tên">
@@ -38,6 +40,7 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Email</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="Nhập email">
@@ -48,9 +51,28 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Số điện thoại</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" placeholder="Nhập vào số điện thoại">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label style="margin-right: 2px;">Trạng thái</label>
+                            </div>
+                            <div class="col-md-8">
+                                @foreach(ActiveStatus::getValues() as $status)
+                                    <span class="mr-2">
+                                        <input
+                                            {{ old('status') == $status || $status == 'active' ? "checked" : '' }} type="radio"
+                                            name="status" value="{{ $status }}">
+                                        <label for="">@lang(ActiveStatus::getStatusName($status))</label>
+                                    </span>
+                                @endforeach
                             </div>
                         </div>
                     </div>

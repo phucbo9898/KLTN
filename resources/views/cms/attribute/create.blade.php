@@ -15,6 +15,7 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Tên thuộc tính</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Nhập tên thuộc tính...">
@@ -24,7 +25,8 @@
                     <div class="form-group ">
                         <div class="row">
                             <div class="col-md-2 text-right">
-                                <label>Kiểu</label>
+                                <label>Loại thuộc tính</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <select class="form-control" name="type" id="selectForAttribute" value="{{ old('type') }}">
@@ -42,11 +44,12 @@
                     <div class="form-group d-none" id="textAreaForAttribute" >
                         <div class="row">
                             <div class="col-md-2 text-right">
-                                <label>Giá trị (Các giá trị phân cách bằng dấu chấp phẩy( ; )):</label>
+                                <label>Giá trị</label>
+                                <span style="color: red;">*</span> <br>
                             </div>
                             <div class="col-md-8">
                                 <textarea class="form-control" rows="5" name="value"
-                                          id="contentTextAreaForAttribute">{{ old('value') }}</textarea>
+                                          id="contentTextAreaForAttribute" placeholder="Các giá trị phân cách bằng dấu chấm phẩy( ; )">{{ old('value') }}</textarea>
                             </div>
                         </div>
                     </div>

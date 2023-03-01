@@ -16,7 +16,7 @@ class UserRepository extends BaseRepository
 
     public function query($options)
     {
-        $query = $this->model;
+        $query = $this->model->orderBy('created_at', 'desc');
 
         if (isset($options['name'])) {
             $query = $query->where('name', 'LIKE', '%' . escape_like($options['name']) . '%');

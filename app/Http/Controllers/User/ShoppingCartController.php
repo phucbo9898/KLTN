@@ -126,7 +126,7 @@ class ShoppingCartController extends CustomerController
     {
         $amountTotal = (int)round($request->total_momo);
         $transactionId = Transaction::insertGetId([
-            'user_id' => Auth::user()->id,
+            'customer_name' => $request->name,
             'total' => $amountTotal,
             'note' => $request->note,
             'address' => $request->address,
@@ -206,7 +206,7 @@ class ShoppingCartController extends CustomerController
         $totalMoney = str_replace(',', '', \Cart::subtotal(0));
         // insert data transaction and get id then insert
         $transactionId = Transaction::insertGetId([
-            'user_id' => Auth::user()->id,
+            'customer_name' => $request->name,
             'total' => $totalMoney,
             'note' => $request->note,
             'address' => $request->address,

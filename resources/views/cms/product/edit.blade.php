@@ -21,6 +21,7 @@ use App\Enums\ActiveStatus;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Ảnh minh họa</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <img id="img_output" style="width:240px;height:180px; margin-bottom:10px"
@@ -33,6 +34,7 @@ use App\Enums\ActiveStatus;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Tên sản phẩm</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="name"
@@ -45,6 +47,7 @@ use App\Enums\ActiveStatus;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Loại sản phẩm</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <select name="category_id" id="select_category_id" class="form-control"
@@ -67,6 +70,7 @@ use App\Enums\ActiveStatus;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Giá sản phẩm</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="number" class="form-control" name="price"
@@ -79,6 +83,7 @@ use App\Enums\ActiveStatus;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Giảm giá</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="number" class="form-control" name="sale"
@@ -97,7 +102,7 @@ use App\Enums\ActiveStatus;
                                 @foreach (ActiveHot::getValues() as $hot)
                                     <span class="mr-2">
                                         <input name="hot" type="radio"
-                                               {{ old('hot') == $hot || $product->hot == $hot ? 'checked' : '' }} value="{{ $hot }}">
+                                               {{ old('hot', $product->hot) == $hot ? 'checked' : '' }} value="{{ $hot }}">
                                         <label for="">@lang(ActiveHot::getHotName($hot))</label>
                                     </span>
                                 @endforeach
@@ -109,6 +114,7 @@ use App\Enums\ActiveStatus;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Nội dung sản phẩm</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <textarea name="content" id="ckeditor" rows="5" class="form-control"
@@ -126,7 +132,7 @@ use App\Enums\ActiveStatus;
                                 @foreach (ActiveStatus::getValues() as $status)
                                     <span class="mr-2">
                                         <input name="status" type="radio"
-                                               {{ old('status') == $status || $status == $product->status ? "checked" : '' }} value="{{ $status }}">
+                                               {{ old('status', $product->status) == $status ? 'checked' : '' }} value="{{ $status }}">
                                         <label for="">@lang(ActiveStatus::getStatusName($status))</label>
                                     </span>
                                 @endforeach

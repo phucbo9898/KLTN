@@ -5,6 +5,7 @@
                 <div class="row">
                     <div class="col-md-2 text-right">
                         <label>{{ $attr->name }}</label>
+                        <span style="color: red;">*</span>
                     </div>
                     <div class="col-md-8">
                         <input type="text" name="{{ $attr->id }}" required
@@ -18,6 +19,7 @@
                 <div class="row">
                     <div class="col-md-2 text-right">
                         <label>{{ $attr->name }}</label>
+                        <span style="color: red;">*</span>
                     </div>
                     <div class="col-md-8">
                         <input type="number" name="{{ $attr->id }}" required
@@ -31,6 +33,7 @@
                 <div class="row">
                     <div class="col-md-2 text-right">
                         <label>{{ $attr->name }}</label>
+                        <span style="color: red;">*</span>
                     </div>
                     <div class="col-md-8">
                         <input type="number" step="any" name="{{ $attr->id }}" required
@@ -44,6 +47,7 @@
                 <div class="row">
                     <div class="col-md-2 text-right">
                         <label>{{ $attr->name }}</label>
+                        <span style="color: red;">*</span>
                     </div>
                     <div class="col-md-8">
                         <select name="{{ $attr->id }}" class="form-control">

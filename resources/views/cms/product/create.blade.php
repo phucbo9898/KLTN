@@ -21,6 +21,7 @@ use App\Enums\ActiveHot;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Ảnh minh họa</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <img class="d-none" id="img_output" style="width:240px;height:180px; margin-bottom:10px"
@@ -33,6 +34,7 @@ use App\Enums\ActiveHot;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Tên sản phẩm</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="name"
@@ -44,6 +46,7 @@ use App\Enums\ActiveHot;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Loại sản phẩm</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <select name="category_id" id="select_category_id" class="form-control"
@@ -65,6 +68,7 @@ use App\Enums\ActiveHot;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Giá sản phẩm</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="number" class="form-control" name="price" value="{{ old('price') }}"
@@ -76,6 +80,7 @@ use App\Enums\ActiveHot;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Giảm giá</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="number" class="form-control" name="sale" value="{{ old('sale') }}"
@@ -106,6 +111,7 @@ use App\Enums\ActiveHot;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Nội dung sản phẩm</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <textarea name="content" id="ckeditor" rows="5" class="form-control"

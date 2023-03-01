@@ -27,14 +27,14 @@
                                     <div class="checkout-form-list">
                                         <label>@lang('Name') <span class="required">*</span></label>
                                         <input placeholder="@lang('Enter your name')" type="text" name="name" id="check_name"
-                                            value="{{ old('name') }}">
+                                            value="{{ old('name') ?? Auth::user()->name }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
                                         <label>@lang('Address') <span class="required">*</span></label>
                                         <input placeholder="@lang('Enter your address')" name="address"
-                                            id="check_address" required type="text" value="{{ old('address') }}">
+                                            id="check_address" required type="text" value="{{ old('address') ?? Auth::user()->address }}">
                                     </div>
                                 </div>
                                 {{-- <div class="col-md-6">
@@ -47,7 +47,7 @@
                                     <div class="checkout-form-list">
                                         <label>@lang('Phone Number') <span class="required">*</span></label>
                                         <input name="phone" type="text" id="check_phone"
-                                            placeholder="@lang('Enter your phone number')" value="{{ old('phone') }}">
+                                            placeholder="@lang('Enter your phone number')" value="{{ old('phone') ?? Auth::user()->phone }}">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -201,6 +201,10 @@
 @section('javascript')
     <script>
         $(document).ready(function() {
+            $(".name").val($("#check_name").val())
+            $(".address").val($("#check_address").val())
+            $(".phone-number").val($("#check_phone").val())
+
             $("#check_name").on("change", function () {
                 $(".name").val($("#check_name").val())
             })
@@ -209,9 +213,6 @@
             })
             $("#check_phone").on("change", function () {
                 $(".phone-number").val($("#check_phone").val())
-            })
-            $("#checkout-mess").on("change", function () {
-                $(".note").val($("#checkout-mess").val())
             })
             $("#checkout-mess").on("change", function () {
                 $(".note").val($("#checkout-mess").val())

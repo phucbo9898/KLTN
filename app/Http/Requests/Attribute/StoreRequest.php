@@ -36,7 +36,7 @@ class StoreRequest extends FormRequest
             'name.required' => 'Tên thuộc tính bắt buộc',
             'name.unique' => 'Tên thuộc tính đã tồn tại',
             'type.required' => 'Kiểu dữ liệu là bắt buộc',
-            'value.required_if' => 'Giá trị là bắt buộc khi kiểu thuộc tính là select'
+            'value.required_if' => 'Giá trị là bắt buộc khi loại thuộc tính là lựa chọn'
         ];
     }
 }

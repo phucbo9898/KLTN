@@ -16,6 +16,7 @@
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Tên loại sản phẩm</label>
+                                <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="name"
@@ -51,7 +52,7 @@
                             <div class="col-md-8">
                                 @foreach (ActiveStatus::getValues() as $status)
                                     <span class="mr-2">
-                                        <input type="radio" name="status" value="{{ $status }}" {{old('status', $category->status) == $status ? 'checked' : ''}}>
+                                        <input type="radio" name="status" value="{{ $status }}" {{ old('status', $category->status) == $status ? 'checked' : '' }}>
                                         <label for="{{ ActiveStatus::getStatusName($status) }}">@lang(ActiveStatus::getStatusName($status))</label>
                                     </span>
                                 @endforeach

@@ -44,7 +44,7 @@ class FeatureUserController extends CustomerController
         $totalMoney = str_replace(',', '', \Cart::subtotal(0));
         // insert data transaction and get id then insert
         $transactionId = Transaction::insertGetId([
-            'user_id' => Auth::user()->id,
+            'customer_name' => $name,
             'total' => $totalMoney,
             'note' => $request->note,
             'address' => $request->address,
@@ -91,6 +91,7 @@ class FeatureUserController extends CustomerController
                 'delivery_time' => $delivery_time,
             ];
 
+            //Send mail
             if (isset($products)) {
                 Mail::send('fe.email.payment',compact('transactionId', 'data', 'products'), function($email) {
                     $email->from(env('MAIL_USERNAME'), 'Kaiser Computer');
@@ -100,7 +101,7 @@ class FeatureUserController extends CustomerController
             }
             \Cart::destroy();
 
-            //Send mail
+
         }
         return view('fe.thank');
     }
@@ -121,10 +122,46 @@ class FeatureUserController extends CustomerController
         if ($vnp_ResponseCode != null) {
             if ($vnp_ResponseCode == 00) {
                 Transaction::where('payment_code', $vnp_TxnRef)->update(['status_payment' => 'Paуment received']);
-                \Cart::destroy();
+                $products = \Cart::content();
+
+                $transaction = Transaction::where('payment_code', $vnp_TxnRef)->first();
+                $transactionId = $transaction->id;
+                $name = $transaction->customer_name;
+                $address = $transaction->address;
+                $phone = $transaction->phone;
+                $note = $transaction->note;
+                $type_payment = $transaction->type_payment;
+                $totalAmount = \Cart::subtotal(0, ',', '.') . " " . "VND";
+                $days = Carbon::now()->day;
+                $months = Carbon::now()->month;
+                $years = Carbon::now()->year;
+                $time_order = Carbon::now();
+                $delivery_time = Carbon::now()->addDays(5);
+                $status_payment = $transaction->status_payment;
+                $data = [
+                    'name' => $name,
+                    'address' => $address,
+                    'phone' => $phone,
+                    'note' => $note,
+                    'type_payment' => $type_payment,
+                    'total' => $totalAmount,
+                    'day' => $days,
+                    'month' => $months,
+                    'year' => $years,
+                    'time_order' => $time_order,
+                    'delivery_time' => $delivery_time,
+                    'status_payment' => $status_payment
+                ];
 
                 //Send mail
-
+                if (isset($products)) {
+                    Mail::send('fe.email.payment',compact('transactionId', 'data', 'products'), function($email) {
+                        $email->from(env('MAIL_USERNAME'), 'Kaiser Computer');
+                        $email->subject('Hóa đơn thanh toán');  //Tieu de mail
+                        $email->to(auth()->user()->email);
+                    });
+                }
+                \Cart::destroy();
 
                 return view('fe.thank');
             } else {
@@ -145,7 +182,46 @@ class FeatureUserController extends CustomerController
             if ($resultCode == 0) {
                 Transaction::where('payment_code', $orderId)->update(['status_payment' => 'Paуment received']);
 
+                $products = \Cart::content();
+
+                $transaction = Transaction::where('payment_code', $orderId)->first();
+                $transactionId = $transaction->id;
+                $name = $transaction->customer_name;
+                $address = $transaction->address;
+                $phone = $transaction->phone;
+                $note = $transaction->note;
+                $type_payment = $transaction->type_payment;
+                $totalAmount = \Cart::subtotal(0, ',', '.') . " " . "VND";
+                $days = Carbon::now()->day;
+                $months = Carbon::now()->month;
+                $years = Carbon::now()->year;
+                $time_order = Carbon::now();
+                $delivery_time = Carbon::now()->addDays(5);
+                $status_payment = $transaction->status_payment;
+                $data = [
+                    'name' => $name,
+                    'address' => $address,
+                    'phone' => $phone,
+                    'note' => $note,
+                    'type_payment' => $type_payment,
+                    'total' => $totalAmount,
+                    'day' => $days,
+                    'month' => $months,
+                    'year' => $years,
+                    'time_order' => $time_order,
+                    'delivery_time' => $delivery_time,
+                    'status_payment' => $status_payment
+                ];
+                dd($data);
+
                 //Send mail
+                if (isset($products)) {
+                    Mail::send('fe.email.payment',compact('transactionId', 'data', 'products'), function($email) {
+                        $email->from(env('MAIL_USERNAME'), 'Kaiser Computer');
+                        $email->subject('Hóa đơn thanh toán');  //Tieu de mail
+                        $email->to(auth()->user()->email);
+                    });
+                }
 
 
                 \Cart::destroy();
