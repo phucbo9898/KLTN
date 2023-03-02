@@ -50,37 +50,37 @@ class CategoryController extends CustomerController
             'status' => 'active',
         ]);
         switch ($order) {
-            case 'd1t':
+            case 'duoi-1trieu':
                 $products->where('price', '<', 1000000);
                 break;
-            case '1t-10t':
+            case '1trieu-den-10trieu':
                 $products->whereBetween('price', [1000000, 10000000]);
                 break;
-            case '10t-20t':
+            case '10trieu-den-20trieu':
                 $products->whereBetween('price', [10000000, 20000000]);
                 break;
-            case '20t-50t':
+            case '20trieu-den-50trieu':
                 $products->whereBetween('price', [20000000, 50000000]);
                 break;
-            case 't50t':
+            case 'tren-50trieu':
                 $products->where('price', '>', 50000000);
                 break;
-            case 'az':
+            case 'sap-xep-tang-dan':
                 $products->orderBy('name', 'ASC');
                 break;
-            case 'za':
+            case 'sap-xep-giam-dan':
                 $products->orderBy('name', 'DESC');
                 break;
-            case 'mn':
+            case 'sap-xep-theo-san-pham-moi-nhat':
                 $products->orderBy('created_at', 'DESC');
                 break;
-            case 'cn':
+            case 'sap-xep-theo-san-pham-cu-nhat':
                 $products->orderBy('created_at', 'ASC');
                 break;
-            case 'td':
+            case 'sap-xep-theo-gia-tang-dan':
                 $products->orderBy('price', 'ASC');
                 break;
-            case 'gd':
+            case 'sap-xep-theo-gia-giam-dan':
                 $products->orderBy('price', 'DESC');
                 break;
             default:
@@ -111,7 +111,7 @@ class CategoryController extends CustomerController
         ])->get();
         $filterattritebuteproduct = array();
         foreach ($products as $product) {
-            foreach ($product->ProductAndAttributeValue as $atv) {
+            foreach ($product->productAttributeValue as $atv) {
                 if ($atv->id == $idatv) {
                     array_push($filterattritebuteproduct, $product);
                 }

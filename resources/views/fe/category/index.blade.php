@@ -4,6 +4,9 @@
         .sort_product li {
             padding: 6px 0px;
         }
+        .sort_product .active a {
+            color: blue;
+        }
     </style>
     <!-- Begin Li's Breadcrumb Area -->
     <div class="breadcrumb-area">
@@ -72,16 +75,13 @@
                                             @foreach ($products as $product)
                                                 <div class="col-lg-4 col-md-4 col-sm-6 mt-40">
                                                     <!-- single-product-wrap start -->
-                                                    <div class="single-product-wrap">
-                                                        <div class="product-image">
-                                                            <a
-                                                                href="{{ route('product.index', [$product->slug, $product->id]) }}">
+                                                    <div class="single-product-wrap" style="width: 269.98px; height: 390px;">
+                                                        <div class="product-image" style="width: 269.98px; height: 206px;">
+                                                            <a href="{{ route('product.index', [$product->slug, $product->id]) }}">
                                                                 @if (isset($product->image))
-                                                                    <img src="{{ asset($product->image) }}"
-                                                                        alt="Li's Product Image">
+                                                                    <img src="{{ asset($product->image) }}" alt="Li's Product Image">
                                                                 @else
-                                                                    <img src="{{ asset('noimg.png') }}"
-                                                                        alt="Li's Product Image">
+                                                                    <img src="{{ asset('noimg.png') }}" alt="Li's Product Image">
                                                                 @endif
                                                             </a>
                                                             @if ($product->hot == 1)
@@ -104,18 +104,14 @@
                                                                             ?>
                                                                             <ul class="rating">
                                                                                 @if ($point == -1)
-                                                                                    <li
-                                                                                        style="color: #a4a4a4;
+                                                                                    <li style="color: #a4a4a4;
                                                                         font-size: 13px;
                                                                         text-transform: capitalize;
-                                                                        transition: all 0.3s ease-in-out;">
-                                                                                        Chưa đánh giá</li>
+                                                                        transition: all 0.3s ease-in-out;">Chưa đánh giá</li>
                                                                                 @else
                                                                                     Đánh Giá:
                                                                                     @for ($i = 1; $i <= 5; $i++)
-                                                                                        <li
-                                                                                            class="{{ $i <= $point ? '' : 'no-star' }}">
-                                                                                            <i class="fa fa-star"></i></li>
+                                                                                        <li class="{{ $i <= $point ? '' : 'no-star' }}"><i class="fa fa-star"></i></li>
                                                                                     @endfor
                                                                                 @endif
                                                                             </ul>
@@ -168,7 +164,15 @@
                                 </div>
                                 <div>
                                     <div style="margin-top:88px; text-align: center">
-                                        {{ $checklink == 1 ? $products->links() : '' }}</div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-5"></div>
+                                                <div class="col-md-7">
+                                                    {{ $checklink == 1 ? $products->links() : '' }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 {{-- <div id="list-view" class="tab-pane fade product-list-view" role="tabpanel">
                             <div class="row">
@@ -753,37 +757,43 @@
                             <div class="filter-sub-titel">Khoảng giá: </div>
                             <div style="padding-left: 5%">
                                 <ul class="sort_product" style="padding: 6px">
-                                    <li><a
-                                            href="{{ route('category.index.order', [$category->slug, $category->id, 'd1t']) }}">Dưới
-                                            1 triệu VNĐ</a></li>
-                                    <li><a
-                                            href="{{ route('category.index.order', [$category->slug, $category->id, '1t-10t']) }}">1
-                                            triệu - 10 triệu VNĐ</a></li>
-                                    <li><a
-                                            href="{{ route('category.index.order', [$category->slug, $category->id, '10t-20t']) }}">10
-                                            triệu - 20 triệu VNĐ</a></li>
-                                    <li><a
-                                            href="{{ route('category.index.order', [$category->slug, $category->id, '20t-50t']) }}">20
-                                            triệu - 50 triệu VNĐ</a></li>
-                                    <li><a
-                                            href="{{ route('category.index.order', [$category->slug, $category->id, 't50t']) }}">Trên
-                                            50 triệu VNĐ</a></li>
+                                    <li class="{{ Request::route()->parameter('order') == 'duoi-1trieu' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'duoi-1trieu']) }}">Dưới 1 triệu VNĐ</a>
+                                    </li>
+                                    <li class="{{ Request::route()->parameter('order') == '1trieu-den-10trieu' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, '1trieu-den-10trieu']) }}">1 triệu - 10 triệu VNĐ</a>
+                                    </li>
+                                    <li class="{{ Request::route()->parameter('order') == '10trieu-den-20trieu' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, '10trieu-den-20trieu']) }}">10 triệu - 20 triệu VNĐ</a>
+                                    </li>
+                                    <li class="{{ Request::route()->parameter('order') == '20trieu-den-50trieu' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, '20trieu-den-50trieu']) }}">20 triệu - 50 triệu VNĐ</a>
+                                    </li>
+                                    <li class="{{ Request::route()->parameter('order') == 'tren-50trieu' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'tren-50trieu']) }}">Trên 50 triệu VNĐ</a>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="filter-sub-titel mt-3">Khác: </div>
                             <div style="padding-left: 5%">
                                 <ul class="sort_product" style="padding: 6px">
-                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'az']) }}">Theo
+                                    <li class="{{ Request::route()->parameter('order') == 'sap-xep-tang-dan' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-tang-dan']) }}">Theo
                                             chữ cái A-Z</a></li>
-                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'za']) }}">Theo
+                                    <li class="{{ Request::route()->parameter('order') == 'sap-xep-giam-dan' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-giam-dan']) }}">Theo
                                             chữ cái Z-A</a></li>
-                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'mn']) }}">Sản
+                                    <li class="{{ Request::route()->parameter('order') == 'sap-xep-theo-san-pham-moi-nhat' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-san-pham-moi-nhat']) }}">Sản
                                             phẩm mới trước</a></li>
-                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'cn']) }}">Sản
+                                    <li class="{{ Request::route()->parameter('order') == 'sap-xep-theo-san-pham-cu-nhat' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-san-pham-cu-nhat']) }}">Sản
                                             phẩm cũ trước</a></li>
-                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'td']) }}">Giá
+                                    <li class="{{ Request::route()->parameter('order') == 'sap-xep-theo-gia-tang-dan' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-gia-tang-dan']) }}">Giá
                                             tăng dần</a></li>
-                                    <li><a href="{{ route('category.index.order', [$category->slug, $category->id, 'gd']) }}">Giá
+                                    <li class="{{ Request::route()->parameter('order') == 'sap-xep-theo-gia-giam-dan' ? 'active' : '' }}">
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-gia-giam-dan']) }}">Giá
                                             giảm dần</a></li>
                                 </ul>
                             </div>
@@ -791,8 +801,8 @@
                                 <div class="filter-sub-titel mt-3">{{ $attributes->name }}: </div>
                                 <div style="padding-left: 5%">
                                     <ul class="sort_product" style="padding: 6px">
-                                        @foreach ($attributes->attribute_values->sortbyDesc('atv_value') as $attributeValue)
-                                            <li><a
+                                        @foreach ($attributes->attribute_values->sortbyDesc('value') as $attributeValue)
+                                            <li class="{{ Request::route()->parameter('at') == $attributeValue->id ? 'active' : '' }}"><a
                                                     href="{{ route('category.index.order.attribute', [$category->slug, $category->id, $attributeValue->id]) }}">{{ $attributeValue->value }}</a>
                                             </li>
                                         @endforeach
