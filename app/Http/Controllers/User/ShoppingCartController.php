@@ -167,8 +167,8 @@ class ShoppingCartController extends CustomerController
         $orderInfo = "Thanh toán qua ATM MoMo";
         $amount = $amountTotal;
         $orderId = "MGD" . "-" . $transactionId;
-        $redirectUrl = "http://localhost:8080/webpc/public/feature-user/checkout/momo-check";
-        $ipnUrl = "http://localhost:8080/webpc/public/feature-user/checkout/momo-check";
+        $redirectUrl = "http://webpc.test/feature-user/checkout/momo-check";
+        $ipnUrl = "http://webpc.test/feature-user/checkout/momo-check";
         $extraData = "";
 
         $requestId = time() . "";
@@ -240,7 +240,7 @@ class ShoppingCartController extends CustomerController
         }
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://localhost:8080/webpc/public/feature-user/checkout/vnpay-check";
+        $vnp_Returnurl = "http://webpc.test/feature-user/checkout/vnpay-check";
         $vnp_TmnCode = "XYT8WGGX";//Mã website tại VNPAY
         $vnp_HashSecret = "GBREZWZSSWLXQMRMILBUUJMBCCRPVCBJ"; //Chuỗi bí mật
 
