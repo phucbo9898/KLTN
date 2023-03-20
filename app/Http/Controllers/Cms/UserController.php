@@ -68,7 +68,6 @@ class UserController extends Controller
             $file->move($path_upload, $filename);
             $data['image'] = $path_upload . $filename;
         }
-
         $user = $this->userRepo->prepareUser($data);
         $result = $this->userRepo->create($user);
 
@@ -123,7 +122,7 @@ class UserController extends Controller
         } else {
             $data['image'] = $user->avatar;
         }
-
+        $data['password'] = $user->password;
         $users = $this->userRepo->prepareUser($data);
         $result = $this->userRepo->update($user->id, $users);
         if ($result) {

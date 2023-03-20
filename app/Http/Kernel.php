@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckRole;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -66,6 +67,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkLoginUser' => \App\Http\Middleware\CheckUserLogin::class,
         'checkAdminLogin' => \App\Http\Middleware\CheckAdminLogin::class,
+        'checkRole' => \App\Http\Middleware\CheckRole::class
 //        'locale' => \App\Http\Middleware\Locale::class,
     ];
 

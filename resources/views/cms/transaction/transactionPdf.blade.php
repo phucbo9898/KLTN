@@ -26,11 +26,11 @@
     <div style="font-size: 14px">
         Cửa hàng: Kinh doanh linh kiện máy tính Gaming.<br />
         Địa chỉ cửa hàng: Trâu Quỳ, Gia Lâm, Hà Nội.<br />
-        Tên khách hàng: {{ $transaction->user->name }}<br />
-        Số điện thoại: {{ $transaction->phone }}<br />
-        Địa chỉ giao hàng: {{ $transaction->address }}.
+        Tên khách hàng: {{ $transaction->customer_name ?? '' }}<br />
+        Số điện thoại: {{ $transaction->phone ?? '' }}<br />
+        Địa chỉ giao hàng: {{ $transaction->address ?? '' }}.
     </div>
-    <p style="font-size: 14px">Lời nhắn từ khách hàng: {{ $transaction->note }}</p>
+    <p style="font-size: 14px">Lời nhắn từ khách hàng: {{ $transaction->note ?? '' }}</p>
     <p style="font-size: 14px">Trạng thái giao dịch:
         @if ($transaction->status == 0)
             <b style="font-weight: bold">Đang xử lý</b>
@@ -46,37 +46,42 @@
     $i = 1;
     $total_earn_money = 0;
     ?>
-    <table class="table table-bordered" style="font-size: 13px;">
+    <table class="table table-bordered" style="font-size: 11px;">
         <thead class="thead-dark">
-            <th>STT</th>
-            <th>Sản phẩm</th>
-            <th>Số lượng</th>
-            <th>Đơn giá</th>
-            <th>Giảm giá</th>
-            <th>Thành tiền</th>
+            <th scope="col">STT</th>
+            <th scope="col">Sản phẩm</th>
+            <th scope="col">SL</th>
+            <th scope="col">Đơn giá</th>
+            <th scope="col">Giảm giá</th>
+            <th scope="col">Thành tiền</th>
             <tr></tr>
         </thead>
         <tbody>
             @foreach ($transaction->orders as $order)
                 <tr>
-                    <td style="text-align: center;">{{ $i++ }}</td>
-                    <td>{{ $order->product->name }}</td>
-                    <td style="text-align: center;">{{ $order->quantity }}</td>
-                    <td>{{ number_format($order->price, 0, ',', '.') }} VNĐ</td>
-                    <td>{{ $order->sale > 0 ? number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . ' VNĐ (-' . $order->sale . '%)' : 'Không giảm giá' }}
-                    </td>
-                    <td>{{ $order->sale > 0 ? number_format($order->quantity * (($order->price * (100 - $order->sale)) / 100), 0, '.', '.') : number_format($order->quantity * $order->price, 0, ',', '.') }}
-                        VNĐ
-                    </td>
+                    <td class="" style="text-align: center;">{{ $i++ }}</td>
+                    <td class="col-md-3">{{ $order->product->name }}</td>
+                    <td class="" style="text-align: center;">{{ $order->quantity }}</td>
+                    <td class="col-md-2">{{ number_format($order->price, 0, ',', '.') }} VNĐ</td>
+                    @if($order->sale > 0)
+                        <td class="col-md-4">
+                            {{ number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . ' VNĐ (-' . $order->sale . '%)'}}
+                        </td>
+                    @else
+                        <td class="col-md-4">
+                            {{ number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . ' VNĐ (-' . $order->sale . '%)' : 'Không giảm giá' }}
+                        </td>
+                    @endif
+                    <td class="col-md-3">{{ $order->sale > 0 ? number_format($order->quantity * (($order->price * (100 - $order->sale)) / 100), 0, '.', '.') : number_format($order->quantity * $order->price, 0, ',', '.') }}VNĐ</td>
                     <?php $total_earn_money = $total_earn_money + ($order->sale > 0 ? $order->quantity * (($order->price * (100 - $order->sale)) / 100) : $order->quantity * $order->price); ?>
                 </tr>
             @endforeach
-            <tr>
-                <td colspan="5" style="text-align: right;font-weight: bold;font-size: 16px;">Tổng tiền:</td>
-                <td colspan="1" style="text-align: center;font-weight: bold;font-size: 16px;">
-                    {{ number_format($total_earn_money, '0', ',', '.') }} VNĐ
-                </td>
-            </tr>
+{{--            <tr>--}}
+{{--                <td colspan="4" style="text-align: right;font-weight: bold;font-size: 16px;">Tổng tiền:</td>--}}
+{{--                <td colspan="2" style="text-align: center;font-weight: bold;font-size: 16px;">--}}
+{{--                    {{ number_format($total_earn_money, '0', ',', '.') }} VNĐ--}}
+{{--                </td>--}}
+{{--            </tr>--}}
         </tbody>
     </table>
     <div style="float: right; text-align: center">

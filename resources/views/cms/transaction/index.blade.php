@@ -121,13 +121,9 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="exampleModalLongTitle">
-                                            Chi tiết đơn hàng #
+                                            Chi tiết đơn hàng #id
                                             <span class="modal_id_transaction"></span>
                                         </h5>
-                                        <a href="{{ route('admin.get.export.transaction', $transaction->id) }}"
-                                           class="btn btn-success ml-2">
-                                            Xuất PDF
-                                        </a>
                                         <button type="button" class="close" data-dismiss="modal"
                                                 aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -138,7 +134,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Close
+                                                data-dismiss="modal">Đóng
                                         </button>
                                     </div>
                                 </div>
