@@ -58,4 +58,13 @@ class User extends Authenticatable
         return UserType::getUserType($this->role);
     }
 
+    public function isAdmin()
+    {
+        return $this->role == 'admin';
+    }
+
+    public function isSystemAdmin()
+    {
+        return $this->role == 'system_admin';
+    }
 }

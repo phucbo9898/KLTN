@@ -27,7 +27,7 @@ class AdminController extends Controller
         }
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
-            if ($user->role == UserType::ADMIN) {
+            if ($user->role == UserType::ADMIN || $user->role == UserType::SYSTEMADMIN) {
                 return redirect()->route('admin.home');
             }
         }
@@ -37,7 +37,7 @@ class AdminController extends Controller
     public function getLogout()
     {
         Auth::logout();
-        return view('cms.login.login');
+        return redirect()->route('admin.login');
     }
 
     /**

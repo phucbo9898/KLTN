@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller(AdminController::class)->group(function () {
     Route::prefix('admin')->group(function () {
         Route::name('admin.')->group(function () {
-            Route::get('/login', 'login');
+            Route::get('/login', 'getLogin');
             Route::post('/login', 'postLogin')->name('login');
             Route::get('/logout', 'getLogout')->name('logout');
         });
@@ -49,7 +49,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
         Route::post('/create', [CategoryController::class, 'store'])->name('admin.category.store');
         Route::get('/update/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit');
         Route::post('/update/{id}', [CategoryController::class, 'update'])->name('admin.category.update');
-        Route::get('/{action}/{id}',[CategoryController::class, 'handle'])->name('admin.category.handle');
+        Route::get('/{action}/{id}', [CategoryController::class, 'handle'])->name('admin.category.handle');
     });
 
     Route::group(['prefix' => 'attribute'], function () {
@@ -117,7 +117,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
         Route::post('/update/{id}', [SlideController::class, 'update'])->name('admin.slide.update');
         Route::get('/{action}/{id}', [SlideController::class, 'handle'])->name('admin.slide.handle');
     });
-    Route::group(['prefix' => 'warehouse'], function () {
+    Route::group(['prefix' => 'warehouse', 'middleware' => 'checkRole'], function () {
         Route::get('/', [WarehouseController::class, 'import'])->name('admin.warehouse.import');
         Route::get('/import/{id}', [WarehouseController::class, 'importProduct'])->name('admin.warehouse.import.product');
         Route::get('/export/{id}', [WarehouseController::class, 'exportProduct'])->name('admin.warehouse.export.product');

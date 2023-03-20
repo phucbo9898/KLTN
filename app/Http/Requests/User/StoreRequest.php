@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Enums\UserType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -27,7 +28,8 @@ class StoreRequest extends FormRequest
             'name' => 'required|min:3|max:255',
             'image' => 'required',
             'email' => 'required|email|unique:users,email|min:3|max:255',
-            'phone' => 'required|numeric'
+            'phone' => 'required|numeric',
+            'role' => auth()->user()->role == UserType::ADMIN ? 'required' : ''
         ];
     }
 
@@ -44,12 +46,13 @@ class StoreRequest extends FormRequest
             'name.min' => 'Tên người dùng ít nhất 3 kí tự',
             'name.max' => 'Tên người dùng nhiều nhất nhất 255 kí tự',
             'email.required' => 'Email không được trống',
-            'email.email' => 'Địa chỉ Email k đúng',
+            'email.email' => 'Địa chỉ Email không đúng',
             'email.unique' => 'Đã có người đăng kí email này',
             'email.min' => 'Email ít nhất 3 kí tự',
             'email.max' => 'Email nhiều nhất nhất 255 kí tự',
             'phone.required' => 'Số điện thoại đang để trống!, vui lòng nhập số điện thoại',
             'phone.numeric' => 'Định dạng số điện thoại không đúng !',
+            'role.required' => 'Vui lòng chọn quyền cho tài khoản đăng kí'
         ];
     }
 

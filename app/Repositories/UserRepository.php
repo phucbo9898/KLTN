@@ -41,7 +41,8 @@ class UserRepository extends BaseRepository
             'password' => $data['password'] ?? '',
             'phone' => $data['phone'] ?? '',
             'avatar' => $data['image'] ?? '',
-            'role' => UserType::ADMIN
+            'role' => $data['role'] ?? '',
+            'status' => $data['status'] ?? ''
         ];
 
         return $user;

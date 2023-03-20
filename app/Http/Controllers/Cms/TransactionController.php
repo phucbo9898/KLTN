@@ -38,8 +38,9 @@ class TransactionController extends Controller
     public function getOrderItem(Request $request, $id)
     {
         if ($request->ajax()) {
+            $transaction = Transaction::where('id', $id)->first();
             $orders = Order::where('transaction_id', $id)->get();
-            $html = view('cms.transaction.orderItem', compact('orders'))->render();
+            $html = view('cms.transaction.orderItem', compact('orders', 'transaction'))->render();
 
             return \response()->json($html);
         }
@@ -150,6 +151,6 @@ class TransactionController extends Controller
         ];
         $pdf = \PDF::loadView('cms.transaction.transactionPdf', $data);
 
-        return $pdf->download('DetailTransaction' . $transaction->User->name . 'No.' . $transaction->id . '.pdf');
+        return $pdf->download('DetailTransaction' . $transaction->customer_name . 'No.' . $transaction->id . '.pdf');
     }
 }

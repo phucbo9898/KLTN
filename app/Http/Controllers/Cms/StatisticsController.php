@@ -29,9 +29,9 @@ class StatisticsController extends Controller
             $statistical_date_end = date("Y-m-d H:i:s", strtotime($request->statistical_date_end));
             $startOfTime = Carbon::parse($request->statistical_date_start)->startOfDay();
             $time_end = Carbon::parse($request->statistical_date_end)->endOfDay();
-//            dd($statistical_date_start, $statistical_date_end, $request->statistical_date_end, $startOfTime, $time_end);
             $transactions = Transaction::whereBetween('updated_at', [$startOfTime, $time_end])->orderBy('updated_at', 'desc')->get();
-            $html = view('cms.statistics.listStatistics', ['transactions' => $transactions, 'statistical_date_start' => $startOfTime, 'statistical_date_end' => $statistical_date_end])->render();
+            $count = $transactions->count();
+            $html = view('cms.statistics.listStatistics', ['transactions' => $transactions, 'statistical_date_start' => $startOfTime, 'statistical_date_end' => $statistical_date_end, 'count' => $count])->render();
             return response()->json($html);
         }
         dd("Lỗi");

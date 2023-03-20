@@ -11,7 +11,7 @@
     <div class="sidebar">
         <div class="user-panel mt-3 pb-3 mb-3">
             <div class="image">
-                 <img src="{{ Auth::user()->avatar ?? asset('unimg.jpg') }}" class="img-circle elevation-2" alt="User Image" style="display: block;margin-left: auto;margin-right: auto;width: 50%;">
+                 <img src="{{ Auth::user()->avatar }}" class="img-circle elevation-2" alt="User Image" style="display: block;margin-left: auto;margin-right: auto;width: 50%;">
             </div> <br>
             <div class="info" style="width: 100%; color: white; text-align: center;">
                 {{ Auth::user()->name }}
@@ -159,7 +159,7 @@
                 {{-- End tab product --}}
 
                 {{-- Tab warehouse --}}
-                <li class="nav-item has-treeview {{ request()->is('admin/warehouse*') ? 'menu-open' : '' }}">
+                <li class="nav-item has-treeview {{ request()->is('admin/warehouse*') ? 'menu-open' : '' }} {{ auth()->user()->isSystemAdmin() ? 'd-none' : '' }}">
                     <a class="nav-link {{ request()->is('admin/warehouse*') ? 'active' : '' }}">
                         <i class="nav-icon fa fa-archive"></i>
                         <p>

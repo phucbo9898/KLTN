@@ -14,12 +14,12 @@
     <h1 style="text-align: center">Thông tin đơn hàng MGD-{{$transactionId}}</h1>
     <div style="display:flex; width: 600px; margin-bottom: 10px;">
         <div style="width: 450px;">
-            <span>Tên khách hàng: {{$data['name']}}</span><br>
-            <span>Điện thoại: {{$data['phone']}}</span><br>
-            <span>Địa chỉ: {{$data['address']}}</span><br>
-            <span>Ghi chú: {{$data['note']}}</span><br>
-            <span>Phương thức thanh toán: {{$data['type_payment']}}</span><br>
-            <span>Tình trạng thanh toán: {{$data['status_payment'] == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán'}}</span>
+            <span>Tên khách hàng: {{$data['name'] ?? ''}}</span><br>
+            <span>Điện thoại: {{$data['phone'] ?? ''}}</span><br>
+            <span>Địa chỉ: {{$data['address'] ?? ''}}</span><br>
+            <span>Ghi chú: {{$data['note'] ?? ''}}</span><br>
+            <span>Phương thức thanh toán: {{$data['type_payment'] ?? ''}}</span><br>
+            <span>Tình trạng thanh toán: {{ isset($data['status_payment']) && $data['status_payment'] == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán'}}</span>
         </div>
     </div>
     <table border="1" cellspacing="0" cellpadding="0" width="100%" style="border:1px solid;">
@@ -37,16 +37,18 @@
             @php
                 $stt =1
             @endphp
-            @foreach($products as $product)
-                <tr>
-                    <td style="text-align:center;">{{$stt++}}</td>
-                    <td style="text-align:center;">{{$product->name}}</td>
-                    <td style="text-align:center;">{{$product->qty}}</td>
-                    <td style="text-align:center;">{{number_format($product->options->price_old,0,',','.')}} VNĐ</td>
-                    <td style="text-align:center;">{{$product->options->sale}}</td>
-                    <td style="text-align:center;">{{number_format(($product->options->price_old * (100 -$product->options->sale)/100) * $product->qty, 0, ',', '.') }} VNĐ</td>
-                </tr>
-            @endforeach
+            @if(isset($products))
+                @foreach($products as $product)
+                    <tr>
+                        <td style="text-align:center;">{{$stt++}}</td>
+                        <td style="text-align:center;">{{$product->name}}</td>
+                        <td style="text-align:center;">{{$product->qty}}</td>
+                        <td style="text-align:center;">{{number_format($product->options->price_old,0,',','.')}} VNĐ</td>
+                        <td style="text-align:center;">{{$product->options->sale}}</td>
+                        <td style="text-align:center;">{{number_format(($product->options->price_old * (100 -$product->options->sale)/100) * $product->qty, 0, ',', '.') }} VNĐ</td>
+                    </tr>
+                @endforeach
+            @endif
         </tbody>
     </table>
     <br>

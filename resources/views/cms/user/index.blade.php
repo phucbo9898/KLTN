@@ -65,7 +65,7 @@ use App\Enums\ActiveStatus;
                             <td>{{ $user->phone ?? '' }}</td>
                             <td class="">
                                 <a href="{{ route('admin.user.action', ['role', $user->id]) }}">
-                                    <span class="badge badge-{{ $user->role == UserType::ADMIN ? 'success' : 'secondary' }}" style="font-size: 14px;width: 113.11px;">
+                                    <span class="badge badge-<?php if ($user->role == UserType::ADMIN){echo 'success';}elseif ($user->role == UserType::SYSTEMADMIN){echo 'primary';}else{echo 'secondary';}?>" style="font-size: 14px;width: 113.11px;">
                                         @lang($user->getUserType() ?? '')
                                     </span>
                                 </a>

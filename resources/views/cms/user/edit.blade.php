@@ -1,7 +1,10 @@
 @extends('cms.layout.master')
 
 @section('title', 'Chỉnh sửa người dùng')
-<?php use App\Enums\ActiveStatus; ?>
+<?php
+use App\Enums\ActiveStatus;
+use App\Enums\UserType;
+?>
 @section('content')
     <!-- Main content -->
     <section class="content">
@@ -55,6 +58,22 @@
                             </div>
                             <div class="col-md-8">
                                 <input type="text" class="form-control" name="phone" value="{{ old('phone') ?? ($user->phone) }}" placeholder="Nhập vào số điện thoại">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
+                                <label>Phân quyền</label>
+                                <span style="color: red;">*</span>
+                            </div>
+                            <div class="col-md-8">
+                                <select name="role" class="form-control">
+                                    @foreach(UserType::getValues() as $role)
+                                        <option value="{{ $role }}" {{ old('role') == $role || $user->role == $role ? 'selected' : '' }}>{{ UserType::getUserType($role) }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

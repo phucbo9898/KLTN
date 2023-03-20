@@ -1,5 +1,30 @@
 @if ($orders)
     <?php $i = 1; ?>
+    <div>
+        <p>
+            Cửa hàng: Kinh doanh linh kiện máy tính Gaming.<br />
+            Địa chỉ cửa hàng: Trâu Quỳ, Gia Lâm, Hà Nội.<br />
+            Tên khách hàng: {{ $transaction->customer_name ?? '' }}<br />
+            Số điện thoại: {{ $transaction->phone ?? '' }}<br />
+            Địa chỉ giao hàng: {{ $transaction->address ?? '' }}. <br>
+            Lời nhắn từ khách hàng: {{ $transaction->note ?? '' }} <br>
+            Trạng thái giao dịch:
+            @if ($transaction->status == 0)
+                <b>Đang xử lý</b>
+            @elseif($transaction->status == 1)
+                <b>Đã gửi hàng</b>
+            @elseif($transaction->status == 2)
+                <b>Đã nhận hàng</b>
+            @else
+                <b>Không xác định</b>
+            @endif
+        </p>
+    </div>
+
+    <a href="{{ route('admin.get.export.transaction', $transaction->id) }}"
+       class="btn btn-success ml-2" style="float: right; margin-bottom: 5px;}">
+        Xuất PDF
+    </a>
     <table class="table table-hover">
         <thead class="thead-dark">
             <th scope="col">STT</th>
@@ -28,7 +53,7 @@
                                 VNĐ</span>
                         </td>
                     @else
-                        <td>{{ number_format($order->price, 0, ',', '.') }} VNĐ/ 1 sản phẩm</td>
+                        <td>{{ number_format($order->price, 0, ',', '.') }} VNĐ (-{{ $order->sale ?? 0 }}%)</td>
                     @endif
                     <td>{{ $order->quantity }}</td>
                     @if ($order->sale > 0)
