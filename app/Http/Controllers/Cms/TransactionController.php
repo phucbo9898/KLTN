@@ -57,7 +57,7 @@ class TransactionController extends Controller
                     Notification::insert(
                         [
                             'sender' => Auth::user()->id,
-                            'receiver' => $transaction->user_id,
+                            'receiver' => $transaction->user_id ?? 0,
                             'content' => 'Giao dịch <b>mã số ' . $id . '</b> với ghi chú "' . $transaction->note . '" <b>ĐÃ BỊ HỦY</b> ! Khách hàng yêu cầu hủy đơn hàng !!!',
                             'created_at' => Carbon::now(),
                         ]

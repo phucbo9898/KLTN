@@ -28,14 +28,136 @@
                     </a>
                 </li>
 
-                {{-- Tab transaction --}}
-                <li class="nav-item has-treeview {{ request()->is('home*') ? 'menu-open' : '' }}">
-                    <a href="{{ route('home') }}" class="nav-link {{ request()->is('home*') ? 'active' : '' }}">
-                        <i class="fas fa-home" style="margin-left: 4px;"> </i>
-                        <p style="margin-left: 8px;">@lang('Chuyển hướng')</p>
+                {{-- Tab redirect home --}}
+{{--                <li class="nav-item has-treeview {{ request()->is('home*') ? 'menu-open' : '' }}">--}}
+{{--                    <a href="{{ route('home') }}" class="nav-link {{ request()->is('home*') ? 'active' : '' }}">--}}
+{{--                        <i class="fas fa-home" style="margin-left: 4px;"> </i>--}}
+{{--                        <p style="margin-left: 8px;">@lang('Chuyển hướng')</p>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+                {{-- End tab redirect home --}}
+
+                {{-- Tab category --}}
+                <li class="nav-item has-treeview {{ request()->is('admin/category*') ? 'menu-open' : '' }}">
+                    <a class="nav-link {{ request()->is('admin/category*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-cubes"></i>
+                        <p>
+                            @lang('Danh mục sản phẩm')
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ Route('admin.category.index') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/category') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Danh sách')</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.category.create') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/category/create') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Thêm')</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                {{-- End tab transaction --}}
+                {{-- Entab Category --}}
+
+                {{-- Tab Attribute --}}
+                <li class="nav-item has-treeview {{ request()->is('admin/attribute*') ? 'menu-open' : '' }}">
+                    <a class="nav-link {{ request()->is('admin/attribute*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-flask"></i>
+                        <p>
+                            @lang('Thuộc tính')
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ Route('admin.attribute.index') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/attribute') ? 'active' : '' }}">
+
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Danh sách')</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.attribute.create') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/attribute/create') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Thêm')</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- End tab Attribute --}}
+
+                {{-- Tab product --}}
+                <li class="nav-item has-treeview {{ request()->is('admin/product*') ? 'menu-open' : '' }}">
+                    <a class="nav-link {{ request()->is('admin/product*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-desktop"></i>
+                        <p>
+                            @lang('Sản phẩm')
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ Route('admin.product.index') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/product') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Danh sách')</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.product.create') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/product/create') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Thêm')</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- End tab product --}}
+
+                {{-- Tab warehouse --}}
+                <li class="nav-item has-treeview {{ request()->is('admin/warehouse*') ? 'menu-open' : '' }} {{ auth()->user()->isSystemAdmin() ? 'd-none' : '' }}">
+                    <a class="nav-link {{ request()->is('admin/warehouse*') ? 'active' : '' }}">
+                        <i class="nav-icon fa fa-archive"></i>
+                        <p>
+                            @lang('Kho hàng')
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ Route('admin.warehouse.import') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/warehouse') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Nhập hàng')</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.warehouse.history') }}"
+                               style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/warehouse/history') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Lịch sử nhập hàng')</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- End tab warehouse --}}
 
                 {{-- Tab Slide --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/slide*') ? 'menu-open' : '' }}">
@@ -67,128 +189,6 @@
                 </li>
                 {{-- Entab Slide --}}
 
-                {{-- Tab category --}}
-                <li class="nav-item has-treeview {{ request()->is('admin/category*') ? 'menu-open' : '' }}">
-                    <a class="nav-link {{ request()->is('admin/category*') ? 'active' : '' }}">
-                        <i class="nav-icon fa fa-cubes"></i>
-                        <p>
-                            @lang('Loại sản phẩm')
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ Route('admin.category.index') }}" style="margin-left: 15%;padding-left: 0px;"
-                                class="nav-link {{ request()->is('admin/category') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Danh sách')</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.category.create') }}" style="margin-left: 15%;padding-left: 0px;"
-                                class="nav-link {{ request()->is('admin/category/create') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Thêm')</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- Entab Category --}}
-
-                {{-- Tab Attribute --}}
-                <li class="nav-item has-treeview {{ request()->is('admin/attribute*') ? 'menu-open' : '' }}">
-                    <a class="nav-link {{ request()->is('admin/attribute*') ? 'active' : '' }}">
-                        <i class="nav-icon fa fa-flask"></i>
-                        <p>
-                            @lang('Thuộc tính')
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ Route('admin.attribute.index') }}" style="margin-left: 15%;padding-left: 0px;"
-                                class="nav-link {{ request()->is('admin/attribute') ? 'active' : '' }}">
-
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Danh sách')</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.attribute.create') }}" style="margin-left: 15%;padding-left: 0px;"
-                                class="nav-link {{ request()->is('admin/attribute/create') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Thêm')</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- End tab Attribute --}}
-
-                {{-- Tab product --}}
-                <li class="nav-item has-treeview {{ request()->is('admin/product*') ? 'menu-open' : '' }}">
-                    <a class="nav-link {{ request()->is('admin/product*') ? 'active' : '' }}">
-                        <i class="nav-icon fa fa-desktop"></i>
-                        <p>
-                            @lang('Sản phẩm')
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ Route('admin.product.index') }}" style="margin-left: 15%;padding-left: 0px;"
-                                class="nav-link {{ request()->is('admin/product') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Danh sách')</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.product.create') }}" style="margin-left: 15%;padding-left: 0px;"
-                                class="nav-link {{ request()->is('admin/product/create') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Thêm')</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- End tab product --}}
-
-                {{-- Tab warehouse --}}
-                <li class="nav-item has-treeview {{ request()->is('admin/warehouse*') ? 'menu-open' : '' }} {{ auth()->user()->isSystemAdmin() ? 'd-none' : '' }}">
-                    <a class="nav-link {{ request()->is('admin/warehouse*') ? 'active' : '' }}">
-                        <i class="nav-icon fa fa-archive"></i>
-                        <p>
-                            @lang('Kho hàng')
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ Route('admin.warehouse.import') }}" style="margin-left: 15%;padding-left: 0px;"
-                                class="nav-link {{ request()->is('admin/warehouse') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Nhập hàng')</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.warehouse.history') }}"
-                                style="margin-left: 15%;padding-left: 0px;"
-                                class="nav-link {{ request()->is('admin/warehouse/history') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Lịch sử nhập hàng')</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                {{-- End tab warehouse --}}
-
                 {{-- Tab article --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/article*') ? 'menu-open' : '' }}">
                     <a class="nav-link {{ request()->is('admin/article*') ? 'active' : '' }}">
@@ -219,6 +219,47 @@
                 </li>
                 {{-- End tab article --}}
 
+                {{-- Tab user --}}
+                <li class="nav-item has-treeview {{ request()->is('admin/user*') ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.user.index') }}"
+                       class="nav-link {{ request()->is('admin/user*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            @lang('Thành viên')
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ Route('admin.user.index') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/user') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Danh sách')</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.user.create') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/user/create') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Thêm')</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- End tab user --}}
+
+                {{-- Tab comment --}}
+                <li class="nav-item has-treeview {{ request()->is('admin/comment*') ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.comment.index') }}"
+                       class="nav-link {{ request()->is('admin/comment*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-american-sign-language-interpreting"></i>
+                        <p>@lang('Đánh giá sản phẩm')</p>
+                    </a>
+                </li>
+                {{-- End tab comment --}}
+
                 {{-- Tab transaction --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/transaction*') ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.transaction.index') }}"
@@ -230,53 +271,12 @@
                 {{-- End tab transaction --}}
 
                 {{-- Tab transaction --}}
-                <li class="nav-item has-treeview {{ request()->is('admin/comment*') ? 'menu-open' : '' }}">
-                    <a href="{{ route('admin.comment.index') }}"
-                        class="nav-link {{ request()->is('admin/comment*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-american-sign-language-interpreting"></i>
-                        <p>@lang('Đánh giá sản phẩm')</p>
-                    </a>
-                </li>
-                {{-- End tab transaction --}}
-
-                {{-- Tab transaction --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/statistics*') ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.statistics.index') }}"
                         class="nav-link {{ request()->is('admin/statistics*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-print"></i>
                         <p>@lang('Báo cáo thống kê')</p>
                     </a>
-                </li>
-                {{-- End tab transaction --}}
-
-                {{-- Tab transaction --}}
-                <li class="nav-item has-treeview {{ request()->is('admin/user*') ? 'menu-open' : '' }}">
-                    <a href="{{ route('admin.user.index') }}"
-                        class="nav-link {{ request()->is('admin/user*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>
-                            @lang('Thành viên')
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ Route('admin.user.index') }}" style="margin-left: 15%;padding-left: 0px;"
-                                class="nav-link {{ request()->is('admin/user') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Danh sách')</p>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.user.create') }}" style="margin-left: 15%;padding-left: 0px;"
-                                class="nav-link {{ request()->is('admin/user/create') ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Thêm')</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 {{-- End tab transaction --}}
 
