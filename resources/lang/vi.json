@@ -148,5 +148,7 @@
     "Text": "Văn bản",
     "Number": "Số nguyên",
     "Number Float": "Số thực",
-    "Select": "Lựa chọn"
+    "Select": "Lựa chọn",
+    "Update the number of successful products": "Cập nhật số lượng sản phẩm thành công",
+    "in stock": "trong kho"
 }
