@@ -121,7 +121,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
         Route::get('/', [WarehouseController::class, 'import'])->name('admin.warehouse.import');
         Route::get('/import/{id}', [WarehouseController::class, 'importProduct'])->name('admin.warehouse.import.product');
         Route::get('/export/{id}', [WarehouseController::class, 'exportProduct'])->name('admin.warehouse.export.product');
-        Route::get('/history', [WarehouseController::class, 'history'])->name('admin.warehouse.history');
+        Route::get('/history-import', [WarehouseController::class, 'historyImport'])->name('admin.warehouse.history-import');
+        Route::get('/history-export', [WarehouseController::class, 'historyExport'])->name('admin.warehouse.history-export');
         Route::get('/iventory', [WarehouseController::class, 'iventory'])->name('admin.warehouse.iventory');
         Route::get('/bestseller', [WarehouseController::class, 'bestSeller'])->name('admin.warehouse.bestseller');
         Route::get('/hotproduct/{id}', [WarehouseController::class, 'hotProduct'])->name('admin.warehouse.hotproduct');

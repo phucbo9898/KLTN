@@ -9,6 +9,8 @@ use App\Models\Article;
 use App\Repositories\ArticleRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
@@ -49,29 +51,35 @@ class ArticleController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        if (!empty($request->file('image'))) {
-            $extention = $request->file('image')->getClientOriginalExtension();
-            if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
-                return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+        try {
+            DB::beginTransaction();
+
+            if (!empty($request->file('image'))) {
+                $extention = $request->file('image')->getClientOriginalExtension();
+                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                    return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+                }
             }
-        }
 
-        $data = $request->all();
+            $data = $request->all();
 
-        if ($request->hasFile('image')) {     // image
-            $file = $request->file('image');
-            $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-            $path_upload = 'upload/article/';
-            $file->move($path_upload, $filename);
-            $data['image'] = $path_upload . $filename;
-        }
-        $article = $this->articleRepo->prepareArticle($data);
-        $result = $this->articleRepo->create($article);
+            if ($request->hasFile('image')) {     // image
+                $file = $request->file('image');
+                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
+                $path_upload = 'upload/article/';
+                $file->move($path_upload, $filename);
+                $data['image'] = $path_upload . $filename;
+            }
+            $article = $this->articleRepo->prepareArticle($data);
+            $this->articleRepo->create($article);
 
-        if ($result) {
+            DB::commit();
             return redirect()->route('admin.article.index')->with('success', 'Đã thêm 1 Article!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::debug($e);
+            return redirect()->back()->with('error', 'Thêm Article không thành công');
         }
-        return redirect()->back()->with('error', 'Thêm Article không thành công');
     }
 
     /**
@@ -83,6 +91,9 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $article = $this->articleRepo->find($id);
+        if (!$article) {
+            return redirect()->route('admin.article.index')->with('error', __('The requested resource is not available'));
+        }
 
         return view('cms.article.edit', compact('article'));
     }
@@ -96,37 +107,42 @@ class ArticleController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        $article = $this->articleRepo->find($id);
-        if (!$article) {
-            return redirect()->route('admin.article.index')->with('error', __('The requested resource is not available'));
-        }
+        try {
+            DB::beginTransaction();
 
-        if (!empty($request->file('image'))) {
-            $extention = $request->file('image')->getClientOriginalExtension();
-            if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
-                return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+            $article = $this->articleRepo->find($id);
+            if (!$article) {
+                return redirect()->route('admin.article.index')->with('error', __('The requested resource is not available'));
             }
-        }
 
-        $data = $request->all();
-        if ($request->hasFile('image')) {     // image
-            $file = $request->file('image');
-            $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-            $path_upload = 'upload/article/';
-            $file->move($path_upload, $filename);
-            $data['image'] = $path_upload . $filename;
-        } else {
-            $data['image'] = $article->image;
-        }
+            if (!empty($request->file('image'))) {
+                $extention = $request->file('image')->getClientOriginalExtension();
+                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                    return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+                }
+            }
 
-        $articles = $this->articleRepo->prepareArticle($data);
-        $result = $this->articleRepo->update($article->id, $articles);
+            $data = $request->all();
+            if ($request->hasFile('image')) {     // image
+                $file = $request->file('image');
+                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
+                $path_upload = 'upload/article/';
+                $file->move($path_upload, $filename);
+                $data['image'] = $path_upload . $filename;
+            } else {
+                $data['image'] = $article->image;
+            }
 
-        if ($result) {
+            $articles = $this->articleRepo->prepareArticle($data);
+            $this->articleRepo->update($article->id, $articles);
+
+            DB::commit();
             return redirect()->route('admin.article.index')->with('success', 'Đã sửa thành công bài viết mang ID số ' . $article->id . '!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::debug($e);
+            return redirect()->back()->with('error', 'Sửa không thành công bài viết mang ID số ' . $article->id . '!');
         }
-
-        return redirect()->back()->with('error', 'Sửa không thành công bài viết mang ID số ' . $article->id . '!');
     }
 
     public function handle(Request $request, $action, $id)

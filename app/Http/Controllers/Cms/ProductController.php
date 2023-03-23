@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Models\Attribute_Value;
-use App\Models\Category;
-use App\Models\Product;
 use App\Models\Product_Attribute;
+use App\Models\ProductHistory;
 use App\Repositories\AttributeValueRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -59,61 +59,64 @@ class ProductController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        if (!empty($request->file('image'))) {
-            $extention = $request->file('image')->getClientOriginalExtension();
-            if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
-                return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
-            }
-        }
-
-        $data = $request->all();
-
-        // Upload image: Check file -> Get File upload -> Insert Name -> move folder -> save
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-            $path_upload = 'upload/product/';
-            $file->move($path_upload, $filename);
-            $data['image'] = $path_upload . $filename;
-        }
-
-        $product = $this->productRepo->prepareProduct($data);
-        $result = $this->productRepo->create($product);
-
-        foreach ($request->all() as $key => $value) {
-            if (is_int($key)) {
-                // check exist attribute value
-                $check_attribute_value = Attribute_Value::where([
-                    ['attribute_id', $key],
-                    ['value', $value]
-                ])->first();
-
-                if ($check_attribute_value) {
-                    // save product_id and atribute_value_id in product_atribute
-                    $product_attribute = new Product_Attribute();
-                    $product_attribute->product_id = $result->id;
-                    $product_attribute->attribute_value_id = $check_attribute_value->id;
-                    $product_attribute->save();
-                } else {
-                    // create attribute value id
-                    $attribute_value = new Attribute_Value();
-                    $attribute_value->attribute_id = $key;
-                    $attribute_value->value = $value;
-                    $attribute_value->save();
-                    // save product_id and atribute_value_id in product_atribute
-                    $product_attribute = new Product_Attribute();
-                    $product_attribute->product_id = $result->id;
-                    $product_attribute->attribute_value_id = $attribute_value->id;
-                    $product_attribute->save();
+        try {
+            DB::beginTransaction();
+            if (!empty($request->file('image'))) {
+                $extention = $request->file('image')->getClientOriginalExtension();
+                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                    return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
                 }
             }
-        }
 
-        if ($result) {
+            $data = $request->all();
+
+            // Upload image: Check file -> Get File upload -> Insert Name -> move folder -> save
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
+                $path_upload = 'upload/product/';
+                $file->move($path_upload, $filename);
+                $data['image'] = $path_upload . $filename;
+            }
+
+            $product = $this->productRepo->prepareProduct($data);
+            $result = $this->productRepo->create($product);
+
+            foreach ($request->all() as $key => $value) {
+                if (is_int($key)) {
+                    // check exist attribute value
+                    $check_attribute_value = Attribute_Value::where([
+                        ['attribute_id', $key],
+                        ['value', $value]
+                    ])->first();
+
+                    if ($check_attribute_value) {
+                        // save product_id and atribute_value_id in product_atribute
+                        $product_attribute = new Product_Attribute();
+                        $product_attribute->product_id = $result->id;
+                        $product_attribute->attribute_value_id = $check_attribute_value->id;
+                        $product_attribute->save();
+                    } else {
+                        // create attribute value id
+                        $attribute_value = new Attribute_Value();
+                        $attribute_value->attribute_id = $key;
+                        $attribute_value->value = $value;
+                        $attribute_value->save();
+                        // save product_id and atribute_value_id in product_atribute
+                        $product_attribute = new Product_Attribute();
+                        $product_attribute->product_id = $result->id;
+                        $product_attribute->attribute_value_id = $attribute_value->id;
+                        $product_attribute->save();
+                    }
+                }
+            }
+            DB::commit();
             return redirect()->route('admin.product.index')->with('success', 'Đã thêm 1 Product!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::debug($e);
+            return redirect()->back()->with('error', 'Thêm Product không thành công');
         }
-
-        return redirect()->back()->with('error', 'Thêm Product không thành công');
     }
 
     /**
@@ -125,6 +128,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = $this->productRepo->find($id);
+        if (!$product) {
+            return redirect()->route('admin.product.index')->with('error', __('The requested resource is not available'));
+        }
         $categories = $this->categoryRepo->all();
         $attribute_product = Product_Attribute::where('product_id', $id)->get();
         $data = [
@@ -144,76 +150,96 @@ class ProductController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        $product = $this->productRepo->find($id);
-        if (!$product) {
-            return redirect()->route('admin.product.index')->with('error', __('The requested resource is not available'));
-        }
-
-        if (!empty($request->file('image'))) {
-            $extention = $request->file('image')->getClientOriginalExtension();
-            if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
-                return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+        try {
+            DB::beginTransaction();
+            $product = $this->productRepo->find($id);
+            if (!$product) {
+                return redirect()->route('admin.product.index')->with('error', __('The requested resource is not available'));
             }
-        }
 
-        $data = $request->all();
-        if ($request->hasFile('image')) {     // image
-            $file = $request->file('image');
-            $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-            $path_upload = 'upload/product/';
-            $file->move($path_upload, $filename);
-            $data['image'] = $path_upload . $filename;
-        } else {
-            $data['image'] = $product->image;
-        }
-        $products = $this->productRepo->prepareProduct($data);
-        $result = $this->productRepo->update($product->id, $products);
-
-        // get attribute if Request->variable is int !! That is attribute
-        Product_Attribute::where('product_id', $id)->delete();
-        foreach ($request->all() as $key => $value) {
-            if (is_int($key)) {
-                // variable for check exist attribute value
-                $check_attribute_value = Attribute_Value::where([
-                    ['attribute_id', '=', $key],
-                    ['value', '=', $value]
-                ])->first();
-                if ($check_attribute_value) {
-                    // save product_id and atribute_value_id in product_atribute
-                    $product_attribute = new Product_Attribute();
-                    $product_attribute->product_id = $result->id;
-                    $product_attribute->attribute_value_id = $check_attribute_value->id;
-                    $product_attribute->save();
-                } else {
-                    // create attribute value id
-                    $attribute_value = new Attribute_Value();
-                    $attribute_value->attribute_id = $key;
-                    $attribute_value->value = $value;
-                    $attribute_value->save();
-                    // save product_id and atribute_value_id in product_atribute
-                    $product_attribute = new Product_Attribute();
-                    $product_attribute->product_id = $result->id;
-                    $product_attribute->attribute_value_id = $attribute_value->id;
-                    $product_attribute->save();
+            if (!empty($request->file('image'))) {
+                $extention = $request->file('image')->getClientOriginalExtension();
+                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                    return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
                 }
             }
-        }
 
-        if ($result) {
+            $data = $request->all();
+            if ($request->hasFile('image')) {     // image
+                $file = $request->file('image');
+                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
+                $path_upload = 'upload/product/';
+                $file->move($path_upload, $filename);
+                $data['image'] = $path_upload . $filename;
+            } else {
+                $data['image'] = $product->image;
+            }
+            $products = $this->productRepo->prepareProduct($data);
+            $result = $this->productRepo->update($product->id, $products);
+
+            // get attribute if Request->variable is int !! That is attribute
+            Product_Attribute::where('product_id', $id)->delete();
+            foreach ($request->all() as $key => $value) {
+                if (is_int($key)) {
+                    // variable for check exist attribute value
+                    $check_attribute_value = Attribute_Value::where([
+                        ['attribute_id', '=', $key],
+                        ['value', '=', $value]
+                    ])->first();
+                    if ($check_attribute_value) {
+                        // save product_id and atribute_value_id in product_atribute
+                        $product_attribute = new Product_Attribute();
+                        $product_attribute->product_id = $result->id;
+                        $product_attribute->attribute_value_id = $check_attribute_value->id;
+                        $product_attribute->save();
+                    } else {
+                        // create attribute value id
+                        $attribute_value = new Attribute_Value();
+                        $attribute_value->attribute_id = $key;
+                        $attribute_value->value = $value;
+                        $attribute_value->save();
+                        // save product_id and atribute_value_id in product_atribute
+                        $product_attribute = new Product_Attribute();
+                        $product_attribute->product_id = $result->id;
+                        $product_attribute->attribute_value_id = $attribute_value->id;
+                        $product_attribute->save();
+                    }
+                }
+            }
+            DB::commit();
             return redirect()->route('admin.product.index')->with('success', 'Đã sửa thành công sản phẩm mang ID số ' . $product->id . '!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::debug($e);
+            return redirect()->back()->with('error', 'Sửa không thành công sản phẩm mang ID số ' . $product->id . '!');
         }
-
-        return redirect()->back()->with('error', 'Sửa không thành công sản phẩm mang ID số ' . $product->id . '!');
     }
 
     public function handle(Request $request, $action, $id)
     {
         $product = $this->productRepo->find($id);
+        if (!$product) {
+            return redirect()->route('admin.product.index')->with('error', __('The requested resource is not available'));
+        }
         switch ($action) {
             case 'delete':
-                Product_Attribute::where('product_id', $id)->delete();
-                $request->session()->flash('success', 'Đã xóa thành công sản phẩm mang ID số ' . $id . '!');
-                $product->delete();
+                try {
+                    DB::beginTransaction();
+                    $productAttrs = Product_Attribute::where('product_id', $id);
+                    if ($productAttrs->get()) {
+                        foreach ($productAttrs->get() as $productAttr) {
+                            Attribute_Value::where('id', $productAttr->attribute_value_id)->delete();
+                            $productAttrs->delete();
+                        }
+                    }
+                    ProductHistory::where('product_id', $id)->delete();
+                    $product->delete();
+                    $request->session()->flash('success', 'Đã xóa thành công sản phẩm mang ID số ' . $id . '!');
+                    DB::commit();
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    Log::debug($e);
+                }
                 break;
             case 'status':
                 $product->status = $product->status == 'active' ? 'inactive' : 'active';
@@ -249,6 +275,5 @@ class ProductController extends Controller
             $html = view('cms.product.getattribute', $data)->render();
         }
         return \response()->json($html);
-        // return view('admin.product.getattribute',compact('category'));
     }
 }

@@ -1,6 +1,6 @@
 @extends('cms.layout.master')
 
-@section('title', 'Kho hàng - Nhập hàng')
+@section('title', 'Nhập hàng - Xuất hàng')
 
 @section('content')
     <style>
@@ -13,7 +13,7 @@
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <h3>Nhập hàng</h3>
+                <h3>Nhập hàng - Xuất hàng</h3>
             </div>
             <div class="card-body">
                 <table class="table table-hover table-striped" id="dataTable">

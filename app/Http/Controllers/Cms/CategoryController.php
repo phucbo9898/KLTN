@@ -8,10 +8,14 @@ use App\Http\Requests\Category\UpdateRequest;
 use App\Models\Attribute;
 use App\Models\Category;
 use App\Models\Category_Attribute;
+use App\Models\Product;
+use App\Models\ProductHistory;
 use App\Repositories\AttributeRepository;
 use App\Repositories\CategoryAttributeRepository;
 use App\Repositories\CategoryRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
@@ -60,22 +64,26 @@ class CategoryController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $data = $request->all();
-        $category = $this->categoryRepo->prepareCategory($data);
-        $result = $this->categoryRepo->create($category);
-        foreach ($request->all() as $key => $value) {
-            if (is_int($key)) {
-                $this->categoryAttrRepo->create([
-                    'category_id' => $result->id,
-                    'attribute_id' => $key
-                ]);
+        try {
+            DB::beginTransaction();
+            $data = $request->all();
+            $category = $this->categoryRepo->prepareCategory($data);
+            $result = $this->categoryRepo->create($category);
+            foreach ($request->all() as $key => $value) {
+                if (is_int($key)) {
+                    $this->categoryAttrRepo->create([
+                        'category_id' => $result->id,
+                        'attribute_id' => $key
+                    ]);
+                }
             }
-        }
-        if ($result) {
+            DB::commit();
             return redirect()->route('admin.category.index')->with('success', 'Đã thêm 1 Category!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::debug($e);
+            return redirect()->back()->with('error', 'Thêm Category không thành công');
         }
-
-        return redirect()->back()->with('error', 'Thêm Category không thành công');
     }
 
     /**
@@ -86,18 +94,18 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //get all attribute
-        $attributes = $this->attributeRepo->all();
-        //get category
         $category = $this->categoryRepo->find($id);
-        //get attribute in category
+        if (!$category) {
+            return redirect()->route('admin.category.index')->with('error', __('The requested resource is not available'));
+        }
+
+        $attributes = $this->attributeRepo->all();
         $categoryAttribute = $this->categoryAttrRepo->where('category_id', $id)->get();
         $arrayCategoryAttribute = array();
         // push attribute of category in array for compare attribute in form
         foreach ($categoryAttribute as $ca) {
             $arrayCategoryAttribute[] = $ca->attribute_id;
         }
-        //variable transfer
 
         $data = [
             'attributes' => $attributes,
@@ -118,36 +126,61 @@ class CategoryController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        $category = $this->categoryRepo->find($id);
-        if (!$category) {
-            return redirect()->route('admin.category.index')->with('error', __('The requested resource is not available'));
-        }
-
-        $data = $request->all();
-        $categories = $this->categoryRepo->prepareCategory($data);
-        $result = $this->categoryRepo->update($category->id, $categories);
-        Category_Attribute::where('category_id', $category->id)->delete();
-        foreach ($request->all() as $key => $value) {
-            if (is_int($key)) {
-                $this->categoryAttrRepo->create([
-                    'category_id' => $result->id,
-                    'attribute_id' => $key
-                ]);
+        try {
+            DB::beginTransaction();
+            $category = $this->categoryRepo->find($id);
+            if (!$category) {
+                return redirect()->route('admin.category.index')->with('error', __('The requested resource is not available'));
             }
-        }
-        if ($result) {
+
+            $data = $request->all();
+            $categories = $this->categoryRepo->prepareCategory($data);
+            $result = $this->categoryRepo->update($category->id, $categories);
+            Category_Attribute::where('category_id', $category->id)->delete();
+            foreach ($request->all() as $key => $value) {
+                if (is_int($key)) {
+                    $this->categoryAttrRepo->create([
+                        'category_id' => $result->id,
+                        'attribute_id' => $key
+                    ]);
+                }
+            }
+            DB::commit();
             return redirect()->route('admin.category.index')->with('success', 'Đã sửa thành công loại sản phẩm mang ID số' . $category->id . '!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::debug($e);
+            return redirect()->back()->with('error', 'Sửa không thành công loại sản phẩm mang ID số' . $category->id . '!');
         }
-        return redirect()->back()->with('error', 'Sửa không thành công loại sản phẩm mang ID số' . $category->id . '!');
     }
 
     public function handle(Request $request, $action, $id)
     {
         $category = $this->categoryRepo->find($id);
+        if (!$category) {
+            return redirect()->route('admin.category.index')->with('error', __('The requested resource is not available'));
+        }
         switch ($action) {
             case 'delete':
-                $category->delete();
-                $request->session()->flash('success', 'Đã xóa thành công loại sản phẩm mang ID số ' . $id . '!');
+                try {
+                    DB::beginTransaction();
+                    Log::debug('xóa category 123');
+                    Log::debug('xóa category');
+                    $products = Product::where('category_id', $id);
+                    if ($products->get()) {
+                        foreach ($products->get() as $product) {
+                            ProductHistory::where('product_id', $product->id)->delete();
+                        }
+                    }
+                    Category_Attribute::where('category_id', $id)->delete();
+                    $products->delete();
+                    $category->delete();
+                    $request->session()->flash('success', 'Đã xóa thành công loại sản phẩm mang ID số ' . $id . '!');
+                    DB::commit();
+                } catch (\Exception $e) {
+                    DB::rollBack();
+                    Log::debug($e);
+                }
                 break;
             case 'status':
                 $category->status = $category->status == 'active' ? 'inactive' : 'active';

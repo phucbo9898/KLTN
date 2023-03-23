@@ -47,6 +47,29 @@ class AdminController extends Controller
      */
     public function index()
     {
+        $chart = $this->chart();
+        //number transaction handle
+        $transaction_number = Transaction::where('status', 'pending')->count();
+        //number products
+        $number_products = Product::all()->count();
+        //number user
+        $number_users = User::all()->count();
+        //number articles
+        $number_articles = Article::all()->count();
+        // data transmission
+        $data = [
+            'time_chart' => $chart['time_chart'],
+            'total_price_seven_days_edit' => $chart['total_price_seven_days_edit'],
+            'transaction_number' => $transaction_number,
+            'number_products' => $number_products,
+            'number_users' => $number_users,
+            'number_articles' => $number_articles
+        ];
+        return view('cms.dashbroad.index', $data);
+    }
+
+    public function chart()
+    {
         // get 7 day formar Y-m-d
         $today = Carbon::today()->format('Y-m-d');
         $onedago = Carbon::today()->subDays(1)->format('Y-m-d');
@@ -70,25 +93,15 @@ class AdminController extends Controller
         $for = Carbon::today()->subDays(4)->format('d-m');
         $five = Carbon::today()->subDays(5)->format('d-m');
         $six = Carbon::today()->subDays(6)->format('d-m');
+
         $total_price_seven_days_edit = "" . $totalsixdago . "," . $totalfivedago . "," . $totalfordago . "," . $totalthreedago . "," . $totaltwodago . "," . $totalonedago . "," . $totaltoday . "";
         $time_chart = "" . $six . "," . $five . "," . $for . "," . $three . "," . $two . "," . $one . ",Hôm nay";
-        //number transaction handle
-        $transaction_number = Transaction::where('status', 'pending')->count();
-        //number products
-        $number_products = Product::all()->count();
-        //number user
-        $number_users = User::all()->count();
-        //number articles
-        $number_articles = Article::all()->count();
-        // data transmission
+
         $data = [
-            'time_chart' => $time_chart,
             'total_price_seven_days_edit' => $total_price_seven_days_edit,
-            'transaction_number' => $transaction_number,
-            'number_products' => $number_products,
-            'number_users' => $number_users,
-            'number_articles' => $number_articles
+            'time_chart' => $time_chart
         ];
-        return view('cms.dashbroad.index', $data);
+
+        return $data;
     }
 }

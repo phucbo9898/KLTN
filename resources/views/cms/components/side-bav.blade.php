@@ -142,17 +142,27 @@
                             <a href="{{ Route('admin.warehouse.import') }}" style="margin-left: 15%;padding-left: 0px;"
                                class="nav-link {{ request()->is('admin/warehouse') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>@lang('Nhập hàng')</p>
+                                <p>@lang('Nhập hàng, xuất hàng')</p>
                             </a>
                         </li>
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.warehouse.history') }}"
+                            <a href="{{ route('admin.warehouse.history-import') }}"
                                style="margin-left: 15%;padding-left: 0px;"
-                               class="nav-link {{ request()->is('admin/warehouse/history') ? 'active' : '' }}">
+                               class="nav-link {{ request()->is('admin/warehouse/history-import') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>@lang('Lịch sử nhập hàng')</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.warehouse.history-export') }}"
+                               style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/warehouse/history-export') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Lịch sử xuất hàng')</p>
                             </a>
                         </li>
                     </ul>

@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Enums\ActiveStatus;
 use App\Models\Product;
 use Illuminate\Support\Str;
 

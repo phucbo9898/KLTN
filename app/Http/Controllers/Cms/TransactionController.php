@@ -88,12 +88,12 @@ class TransactionController extends Controller
                                 Notification::insert(
                                     [
                                         'sender' => Auth::user()->id,
-                                        'receiver' => $transaction->user_id,
+                                        'receiver' => $transaction->user_id ?? 0,
                                         'content' => 'Giao dịch mã số ' . $id . ' có sản phẩm ' . $product->name . ' đã hết hàng ! Chủ cửa hàng có thể nhập thêm hoặc đơn hàng này sẽ bị <b>HỦY</b> trong thời gian tới !!!',
                                         'created_at' => Carbon::now()
                                     ]
                                 );
-                                $request->session()->flash('OutOfStock', 'Sản phẩm ' . $product->name . ' đã hết hàng không thể thay đổi trạng thái giao dịch này !!!');
+                                $request->session()->flash('error', 'Sản phẩm ' . $product->name . ' đã hết hàng không thể thay đổi trạng thái giao dịch này !!!');
                                 return redirect()->back();
                             }
                         }
@@ -124,6 +124,7 @@ class TransactionController extends Controller
 //                $product->save();
 //            }
             $transaction->status = 'completed';
+            $status = 'completed';
             Notification::insert(
                 [
                     'sender' => Auth::user()->id,
