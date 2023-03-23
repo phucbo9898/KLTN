@@ -524,11 +524,13 @@
                                             <h5 class="li-blog-heading pt-25"><a
                                                     href="{{ route('article.detail', ['id' => $article->id]) }}"
                                                     class="block-ellipsis">{{ $article->name }}</a></h5>
-                                            <div class="li-blog-meta" style="padding: 0px 0 10px;">
+                                            <div class="li-blog-meta list-article" style="padding: 0px 0 10px;">
                                                 <span class="author" style="color: #aba3a3;"><i
-                                                        class="fa fa-user"></i>{{ isset($article->user->name) ? $article->user->name : 'Admin' }}
+                                                        class="fa fa-user"></i>&ensp;{{ isset($article->user->name) ? $article->user->name : 'Admin' }}
                                                 </span>
-                                                <span class="post-time" style="color: #aba3a3;">
+                                                <span class="post-time ml-3" style="color: #aba3a3;">
+                                                    <input type="hidden" class="convert-time"
+                                                           value="{{ date('Y-m-d h:i:s A', strtotime($article->created_at ?? '')) }}">
                                                     <i class="fa fa-calendar"></i>
                                                     {{ $article->created_at }}
                                                 </span>
@@ -553,6 +555,11 @@
 @section('javascript')
     <script>
         $(function() {
+            $('.list-article').find('.convert-time').each(function () {
+                var a = moment.tz($(this).val(), Intl.DateTimeFormat().resolvedOptions().timeZone)
+                console.log(a)
+                $(this).parent('span').html('<i class="fa fa-calendar"></i>' + a.format('YYYY-MM-DD HH:mm:ss'))
+            });
             $(".button_add_favorite_product").click(function(event) {
                 event.preventDefault();
                 url = $(this).attr("href");
