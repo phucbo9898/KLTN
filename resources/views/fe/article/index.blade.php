@@ -54,8 +54,11 @@
                                                 <a class="author" href="#"><i
                                                         class="fa fa-user"></i>{{ isset($article->user->name) ? $article->user->name : 'Admin' }}
                                                 </a>
-                                                <a class="post-time" href="#"><i class="fa fa-calendar"></i>
-                                                    {{ $article->created_at }}</a>
+                                                <a class="post-time list-article ml-3" href="#">
+                                                    <i class="fa fa-calendar"></i>
+                                                    <input type="hidden" class="convert-time" value="{{ date('Y-m-d h:i:s A', strtotime($article->created_at ?? '')) }}">
+                                                    {{ $article->created_at }}
+                                                </a>
                                             </div>
                                             <p>{{ $article->description }}</p>
                                             <a class="read-more" href="{{ route('article.detail', $article->id) }}">
@@ -84,4 +87,15 @@
         </div>
     </div>
     <!-- Li's Main Blog Page Area End Here -->
+@endsection
+@section('javascript')
+    <script>
+        $(function() {
+            $('.list-article').find('.convert-time').each(function () {
+                var a = moment.tz($(this).val(), Intl.DateTimeFormat().resolvedOptions().timeZone)
+                console.log(a)
+                $(this).parent('a').html('<i class="fa fa-calendar"></i>' + a.format('YYYY-MM-DD HH:mm:ss'))
+            });
+        })
+    </script>
 @endsection
