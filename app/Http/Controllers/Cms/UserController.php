@@ -133,9 +133,9 @@ class UserController extends Controller
                 $file->move($path_upload, $filename);
                 $data['image'] = $path_upload . $filename;
             } else {
-                $data['image'] = $user->avatar;
+                $data['image'] = $user->avatar ?? '';
             }
-            $data['password'] = $user->password;
+            $data['password'] = $user->password ?? '';
             $users = $this->userRepo->prepareUser($data);
             $this->userRepo->update($user->id, $users);
 

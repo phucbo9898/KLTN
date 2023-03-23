@@ -23,11 +23,11 @@
                         <tbody>
                             @foreach ($ratings as $rating)
                                 <tr>
-                                    <td>{{ $rating->id }}</td>
-                                    <td>{{ optional($rating->User)->name }}</td>
-                                    <td>{{ $rating->Product->name }}</td>
-                                    <td>{{ $rating->content }}</td>
-                                    <td style="text-align: center; width: 5%;">{{ $rating->number }} sao</td>
+                                    <td>{{ $rating->id ?? '' }}</td>
+                                    <td>{{ optional($rating->User)->name ?? '' }}</td>
+                                    <td>{{ $rating->Product->name ?? '' }}</td>
+                                    <td>{{ $rating->content ?? '' }}</td>
+                                    <td style="text-align: center; width: 5%;">{{ $rating->number ?? '' }} sao</td>
                                     <td>
                                         <input type="hidden" class="convert-time"
                                                value="{{ date('Y-m-d h:i:s A', strtotime($rating->created_at ?? '')) }}">

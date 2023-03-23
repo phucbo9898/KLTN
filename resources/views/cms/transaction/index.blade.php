@@ -14,22 +14,6 @@
                 <div class="form-group">
                     <x-transaction.search-form :options="$options ?? ''"/>
                 </div>
-                @if (Session::has('OutOfStock'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Thất bại !</strong> {{ Session::get('OutOfStock') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                @if (Session::has('stopDelete'))
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Thất bại !</strong> {{ Session::get('stopDelete') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
                 <table class="table table-hover table-striped" id="dataTable"
                        style="overflow-y: scroll; white-space: nowrap; font-size: 16px !important;">
                     <thead class="thead-dark">
@@ -46,9 +30,9 @@
                     <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
-                            <td style="text-align: center;">{{ $transaction->id }}</td>
+                            <td style="text-align: center;">{{ $transaction->id ?? '' }}</td>
                             <td>{{ optional($transaction->user)->name ?? $transaction->customer_name }}</td>
-                            <td>{{ $transaction->phone }}</td>
+                            <td>{{ $transaction->phone ?? '' }}</td>
                             <td style="text-align: center;">
                                 @if($transaction->status_payment == 'Paуment not received')
                                     <a href="{{ route('admin.transaction.handle', ['change-status', $transaction->id]) }}"
@@ -90,7 +74,7 @@
                                           style="font-size: 14px; width: 95.96px;">Đã hủy</span>
                                 @endif
                             </td>
-                            <td style="text-align: center;">{{ $transaction->payment_code }}</td>
+                            <td style="text-align: center;">{{ $transaction->payment_code ?? '' }}</td>
                             <td style="width: 10%;">
                                 <a href="{{ route('admin.get.order.item', $transaction->id) }}"
                                    data-id="{{ $transaction->id }}"

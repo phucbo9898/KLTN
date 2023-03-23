@@ -2,9 +2,9 @@
     <?php $i = 1;
     $total_earn_money = 0;
     ?>
-    <input type="hidden" name="count" value="{{ $count }}">
-    <div id="data-statistical-date-start" data-statistical-date-start="{{ $statistical_date_start }}"></div>
-    <div id="data-statistical-date-end" data-statistical-date-end="{{ $statistical_date_end }}"></div>
+    <input type="hidden" name="count" value="{{ $count ?? '' }}">
+    <div id="data-statistical-date-start" data-statistical-date-start="{{ $statistical_date_start ?? '' }}"></div>
+    <div id="data-statistical-date-end" data-statistical-date-end="{{ $statistical_date_end ?? '' }}"></div>
     @if($count > 0)
         <a href="#" class="btn btn-success mb-2" id="export_pdf" style="float:right;display:none">Xuất báo
             cáo</a>

@@ -164,8 +164,6 @@ class CategoryController extends Controller
             case 'delete':
                 try {
                     DB::beginTransaction();
-                    Log::debug('xóa category 123');
-                    Log::debug('xóa category');
                     $products = Product::where('category_id', $id);
                     if ($products->get()) {
                         foreach ($products->get() as $product) {

@@ -148,6 +148,9 @@ class ArticleController extends Controller
     public function handle(Request $request, $action, $id)
     {
         $article = $this->articleRepo->find($id);
+        if (!$article) {
+            return redirect()->route('admin.article.index')->with('error', __('The requested resource is not available'));
+        }
         switch ($action) {
             case 'delete':
                 $article->delete();

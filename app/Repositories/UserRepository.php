@@ -66,7 +66,7 @@ class UserRepository extends BaseRepository
     public function prepareChangePassword(array $data)
     {
         $user = [
-            'password' => bcrypt($data['passwordreset']),
+            'password' => bcrypt($data['passwordreset'] ?? ''),
         ];
 
         return $user;

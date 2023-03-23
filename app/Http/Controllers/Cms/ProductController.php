@@ -93,19 +93,19 @@ class ProductController extends Controller
                     if ($check_attribute_value) {
                         // save product_id and atribute_value_id in product_atribute
                         $product_attribute = new Product_Attribute();
-                        $product_attribute->product_id = $result->id;
-                        $product_attribute->attribute_value_id = $check_attribute_value->id;
+                        $product_attribute->product_id = $result->id ?? '';
+                        $product_attribute->attribute_value_id = $check_attribute_value->id ?? '';
                         $product_attribute->save();
                     } else {
                         // create attribute value id
                         $attribute_value = new Attribute_Value();
-                        $attribute_value->attribute_id = $key;
-                        $attribute_value->value = $value;
+                        $attribute_value->attribute_id = $key ?? '';
+                        $attribute_value->value = $value ?? '';
                         $attribute_value->save();
                         // save product_id and atribute_value_id in product_atribute
                         $product_attribute = new Product_Attribute();
-                        $product_attribute->product_id = $result->id;
-                        $product_attribute->attribute_value_id = $attribute_value->id;
+                        $product_attribute->product_id = $result->id ?? '';
+                        $product_attribute->attribute_value_id = $attribute_value->id ?? '';
                         $product_attribute->save();
                     }
                 }
@@ -189,19 +189,19 @@ class ProductController extends Controller
                     if ($check_attribute_value) {
                         // save product_id and atribute_value_id in product_atribute
                         $product_attribute = new Product_Attribute();
-                        $product_attribute->product_id = $result->id;
-                        $product_attribute->attribute_value_id = $check_attribute_value->id;
+                        $product_attribute->product_id = $result->id ?? '';
+                        $product_attribute->attribute_value_id = $check_attribute_value->id ?? '';
                         $product_attribute->save();
                     } else {
                         // create attribute value id
                         $attribute_value = new Attribute_Value();
-                        $attribute_value->attribute_id = $key;
-                        $attribute_value->value = $value;
+                        $attribute_value->attribute_id = $key ?? '';
+                        $attribute_value->value = $value ?? '';
                         $attribute_value->save();
                         // save product_id and atribute_value_id in product_atribute
                         $product_attribute = new Product_Attribute();
-                        $product_attribute->product_id = $result->id;
-                        $product_attribute->attribute_value_id = $attribute_value->id;
+                        $product_attribute->product_id = $result->id ?? '';
+                        $product_attribute->attribute_value_id = $attribute_value->id ?? '';
                         $product_attribute->save();
                     }
                 }

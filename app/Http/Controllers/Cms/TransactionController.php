@@ -48,8 +48,11 @@ class TransactionController extends Controller
 
     public function handle(Request $request, $action, $id)
     {
+        $transaction = $this->transactionRepo->find($id);
+        if (!$transaction) {
+            return redirect()->route('admin.transaction.index')->with('error', __('The requested resource is not available'));
+        }
         if ($action) {
-            $transaction = $this->transactionRepo->find($id);
             switch ($action) {
                 case 'cancel':
                     $transaction->status = 'canceled';
@@ -128,7 +131,7 @@ class TransactionController extends Controller
             Notification::insert(
                 [
                     'sender' => Auth::user()->id,
-                    'receiver' => $transaction->user_id,
+                    'receiver' => $transaction->user_id ?? 0,
                     'content' => 'Giao dịch <b>mã số ' . $id . '</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!',
                     'created_at' => Carbon::now(),
                 ]

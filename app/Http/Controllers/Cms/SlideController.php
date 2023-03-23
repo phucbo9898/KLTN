@@ -126,7 +126,7 @@ class SlideController extends Controller
                 $file->move($path_upload, $filename);
                 $data['image'] = $path_upload . $filename;
             } else {
-                $data['image'] = $slide->image;
+                $data['image'] = $slide->image ?? '';
             }
             $slides = $this->slideRepo->prepareSlide($data);
             $this->slideRepo->update($slide->id, $slides);

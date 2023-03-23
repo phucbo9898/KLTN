@@ -126,14 +126,15 @@ class ShoppingCartController extends CustomerController
     {
         $amountTotal = (int)round($request->total_momo);
         $transactionId = Transaction::insertGetId([
-            'customer_name' => $request->name,
-            'total' => $amountTotal,
-            'note' => $request->note,
-            'address' => $request->address,
-            'phone' => $request->phone_number,
+            'customer_name' => $request->name ?? '',
+            'user_id' => Auth::user()->id,
+            'total' => $amountTotal ?? '',
+            'note' => $request->note ?? '',
+            'address' => $request->address ?? '',
+            'phone' => $request->phone_number ?? '',
             'status' => 'pending',
-            'type_payment' => $request->type_payment,
-            'status_payment' => $request->status_payment,
+            'type_payment' => $request->type_payment ?? '',
+            'status_payment' => $request->status_payment ?? '',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -143,19 +144,19 @@ class ShoppingCartController extends CustomerController
             $products = \Cart::content();
             foreach ($products as $product) {
                 Order::insert([
-                    'transaction_id' => $transactionId,
-                    'product_id' => $product->id,
-                    'quantity' => $product->qty,
-                    'price' => $product->options->price_old,
-                    'sale' => $product->options->sale,
-                    'payment_code' => "MGD" . "-" . $transactionId,
+                    'transaction_id' => $transactionId ?? '',
+                    'product_id' => $product->id ?? '',
+                    'quantity' => $product->qty ?? '',
+                    'price' => $product->options->price_old ?? '',
+                    'sale' => $product->options->sale ?? '',
+                    'payment_code' => "MGD" . "-" . $transactionId ?? '',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
                 $product_qty = Product::find($product->id);
                 $quantity = $product_qty->quantity - $product->qty;
                 $quantity_pay = $product_qty->qty_pay + $product->qty;
-                Product::where('id', $product->id)->update(['quantity' => $quantity, 'qty_pay' => $quantity_pay]);
+                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
             }
         }
 
@@ -206,14 +207,15 @@ class ShoppingCartController extends CustomerController
         $totalMoney = str_replace(',', '', \Cart::subtotal(0));
         // insert data transaction and get id then insert
         $transactionId = Transaction::insertGetId([
-            'customer_name' => $request->name,
-            'total' => $totalMoney,
-            'note' => $request->note,
-            'address' => $request->address,
-            'phone' => $request->phone_number,
+            'customer_name' => $request->name ?? '',
+            'user_id' => Auth::user()->id,
+            'total' => $totalMoney ?? '',
+            'note' => $request->note ?? '',
+            'address' => $request->address ?? '',
+            'phone' => $request->phone_number ?? '',
             'status' => 'pending',
-            'type_payment' => $request->type_payment,
-            'status_payment' => $request->status_payment,
+            'type_payment' => $request->type_payment ?? '',
+            'status_payment' => $request->status_payment ?? '',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
@@ -223,19 +225,19 @@ class ShoppingCartController extends CustomerController
             $products = \Cart::content();
             foreach ($products as $product) {
                 Order::insert([
-                    'transaction_id' => $transactionId,
-                    'product_id' => $product->id,
-                    'quantity' => $product->qty,
-                    'price' => $product->options->price_old,
-                    'sale' => $product->options->sale,
-                    'payment_code' => "MGD" . "-" . $transactionId,
+                    'transaction_id' => $transactionId ?? '',
+                    'product_id' => $product->id ?? '',
+                    'quantity' => $product->qty ?? '',
+                    'price' => $product->options->price_old ?? '',
+                    'sale' => $product->options->sale ?? '',
+                    'payment_code' => "MGD" . "-" . $transactionId ?? '',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
                 $product_qty = Product::find($product->id);
                 $quantity = $product_qty->quantity - $product->qty;
                 $quantity_pay = $product_qty->qty_pay + $product->qty;
-                Product::where('id', $product->id)->update(['quantity' => $quantity, 'qty_pay' => $quantity_pay]);
+                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
             }
         }
 

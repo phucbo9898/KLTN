@@ -32,11 +32,6 @@ class ArticleController extends CustomerController
             'id' => $id,
             'status' => 'active'
         ])->first();
-        // $data = [
-        //     'article' => $article,
-        //     'articles' => $articles
-        // ];
-        // dd($data['article']);
         return view('fe.article.detail', compact('article', 'getListArticles'));
     }
 }

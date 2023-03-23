@@ -22,7 +22,6 @@ class HistoryController extends CustomerController
     public function index()
     {
         $user = Auth::user();
-//        dd($user);
         $transactions = Transaction::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10);
         $countTransaction = $transactions->count();
         $data = [
@@ -36,8 +35,10 @@ class HistoryController extends CustomerController
     public function getOrderItem(Request $request, $id)
     {
         if ($request->ajax()) {
+            $transaction = Transaction::where('id', $id)->first();
             $orders = Order::where('transaction_id', $id)->get();
-            $html = view('cms.transaction.orderItem', compact('orders'))->render();
+            $html = view('fe.history.orderItem', compact('orders', 'transaction'))->render();
+
             return \response()->json($html);
         }
     }
