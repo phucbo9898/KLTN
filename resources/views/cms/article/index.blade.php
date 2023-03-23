@@ -9,51 +9,27 @@
                 <h3>Danh sách bài viết</h3>
             </div>
             <div class="card-body">
-                @if (Session::has('create_article_success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công !</strong> {{ Session::get('create_article_success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                @if (Session::has('edit_article_success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công !</strong> {{ Session::get('edit_article_success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                @if (Session::has('delete_article_success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công !</strong> {{ Session::get('delete_article_success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
                 <table class="table table-hover table-striped table-list" id="dataTable">
                     <thead class="thead-dark">
-                        <th>ID</th>
-                        <th>Tên bài viết</th>
-                        <th>Ảnh</th>
-                        <th>Mô tả</th>
-                        <th>Trạng thái</th>
-                        <th>Ngày tạo</th>
-                        <th>Hành động</th>
+                    <th>ID</th>
+                    <th>Tên bài viết</th>
+                    <th>Ảnh</th>
+                    <th>Mô tả</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày tạo</th>
+                    <th>Hành động</th>
                     </thead>
                     <tbody>
                         @foreach ($articles as $article)
                             <tr>
-                                <td>{{ $article->id }}</td>
-                                <td style="width:15%">{{ $article->name }}</td>
-                                <td><img style="width:80px;height:80px" src="{{ asset($article->image) }}"
+                                <td>{{ $article->id ?? '' }}</td>
+                                <td style="width:15%">{{ $article->name ?? '' }}</td>
+                                <td><img style="width:80px;height:80px" src="{{ asset($article->image ?? '') }}"
                                          alt="No Avatar"/></td>
-                                <td>{{ $article->description }}</td>
+                                <td>{{ $article->description ?? '' }}</td>
                                 <td style="width: 11%; text-align: center"><a
                                         href="{{ route('admin.article.handle', ['status', $article->id]) }}"
-                                        class="badge badge-{{ $article->status == 'active' ? 'success' : 'danger' }}">{{ $article->status == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
+                                        class="badge badge-{{ ($article->status ?? '') == 'active' ? 'success' : 'danger' }}">{{ ($article->status ?? '') == 'active' ? 'Công khai' : 'Riêng tư' }}</a>
                                 </td>
                                 <td style="width:11%">
                                     <input type="hidden" class="convert-time"

@@ -42,23 +42,23 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-2 text-right">
-                                <label style="margin-right: 2px;">Trạng thái</label>
-                            </div>
-                            <div class="col-md-8">
-                                @foreach(ActiveStatus::getValues() as $status)
-                                    <span class="mr-2">
-                                        <input
-                                            {{ old('status') == $status || $status == 'active' ? "checked" : '' }} type="radio"
-                                            name="status" value="{{ $status }}">
-                                        <label for="">@lang(ActiveStatus::getStatusName($status))</label>
-                                    </span>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
+{{--                    <div class="form-group">--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col-md-2 text-right">--}}
+{{--                                <label style="margin-right: 2px;">Trạng thái</label>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-md-8">--}}
+{{--                                @foreach(ActiveStatus::getValues() as $status)--}}
+{{--                                    <span class="mr-2">--}}
+{{--                                        <input--}}
+{{--                                            {{ old('status') == $status || $status == 'active' ? "checked" : '' }} type="radio"--}}
+{{--                                            name="status" value="{{ $status }}">--}}
+{{--                                        <label for="">@lang(ActiveStatus::getStatusName($status))</label>--}}
+{{--                                    </span>--}}
+{{--                                @endforeach--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
                     <div style="padding: 0.5rem!important;"></div>
 

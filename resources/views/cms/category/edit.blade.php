@@ -36,7 +36,7 @@
                                     <div class="form-check">
                                         <label class="form-check-label">
                                             <input type="checkbox" class="form-check-input" name="{{ $attribute->id }}"
-                                                {{ isset($arrayCategoryAttribute) ? (in_array($attribute->id, $arrayCategoryAttribute) ? 'checked' : '') : '' }}>{{ $attribute->name }}
+                                                {{ isset($arrayCategoryAttribute) ? (in_array($attribute->id, $arrayCategoryAttribute) ? 'checked' : '') : '' }}>{{ $attribute->name ?? '' }}
                                         </label>
                                     </div>
                                 @endforeach
@@ -44,21 +44,21 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-2 text-right">
-                                <label style="margin-right: 2px;">Trạng thái</label>
-                            </div>
-                            <div class="col-md-8">
-                                @foreach (ActiveStatus::getValues() as $status)
-                                    <span class="mr-2">
-                                        <input type="radio" name="status" value="{{ $status }}" {{ old('status', $category->status) == $status ? 'checked' : '' }}>
-                                        <label for="{{ ActiveStatus::getStatusName($status) }}">@lang(ActiveStatus::getStatusName($status))</label>
-                                    </span>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
+{{--                    <div class="form-group">--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col-md-2 text-right">--}}
+{{--                                <label style="margin-right: 2px;">Trạng thái</label>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-md-8">--}}
+{{--                                @foreach (ActiveStatus::getValues() as $status)--}}
+{{--                                    <span class="mr-2">--}}
+{{--                                        <input type="radio" name="status" value="{{ $status }}" {{ old('status', $category->status) == $status ? 'checked' : '' }}>--}}
+{{--                                        <label for="{{ ActiveStatus::getStatusName($status) }}">@lang(ActiveStatus::getStatusName($status))</label>--}}
+{{--                                    </span>--}}
+{{--                                @endforeach--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
 
                     <div style="padding: 0.5rem!important;"></div>
                     <div class="form-group">

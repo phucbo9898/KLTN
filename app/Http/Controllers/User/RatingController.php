@@ -28,9 +28,9 @@ class RatingController extends CustomerController
                 foreach ($transactions->orders as $order) {
                     if ($order->product_id == $id) {
                         Rating::insert([
-                            'product_id' => $id,
-                            'number' => $request->number,
-                            'content' => $request->content,
+                            'product_id' => $id ?? '',
+                            'number' => $request->number ?? '',
+                            'content' => $request->content ?? '',
                             'user_id' => Auth::user()->id,
                             'created_at' => Carbon::now(),
                             'updated_at' => Carbon::now(),

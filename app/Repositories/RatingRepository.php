@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\Rating;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class RatingRepository extends BaseRepository
 {
@@ -10,5 +12,4 @@ class RatingRepository extends BaseRepository
     {
         $this->model = $model;
     }
-
 }

@@ -64,11 +64,21 @@ use App\Enums\ActiveStatus;
                             <td>{{ $user->email ?? '' }}</td>
                             <td>{{ $user->phone ?? '' }}</td>
                             <td class="">
-                                <a href="{{ route('admin.user.action', ['role', $user->id]) }}">
-                                    <span class="badge badge-<?php if ($user->role == UserType::ADMIN){echo 'success';}elseif ($user->role == UserType::SYSTEMADMIN){echo 'primary';}else{echo 'secondary';}?>" style="font-size: 14px;width: 113.11px;">
-                                        @lang($user->getUserType() ?? '')
-                                    </span>
-                                </a>
+{{--                                <a href="{{ route('admin.user.action', ['role', $user->id]) }}">--}}
+{{--                                    <span class="badge badge-<?php if ($user->role == UserType::ADMIN){echo 'success';}elseif ($user->role == UserType::SYSTEMADMIN){echo 'primary';}else{echo 'secondary';}?>" style="font-size: 14px;width: 113.11px;">--}}
+{{--                                        @lang($user->getUserType() ?? '')--}}
+{{--                                    </span>--}}
+{{--                                </a>--}}
+                                @switch($user->role)
+                                    @case(UserType::ADMIN)
+                                        <span class="badge badge-success" style="font-size: 14px;width: 113.11px;">Admin</span>
+                                        @break
+                                    @case(UserType::SYSTEMADMIN)
+                                        <span class="badge badge-info" style="font-size: 14px;width: 113.11px;">SystemAdmin</span>
+                                        @break
+                                    @default
+                                        <span class="badge badge-secondary" style="font-size: 14px;width: 113.11px;">User</span>
+                                @endswitch
                             </td>
                             <td>
                                 <span class="badge badge-{{ $user->status == ActiveStatus::ACTIVE ? 'primary' : 'danger' }}" style="font-size: 14px; width: 113.11px;">
@@ -140,7 +150,6 @@ use App\Enums\ActiveStatus;
                 $(this).addClass('d-none');
             });
             $('#dataTable').DataTable({
-                ,
                 "language": {
                     "decimal": "",
                     "emptyTable": "Không có dữ liệu hiển thị trong bảng",
@@ -180,8 +189,7 @@ use App\Enums\ActiveStatus;
                 icon: "info",
                 buttons: ["Không", "Có"],
                 dangerMode: true,
-            })
-                .then((willDelete) => {
+            }).then((willDelete) => {
                     if (willDelete) {
                         swal("Thành công", "Hệ thống chuẩn bị xóa tài khoản mang ID =" + id + " !", 'success')
                             .then(function () {

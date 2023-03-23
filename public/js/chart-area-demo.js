@@ -30,16 +30,16 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
 // data chart are by Trung
-var data_chart_by_trung = $(".chart_seven_days").attr("data-chart");
-var array_data_chart_by_trung = data_chart_by_trung.split(",");
-var data_chart_time_by_trung = $(".chart_time_seven_days").attr("data-chart-time");
-var array_data_chart_time_by_trung = data_chart_time_by_trung.split(",");
+var data_chart_by_kaiserkid = $(".chart_seven_days").attr("data-chart");
+var array_data_chart_by_kaiserkid = data_chart_by_kaiserkid.split(",");
+var data_chart_time_by_kaiserkid = $(".chart_time_seven_days").attr("data-chart-time");
+var array_data_chart_time_by_kaiserkid = data_chart_time_by_kaiserkid.split(",");
 // end data chart are by Trung
 var myLineChart = new Chart(ctx, {
     type: 'line',
     data: {
         // labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        labels: array_data_chart_time_by_trung,
+        labels: array_data_chart_time_by_kaiserkid,
         datasets: [{
             label: "Bán được",
             lineTension: 0.3,
@@ -53,7 +53,7 @@ var myLineChart = new Chart(ctx, {
             pointHoverBorderColor: "rgba(78, 115, 223, 1)",
             pointHitRadius: 10,
             pointBorderWidth: 2,
-            data: array_data_chart_by_trung,
+            data: array_data_chart_by_kaiserkid,
         }],
     },
     options: {

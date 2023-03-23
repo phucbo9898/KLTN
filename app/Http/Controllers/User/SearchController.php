@@ -10,8 +10,6 @@ class SearchController extends CustomerController
 {
     public function index(Request $request)
     {
-        $products = '';
-        //        dd($request->search_category_id);
         if ($request->search_category_id == 0) {
             $products = Product::where('name', 'like', '%' . $request->searh_key . '%')->get();
         } else {

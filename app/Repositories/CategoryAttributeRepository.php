@@ -14,10 +14,10 @@ class CategoryAttributeRepository extends BaseRepository
     public function prepareCategoryAttribute(array $data)
     {
         $categoryAttribute = [
-            'category_id' => $data['name'],
-            'slug' => Str::slug($data['name']),
-            'type' => $data['type'],
-            'value' => $data['value'],
+            'category_id' => $data['name'] ?? '',
+            'slug' => Str::slug($data['name'] ?? ''),
+            'type' => $data['type'] ?? '',
+            'value' => $data['value'] ?? '',
         ];
 
         return $categoryAttribute;

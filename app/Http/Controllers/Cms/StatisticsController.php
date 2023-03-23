@@ -53,12 +53,10 @@ class StatisticsController extends Controller
         ];
         $pdf = \PDF::loadView('cms.statistics.testpdf-pdf', $data);
         return $pdf->download('statistical' . $request->statistical_date_start_pdf . 'to' . $request->statistical_date_end_pdf . '.pdf');
-        // return view('admin::components.testpdf-pdf',$data);
     }
 
     public function exportExcel(Request $request)
     {
-//        dd($request->all());
         return Excel::download(new ExportFile(), date('Y-m-d', strtotime($request->statistical_date_start_pdf)) . '_' .  date('Y-m-d', strtotime($request->statistical_date_end_pdf)) . '_' . 'by' . '_' . $request->user . '_' . 'statistic.xlsx');
     }
 }

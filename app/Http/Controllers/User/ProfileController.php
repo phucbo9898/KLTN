@@ -28,8 +28,8 @@ class ProfileController extends Controller
     }
 
     public function update(Request $request, $id) {
-        DB::beginTransaction();
         try {
+            DB::beginTransaction();
             $user = $this->userRepo->find($id);
             if (!$user) {
                 return redirect()->route('profile.index')->with('error-user', __('The requested resource is not available'));
@@ -56,7 +56,6 @@ class ProfileController extends Controller
             } else {
                 $data['avatar'] = $user->avatar;
             }
-//            dd($data);
 
             $result = $user->update($data);
             DB::commit();

@@ -2,8 +2,8 @@
 <?php
 $i = 1;
 $total_earn_money = 0;
-$statistical_date_start = date('d-m-Y H:i:s', strtotime($data['statistical_date_start']));
-$statistical_date_end = date('d-m-Y H:i:s', strtotime($data['statistical_date_end']));
+$statistical_date_start = date('d-m-Y H:i:s', strtotime($data['statistical_date_start'] ?? ''));
+$statistical_date_end = date('d-m-Y H:i:s', strtotime($data['statistical_date_end'] ?? ''));
 ?>
 <table class="table table-bordered" style="font-size: 12px" border="1">
     <tbody>
@@ -18,17 +18,17 @@ $statistical_date_end = date('d-m-Y H:i:s', strtotime($data['statistical_date_en
         </tr>
         <tr>
             <td></td>
-            <td colspan="6" style="font-size: 12px;">Người tạo thống kê: {{ Auth::user()->name }}</td>
+            <td colspan="6" style="font-size: 12px;">Người tạo thống kê: {{ Auth::user()->name ?? '' }}</td>
         </tr>
         <tr>
             <td></td>
-            <td colspan="6" style="font-size: 12px;">Ngày tạo thống kê: ngày {{ $data['day'] }} tháng
-                {{ $data['month'] }} năm {{ $data['year'] }}</td>
+            <td colspan="6" style="font-size: 12px;">Ngày tạo thống kê: ngày {{ $data['day'] ?? '' }} tháng
+                {{ $data['month'] ?? '' }} năm {{ $data['year'] ?? '' }}</td>
         </tr>
         <tr>
             <td></td>
-            <td colspan="6" style="font-size: 12px;">Báo cáo doanh thu từ {{ $statistical_date_start }} đến
-                {{ $statistical_date_end }}</td>
+            <td colspan="6" style="font-size: 12px;">Báo cáo doanh thu từ {{ $statistical_date_start ?? '' }} đến
+                {{ $statistical_date_end ?? '' }}</td>
         </tr>
         <tr>
             <td></td>
@@ -52,16 +52,16 @@ $statistical_date_end = date('d-m-Y H:i:s', strtotime($data['statistical_date_en
             @foreach ($transaction->orders as $order)
                 <tr>
                     <td style="text-align: center">{{ $i++ }}</td>
-                    <td>{{ $order->product->name }}</td>
-                    <td style="text-align: center">{{ $order->quantity }}</td>
-                    <td style="text-align: center">{{ number_format($order->price, 0, ',', '.') }} VNĐ</td>
+                    <td>{{ $order->product->name ?? '' }}</td>
+                    <td style="text-align: center">{{ $order->quantity ?? '' }}</td>
+                    <td style="text-align: center">{{ number_format(($order->price ?? ''), 0, ',', '.') }} VNĐ</td>
                     <td style="text-align: center">
-                        {{ $order->sale > 0 ? number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . ' VNĐ (-' . $order->sale . '%)' : 'Không giảm giá' }}
+                        {{ isset($order->sale) && isset($order->price) && $order->sale > 0 ? number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . ' VNĐ (-' . $order->sale . '%)' : 'Không giảm giá' }}
                     </td>
                     <td style="text-align: center">
-                        {{ $order->sale > 0 ? number_format($order->quantity * (($order->price * (100 - $order->sale)) / 100), 0, '.', '.') : number_format($order->quantity * $order->price, 0, ',', '.') }}
+                        {{ isset($order->sale) && isset($order->quantity) && isset($order->price) && $order->sale > 0 ? number_format($order->quantity * (($order->price * (100 - $order->sale)) / 100), 0, '.', '.') : number_format($order->quantity * $order->price, 0, ',', '.') }}
                         VNĐ</td>
-                    <td style="text-align: center">{{ $transaction->user->name }}</td>
+                    <td style="text-align: center">{{ $transaction->user->name ?? '' }}</td>
                     <?php $total_earn_money = $total_earn_money + ($order->sale > 0 ? $order->quantity * (($order->price * (100 - $order->sale)) / 100) : $order->quantity * $order->price); ?>
                 </tr>
             @endforeach
@@ -74,7 +74,7 @@ $statistical_date_end = date('d-m-Y H:i:s', strtotime($data['statistical_date_en
             <td></td>
             <td style="text-align: center;font-weight: bold;font-size: 16px;">Tổng tiền:</td>
             <td style="text-align: center;font-weight: bold;font-size: 16px;">
-                {{ number_format($total_earn_money, '0', ',', '.') }} VNĐ</td>
+                {{ number_format(($total_earn_money ?? ''), '0', ',', '.') }} VNĐ</td>
         </tr>
     </tbody>
 </table>

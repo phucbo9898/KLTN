@@ -38,7 +38,7 @@ class CategoryRepository extends BaseRepository
         $category = [
             'name' => $data['name'] ?? '',
             'slug' => Str::slug($data['name'] ?? ''),
-            'status' => $data['status']
+//            'status' => $data['status']
         ];
 
         return $category;

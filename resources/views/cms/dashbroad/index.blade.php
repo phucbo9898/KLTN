@@ -149,5 +149,7 @@
     {{-- <script src="{{asset('admin_lte/dist/js/pages/dashboard.js')}}"></script> --}}
     {{-- chart area --}}
     <script src="{{ asset('js/chart-area-demo.js') }}"></script>
+
+
     <script src="{{ asset('js/Chart.min.js') }}"></script>
 @endsection

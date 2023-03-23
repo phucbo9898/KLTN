@@ -44,13 +44,14 @@ class FeatureUserController extends CustomerController
         $totalMoney = str_replace(',', '', \Cart::subtotal(0));
         // insert data transaction and get id then insert
         $transactionId = Transaction::insertGetId([
-            'customer_name' => $name,
-            'total' => $totalMoney,
-            'note' => $request->note,
-            'address' => $request->address,
-            'phone' => $request->phone,
+            'customer_name' => $name ?? '',
+            'user_id' => Auth::user()->id,
+            'total' => $totalMoney ?? '',
+            'note' => $request->note ?? '',
+            'address' => $request->address ?? '',
+            'phone' => $request->phone ?? '',
             'status' => 'pending',
-            'type_payment' => $request->type_payment,
+            'type_payment' => $request->type_payment ?? '',
             'status_payment' => $request->status_payment ?? 'Paуment not received',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
@@ -58,23 +59,23 @@ class FeatureUserController extends CustomerController
 
         // check exist id transaction above and insert order
         if ($transactionId) {
-            Transaction::where('id', $transactionId)->update(['payment_code' => 'MGD-' . $transactionId]);
+            Transaction::where('id', $transactionId)->update(['payment_code' => 'MGD-' . $transactionId ?? '']);
             $products = \Cart::content();
             foreach ($products as $product) {
                 Order::insert([
-                    'transaction_id' => $transactionId,
-                    'product_id' => $product->id,
-                    'quantity' => $product->qty,
-                    'price' => $product->options->price_old,
-                    'sale' => $product->options->sale,
-                    'payment_code' => 'MGD-' . $transactionId,
+                    'transaction_id' => $transactionId ?? '',
+                    'product_id' => $product->id ?? '',
+                    'quantity' => $product->qty ?? '',
+                    'price' => $product->options->price_old ?? '',
+                    'sale' => $product->options->sale ?? '',
+                    'payment_code' => 'MGD-' . $transactionId ?? '',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
                 $product_qty = Product::find($product->id);
                 $quantity = $product_qty->quantity - $product->qty;
                 $quantity_pay = $product_qty->qty_pay + $product->qty;
-                Product::where('id', $product->id)->update(['quantity' => $quantity, 'qty_pay' => $quantity_pay]);
+                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
             }
 
             $data = [
@@ -125,19 +126,19 @@ class FeatureUserController extends CustomerController
                 $products = \Cart::content();
 
                 $transaction = Transaction::where('payment_code', $vnp_TxnRef)->first();
-                $transactionId = $transaction->id;
-                $name = $transaction->customer_name;
-                $address = $transaction->address;
-                $phone = $transaction->phone;
-                $note = $transaction->note;
-                $type_payment = $transaction->type_payment;
-                $totalAmount = \Cart::subtotal(0, ',', '.') . " " . "VND";
+                $transactionId = $transaction->id ?? '';
+                $name = $transaction->customer_name ?? '';
+                $address = $transaction->address ?? '';
+                $phone = $transaction->phone ?? '';
+                $note = $transaction->note ?? '';
+                $type_payment = $transaction->type_payment ?? '';
+                $totalAmount = \Cart::subtotal(0, ',', '.') . " " . "VND" ?? '';
                 $days = Carbon::now()->day;
                 $months = Carbon::now()->month;
                 $years = Carbon::now()->year;
                 $time_order = Carbon::now();
                 $delivery_time = Carbon::now()->addDays(5);
-                $status_payment = $transaction->status_payment;
+                $status_payment = $transaction->status_payment ?? '';
                 $data = [
                     'name' => $name,
                     'address' => $address,
@@ -185,19 +186,19 @@ class FeatureUserController extends CustomerController
                 $products = \Cart::content();
 
                 $transaction = Transaction::where('payment_code', $orderId)->first();
-                $transactionId = $transaction->id;
-                $name = $transaction->customer_name;
-                $address = $transaction->address;
-                $phone = $transaction->phone;
-                $note = $transaction->note;
-                $type_payment = $transaction->type_payment;
-                $totalAmount = \Cart::subtotal(0, ',', '.') . " " . "VND";
+                $transactionId = $transaction->id ?? '';
+                $name = $transaction->customer_name ?? '';
+                $address = $transaction->address ?? '';
+                $phone = $transaction->phone ?? '';
+                $note = $transaction->note ?? '';
+                $type_payment = $transaction->type_payment ?? '';
+                $totalAmount = \Cart::subtotal(0, ',', '.') . " " . "VND" ?? '';
                 $days = Carbon::now()->day;
                 $months = Carbon::now()->month;
                 $years = Carbon::now()->year;
                 $time_order = Carbon::now();
                 $delivery_time = Carbon::now()->addDays(5);
-                $status_payment = $transaction->status_payment;
+                $status_payment = $transaction->status_payment ?? '';
                 $data = [
                     'name' => $name,
                     'address' => $address,

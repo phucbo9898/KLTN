@@ -75,6 +75,7 @@
                                    data-target="#showOrderItem" style="">
 {{--                                    Xem chi tiết--}}
                                     <i class="fa fa-eye fs-25"></i>
+
                                 </a>
                                 @if($transaction->status == 'pending')
                                     <a href="{{ route('history-user.transaction.paid', ['cancel-order', $transaction->id]) }}" id="" class="badge badge-danger btn-cancel">
@@ -89,7 +90,7 @@
                                 <div class="modal-dialog modal-lg" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết đơn hàng #<span
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Chi tiết đơn hàng #id <span
                                                     class="modal_id_transacrion"></span></h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
@@ -171,6 +172,8 @@
                 event.preventDefault();
                 var id = $(this).attr('data-id');
                 var url = $(this).attr('href');
+                console.log(id)
+                console.log(url)
                 $.ajax({
                     method: "GET",
                     url: url

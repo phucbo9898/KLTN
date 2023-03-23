@@ -9,6 +9,8 @@ use App\Models\Slide;
 use App\Repositories\SlideRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class SlideController extends Controller
@@ -48,28 +50,33 @@ class SlideController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        if (!empty($request->file('image'))) {
-            $extention = $request->file('image')->getClientOriginalExtension();
-            if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
-                return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+        try {
+            DB::beginTransaction();
+            if (!empty($request->file('image'))) {
+                $extention = $request->file('image')->getClientOriginalExtension();
+                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                    return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+                }
             }
-        }
 
-        $data = $request->all();
-        if ($request->hasFile('image')) {     // image
-            $file = $request->file('image');
-            $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-            $path_upload = 'upload/slide/';
-            $file->move($path_upload, $filename);
-            $data['image'] = $path_upload . $filename;
-        }
-        $slide = $this->slideRepo->prepareSlide($data);
-        $result = $this->slideRepo->create($slide);
-        if ($result) {
+            $data = $request->all();
+            if ($request->hasFile('image')) {     // image
+                $file = $request->file('image');
+                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
+                $path_upload = 'upload/slide/';
+                $file->move($path_upload, $filename);
+                $data['image'] = $path_upload . $filename;
+            }
+            $slide = $this->slideRepo->prepareSlide($data);
+            $this->slideRepo->create($slide);
+
+            DB::commit();
             return redirect()->route('admin.slide.index')->with('success', 'Đã thêm 1 Slide!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::debug($e);
+            return redirect()->back()->with('error', 'Thêm Slide không thành công');
         }
-
-        return redirect()->back()->with('error', 'Thêm Slide không thành công');
     }
 
     /**
@@ -97,35 +104,40 @@ class SlideController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        $slide = $this->slideRepo->find($id);
-        if (!$slide) {
-            return redirect()->route('admin.slide.index')->with('error', __('The requested resource is not available'));
-        }
-
-        if (!empty($request->file('image'))) {
-            $extention = $request->file('image')->getClientOriginalExtension();
-            if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
-                return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+        try {
+            DB::beginTransaction();
+            $slide = $this->slideRepo->find($id);
+            if (!$slide) {
+                return redirect()->route('admin.slide.index')->with('error', __('The requested resource is not available'));
             }
-        }
 
-        $data = $request->all();
-        if ($request->hasFile('image')) {     // image
-            $file = $request->file('image');
-            $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-            $path_upload = 'upload/slide/';
-            $file->move($path_upload, $filename);
-            $data['image'] = $path_upload . $filename;
-        } else {
-            $data['image'] = $slide->image;
-        }
-        $slides = $this->slideRepo->prepareSlide($data);
-        $result = $this->slideRepo->update($slide->id, $slides);
-        if ($result) {
+            if (!empty($request->file('image'))) {
+                $extention = $request->file('image')->getClientOriginalExtension();
+                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                    return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+                }
+            }
+
+            $data = $request->all();
+            if ($request->hasFile('image')) {     // image
+                $file = $request->file('image');
+                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
+                $path_upload = 'upload/slide/';
+                $file->move($path_upload, $filename);
+                $data['image'] = $path_upload . $filename;
+            } else {
+                $data['image'] = $slide->image ?? '';
+            }
+            $slides = $this->slideRepo->prepareSlide($data);
+            $this->slideRepo->update($slide->id, $slides);
+
+            DB::commit();
             return redirect()->route('admin.slide.index')->with('success', 'Đã sửa thành công slide id số ' . $slide->id . '!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::debug($e);
+            return redirect()->back()->with('error', 'Sửa không thành công slide id số ' . $slide->id . '!');
         }
-
-        return redirect()->back()->with('error', 'Sửa không thành công slide id số ' . $slide->id . '!');
     }
 
     public function handle(Request $request, $action, $id)
@@ -134,7 +146,7 @@ class SlideController extends Controller
         switch ($action) {
             case 'delete':
                 $slide->delete();
-                return redirect()->back()->with('success', 'Đã xóa thành công slide mang ID số ' . $id . '!');
+                $request->session()->flash('success', 'Đã xóa thành công slide mang ID số ' . $id . '!');
                 break;
 
             default:
