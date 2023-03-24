@@ -17,30 +17,6 @@ use App\Enums\ActiveStatus;
                 <div class="form-group">
                     <x-user.search-form :options="$options ?? ''"/>
                 </div>
-                @if (Session::has('create_user_success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công !</strong> {{ Session::get('create_user_success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                @if (Session::has('edit_user_success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công !</strong> {{ Session::get('edit_user_success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                @if (Session::has('delete_user_success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công !</strong> {{ Session::get('delete_user_success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
                 <table class="table table-hover table-striped table-list" id="dataTable">
                     <thead class="thead-dark">
                     <th>ID</th>
@@ -53,10 +29,11 @@ use App\Enums\ActiveStatus;
                     <th style=" text-align: center">Hành động</th>
                     </thead>
                     <tbody>
+                    <?php $stt=1; ?>
                     @foreach ($users as $user)
                         <tr>
                             <td style="text-align: center;">
-                                {{ $user->id }}</td>
+                                {{ $stt++ }}</td>
                             <td>
                                 <img class="avatar-user" src="{{ asset($user->avatar ?? '') }}" alt="">
                             </td>
@@ -150,6 +127,8 @@ use App\Enums\ActiveStatus;
                 $(this).addClass('d-none');
             });
             $('#dataTable').DataTable({
+                "bPaginate": false,
+                "ordering": false,
                 "language": {
                     "decimal": "",
                     "emptyTable": "Không có dữ liệu hiển thị trong bảng",

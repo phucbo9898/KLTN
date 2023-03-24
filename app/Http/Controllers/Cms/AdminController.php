@@ -8,12 +8,21 @@ use App\Models\Article;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
+    public function __construct(UserRepository $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     public function getLogin()
     {
         return view('cms.login.login');
@@ -53,7 +62,11 @@ class AdminController extends Controller
         //number products
         $number_products = Product::all()->count();
         //number user
-        $number_users = User::all()->count();
+        if (Auth::user()->isAdmin()) {
+            $number_users = User::all()->count();
+        } else {
+            $number_users = User::where('role', UserType::USER)->get()->count();
+        }
         //number articles
         $number_articles = Article::all()->count();
         // data transmission
@@ -103,5 +116,53 @@ class AdminController extends Controller
         ];
 
         return $data;
+    }
+
+    public function profile()
+    {
+        $profile = Auth::user();
+        return view('cms.profile.profile', compact('profile'));
+    }
+
+    public function update(Request $request, $id) {
+        try {
+            DB::beginTransaction();
+            $user = $this->userRepo->find($id);
+            if (!$user) {
+                return redirect()->back->with('error', __('The requested resource is not available'));
+            }
+
+            if (!empty($request->current_password) && !Hash::check($request->current_password, $user->password)) {
+                return redirect()->back->with('error', __('Current password is incorrect'));
+            }
+
+            $data = $request->all();
+            if (!empty($request['new_password'])) {
+                $data['password'] = Hash::make($data['new_password']) ?? '';
+            }
+
+            unset($data['current_password']);
+            unset($data['new_password']);
+
+            if ($request->hasFile('avatar')) {
+                $file = $request->file('avatar');
+                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
+                $path_upload = 'upload/user/';
+                $file->move($path_upload, $filename);
+                $data['avatar'] = $path_upload . $filename;
+            } else {
+                $data['avatar'] = $user->avatar;
+            }
+
+            $result = $user->update($data);
+            DB::commit();
+            if ($result) {
+                return redirect()->route('admin.profile')->with('success', __('Updated successfully'));
+            }
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            Log::debug($ex);
+            return redirect()->back()->with('error', __('The Update failed'));
+        }
     }
 }

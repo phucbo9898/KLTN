@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Enums\UserType;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserRepository extends BaseRepository
@@ -17,6 +18,10 @@ class UserRepository extends BaseRepository
     public function query($options)
     {
         $query = $this->model->orderBy('created_at', 'desc');
+
+        if (Auth::user()->isSystemAdmin()) {
+            $query = $query->where('role', UserType::USER);
+        }
 
         if (isset($options['name'])) {
             $query = $query->where('name', 'LIKE', '%' . escape_like($options['name']) . '%');

@@ -11,18 +11,20 @@
                 <label for="name" class="col-form-label">@lang('Email')</label>
                 <input type="text" autocomplete="off" name="email" class="form-control" value="{{ $options['email'] ?? '' }}">
             </div>
-            <div class="col-md-3 mt-3">
-                <label for="entertainment" class="col-form-label">@lang('Role')</label> <br>
-                <select name="role" class="form-control">
-                    <option value="">@lang('Choose role')</option>
-                    @foreach (UserType::getValues() as $role)
-                        <option value="{{ $role }}"
-                        @if (isset($options['role']) && $role == $options['role']) {{ 'selected' }} @endif>
-                            @lang(UserType::getUserType($role))
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+            @if(Auth::user()->isAdmin())
+                <div class="col-md-3 mt-3">
+                    <label for="entertainment" class="col-form-label">@lang('Role')</label> <br>
+                    <select name="role" class="form-control">
+                        <option value="">@lang('Choose role')</option>
+                        @foreach (UserType::getValues() as $role)
+                            <option value="{{ $role }}"
+                            @if (isset($options['role']) && $role == $options['role']) {{ 'selected' }} @endif>
+                                @lang(UserType::getUserType($role))
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            @endif
         </div>
         <div class="row">
             <div class="col-md-12 mt-3">

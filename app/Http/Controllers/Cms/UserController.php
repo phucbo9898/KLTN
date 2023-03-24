@@ -55,7 +55,6 @@ class UserController extends Controller
     {
         try {
             DB::beginTransaction();
-
             if (!empty($request->file('image'))) {
                 $extention = $request->file('image')->getClientOriginalExtension();
                 if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {

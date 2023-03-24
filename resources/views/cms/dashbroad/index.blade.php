@@ -35,7 +35,7 @@
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="{{ route('admin.transaction.index') }}" class="small-box-footer">
+                        <a href="{{ route('admin.transaction.index') . '?name=&code=&status=pending&status_payment=&type_payment=' }}" class="small-box-footer">
                             @lang('Xem thêm')
                             <i class="fas fa-arrow-circle-right"></i>
                         </a>
