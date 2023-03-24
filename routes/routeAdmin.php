@@ -25,10 +25,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 // Admin Login-Logout
 Route::controller(AdminController::class)->group(function () {
     Route::prefix('admin')->group(function () {
@@ -36,6 +32,8 @@ Route::controller(AdminController::class)->group(function () {
             Route::get('/login', 'getLogin');
             Route::post('/login', 'postLogin')->name('login');
             Route::get('/logout', 'getLogout')->name('logout');
+            Route::get('/profile', 'profile')->name('profile');
+            Route::put('/update/{id}', 'update')->name('update');
         });
     });
 });

@@ -66,15 +66,21 @@ use App\Enums\UserType;
                         <div class="row">
                             <div class="col-md-2 text-right">
                                 <label>Phân quyền</label>
-                                <span style="color: red;">*</span>
+                                @if(Auth::user()->isAdmin())
+                                    <span style="color: red;">*</span>
+                                @endif
                             </div>
                             <div class="col-md-8">
-                                <select name="role" class="form-control">
-                                    <option value="">Chọn quyền cho tài khoản</option>
-                                    @foreach(UserType::getValues() as $role)
-                                        <option value="{{ $role }}" {{ old('role') == $role ? 'selected' : '' }}>{{ UserType::getUserType($role) }}</option>
-                                    @endforeach
-                                </select>
+                                @if(Auth::user()->isAdmin())
+                                    <select name="role" class="form-control">
+                                        <option value="">Chọn quyền cho tài khoản</option>
+                                        @foreach(UserType::getValues() as $role)
+                                            <option value="{{ $role }}" {{ old('role') == $role ? 'selected' : '' }}>{{ UserType::getUserType($role) }}</option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <input type="text" name="role" class="form-control" value="{{ UserType::USER }}" readonly>
+                                @endif
                             </div>
                         </div>
                     </div>
