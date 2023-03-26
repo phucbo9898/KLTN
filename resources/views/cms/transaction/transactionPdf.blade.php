@@ -63,15 +63,9 @@
                     <td class="col-md-3">{{ $order->product->name }}</td>
                     <td class="" style="text-align: center;">{{ $order->quantity }}</td>
                     <td class="col-md-2">{{ number_format($order->price, 0, ',', '.') }} VNĐ</td>
-                    @if($order->sale > 0)
-                        <td class="col-md-4">
-                            {{ number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . ' VNĐ (-' . $order->sale . '%)'}}
-                        </td>
-                    @else
-                        <td class="col-md-4">
-                            {{ number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . ' VNĐ (-' . $order->sale . '%)' : 'Không giảm giá' }}
-                        </td>
-                    @endif
+                    <td class="col-md-4">
+                        {{ $order->sale > 0 ? 'Giảm giá ' . $order->sale . '%' : 'Không giảm giá'}}
+                    </td>
                     <td class="col-md-3">{{ $order->sale > 0 ? number_format($order->quantity * (($order->price * (100 - $order->sale)) / 100), 0, '.', '.') : number_format($order->quantity * $order->price, 0, ',', '.') }}VNĐ</td>
                     <?php $total_earn_money = $total_earn_money + ($order->sale > 0 ? $order->quantity * (($order->price * (100 - $order->sale)) / 100) : $order->quantity * $order->price); ?>
                 </tr>

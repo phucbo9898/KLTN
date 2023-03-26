@@ -213,7 +213,6 @@ class FeatureUserController extends CustomerController
                     'delivery_time' => $delivery_time,
                     'status_payment' => $status_payment
                 ];
-                dd($data);
 
                 //Send mail
                 if (isset($products)) {
