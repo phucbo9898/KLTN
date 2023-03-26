@@ -15,7 +15,11 @@ class ProductRepository extends BaseRepository
 
     public function query($options)
     {
-        $query = $this->model->orderBy('created_at', 'desc');
+        $query = $this->model;
+
+        if (empty($options)) {
+            $query = $query->orderby('created_at', 'desc');
+        }
 
         if (isset($options['name'])) {
             $query = $query->where('name', 'LIKE', '%' . escape_like($options['name']) . '%');

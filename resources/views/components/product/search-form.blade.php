@@ -1,7 +1,6 @@
 @props(['options' => [], 'categories' => []])
 @php use App\Enums\ActiveStatus; @endphp
 <div class="">
-{{--    @dd($options['filter_price'])--}}
     <form action="{{ url()->full() }}" method="GET">
         <div class="row">
             <div class="col-md-3 mt-3">

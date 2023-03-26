@@ -5,13 +5,6 @@
     <input type="hidden" name="count" value="{{ $count ?? '' }}">
     <div id="data-statistical-date-start" data-statistical-date-start="{{ $statistical_date_start ?? '' }}"></div>
     <div id="data-statistical-date-end" data-statistical-date-end="{{ $statistical_date_end ?? '' }}"></div>
-    @if($count > 0)
-        <a href="#" class="btn btn-success mb-2" id="export_pdf" style="float:right;display:none">Xuất báo
-            cáo</a>
-    @else
-        <a href="#" class="btn btn-success mb-2 d-none" id="export_pdf" style="float:right;display:none">Xuất báo
-            cáo</a>
-    @endif
     <table class="table table-hover table-bordered">
         <thead class="thead-dark" style="text-align: left !important;">
             <th scope="col">STT</th>
@@ -56,19 +49,3 @@
         </tbody>
     </table>
 @endif
-@section('javascript')
-    $(function() {
-        $("#export_pdf").click(function (event) {
-            event.preventDefault();
-            var user = $("#user_statistic").val();
-            console.log(user)
-            var statistical_date_start_pdf = $("#data-statistical-date-start").attr(
-            'data-statistical-date-start');
-            var statistical_date_end_pdf = $("#data-statistical-date-end").attr(
-            'data-statistical-date-end');
-            var url = "{{ route('admin.get.export.excel') }}";
-            window.location.href = url + '?statistical_date_start_pdf=' + statistical_date_start_pdf +
-            '&&' + 'statistical_date_end_pdf=' + statistical_date_end_pdf + '&&' + 'user=' + user;
-        });
-    })
-@endsection
