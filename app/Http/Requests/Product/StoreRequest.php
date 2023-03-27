@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
             'name' => 'required|unique:products,name|min:3|max:255',
             'category_id' => 'required',
             'price' => 'required|integer|gte:0',
-            'sale' => 'required|integer|gte:0|lte:100',
+            'sale' => 'integer|gte:0|lte:100',
             'content' => 'required|min:3',
         ];
     }
@@ -48,7 +48,6 @@ class StoreRequest extends FormRequest
             'price.integer' => 'Giá sản phẩm là kiểu số',
             'price.gte' => 'Giá sản phẩm phải là 1 số nguyên dương !',
             'sale.integer' => 'Giảm giá sản phẩm là kiểu số nguyên dương',
-            'sale.required' => 'Bạn cần nhập trường giảm giá sản phẩm, Nếu k muốn giảm giá hãy nhập giá trị bằng 0 xin cảm ơn !!',
             'sale.gte' => 'Giảm giá sản phẩm phải lớn hơn hoặc bằng 0 !',
             'sale.lte' => 'Giảm giá sản phẩm phải nhỏ hơn hoặc bằng 100 !',
         ];

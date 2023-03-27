@@ -28,7 +28,7 @@ use App\Enums\UserType;
                             <li>
                                 <div class="ht-setting-trigger">
                                     @if (Auth::check())
-                                        <img src="{{ Auth::user()->avatar }}" alt=""
+                                        <img src="{{ asset(Auth::user()->avatar) }}" alt=""
                                             style="width: 20px; object-fit: cover;">
                                         {{ Auth::user()->name }}
                                     @else

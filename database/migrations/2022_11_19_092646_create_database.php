@@ -88,6 +88,7 @@ class CreateDatabase extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('name_full');
             $table->string('slug');
             $table->unsignedBigInteger('category_id');
             $table->bigInteger('price');
@@ -95,7 +96,6 @@ class CreateDatabase extends Migration
             $table->tinyInteger('sale');
             $table->enum('status', ['active', 'inactive']);
             $table->enum('hot', ['yes', 'no']);
-            $table->longText('description');
             $table->longText('content');
             $table->string('image');
             $table->integer('qty_pay')->nullable();

@@ -21,14 +21,14 @@ class ProductRepository extends BaseRepository
             $query = $query->orderby('created_at', 'desc');
         }
 
-        if (isset($options['name'])) {
-            $query = $query->where('name', 'LIKE', '%' . escape_like($options['name']) . '%');
+        if (isset($options['name']) && empty($options['filter_price']) && empty($options['filter_sold'])) {
+            $query = $query->where('name', 'LIKE', '%' . escape_like($options['name']) . '%')->orderby('created_at', 'desc');
         }
 
-        if (isset($options['category_id'])) {
+        if (isset($options['category_id']) && empty($options['filter_price']) && empty($options['filter_sold'])) {
             $query = $query->whereHas('category', function ($sub) use ($options) {
                 $sub->where('categories.id', $options['category_id']);
-            });
+            })->orderby('products.created_at', 'desc');
         }
 
         if (isset($options['filter_price'])) {
@@ -40,7 +40,7 @@ class ProductRepository extends BaseRepository
         }
 
         if (isset($options['status'])) {
-            $query = $query->whereIn('status', $options['status']);
+            $query = $query->whereIn('status', $options['status'])->orderby('created_at', 'desc');
         }
 
         return $query;
