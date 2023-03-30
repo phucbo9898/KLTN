@@ -140,7 +140,7 @@ class CreateDatabase extends Migration
         Schema::create('transaction', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
-            $table->string('name');
+            $table->string('customer_name');
             $table->bigInteger('total');
             $table->string('note');
             $table->string('address');
@@ -192,10 +192,10 @@ class CreateDatabase extends Migration
         Schema::create('product_history', function (Blueprint $table) {
            $table->bigIncrements('id');
            $table->unsignedBigInteger('product_id');
-           $table->integer('number_import');
-           $table->integer('number_export');
-           $table->timestamp('time_import');
-           $table->timestamp('time_export');
+           $table->integer('number_import')->nullable();
+           $table->integer('number_export')->nullable();
+           $table->timestamp('time_import')->nullable();
+           $table->timestamp('time_export')->nullable();
            $table->timestamps();
            $table->foreign('product_id')->references('id')->on('products')->onUpdate('cascade');
         });
