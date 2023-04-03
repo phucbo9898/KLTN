@@ -208,20 +208,20 @@ class CreateDatabase extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
         Schema::dropIfExists('articles');
-        Schema::dropIfExists('categories');
-        Schema::dropIfExists('attributes');
+        Schema::dropIfExists('ratings');
+        Schema::dropIfExists('product_attribute');
         Schema::dropIfExists('attribute_value');
         Schema::dropIfExists('category_attribute');
-        Schema::dropIfExists('products');
-        Schema::dropIfExists('product_attribute');
-        Schema::dropIfExists('favorite_product');
-        Schema::dropIfExists('notification');
-        Schema::dropIfExists('orders');
-        Schema::dropIfExists('ratings');
-        Schema::dropIfExists('slides');
-        Schema::dropIfExists('transaction');
         Schema::dropIfExists('product_history');
+        Schema::dropIfExists('favorite_product');
+        Schema::dropIfExists('orders');
+        Schema::dropIfExists('transaction');
+        Schema::dropIfExists('products');
+        Schema::dropIfExists('categories');
+        Schema::dropIfExists('attributes');
+        Schema::dropIfExists('notification');
+        Schema::dropIfExists('slides');
+        Schema::dropIfExists('users');
     }
 }
