@@ -115,7 +115,7 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             Log::debug($e);
-            return redirect()->back()->with('error', 'Thêm Product không thành công');
+            return redirect()->back()->with('error', 'Thêm Product không thành công')->withInput();
         }
     }
 

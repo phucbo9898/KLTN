@@ -46,6 +46,18 @@ use App\Enums\ActiveStatus;
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-2 text-right">
+                                <label>Tên đầy đủ</label>
+                                <span style="color: red;">*</span>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="name_full"
+                                       value="{{ old('name_full') ?? ($product->name_full ?? '')  }}" placeholder="Nhập tên sản phẩm...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
                                 <label>Loại sản phẩm</label>
                                 <span style="color: red;">*</span>
                             </div>

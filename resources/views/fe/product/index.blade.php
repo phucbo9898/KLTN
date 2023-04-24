@@ -97,16 +97,16 @@
                 <div class="col-lg-7 col-md-6">
                     <div class="product-details-view-content sp-normal-content pt-30">
                         <div class="product-info">
-                            <h2>{{ $product->name }}</h2>
+                            <h2>{{ $product->name_full }}</h2>
                             <span class="product-details-ref">@lang('Status'):
                                 @if ($product->quantity > 10)
                                     <b style="color: #3d3de3;">@lang('Stocking')</b>
-                                @elseif($product->quantity < 10 && $product->quantity > 0)
+                                @elseif($product->quantity <= 10 && $product->quantity > 0)
                                     <b style="color: #bfbf50;">@lang('Almost out of stock')</b>
-                                @elseif($product->quantity == 0)
+                                @elseif($product->quantity <= 0)
                                     <b style="color: red;">@lang('Out of stock')</b>
-                                @else
-                                    <b>@lang('Unknown')</b>
+{{--                                @else--}}
+{{--                                    <b>@lang('Unknown')</b>--}}
                                 @endif
                             </span>
                             <div class="rating-box pt-20">
@@ -215,6 +215,7 @@
                             <li><a class="active" data-toggle="tab"
                                    href="#description"><span>@lang('Information detail')</span></a></li>
                             {{-- <li><a data-toggle="tab" href="#product-details"><span>Chi tiết sản phẩm</span></a></li> --}}
+                            <li><a data-toggle="tab" href="#information-product"><span>@lang('Thông số')</span></a></li>
                             <li><a data-toggle="tab" href="#reviews"><span>@lang('Evaluate')</span></a></li>
                         </ul>
                     </div>
@@ -225,6 +226,11 @@
                 <div id="description" class="tab-pane active show" role="tabpanel">
                     <div class="product-description">
                         <span>{!! $product->content !!}</span>
+                    </div>
+                </div>
+                <div id="information-product" class="tab-pane" role="tabpanel">
+                    <div class="product-description">
+                        <span>{!! $product->name_full !!}</span>
                     </div>
                 </div>
                 {{-- <div id="product-details" class="tab-pane" role="tabpanel">
@@ -354,68 +360,144 @@
             </div>
         </div>
     </div>
-    <!-- Product Area End Here -->
-    <!-- Begin Li's Laptop Product Area -->
-    <section class="product-area li-laptop-product pt-30 pb-50">
+    <div class="product-area pt-40">
         <div class="container">
             <div class="row">
-                <!-- Begin Li's Section Area -->
-                {{-- <div class="col-lg-12">
-                <div class="li-section-title">
-                    <h2>
-                        <span>15 other products in the same category:</span>
-                    </h2>
+                <div class="col-lg-12">
+                    <div class="li-product-tab">
+                        <ul class="nav li-product-menu">
+                            <li><a class="active" data-toggle="tab"
+                                   href="#list-product-in-category"><span>@lang('list-product-in-category')</span></a></li>
+                            {{-- <li><a data-toggle="tab" href="#product-details"><span>Chi tiết sản phẩm</span></a></li> --}}
+{{--                            <li><a data-toggle="tab" href="#list-product-in-viewer"><span>@lang('list-product-in-viewer')</span></a></li>--}}
+                        </ul>
+                    </div>
+                    <!-- Begin Li's Tab Menu Content Area -->
                 </div>
-                <div class="row">
-                    <div class="product-active owl-carousel"> --}}
-                {{-- <div class="col-lg-12">
-                            <!-- single-product-wrap start -->
-                            <div class="single-product-wrap">
-                                <div class="product-image">
-                                    <a href="single-product.html">
-                                        <img src="images/product/large-size/1.jpg" alt="Li's Product Image">
-                                    </a>
-                                    <span class="sticker">New</span>
-                                </div>
-                                <div class="product_desc">
-                                    <div class="product_desc_info">
-                                        <div class="product-review">
-                                            <h5 class="manufacturer">
-                                                <a href="product-details.html">Graphic Corner</a>
-                                            </h5>
-                                            <div class="rating-box">
-                                                <ul class="rating">
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li><i class="fa fa-star-o"></i></li>
-                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                </ul>
+            </div>
+            <div class="tab-content">
+                <div id="list-product-in-category" class="tab-pane active show" role="tabpanel">
+                    <div class="product-description">
+                        <div class="row">
+                            <div class="special-product-active owl-carousel">
+                                @foreach($product_in_category_ids as $product_in_category_id)
+                                    <div class="col-lg-12">
+                                        <!-- single-product-wrap start -->
+                                        <div class="single-product-wrap">
+                                            <div class="product-image">
+                                                <a href="{{ route('product.index', [$product_in_category_id->slug, $product_in_category_id->id]) }}">
+                                                    @if (isset($product_in_category_id->image))
+                                                        <img src="{{ asset($product_in_category_id->image) }}" alt="Li's Product Image">
+                                                    @else
+                                                        <img src="{{ asset('noimg.png') }}" alt="Li's Product Image">
+                                                    @endif
+                                                </a>
+                                                <span>
+                                                        @if ($product_in_category_id->quantity > 10)
+                                                        <b style="color: #3d3de3;">@lang('Stocking')</b>
+                                                    @elseif($product_in_category_id->quantity <= 10 && $product_in_category_id->quantity > 0)
+                                                        <b style="color: #bfbf50;">@lang('Almost out of stock')</b>
+                                                    @elseif($product_in_category_id->quantity <= 0)
+                                                        <b style="color: red;">@lang('Out of stock')</b>
+{{--                                                    @else--}}
+{{--                                                        <b>@lang('Unknown')</b>--}}
+                                                    @endif
+                                                    </span>
+                                                @if ($product_in_category_id->hot == 'yes')
+                                                    <span class="sticker">Hot</span>
+                                                @endif
+                                            </div>
+                                            <div class="product_desc">
+                                                <div class="product_desc_info">
+                                                    <div class="product-review">
+                                                        <h5 class="manufacturer">
+                                                            {{-- <a href="shop-left-sidebar.html">Số lượng: {{$prn->pro_number}}</a> --}}
+                                                            <div class="rating-box">
+                                                                    <?php
+                                                                    $point = 0;
+                                                                    if ($product_in_category_id->number_of_reviewers > 0) {
+                                                                        $point_product_new = round($product_in_category_id->total_star / $product_in_category_id->number_of_reviewers);
+                                                                    } else {
+                                                                        $point_product_new = -1;
+                                                                    }
+                                                                    ?>
+                                                                <ul class="rating">
+                                                                    @if ($point_product_new == -1)
+                                                                        <li style="color: #a4a4a4;
+                                                                    font-size: 13px;
+                                                                    text-transform: capitalize;
+                                                                    transition: all 0.3s ease-in-out;">
+                                                                            @lang('Not Yet Rated')
+                                                                        </li>
+                                                                    @else
+                                                                        @lang('Evaluate'):
+                                                                        @for ($i = 1; $i <= 5; $i++)
+                                                                            <li
+                                                                                class="{{ $i <= $point_product_new ? '' : 'no-star' }}">
+                                                                                <i class="fa fa-star"></i>
+                                                                            </li>
+                                                                        @endfor
+                                                                    @endif
+                                                                </ul>
+                                                            </div>
+                                                        </h5>
+
+                                                    </div>
+                                                    <h4><a class="product_name"
+                                                           href="{{ route('product.index', [$product_in_category_id->slug, $product_in_category_id->id]) }}">{{ $product_in_category_id->name }}</a>
+                                                    </h4>
+
+                                                    <div class="price-box">
+                                                        @if ($product_in_category_id->sale > 0)
+                                                            <span class="new-price new-price-2">{{ number_format(($product_in_category_id->price * (100 - $product_in_category_id->sale)) / 100, 0, ',', '.') }}
+                                                                @lang('VND')
+                                                                </span>
+                                                            <span class="discount-percentage">-{{ $product_in_category_id->sale }}%</span>
+                                                            <br />
+                                                            <div class="old-price" style="padding-top: 6px">
+                                                                {{ number_format($product_in_category_id->price, 0, ',', '.') }}
+                                                                @lang('VND')
+                                                            </div>
+                                                        @else
+                                                            <span class="new-price">{{ number_format($product_in_category_id->price, 0, ',', '.') }}
+                                                                @lang('VND')
+                                                                </span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="add-actions">
+                                                    <ul class="add-actions-link">
+                                                        <li class="add-cart active">
+                                                            <a class="button_add_cart" data-product-name="{{ $product_in_category_id->name }}" href="{{ route('shopping.add.product', $product_in_category_id->id) }}">
+                                                                @lang('Buy product')
+                                                            </a>
+                                                        </li>
+                                                        <li><a class="links-details button_add_favorite_product"
+                                                               data-product-name="{{ $product_in_category_id->name }}"
+                                                               href="{{ route('favorite-product.get.add', $product_in_category_id->id) }}"><i
+                                                                    class="fa fa-heart-o"></i></a></li>
+                                                        <li>
+                                                            <a href="{{ route('product.index', [$product_in_category_id->slug, $product_in_category_id->id]) }}"
+                                                               title="quick view" class="quick-view-btn"><i
+                                                                    class="fa fa-eye"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                        <h4><a class="product_name" href="single-product.html">Accusantium dolorem1</a></h4>
-                                        <div class="price-box">
-                                            <span class="new-price">$46.80</span>
-                                        </div>
+                                        <!-- single-product-wrap end -->
                                     </div>
-                                    <div class="add-actions">
-                                        <ul class="add-actions-link">
-                                            <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                            <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
-                                            <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
-                            <!-- single-product-wrap end -->
-                        </div> --}}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-        <!-- Li's Section Area End Here -->
-        </div>
-        </div>
-    </section>
+    </div>
+    <!-- Product Area End Here -->
+    <!-- Begin Li's Laptop Product Area -->
+
     <!-- Li's Laptop Product Area End Here -->
 @endsection
 @section('javascript')

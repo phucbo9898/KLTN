@@ -20,6 +20,7 @@ class FeatureUserController extends CustomerController
     public function getFormPay()
     {
         $products = \Cart::content();
+
         $data = [
             'products' => $products,
             'payment' => $checkPayment ?? ''
@@ -28,6 +29,7 @@ class FeatureUserController extends CustomerController
     }
     public function saveInfoShoppingCart(Request $request)
     {
+
         $name = $request->name;
         $address = $request->address;
         $phone = $request->phone;

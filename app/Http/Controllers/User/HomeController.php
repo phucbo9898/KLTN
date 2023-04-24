@@ -29,7 +29,7 @@ class HomeController extends CustomerController
         //            'product_best_pays' => $product_best_pays
         //        ];
         //        dd($data['categories']);
-
+//        dd($product_news);
         return view('fe.index', compact('slides', 'products', 'categories', 'product_news', 'articles', 'product_best_pays'));
     }
 

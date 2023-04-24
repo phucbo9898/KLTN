@@ -4,6 +4,8 @@ $i = 1;
 $total_earn_money = 0;
 $statistical_date_start = date('d-m-Y H:i:s', strtotime($data['statistical_date_start'] ?? ''));
 $statistical_date_end = date('d-m-Y H:i:s', strtotime($data['statistical_date_end'] ?? ''));
+$startDate = date('d-m-Y', strtotime($data['statistical_date_start'] ?? ''));
+$endDate = date('d-m-Y', strtotime($data['statistical_date_end'] ?? ''));
 ?>
 <table class="table table-bordered" style="font-size: 12px" border="1">
     <tbody>
@@ -27,8 +29,8 @@ $statistical_date_end = date('d-m-Y H:i:s', strtotime($data['statistical_date_en
         </tr>
         <tr>
             <td></td>
-            <td colspan="6" style="font-size: 12px;">Báo cáo doanh thu từ {{ $statistical_date_start ?? '' }} đến
-                {{ $statistical_date_end ?? '' }}</td>
+            <td colspan="6" style="font-size: 12px;">Báo cáo doanh thu từ {{ $startDate ?? '' }} đến
+                {{ $endDate ?? '' }}</td>
         </tr>
         <tr>
             <td></td>

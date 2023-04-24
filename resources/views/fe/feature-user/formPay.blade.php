@@ -14,10 +14,22 @@
     </div>
     <!-- Li's Breadcrumb Area End Here -->
     <!--Checkout Area Strat-->
+    @dump(session()->all())
+    @dump(session()->has('coupon'))
     <div class="checkout-area pt-60 pb-30">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 col-12">
+                    @if (session()->get('success'))
+                        <x-alert type="success" class="header-message">
+                            {{ session()->get('success') }}
+                        </x-alert>
+                    @endif
+                    @if (session()->get('error'))
+                        <x-alert type="danger" class="header-message">
+                            {{ session()->get('error') }}
+                        </x-alert>
+                    @endif
                     <form method="POST" id="formSaveInfo">
                         @csrf
                         <div class="checkbox-form">
@@ -89,7 +101,13 @@
                                 <tfoot>
                                     <tr class="cart-subtotal">
                                         <th>@lang('Total payment')</th>
-                                        <td><span class="amount">{{ \Cart::subtotal(0, ',', '.') }} @lang('VND')</span></td>
+                                        <td>
+                                            <span class="amount">
+                                                @if(session()->has('coupon'))
+                                                    {{ \Cart::subtotal(0, ',', '.') * () }} @lang('VND')
+                                                @endif
+                                            </span>
+                                        </td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -139,6 +157,21 @@
 {{--                                    <button class="btn btn-primary payment-normal" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Đặt hàng</button>--}}
 {{--                                </div>--}}
 {{--                            @endif--}}
+                            <div>
+                                <form action="{{ route('shopping.add-coupon') }}" method="get">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <span>Mã voucher</span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="text" name="coupon">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <button type="submit" class="btn btn-success">áp dụng</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                             <h5>@lang('Select a payment method')</h5>
                             <div class="order-button-payment">
                                 <input type="radio" name="payment" id="vnpay" value="vnpay" style="width: 15px; height: 13px; margin-bottom: 5px;">
