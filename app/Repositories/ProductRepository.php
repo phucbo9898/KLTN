@@ -50,9 +50,9 @@ class ProductRepository extends BaseRepository
     {
         $product = [
             'name' => $data['name'] ?? '',
+            'name_full' => $data['name_full'] ?? '',
             'slug' => Str::slug($data['name'] ?? ''),
             'image' => $data['image'] ?? '',
-            'description' => $data['description'] ?? '',
             'content' => $data['content'] ?? '',
             'category_id' => $data['category_id'] ?? '',
             'price' => $data['price'] ?? '',

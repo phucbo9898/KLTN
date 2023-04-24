@@ -94,6 +94,7 @@ Route::controller(ShoppingCartController::class)->group(function () {
             Route::post('/edit', 'editProductItem')->name('edit.product');
             Route::post('/payment-momo', 'paymentMomo')->name('payment-momo');
             Route::post('/vnpay_payment', 'paymentVNPay')->name('payment-vnpay');
+            Route::get('/add-coupon', 'addCoupon')->name('add-coupon');
         });
     });
 });

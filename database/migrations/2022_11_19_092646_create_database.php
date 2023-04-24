@@ -88,7 +88,7 @@ class CreateDatabase extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->string('name_full');
+            $table->string('name_full')->nullable();
             $table->string('slug');
             $table->unsignedBigInteger('category_id');
             $table->bigInteger('price');
@@ -106,6 +106,15 @@ class CreateDatabase extends Migration
             $table->softDeletes();
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::create('product_image', function (Blueprint $table) {
+           $table->bigIncrements('id');
+           $table->unsignedBigInteger('product_id');
+           $table->string('image');
+           $table->integer('index');
+           $table->timestamps();
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
 
         Schema::create('product_attribute', function (Blueprint $table) {
@@ -126,6 +135,16 @@ class CreateDatabase extends Migration
             $table->softDeletes();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
+
+        Schema::create('coupons', function (Blueprint $table) {
+           $table->bigIncrements('id');
+           $table->unsignedBigInteger('category_id');
+           $table->string('code');
+           $table->integer('sale');
+           $table->timestamp('expire_date')->nullable();
+           $table->timestamps();
+           $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
 
         Schema::create('notification', function (Blueprint $table) {
@@ -210,6 +229,8 @@ class CreateDatabase extends Migration
     {
         Schema::dropIfExists('articles');
         Schema::dropIfExists('ratings');
+        Schema::dropIfExists('coupons');
+        Schema::dropIfExists('product_image');
         Schema::dropIfExists('product_attribute');
         Schema::dropIfExists('attribute_value');
         Schema::dropIfExists('category_attribute');

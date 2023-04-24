@@ -16,7 +16,7 @@ class ProductController extends CustomerController
      */
     public function index($slug, $id)
     {
-        $product = Product::find($id);
+        $product = Product::where('id', $id)->first();
         $ratings = Rating::where('product_id', $id)->orderBy('id', 'DESC')->get();
         // get number rating *
         $fivestar = Rating::where('product_id', $id)->where('number', 5)->count();
@@ -32,10 +32,18 @@ class ProductController extends CustomerController
             4 => $forstar,
             5 => $fivestar
         ];
+
+        //list product
+        $product_in_category_ids = Product::where('category_id', $product->category_id)
+            ->orderby('created_at', 'desc')
+            ->take(4)
+            ->get();
+
         $data = [
             'product' => $product,
             'ratings' => $ratings,
-            'eachstar' => $eachstar
+            'eachstar' => $eachstar,
+            'product_in_category_ids' => $product_in_category_ids,
         ];
         return view('fe.product.index', $data);
     }

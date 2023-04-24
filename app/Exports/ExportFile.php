@@ -25,7 +25,9 @@ class ExportFile implements FromView, ShouldAutoSize
         $day = Carbon::now()->day;
         $month = Carbon::now()->month;
         $year = Carbon::now()->year;
-        $transactions = Transaction::whereBetween('transaction.updated_at', [$this->request['statistical_date_start_pdf'], $this->request['statistical_date_end_pdf']])->get();
+        $startDate = Carbon::parse($this->request['statistical_date_start_pdf'])->startOfDay();
+        $endDate = Carbon::parse($this->request['statistical_date_end_pdf'])->endOfDay();
+        $transactions = Transaction::whereBetween('transaction.updated_at', [$startDate, $endDate])->get();
 
         return view('cms.statistics.export-excel', [
             'data' => [

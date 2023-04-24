@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use Gloudemans\Shoppingcart\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -20,6 +22,16 @@ class ShoppingCartController extends CustomerController
             'products' => $products
         ];
         return view('fe.shopping-cart.index', $data);
+    }
+
+    public function addCoupon(Request $request)
+    {
+        $coupon = Coupon::where('code', $request->coupon)->first();
+        if (!empty($coupon)) {
+            session()->put('coupon', 'success');
+            return back()->withInput()->with('success', 'Áp dụng voucher thành công');
+        }
+        return back()->withInput()->with('error', 'Áp dụng voucher thành công');
     }
 
     //

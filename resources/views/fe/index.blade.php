@@ -121,12 +121,12 @@
                                             <span>
                                                 @if ($product_new->quantity > 10)
                                                     <b style="color: #3d3de3;">@lang('Stocking')</b>
-                                                @elseif($product_new->quantity < 10 && $product_new->quantity > 0)
+                                                @elseif($product_new->quantity <= 10 && $product_new->quantity > 0)
                                                     <b style="color: #bfbf50;">@lang('Almost out of stock')</b>
-                                                @elseif($product_new->quantity == 0)
+                                                @elseif($product_new->quantity <= 0)
                                                     <b style="color: red;">@lang('Out of stock')</b>
-                                                @else
-                                                    <b>@lang('Unknown')</b>
+{{--                                                @else--}}
+{{--                                                    <b>@lang('Unknown')</b>--}}
                                                 @endif
                                             </span>
                                             @if ($product_new->hot == 'yes')
