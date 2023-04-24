@@ -18,6 +18,8 @@ class SearchController extends CustomerController
         $data = [
             'products' => $products
         ];
+
+        //check git push
         return view('fe.search.index', $data);
     }
 }
