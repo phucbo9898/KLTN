@@ -95,7 +95,7 @@ use App\Enums\ActiveHot;
                                 <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
-                                <input type="number" class="form-control" name="sale" value="{{ old('sale') }}"
+                                <input type="number" class="form-control" name="sale" value="{{ old('sale') ?? 0 }}"
                                        placeholder="Giảm giá sản phẩm...">
                             </div>
                         </div>
