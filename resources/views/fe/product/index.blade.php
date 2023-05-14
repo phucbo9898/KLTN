@@ -225,12 +225,12 @@
             <div class="tab-content">
                 <div id="description" class="tab-pane active show" role="tabpanel">
                     <div class="product-description">
-                        <span>{!! $product->content !!}</span>
+                        <span>{!! $product->content ?? 'Thông tin chi tiết sản phẩm đang được cập nhật ...' !!}</span>
                     </div>
                 </div>
                 <div id="information-product" class="tab-pane" role="tabpanel">
                     <div class="product-description">
-                        <span>{!! $product->name_full !!}</span>
+                        <span>{!! $product->information ?? 'Thông số sản phẩm đang được cập nhật ...' !!}</span>
                     </div>
                 </div>
                 {{-- <div id="product-details" class="tab-pane" role="tabpanel">
@@ -367,7 +367,7 @@
                     <div class="li-product-tab">
                         <ul class="nav li-product-menu">
                             <li><a class="active" data-toggle="tab"
-                                   href="#list-product-in-category"><span>@lang('list-product-in-category')</span></a></li>
+                                   href="#list-product-in-category"><span>@lang('Similar products')</span></a></li>
                             {{-- <li><a data-toggle="tab" href="#product-details"><span>Chi tiết sản phẩm</span></a></li> --}}
 {{--                            <li><a data-toggle="tab" href="#list-product-in-viewer"><span>@lang('list-product-in-viewer')</span></a></li>--}}
                         </ul>

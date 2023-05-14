@@ -58,7 +58,8 @@ class ProductRepository extends BaseRepository
             'price' => $data['price'] ?? '',
             'sale' => $data['sale'] ?? '',
             'hot' => $data['hot'] ?? '',
-            'status' => $data['status'] ?? ''
+            'status' => $data['status'] ?? '',
+            'information' => $data['information'] ?? ''
         ];
 
         return $product;

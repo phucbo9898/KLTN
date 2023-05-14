@@ -34,4 +34,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductHistory::class, 'product_id');
     }
+
+    public function transactions()
+    {
+        return $this->belongsToMany(Transaction::class, 'orders', 'transaction_id', 'product_id');
+    }
 }

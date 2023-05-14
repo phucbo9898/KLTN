@@ -35,6 +35,7 @@ class ProductController extends CustomerController
 
         //list product
         $product_in_category_ids = Product::where('category_id', $product->category_id)
+//            ->where('id', '!=', $id)
             ->orderby('created_at', 'desc')
             ->take(4)
             ->get();

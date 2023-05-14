@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-<div style="width:600px;margin-left: 10px;margin-right: 10px;">
+<div style="width:650px;margin-left: 10px;margin-right: 10px;">
     <div>
         <h3>Cảm ơn bạn đã tin tưởng và đặt mua sản phẩm bên shop. Shop đã nhận được yêu cầu đặt hàng của bạn và đang xử lý, shop sẽ giao hàng đúng thời gian dự kiến</h3>
     </div>
@@ -25,12 +25,12 @@
     <table border="1" cellspacing="0" cellpadding="0" width="100%" style="border:1px solid;">
         <thead>
             <tr>
-                <th>TT</th>
-                <th>Tên sản phẩm</th>
-                <th>SL</th>
-                <th>Đơn giá</th>
-                <th>Giảm giá</th>
-                <th>Thành tiền</th>
+                <th scope="col">TT</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th scope="col">SL</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Giảm giá</th>
+                <th scope="col">Thành tiền</th>
             </tr>
         </thead>
         <tbody>
@@ -41,11 +41,11 @@
                 @foreach($products as $product)
                     <tr>
                         <td style="text-align:center;">{{$stt++}}</td>
-                        <td style="text-align:center;">{{$product->name}}</td>
+                        <td style="text-align:center; width: 250px;">{{$product->name}}</td>
                         <td style="text-align:center;">{{$product->qty}}</td>
-                        <td style="text-align:center;">{{number_format($product->options->price_old,0,',','.')}} VNĐ</td>
+                        <td style="text-align:center;">{{number_format($product->options->price_old,0,',',',')}} VNĐ</td>
                         <td style="text-align:center;">{{$product->options->sale}}</td>
-                        <td style="text-align:center;">{{number_format(($product->options->price_old * (100 -$product->options->sale)/100) * $product->qty, 0, ',', '.') }} VNĐ</td>
+                        <td style="text-align:center;">{{number_format(($product->options->price_old * (100 -$product->options->sale)/100) * $product->qty, 0, ',', ',') }} VNĐ</td>
                     </tr>
                 @endforeach
             @endif
@@ -56,7 +56,7 @@
         <tr>
             <td style="width:245px;">Thời gian đặt hàng: {{date('H:i d/m/Y', strtotime($data['time_order']))}}</td>
             <td style="width:115px;">&ensp;</td>
-            <td>Phí ship: 0 VNĐ</td>
+            <td>Áp mã giảm giá: {{ !empty($data['saleVoucher']) && !empty($data['codeVoucher']) ? $data['codeVoucher'] . " (" . $data['saleVoucher'] . "%" . ")" : 'Không có' }}</td>
             <td>&ensp;</td>
         </tr>
         <tr>
