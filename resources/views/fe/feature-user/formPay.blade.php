@@ -74,6 +74,9 @@
                         </div>
                         <input type="hidden" id="type-payment" name="type_payment" value="">
                         <input type="hidden" id="status-payment" name="status_payment" value="">
+                        @if(session()->has('coupon'))
+                            <input type="hidden" name="price" value="{{ str_replace('.', '', \Cart::subtotal(0, ',', '.')) * (100 - session()->get('coupon')->sale) / 100 }}">
+                        @endif
                     </form>
                 </div>
                 <div class="col-lg-6 col-12">
@@ -93,22 +96,34 @@
                                             <td class="cart-product-name"> {{ $product->name }}<strong
                                                     class="product-quantity"> × {{ $product->qty }}</strong></td>
                                             <td class="cart-product-total"><span
-                                                    class="amount">{{ number_format($product->price * $product->qty, 0, ',', '.') }}
+                                                    class="amount">{{ number_format($product->price * $product->qty, 0, ',', ',') }}
                                                     @lang('VND')</span></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr class="cart-subtotal">
-                                        <th>@lang('Total payment')</th>
+                                        <th>@lang('Tổng tiền')</th>
                                         <td>
                                             <span class="amount">
                                                 @if(session()->has('coupon'))
-                                                    {{ \Cart::subtotal(0, ',', '.') * () }} @lang('VND')
+                                                    {{ \Cart::subtotal(0, ',', ',')  }} @lang('VND')
                                                 @endif
                                             </span>
                                         </td>
                                     </tr>
+                                    @if(session()->has('coupon'))
+                                        <tr class="fs-15 amount">
+                                            <td class="cart-product-name">Mã giảm giá:</td>
+                                            <td class="cart-product-total">{{ session()->get('coupon')->code . " (" . session()->get('coupon')->sale. "%" . ")" }}</td>
+                                        </tr>
+                                        <tr class="fs-15 amount">
+                                            <td class="cart-product-name">Tổng tiền sau giảm giá:</td>
+                                            <td class="cart-product-total">
+                                                {{ number_format(str_replace('.', '', \Cart::subtotal(0, ',', '.')) * (100 - session()->get('coupon')->sale) / 100) }} @lang('VND')
+                                            </td>
+                                        </tr>
+                                    @endif
                                 </tfoot>
                             </table>
                         </div>
@@ -157,21 +172,7 @@
 {{--                                    <button class="btn btn-primary payment-normal" type="submit" id="submitFormSaveInfo" style="width: 212px; height: 50px;">Đặt hàng</button>--}}
 {{--                                </div>--}}
 {{--                            @endif--}}
-                            <div>
-                                <form action="{{ route('shopping.add-coupon') }}" method="get">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <span>Mã voucher</span>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input type="text" name="coupon">
-                                        </div>
-                                        <div class="col-md-3">
-                                            <button type="submit" class="btn btn-success">áp dụng</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+
                             <h5>@lang('Select a payment method')</h5>
                             <div class="order-button-payment">
                                 <input type="radio" name="payment" id="vnpay" value="vnpay" style="width: 15px; height: 13px; margin-bottom: 5px;">
@@ -190,6 +191,7 @@
                             <div class="order-button-payment {{ Cart::subtotal(0, ',', '') > 30000000 ? 'd-none' : '' }}">
                                 <input type="radio" name="payment" id="momo" value="momo" style="width: 15px; height: 13px; margin-bottom: 5px;">
                                 <label>@lang('Payment with Momo')</label> <br>
+                                @dump(session()->has('coupon'))
                                 <form action="{{ route('shopping.payment-momo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" class="name" name="name" value="">
@@ -197,7 +199,11 @@
                                     <input type="hidden" class="phone-number" name="phone_number" value="">
                                     <input type="hidden" class="note" name="note" value="">
                                     <input type="hidden" class="type-payment" name="type_payment" value="">
-                                    <input type="hidden" class="total-momo" name="total_momo" value="{{ \Cart::subtotal(0, ',', '') }}">
+                                    @if(session()->has('coupon'))
+                                        <input type="hidden" class="total-momo" name="total_momo" value="{{ str_replace('.', '', \Cart::subtotal(0, ',', '.')) * (100 - session()->get('coupon')->sale) / 100 }}">
+                                    @else
+                                        <input type="hidden" class="total-momo" name="total_momo" value="{{ \Cart::subtotal(0, ',', '') }}">
+                                    @endif
                                     <button class="btn btn-warning payment-momo d-none" style="width: 212px; height: 50px; margin-bottom: 5px;" name="payUrl">@lang('Order')</button>
                                 </form>
                             </div>

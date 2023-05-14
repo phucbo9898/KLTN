@@ -17,9 +17,12 @@ class HomeController extends CustomerController
         $slides = Slide::all();
         $products = Product::all();
         $categories = Category::where('status', 'active')->get();
-        $product_news = Product::where('status', 'active')->orderBy('created_at', 'DESC')->limit(4)->get();
+        $product_news = Product::where('status', 'active')->orderBy('created_at', 'DESC')->limit(5)->get();
         $articles = Article::where('status', 'active')->orderBy('created_at', 'DESC')->take(3)->get();
-        $product_best_pays = Product::where('status', 'active')->orderBy('qty_pay', 'DESC')->limit(5)->get();
+        $product_best_pays = Product::where('status', 'active')
+            ->orderBy('qty_pay', 'DESC')
+            ->limit(5)
+            ->get();
         //        $data = [
         //            'slides' => $slides,
         //            'products' => $products,

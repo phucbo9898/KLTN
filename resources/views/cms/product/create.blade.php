@@ -122,11 +122,24 @@ use App\Enums\ActiveHot;
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-2 text-right">
+                                <label>Thông số sản phẩm</label>
+                                <span style="color: red;">*</span>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea name="information" rows="5" class="form-control ckeditor"
+                                          placeholder="Nhập thông số sản phẩm...">{{ old('information') }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2 text-right">
                                 <label>Nội dung sản phẩm</label>
                                 <span style="color: red;">*</span>
                             </div>
                             <div class="col-md-8">
-                                <textarea name="content" id="ckeditor" rows="5" class="form-control"
+                                <textarea name="content" rows="5" class="form-control ckeditor"
                                           placeholder="Nhập nội dung sản phẩm...">{{ old('content') }}</textarea>
                             </div>
                         </div>

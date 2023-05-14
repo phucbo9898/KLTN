@@ -12,6 +12,7 @@ use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Mail;
 
@@ -29,26 +30,32 @@ class FeatureUserController extends CustomerController
     }
     public function saveInfoShoppingCart(Request $request)
     {
-
+//        dd($request->all());
         $name = $request->name;
         $address = $request->address;
         $phone = $request->phone;
         $note = $request->note;
         $type_payment = $request->type_payment;
-        $totalAmount = \Cart::subtotal(0, ',', '.') . " " . "VND";
+        $amount = $request->price;
+        if (\session()->has('coupon')) {
+            $totalAmount = number_format(str_replace('.', '', \Cart::subtotal(0, ',', '.')) * (100 - session()->get('coupon')->sale) / 100) . " " . "VND";
+        } else {
+            $totalAmount = str_replace(',', '.', \Cart::subtotal(0)) . " " . "VND";
+        }
         $days = Carbon::now()->day;
         $months = Carbon::now()->month;
         $years = Carbon::now()->year;
         $time_order = Carbon::now();
         $delivery_time = Carbon::now()->addDays(5);
+        $codeVoucher = \session()->get('coupon')->code;
+        $saleVoucher = \session()->get('coupon')->sale;
 
-        // get value in total money cart
-        $totalMoney = str_replace(',', '', \Cart::subtotal(0));
+//        dd($amount);
         // insert data transaction and get id then insert
         $transactionId = Transaction::insertGetId([
             'customer_name' => $name ?? '',
             'user_id' => Auth::user()->id,
-            'total' => $totalMoney ?? '',
+            'total' => $amount ?? str_replace(',', '', \Cart::subtotal(0)),
             'note' => $request->note ?? '',
             'address' => $request->address ?? '',
             'phone' => $request->phone ?? '',
@@ -79,7 +86,7 @@ class FeatureUserController extends CustomerController
                 $quantity_pay = $product_qty->qty_pay + $product->qty;
                 Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
             }
-
+//            dd($codeVoucher, $saleVoucher);
             $data = [
                 'name' => $name,
                 'address' => $address,
@@ -92,6 +99,8 @@ class FeatureUserController extends CustomerController
                 'year' => $years,
                 'time_order' => $time_order,
                 'delivery_time' => $delivery_time,
+                'codeVoucher' => $codeVoucher ?? '',
+                'saleVoucher' => $saleVoucher ?? '',
             ];
 
             //Send mail
@@ -103,8 +112,7 @@ class FeatureUserController extends CustomerController
                 });
             }
             \Cart::destroy();
-
-
+            Session::forget('coupon');
         }
         return view('fe.thank');
     }
@@ -165,7 +173,7 @@ class FeatureUserController extends CustomerController
                     });
                 }
                 \Cart::destroy();
-
+                Session::forget('coupon');
                 return view('fe.thank');
             } else {
                 Order::where('payment_code', $vnp_TxnRef)->delete();
@@ -194,13 +202,15 @@ class FeatureUserController extends CustomerController
                 $phone = $transaction->phone ?? '';
                 $note = $transaction->note ?? '';
                 $type_payment = $transaction->type_payment ?? '';
-                $totalAmount = \Cart::subtotal(0, ',', '.') . " " . "VND" ?? '';
+                $totalAmount = number_format($transaction->total) . " " . "VNĐ" ?? '';
                 $days = Carbon::now()->day;
                 $months = Carbon::now()->month;
                 $years = Carbon::now()->year;
                 $time_order = Carbon::now();
                 $delivery_time = Carbon::now()->addDays(5);
                 $status_payment = $transaction->status_payment ?? '';
+                $codeVoucher = \session()->get('coupon')->code;
+                $saleVoucher = \session()->get('coupon')->sale;
                 $data = [
                     'name' => $name,
                     'address' => $address,
@@ -213,7 +223,9 @@ class FeatureUserController extends CustomerController
                     'year' => $years,
                     'time_order' => $time_order,
                     'delivery_time' => $delivery_time,
-                    'status_payment' => $status_payment
+                    'status_payment' => $status_payment,
+                    'codeVoucher' => $codeVoucher ?? '',
+                    'saleVoucher' => $saleVoucher ?? '',
                 ];
 
                 //Send mail
@@ -225,8 +237,8 @@ class FeatureUserController extends CustomerController
                     });
                 }
 
-
                 \Cart::destroy();
+                Session::forget('coupon');
                 return view('fe.thank');
             } else {
                 Order::where('payment_code', $orderId)->delete();

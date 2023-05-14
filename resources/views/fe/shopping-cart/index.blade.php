@@ -33,6 +33,8 @@
     </div>
     <!-- Li's Breadcrumb Area End Here -->
     <!--Shopping Cart Area Strat-->
+    @dump(session()->get('coupon'))
+    @dump(str_replace('.', '', \Cart::subtotal(0, ',', '.')))
     <div class="Shopping-cart-area pt-60 pb-60">
         <div class="container">
             <div class="row">
@@ -119,9 +121,51 @@
                         <div class="col-md-5 ml-auto">
                             <div class="cart-page-total">
                                 <h2>@lang('Total Amount To Pay'):</h2>
+                                <div class="mb-2">
+                                    <form action="{{ route('shopping.add-coupon') }}" method="get">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <span>Mã voucher</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" name="coupon" value="{{ session()->has('coupon') ? session()->get('coupon')->code : '' }}">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <button type="submit" class="btn btn-success">Áp dụng</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                                 <ul>
-                                    <li>@lang('Total') <span>{{ \Cart::subtotal(0, ',', '.') }} @lang('VND')</span></li>
-                                    <input type="hidden" class="total" value="{{ \Cart::subtotal(0, ',', '.') }}">
+                                    @if(session()->has('coupon'))
+                                        <li>
+                                            Trước giảm giá:
+                                            <span>
+                                                {{ \Cart::subtotal(0, ',', ',') }} @lang('VND')
+                                            </span>
+                                        </li>
+                                        <li>
+                                            Giảm giá:
+                                            <span>
+                                                {{ session()->get('coupon')->code . " (" . session()->get('coupon')->sale. "%" . ")" }}
+                                            </span>
+                                        </li>
+                                        <li>
+                                            @lang('Total')
+                                            <span>
+                                                {{ number_format(str_replace('.', '', \Cart::subtotal(0, ',', '.')) * (100 - session()->get('coupon')->sale) / 100) }} @lang('VND')
+                                            </span>
+                                        </li>
+                                        <input type="hidden" class="total" value="{{ str_replace('.', '', \Cart::subtotal(0, ',', '.')) * (100 - session()->get('coupon')->sale) / 100 }}">
+                                    @else
+                                        <li>
+                                            @lang('Total')
+                                            <span>
+                                                {{ \Cart::subtotal(0, ',', '.') }} @lang('VND')
+                                            </span>
+                                        </li>
+                                        <input type="hidden" class="total" value="{{ \Cart::subtotal(0, ',', '.') }}">
+                                    @endif
                                 </ul>
                                 <div class="mt-15">
                                     @if (\Cart::subtotal() > 0)
