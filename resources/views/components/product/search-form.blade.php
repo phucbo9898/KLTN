@@ -22,7 +22,7 @@
             <div class="col-md-3 mt-3">
                 <label for="name" class="col-form-label">@lang('Filter by price')</label>
                 <select name="filter_price" class="form-control">
-                    <option value=""></option>
+                    <option value="">Chọn loại sắp xếp</option>
                     <option value="asc" {{ ($options['filter_price'] ?? '') == 'asc' ? 'selected' : '' }}>Sắp xếp tăng dần</option>
                     <option value="desc" {{ ($options['filter_price'] ?? '') == 'desc' ? 'selected' : '' }}>Sắp xếp giảm dần</option>
                 </select>
@@ -30,7 +30,7 @@
             <div class="col-md-3 mt-3">
                 <label for="name" class="col-form-label">@lang('Filter by sold')</label>
                 <select name="filter_sold" class="form-control">
-                    <option value=""></option>
+                    <option value="">Chọn loại sắp xếp</option>
                     <option value="asc" {{ ($options['filter_sold'] ?? '') == 'asc' ? 'selected' : '' }}>Sắp xếp tăng dần</option>
                     <option value="desc" {{ ($options['filter_sold'] ?? '') == 'desc' ? 'selected' : '' }}>Sắp xếp giảm dần</option>
                 </select>

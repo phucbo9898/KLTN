@@ -47,8 +47,8 @@ class FeatureUserController extends CustomerController
         $years = Carbon::now()->year;
         $time_order = Carbon::now();
         $delivery_time = Carbon::now()->addDays(5);
-        $codeVoucher = \session()->get('coupon')->code;
-        $saleVoucher = \session()->get('coupon')->sale;
+        $codeVoucher = \session()->get('coupon')->code ?? '';
+        $saleVoucher = \session()->get('coupon')->sale ?? '';
 
 //        dd($amount);
         // insert data transaction and get id then insert
@@ -209,8 +209,8 @@ class FeatureUserController extends CustomerController
                 $time_order = Carbon::now();
                 $delivery_time = Carbon::now()->addDays(5);
                 $status_payment = $transaction->status_payment ?? '';
-                $codeVoucher = \session()->get('coupon')->code;
-                $saleVoucher = \session()->get('coupon')->sale;
+                $codeVoucher = \session()->get('coupon')->code ?? '';
+                $saleVoucher = \session()->get('coupon')->sale ?? '';
                 $data = [
                     'name' => $name,
                     'address' => $address,

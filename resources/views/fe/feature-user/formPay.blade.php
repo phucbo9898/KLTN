@@ -14,8 +14,6 @@
     </div>
     <!-- Li's Breadcrumb Area End Here -->
     <!--Checkout Area Strat-->
-    @dump(session()->all())
-    @dump(session()->has('coupon'))
     <div class="checkout-area pt-60 pb-30">
         <div class="container">
             <div class="row">
@@ -191,7 +189,6 @@
                             <div class="order-button-payment {{ Cart::subtotal(0, ',', '') > 30000000 ? 'd-none' : '' }}">
                                 <input type="radio" name="payment" id="momo" value="momo" style="width: 15px; height: 13px; margin-bottom: 5px;">
                                 <label>@lang('Payment with Momo')</label> <br>
-                                @dump(session()->has('coupon'))
                                 <form action="{{ route('shopping.payment-momo') }}" method="POST">
                                     @csrf
                                     <input type="hidden" class="name" name="name" value="">

@@ -25,6 +25,7 @@ class LoginController extends CustomerController
     public function getLogout()
     {
         \Cart::destroy();
+        Session::forget('coupon');
         Auth::logout();
         return redirect()->route('home');
     }

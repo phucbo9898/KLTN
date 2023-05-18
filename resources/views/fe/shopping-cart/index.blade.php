@@ -33,8 +33,6 @@
     </div>
     <!-- Li's Breadcrumb Area End Here -->
     <!--Shopping Cart Area Strat-->
-    @dump(session()->get('coupon'))
-    @dump(str_replace('.', '', \Cart::subtotal(0, ',', '.')))
     <div class="Shopping-cart-area pt-60 pb-60">
         <div class="container">
             <div class="row">
