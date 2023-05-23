@@ -12,6 +12,7 @@ use App\Http\Controllers\Cms\TransactionController;
 use App\Http\Controllers\Cms\UserController;
 use App\Http\Controllers\Cms\WarehouseController;
 use App\Http\Controllers\Cms\ProductController;
+use App\Http\Controllers\Cms\VoucherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -131,5 +132,13 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
     Route::group(['prefix' => 'setting'], function () {
         Route::get('/', [SettingController::class, 'index'])->name('admin.setting.index');
         Route::get('/update/{id}', [SettingController::class, 'update'])->name('admin.setting.update');
+    });
+    Route::group(['prefix' => 'voucher'], function () {
+        Route::get('/', [VoucherController::class, 'index'])->name('admin.voucher.index');
+        Route::get('/create', [VoucherController::class, 'create'])->name('admin.voucher.create');
+        Route::post('/create', [VoucherController::class, 'store'])->name('admin.voucher.store');
+//        Route::get('/update/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit');
+//        Route::post('/update/{id}', [CategoryController::class, 'update'])->name('admin.category.update');
+//        Route::get('/{action}/{id}', [CategoryController::class, 'handle'])->name('admin.category.handle');
     });
 });
