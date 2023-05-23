@@ -260,6 +260,37 @@
                 </li>
                 {{-- End tab user --}}
 
+                {{-- Tab voucher --}}
+                <li class="nav-item has-treeview {{ request()->is('admin/voucher*') ? 'menu-open' : '' }}">
+                    <a href="{{ route('admin.voucher.index') }}"
+                       class="nav-link {{ request()->is('admin/voucher*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            @lang('Mã giảm giá')
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ Route('admin.voucher.index') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/voucher') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Danh sách')</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.voucher.create') }}" style="margin-left: 15%;padding-left: 0px;"
+                               class="nav-link {{ request()->is('admin/voucher/create') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>@lang('Thêm')</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {{-- End tab voucher --}}
+
                 {{-- Tab comment --}}
                 <li class="nav-item has-treeview {{ request()->is('admin/comment*') ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.comment.index') }}"
