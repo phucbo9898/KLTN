@@ -17,7 +17,7 @@ class ProductRepository extends BaseRepository
     {
         $query = $this->model;
 //dd($options);
-        if ($options['name'] == '' && $options['category_id'] == '' && $options['filter_price'] == '' && $options['filter_sold'] == '') {
+        if ($options == '') {
             $query = $query->orderby('created_at', 'desc');
         }
 

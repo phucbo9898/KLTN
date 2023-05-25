@@ -25,7 +25,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', Rule::unique('categories')->ignore($this->id)]
+            'name' => ['required', 'max:40', Rule::unique('categories')->ignore($this->id)]
         ];
     }
 
@@ -33,7 +33,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name.required' => __('Trường tên danh mục là bắt buộc'),
-            'name.unique' => __('Tên danh mục đã tồn tại')
+            'name.unique' => __('Tên danh mục đã tồn tại'),
+            'name.max' => __('Tên danh mục có độ dài không được vượt quá 40 kí tự'),
         ];
     }
 }

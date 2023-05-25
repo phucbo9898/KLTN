@@ -41,6 +41,8 @@ class UpdateRequest extends FormRequest
         return [
             'name.required' => 'Bạn cần nhập trường tên bài viết',
             'name.unique' => 'Tên bài viết đã tồn tại',
+            'name.min' => 'Tên bài viết tối thiểu 3 kí tự',
+            'name.max' => 'Tên bài viết tối đa 255 kí tự',
             'description.required' => 'Mô tả bài viết còn trống',
             'description.min' => 'Mô tả bài viết cần ít nhất 3 kí tự',
             'content.required' => 'Nội dung bài viết còn trống',

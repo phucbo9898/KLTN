@@ -202,6 +202,9 @@ use App\Enums\ActiveStatus;
         $("#img_input").change(function () {
             readURL(this);
         });
+        setTimeout(function () {
+            $('.alert-danger').remove();
+        }, 3000)
     </script>
     <script>
         $("#select_category_id").change(function () {

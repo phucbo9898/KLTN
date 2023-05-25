@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Slide;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -24,7 +25,7 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'max:255']
+            'name' => ['required', 'max:255', Rule::unique('slides')->ignore($this->id)],
         ];
     }
 
@@ -37,6 +38,8 @@ class UpdateRequest extends FormRequest
     {
         return [
             'name.required' => __('Please enter slide name'),
+            'name.unique' => __('Tên slide đã tồn tại'),
+            'name.max' => __('Tên slide tối đa là 255 kí tự'),
             'image.required' => __('Please choose slide photo'),
         ];
     }

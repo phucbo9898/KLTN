@@ -115,6 +115,9 @@
         $("#img_input").change(function () {
             readURL(this);
         });
+        setTimeout(function () {
+            $('.alert-danger').remove();
+        }, 3000)
     </script>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     <script>

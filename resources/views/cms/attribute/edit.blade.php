@@ -107,6 +107,9 @@
                     'display': 'none'
                 });
             }
+            setTimeout(function () {
+                $('.alert-danger').remove();
+            }, 3000)
         });
     </script>
 @endsection

@@ -25,9 +25,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3|max:255',
-            'email' => ['required', 'email', 'min:3', 'max:255', Rule::unique('users')->ignore($this->id)],
-            'phone' => 'required|numeric'
+            'code' => ['required', 'max:255', Rule::unique('coupons')->ignore($this->id)],
+            'sale' => 'required|numeric|min:1|max:100',
+
         ];
     }
 
@@ -39,16 +39,11 @@ class UpdateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Tên người dùng không được trống',
-            'name.min' => 'Tên người dùng ít nhất 3 kí tự',
-            'name.max' => 'Tên người dùng nhiều nhất nhất 255 kí tự',
-            'email.required' => 'Email không được trống',
-            'email.email' => 'Địa chỉ Email k đúng',
-            'email.min' => 'Email ít nhất 3 kí tự',
-            'email.max' => 'Email nhiều nhất nhất 255 kí tự',
-            'email.unique' => 'Đã có người đăng kí email này',
-            'phone.required' => 'Số điện thoại đang để trống!, vui lòng nhập số điện thoại !!!',
-            'phone.numeric' => 'Định dạng số điện thoại không đúng !',
+            'code.required' => 'Mã giảm giá không được trống',
+            'code.max' => 'Mã giảm giá nhiều nhất 255 kí tự',
+            'code.unique' => 'Mã giảm giá đã tồn tại',
+            'sale.required' => 'Giá trị giảm giá đang để trống!, vui lòng nhập giá trị !!!',
+            'sale.numeric' => 'Định dạng giá trị không đúng !',
         ];
     }
 

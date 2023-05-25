@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'max:255'],
+            'name' => ['required', 'max:255', 'unique:slides,name'],
             'image' => ['required']
         ];
     }
@@ -38,6 +38,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'name.required' => __('Please enter slide name'),
+            'name.unique' => __('Tên slide đã tồn tại'),
+            'name.max' => __('Tên slide tối đa là 255 kí tự'),
             'image.required' => __('Please choose slide photo'),
         ];
     }

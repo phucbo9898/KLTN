@@ -114,7 +114,7 @@ class CreateDatabase extends Migration
            $table->string('image');
            $table->integer('index');
            $table->timestamps();
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+           $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
 
         Schema::create('product_attribute', function (Blueprint $table) {

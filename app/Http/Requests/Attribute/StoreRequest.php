@@ -24,9 +24,9 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:attributes,name',
+            'name' => 'required|unique:attributes,name|max:40',
             'type' => 'required',
-            'value' => 'required_if:type,select'
+            'value' => 'required_if:type,select|max:255'
         ];
     }
 
@@ -36,7 +36,9 @@ class StoreRequest extends FormRequest
             'name.required' => 'Tên thuộc tính bắt buộc',
             'name.unique' => 'Tên thuộc tính đã tồn tại',
             'type.required' => 'Kiểu dữ liệu là bắt buộc',
-            'value.required_if' => 'Giá trị là bắt buộc khi loại thuộc tính là lựa chọn'
+            'value.required_if' => 'Giá trị là bắt buộc khi loại thuộc tính là lựa chọn',
+            'name.max' => 'Tên thuộc tính có độ dài tối đa 40 kí tự',
+            'value.max' => 'Giá trị thuộc tính có độ dài tối đa 255 kí tự',
         ];
     }
 }

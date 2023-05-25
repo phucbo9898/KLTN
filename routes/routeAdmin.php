@@ -137,8 +137,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
         Route::get('/', [VoucherController::class, 'index'])->name('admin.voucher.index');
         Route::get('/create', [VoucherController::class, 'create'])->name('admin.voucher.create');
         Route::post('/create', [VoucherController::class, 'store'])->name('admin.voucher.store');
-//        Route::get('/update/{id}', [CategoryController::class, 'edit'])->name('admin.category.edit');
-//        Route::post('/update/{id}', [CategoryController::class, 'update'])->name('admin.category.update');
-//        Route::get('/{action}/{id}', [CategoryController::class, 'handle'])->name('admin.category.handle');
+        Route::get('/update/{id}', [VoucherController::class, 'edit'])->name('admin.voucher.edit');
+        Route::post('/update/{id}', [VoucherController::class, 'update'])->name('admin.voucher.update');
+        Route::get('/{action}/{id}', [VoucherController::class, 'action'])->name('admin.voucher.action');
     });
 });

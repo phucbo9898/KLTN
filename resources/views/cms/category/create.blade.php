@@ -78,3 +78,12 @@
         </div>
     </section>
 @endsection
+@section('javascript')
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                $('.alert-danger').remove();
+            }, 3000)
+        });
+    </script>
+@endsection

@@ -4,7 +4,7 @@ $(document).ready(function () {
     var msg_cancel = 'Bạn có chắc muốn hủy ? Dữ liệu đã nhập sẽ không được lưu ';
 
     $(".btn-create-slide-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/slide";
+        let url_reload = "/admin/slide";
         let name = msg_cancel;
         let name_sceen = "Slide";
         let get_value = $(".form-create").serialize();
@@ -16,7 +16,7 @@ $(document).ready(function () {
     })
 
     $(".btn-create-category-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/category";
+        let url_reload = "/admin/category";
         let name = msg_cancel;
         let name_sceen = "Category";
         let get_value = $(".form-create").serialize();
@@ -28,7 +28,7 @@ $(document).ready(function () {
     })
 
     $(".btn-create-attribute-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/attribute";
+        let url_reload = "/admin/attribute";
         let name = msg_cancel;
         let name_sceen = "Attribute";
         let get_value = $(".form-create").serialize();
@@ -40,7 +40,7 @@ $(document).ready(function () {
     })
 
     $(".btn-create-product-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/product";
+        let url_reload = "/admin/product";
         let name = msg_cancel;
         let name_sceen = "Product";
         let get_value = $(".form-create").serialize();
@@ -52,7 +52,7 @@ $(document).ready(function () {
     })
 
     $(".btn-create-article-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/article";
+        let url_reload = "/admin/article";
         let name = msg_cancel;
         let name_sceen = "Article";
         let get_value = $(".form-create").serialize();
@@ -64,7 +64,7 @@ $(document).ready(function () {
     })
 
     $(".btn-create-user-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/user";
+        let url_reload = "/admin/user";
         let name = msg_cancel;
         let name_sceen = "User";
         let get_value = $(".form-create").serialize();
@@ -74,9 +74,32 @@ $(document).ready(function () {
             location.href = url_reload;
         }
     })
+    $(".btn-create-voucher-cancel").on('click', function () {
+        let url_reload = "/admin/voucher";
+        let name = msg_cancel;
+        let name_sceen = "Voucher";
+        let get_value = $(".form-create").serialize();
+        if (get_value != value_create) {
+            cancel_create_common(url_reload, name, name_sceen);
+        } else {
+            location.href = url_reload;
+        }
+    })
+
+    $(".btn-update-voucher-cancel").on('click', function () {
+        let url_reload = "/admin/voucher";
+        let name = msg_cancel;
+        let name_sceen = "Voucher";
+        let get_value = $(".form-update").serialize();
+        if (get_value != value_update) {
+            cancel_update_common(url_reload, name, name_sceen);
+        } else {
+            location.href = url_reload;
+        }
+    })
 
     $(".btn-update-slide-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/slide";
+        let url_reload = "/admin/slide";
         let name = msg_cancel;
         let name_sceen = "Slide";
         let get_value = $(".form-update").serialize();
@@ -88,7 +111,7 @@ $(document).ready(function () {
     })
 
     $(".btn-update-category-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/category";
+        let url_reload = "/admin/category";
         let name = msg_cancel;
         let name_sceen = "Category";
         let get_value = $(".form-update").serialize();
@@ -100,7 +123,7 @@ $(document).ready(function () {
     })
 
     $(".btn-update-attribute-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/attribute";
+        let url_reload = "/admin/attribute";
         let name = msg_cancel;
         let name_sceen = "Attribute";
         let get_value = $(".form-update").serialize();
@@ -112,7 +135,7 @@ $(document).ready(function () {
     })
 
     $(".btn-update-product-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/product";
+        let url_reload = "/admin/product";
         let name = msg_cancel;
         let name_sceen = "Product";
         let get_value = $(".form-update").serialize();
@@ -125,7 +148,7 @@ $(document).ready(function () {
     })
 
     $(".btn-update-article-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/article";
+        let url_reload = "/admin/article";
         let name = msg_cancel;
         let name_sceen = "Article";
         let get_value = $(".form-update").serialize();
@@ -137,7 +160,7 @@ $(document).ready(function () {
     })
 
     $(".btn-update-user-cancel").on('click', function () {
-        let url_reload = "/webpc/public/admin/user";
+        let url_reload = "/admin/user";
         let name = msg_cancel;
         let name_sceen = "User";
         let get_value = $(".form-update").serialize();
@@ -182,10 +205,10 @@ function cancel_update_common(url_reload, name, name_screen) {
             className: "bg-success",
             closeModal: true,
         }],
-    }).then((willDelete) => {
-        if (willDelete) {
+    }).then((isConfirm) => {
+        if (isConfirm) {
             swal("Thành công", 'Hệ thống đang chuyển hướng về trang danh sách ' + name_screen + " !", 'success').then(function () {
-                location.href = url_reload
+                window.location.href = url_reload
             });
         }
     });
