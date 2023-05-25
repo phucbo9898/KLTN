@@ -8,6 +8,7 @@ use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\ProductQtyPay;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -81,6 +82,35 @@ class FeatureUserController extends CustomerController
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
+                $startDayOfMonth = Carbon::now()->startOfMonth();
+                $endDayOfMonth = Carbon::now()->endOfMonth();
+                $checkExistProduct = ProductQtyPay::where('product_id', $product->id)->whereBetween('time_pay', [$startDayOfMonth, $endDayOfMonth])->first();
+                if (!empty($checkExistProduct)) {
+                    $monthOfProduct = Carbon::parse($checkExistProduct['time_pay'])->format('m');
+                    if ($monthOfProduct == Carbon::now()->format('m')) {
+                        ProductQtyPay::where('product_id', $product->id)->update([
+                            'quantity_pay' => $checkExistProduct->quantity_pay + ($product->qty ?? ''),
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    } else {
+                        ProductQtyPay::create([
+                            'product_id' => $product->id ?? '',
+                            'quantity_pay' => $product->qty ?? '',
+                            'time_pay' => Carbon::now(),
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    }
+                } else {
+                    ProductQtyPay::create([
+                        'product_id' => $product->id ?? '',
+                        'quantity_pay' => $product->qty ?? '',
+                        'time_pay' => Carbon::now(),
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ]);
+                }
                 $product_qty = Product::find($product->id);
                 $quantity = $product_qty->quantity - $product->qty;
                 $quantity_pay = $product_qty->qty_pay + $product->qty;

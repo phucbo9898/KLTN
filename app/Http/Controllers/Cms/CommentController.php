@@ -25,4 +25,21 @@ class CommentController extends Controller
 
         return view('cms.comment.index', compact('ratings'));
     }
+
+    public function action($action,$id){
+        if($action){
+            $rating = Rating::find($id);
+            switch ($action) {
+                case 'delete':
+                    $product = Rating::find($id)->product;
+                    $product->total_star -= $rating->number;
+                    $product->number_of_reviewers -= 1;
+                    $product->save();
+                    $rating->delete();
+                    return redirect()->route('admin.comment.index');
+                    break;
+            }
+        }
+        return redirect()->back();
+    }
 }

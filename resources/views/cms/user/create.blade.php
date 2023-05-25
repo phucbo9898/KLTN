@@ -132,6 +132,9 @@ use App\Enums\UserType;
                     image.src = src;
                 }
             });
+            setTimeout(function () {
+                $('.alert-danger').remove();
+            }, 3000)
         })
     </script>
 @endsection

@@ -80,5 +80,8 @@
             $("#img_output").removeClass('d-none');
             readURL(this);
         });
+        setTimeout(function () {
+            $('.alert-danger').remove();
+        }, 3000)
     </script>
 @endsection

@@ -51,18 +51,18 @@ class VoucherController extends Controller
         try {
             DB::beginTransaction();
             $data = $request->all();
+            $expire_date = Carbon::parse($request->expire_date)->format('Y-m-d H:i');
+            $date_now = Carbon::now()->timezone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i');
+            if ($expire_date < $date_now) {
+                return back()->withInput()->with('error', 'Thời gian đã chọn phải lớn hơn hoặc bằng thời gian hiện tại');
+            }
             $voucher = $this->voucherRepo->prepareVoucher($data);
-//            dd($voucher);
-            $result = $this->voucherRepo->create($voucher);
-//            Voucher::create($voucher);
-            dd($result);
-            dd(1);
+            $this->voucherRepo->create($voucher);
             DB::commit();
-            return redirect()->route('admin.voucher.index')->with('success', 'Đã thêm 1 mã giảm giá!');
+            return redirect()->route('admin.voucher.index')->with('success', 'Đã thêm 1 mã giảm giá !');
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::debug($e);
-            dd(2);
+            Log::debug($e->getMessage());
             return redirect()->back()->with('error', 'Thêm mã giảm giá không thành công');
         }
     }
@@ -86,7 +86,12 @@ class VoucherController extends Controller
      */
     public function edit($id)
     {
-        //
+        $voucher = $this->voucherRepo->find($id);
+        if (!$voucher) {
+            return redirect()->route('admin.voucher.index')->with('error', __('The requested resource is not available'));
+        }
+
+        return view('cms.voucher.edit', compact('voucher'));
     }
 
     /**
@@ -98,7 +103,30 @@ class VoucherController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $voucher = $this->voucherRepo->find($id);
+        if (!$voucher) {
+            return redirect()->route('admin.voucher.index')->with('error', __('The requested resource is not available'));
+        }
+        try {
+//            dd(Carbon::parse($voucher->expire_date)->format('Y-m-d H:i'), Carbon::parse($request->expire_date)->format('Y-m-d H:i'));
+            DB::beginTransaction();
+            $data = $request->all();
+            $expire_date = Carbon::parse($request->expire_date)->format('Y-m-d H:i');
+            $date_now = Carbon::now()->timezone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i');
+            if (Carbon::parse($voucher->expire_date)->format('Y-m-d H:i') != Carbon::parse($request->expire_date)->format('Y-m-d H:i')) {
+                if ($expire_date < $date_now) {
+                    return back()->withInput()->with('error', 'Thời gian đã chọn phải lớn hơn hoặc bằng thời gian hiện tại');
+                }
+            }
+            $voucher = $this->voucherRepo->prepareVoucher($data);
+            $this->voucherRepo->update($id, $voucher);
+            DB::commit();
+            return redirect()->route('admin.voucher.index')->with('success', 'Đã cập nhật mã giảm giá có id là ' . $id . ' !');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::debug($e->getMessage());
+            return redirect()->back()->with('error', 'Cập nhật mã giảm giá không thành công');
+        }
     }
 
     /**

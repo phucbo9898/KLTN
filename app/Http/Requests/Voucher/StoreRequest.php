@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Voucher;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreRequest extends FormRequest
@@ -24,9 +25,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|min:3|max:255',
-            'sale' => 'required',
-            'expire_date' => '',
+            'code' => ['required', 'max:255', 'unique:coupons,code'],
+            'sale' => 'required|numeric|min:1|max:100',
         ];
     }
 
@@ -38,18 +38,13 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'image.required' => 'Ảnh đại diện người dùng không được trống',
-            'name.required' => 'Tên người dùng không được trống',
-            'name.min' => 'Tên người dùng ít nhất 3 kí tự',
-            'name.max' => 'Tên người dùng nhiều nhất nhất 255 kí tự',
-            'email.required' => 'Email không được trống',
-            'email.email' => 'Địa chỉ Email không đúng',
-            'email.unique' => 'Đã có người đăng kí email này',
-            'email.min' => 'Email ít nhất 3 kí tự',
-            'email.max' => 'Email nhiều nhất nhất 255 kí tự',
-            'phone.required' => 'Số điện thoại đang để trống!, vui lòng nhập số điện thoại',
-            'phone.numeric' => 'Định dạng số điện thoại không đúng !',
-            'role.required' => 'Vui lòng chọn quyền cho tài khoản đăng kí'
+            'code.required' => 'Mã giảm giá không được trống',
+            'code.max' => 'Mã giảm giá nhiều nhất 255 kí tự',
+            'code.unique' => 'Mã giảm giá đã tồn tại',
+            'sale.required' => 'Giá trị giảm giá đang để trống!, vui lòng nhập giá trị !!!',
+            'sale.numeric' => 'Định dạng giá trị không đúng !',
+            'sale.min' => 'Giá trị giảm giá tối thiểu = 1 !',
+            'sale.max' => 'Giá trị giảm giá tối đa = 100 !',
         ];
     }
 

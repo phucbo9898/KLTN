@@ -42,12 +42,19 @@
                 @endif
                 <div class="row">
                     <div class="col-md-12 col-12 mb-20">
-                        <label>Email*</label>
+                        <label>Email <span style="color: red">*</span></label>
                         <input class="mb-0" type="email" name="email" placeholder="Nhập địa chỉ email...">
                     </div>
                     <div class="col-12 mb-20">
-                        <label>Mật khẩu</label>
-                        <input class="mb-0" type="password" name="password" placeholder="Nhập mật khẩu...">
+                        <label>Mật khẩu <span style="color: red">*</span></label>
+                        <input class="mb-0 password" type="password" name="password" placeholder="Nhập mật khẩu...">
+                        <br>
+                        <div class="d-flex">
+                            <div class="d-flex">
+                                <input type="checkbox" id="showPassword" class="mb-0">
+                                <label for="" class="mt-10 ml-2">Hiện mật khẩu</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-8">
 
@@ -125,6 +132,13 @@
                     $("#form_reset_password").submit();
                 }
             });
+            $("#showPassword").click(function () {
+                if ($(".password").attr('type') == 'password') {
+                    $(".password").attr('type', 'text')
+                } else {
+                    $(".password").attr('type', 'password')
+                }
+            })
         });
     </script>
 @endsection

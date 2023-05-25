@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:categories,name'
+            'name' => 'required|unique:categories,name|max:40'
         ];
     }
 
@@ -32,7 +32,8 @@ class StoreRequest extends FormRequest
     {
         return [
             'name.required' => __('Trường tên danh mục là bắt buộc'),
-            'name.unique' => __('Tên danh mục đã tồn tại')
+            'name.unique' => __('Tên danh mục đã tồn tại'),
+            'name.max' => __('Tên danh mục có độ dài không được vượt quá 40 kí tự'),
         ];
     }
 }

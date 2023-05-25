@@ -13,9 +13,9 @@
                     <table class="table table-hover table-striped table-list" id="dataTable">
                         <thead class="thead-dark">
                             <th style="width: 5%">ID</th>
-                            <th style="width: 10%">Người đánh giá</th>
+                            <th style="width: 15%">Người đánh giá</th>
                             <th style="width: 25%">Sản phẩm</th>
-                            <th style="width: 35%">Nội dung</th>
+                            <th style="width: 30%">Nội dung</th>
                             <th style="width: 7%">Rating</th>
                             <th style="width: 13%">Ngày tạo</th>
                             <th style="width: 5%">Hành động</th>

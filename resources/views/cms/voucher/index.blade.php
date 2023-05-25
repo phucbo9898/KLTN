@@ -29,9 +29,9 @@
                                     {{ $voucher->created_at ?? '' }}
                                 </td>
                                 <td style="text-align: center; width: 10%;">
-                                    <a href="{{ route('admin.user.edit', $voucher->id) }}"
+                                    <a href="{{ route('admin.voucher.edit', $voucher->id) }}"
                                        class="btn btn-success btn-circle"><i class="fas fa-edit"></i></a>
-                                    <a href="{{ route('admin.comment.action', ['delete', $voucher->id]) }}"
+                                    <a href="{{ route('admin.voucher.action', ['delete', $voucher->id]) }}"
                                         class="btn_delete_sweet btn btn-danger btn-circle"
                                         data-id="{{ $voucher->id }}"><i class="fas fa-trash-alt"></i></a></td>
                             </tr>

@@ -230,14 +230,14 @@
                 <div class="col-lg-12">
                     <div class="li-section-title">
                         <h2>
-                            <span style="text-transform: uppercase;">@lang('Selling Products')</span>
+                            <span style="text-transform: uppercase;">@lang('Selling Products Of Month')</span>
                         </h2>
                     </div>
                     <!-- Begin Li's Tab Menu Content Area -->
                     <div class="tab-content li-tab-content li-trending-product-content">
                         <div id="home1" class="tab-pane show fade in active">
                             <div class="row">
-                                <div class="product-active owl-carousel">
+                                <div class="special-product-active owl-carousel">
                                     @foreach ($product_best_pays as $product_best_pay)
                                         <div class="col-lg-12">
                                             <!-- single-product-wrap start -->

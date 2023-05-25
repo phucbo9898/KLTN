@@ -186,6 +186,9 @@ use App\Enums\ActiveHot;
             $("#img_input").on("change", function () {
                 $("#img_output").removeClass('d-none')
             })
+            setTimeout(function () {
+                $('.alert-danger').remove();
+            }, 3000)
 
             $("#select_category_id").change(function () {
                 var selected = $(this).children("option:selected").val();

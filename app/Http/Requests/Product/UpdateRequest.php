@@ -43,6 +43,8 @@ class UpdateRequest extends FormRequest
             'name.max' => 'Tên sản phẩm nhiều nhất nhất 255 kí tự',
             'content.required' => 'Bạn cần nhập trường nội dung sản phẩm',
             'content.min' => 'Nội dung sản phẩm ít nhất 3 kí tự',
+            'information.required' => 'Bạn cần nhập trường thông số sản phẩm',
+            'information.min' => 'Thông số sản phẩm ít nhất 3 kí tự',
             'category_id.required' => 'Bạn cần chọn loại sản phẩm',
             'price.required' => 'Bạn cần nhập trường giá sản phẩm',
             'price.integer' => 'Giá sản phẩm là kiểu số',
