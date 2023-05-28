@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th5 25, 2023 lúc 03:24 PM
+-- Thời gian đã tạo: Th5 28, 2023 lúc 02:52 PM
 -- Phiên bản máy phục vụ: 5.7.39
 -- Phiên bản PHP: 7.4.3
 
@@ -1244,7 +1244,7 @@ ALTER TABLE `product_qty_pay`
 -- AUTO_INCREMENT cho bảng `ratings`
 --
 ALTER TABLE `ratings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `slides`
