@@ -7,7 +7,7 @@
                 <h4 class="login-title">@lang('Register')</h4>
                 @if (Session::has('errorconfirmpassword'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Lỗi!</strong> Mật khẩu nhập lại không trùng nhau.
+                        <strong>@lang('Error')!</strong> @lang('Password and confirmation password do not match').
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -15,7 +15,7 @@
                 @endif
                 @if (Session::has('successregister'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Thành công!</strong> Bạn đã đăng ký thành công !!!
+                        <strong>@lang('Success')!</strong> @lang('You have successfully registered') !!!
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -29,33 +29,39 @@
                     </div>
                     <div class="col-md-12 col-12 mb-20">
                         <label>@lang('Name') <span class="text-danger">*</span></label>
-                        <input class="mb-0" type="text" name="name" required placeholder="Nhập họ và tên của bạn..."
+                        <input class="mb-0" type="text" name="name" required placeholder="@lang('Enter your first and last name...')"
                             value="{{ old('name') }}">
                     </div>
                     <div class="col-md-12 mb-20">
                         <label>@lang('Email') <span class="text-danger">*</span></label>
                         <input class="mb-0" type="email" name="email" required
-                            placeholder="Nhập địa chỉ email của bạn..." value="{{ old('email') }}">
+                            placeholder="@lang('Enter your email address...')" value="{{ old('email') }}">
                     </div>
                     <div class="col-md-12 mb-20">
                         <label>@lang('Address') <span class="text-danger">*</span></label>
                         <input class="mb-0" type="text" name="address" required
-                               placeholder="Nhập địa chỉ của bạn..." value="{{ old('address') }}">
+                               placeholder="@lang('Enter your address...')" value="{{ old('address') }}">
                     </div>
                     <div class="col-md-12 mb-20">
-                        <label>@lang('Phone number') <span class="text-danger">*</span></label>
+                        <label>@lang('Phone Number') <span class="text-danger">*</span></label>
                         <input class="mb-0" type="text" name="phone" required
-                               placeholder="Nhập số điện thoại của bạn..." value="{{ old('phone') }}">
+                               placeholder="@lang('Enter your phone number...')" value="{{ old('phone') }}">
                     </div>
                     <div class="col-md-6 mb-20">
                         <label>@lang('Password') <span class="text-danger">*</span></label>
-                        <input class="mb-0" type="password" name="password" required
-                            placeholder="Nhập mật khẩu của bạn...">
+                        <div class="d-flex">
+                            <input class="mb-0 input-password" type="password" name="password"  required
+                                   placeholder="@lang('Enter your password...')">
+                            <button type="button" class="input-group-text show-password fa fa-eye-slash"></button>
+                        </div>
                     </div>
                     <div class="col-md-6 mb-20">
                         <label>@lang('Password confirmation') <span class="text-danger">*</span></label>
-                        <input class="mb-0" type="password" name="confirmpassword" required
-                            placeholder="Nhập lại mật khẩu của bạn...">
+                        <div class="d-flex">
+                            <input class="mb-0 input-password-confirm" type="password" name="confirmpassword" required
+                                placeholder="@lang('Enter your password confirm...')">
+                            <button type="button" class="input-group-text show-password-confirm fa fa-eye-slash"></button>
+                        </div>
                     </div>
                     <div class="col-12">
                         <button class="register-button mt-0">@lang('Register')</button>
@@ -68,7 +74,26 @@
 @section('javascript')
     <script>
         $(document).ready(function () {
-            $(document).on("change", "#upload-btn", function (e) {
+            $(".show-password").click(function () {
+                $(".show-password").removeClass('fa-eye-slash')
+                if ($(".input-password").attr('type') == 'password') {
+                    $(".input-password").attr('type', 'text')
+                    $(".show-password").removeClass('fa-eye-slash').addClass('fa-eye')
+                } else {
+                    $(".input-password").attr('type', 'password')
+                    $(".show-password").removeClass('fa-eye').addClass('fa-eye-slash')
+                }
+            })
+            $(".show-password-confirm").on("click", function () {
+                if ($(".input-password-confirm").attr('type') == 'password') {
+                    $(".input-password-confirm").attr('type', 'text')
+                    $(".show-password-confirm").removeClass('fa-eye-slash').addClass('fa-eye')
+                } else {
+                    $(".input-password-confirm").attr('type', 'password')
+                    $(".show-password-confirm").removeClass('fa-eye').addClass('fa-eye-slash')
+                }
+            })
+            $("#upload-btn").on("change", function (e) {
                 $("#img-preview").removeClass('d-none')
                 const image = document.getElementById('img-preview');
                 console.log(image)
@@ -76,7 +101,8 @@
                     const src = URL.createObjectURL(e.target.files[0]);
                     image.src = src;
                 }
-            });
+            })
+
         })
     </script>
 @endsection

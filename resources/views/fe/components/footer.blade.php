@@ -1,4 +1,12 @@
 <!-- Begin Footer Area -->
+<style>
+    .text-color {
+        color: black !important;
+    }
+    .text-color:hover {
+        color: blue !important;
+    }
+</style>
 <div class="footer">
     <!-- Begin Footer Static Top Area -->
     <div class="footer-static-top">
@@ -84,11 +92,11 @@
                             </li>
                             <li>
                                 <span>@lang('Phone Number'): </span>
-                                <a href="#">0969908298</a>
+                                <a href="#" class="text-color">0969908298</a>
                             </li>
                             <li>
                                 <span>@lang('Email'): </span>
-                                <a href="mailto://phucbo9898@gmail.com">phucbo9898@gmail.com</a>
+                                <a href="mailto://phucbo9898@gmail.com" class="text-color">phucbo9898@gmail.com</a>
                             </li>
                         </ul>
                     </div>
@@ -112,18 +120,18 @@
                             <h3 class="footer-block-title">@lang('Feature')</h3>
                             <ul>
                                 <li>
-                                    <a href="{{ route('home') }}" style="text-decoration: none;">@lang('Home')</a>
+                                    <a href="{{ route('home') }}" style="text-decoration: none;" class="text-color">@lang('Home')</a>
                                 </li>
                                 <li>
-                                    <a href="#" style="text-decoration: none;">@lang('Article')</a>
+                                    <a href="#" style="text-decoration: none;" class="text-color">@lang('Article')</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('about-us') }}"
-                                        style="text-decoration: none;">@lang('About us')</a>
+                                        style="text-decoration: none;" class="text-color">@lang('About us')</a>
                                 </li>
                                 <li>
                                     <a href="{{ route('contact') }}"
-                                        style="text-decoration: none;">@lang('Contact')</a>
+                                        style="text-decoration: none;" class="text-color">@lang('Contact')</a>
                                 </li>
                             </ul>
                         </div>
@@ -154,7 +162,7 @@
                             @lang('This project is made with')
                             <i class="icon-heart color-danger" aria-hidden="true"></i> @lang('by') <span
                                 style="color: red; font-size: 20px">♥</span>
-                            <a href="#" target="_blank" style="color: #3b7fce;">Vũ Ngọc Phúc</a> @lang('on')
+                            <a href="https://www.facebook.com/phucbo9898" target="_blank" style="color: #3b7fce;">Vũ Ngọc Phúc</a> @lang('on')
                             <script>
                                 document.write(new Date().getFullYear());
                             </script>
