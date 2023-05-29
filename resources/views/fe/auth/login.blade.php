@@ -15,10 +15,10 @@
         <form method="POST">
             @csrf
             <div class="login-form">
-                <h4 class="login-title">Đăng nhập</h4>
+                <h4 class="login-title">@lang('Login')</h4>
                 @if (Session::has('errorlogin'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Lỗi!</strong> Sai tài khoản hoặc mật khẩu.
+                        <strong>@lang('Error')!</strong> @lang('Wrong account or password').
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -26,7 +26,7 @@
                 @endif
                 @if (Session::has('needLogin'))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Cảnh báo!!!</strong> Cần đăng nhập sử dụng chức năng này.
+                        <strong>@lang('Warning')!!!</strong> @lang('Need to login to use this function').
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -43,16 +43,16 @@
                 <div class="row">
                     <div class="col-md-12 col-12 mb-20">
                         <label>Email <span style="color: red">*</span></label>
-                        <input class="mb-0" type="email" name="email" placeholder="Nhập địa chỉ email...">
+                        <input class="mb-0" type="email" name="email" placeholder="@lang('Enter your email address...')">
                     </div>
                     <div class="col-12 mb-20">
                         <label>Mật khẩu <span style="color: red">*</span></label>
-                        <input class="mb-0 password" type="password" name="password" placeholder="Nhập mật khẩu...">
+                        <input class="mb-0 password" type="password" name="password" placeholder="@lang('Enter your password...')">
                         <br>
                         <div class="d-flex">
                             <div class="d-flex">
                                 <input type="checkbox" id="showPassword" class="mb-0">
-                                <label for="" class="mt-10 ml-2">Hiện mật khẩu</label>
+                                <label for="" class="mt-12 ml-2">@lang('Show password')</label>
                             </div>
                         </div>
                     </div>
@@ -60,10 +60,10 @@
 
                     </div>
                     <div class="col-md-4 mt-10 mb-20 text-left text-md-right">
-                        <a href="#" data-toggle="modal" data-target="#reset_password"> Quên mật khẩu?</a>
+                        <a href="#" data-toggle="modal" data-target="#reset_password"> @lang('Forgot password')?</a>
                     </div>
                     <div class="col-md-12">
-                        <button class="register-button mt-0">Đăng nhập</button>
+                        <button class="register-button mt-0">@lang('Login')</button>
                     </div>
                 </div>
             </div>

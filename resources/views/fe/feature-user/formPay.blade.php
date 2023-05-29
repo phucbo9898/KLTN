@@ -101,7 +101,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr class="cart-subtotal">
-                                        <th>@lang('Tổng tiền')</th>
+                                        <th>@lang('Total Money')</th>
                                         <td>
                                             <span class="amount">
                                                 @if(session()->has('coupon'))

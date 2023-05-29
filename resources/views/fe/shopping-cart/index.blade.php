@@ -123,13 +123,13 @@
                                     <form action="{{ route('shopping.add-coupon') }}" method="get">
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <span>Mã voucher</span>
+                                                <span>@lang("Voucher")</span>
                                             </div>
                                             <div class="col-md-6">
                                                 <input type="text" name="coupon" value="{{ session()->has('coupon') ? session()->get('coupon')->code : '' }}">
                                             </div>
                                             <div class="col-md-3">
-                                                <button type="submit" class="btn btn-success">Áp dụng</button>
+                                                <button type="submit" class="btn btn-success">@lang('Apply')</button>
                                             </div>
                                         </div>
                                     </form>
