@@ -51,10 +51,12 @@ class VoucherController extends Controller
         try {
             DB::beginTransaction();
             $data = $request->all();
-            $expire_date = Carbon::parse($request->expire_date)->format('Y-m-d H:i');
-            $date_now = Carbon::now()->timezone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i');
-            if ($expire_date < $date_now) {
-                return back()->withInput()->with('error', 'Thời gian đã chọn phải lớn hơn hoặc bằng thời gian hiện tại');
+            if ($request->expire_date) {
+                $expire_date = Carbon::parse($request->expire_date)->format('Y-m-d H:i');
+                $date_now = Carbon::now()->timezone('Asia/Ho_Chi_Minh')->format('Y-m-d H:i');
+                if ($expire_date < $date_now) {
+                    return back()->withInput()->with('error', 'Thời gian đã chọn phải lớn hơn hoặc bằng thời gian hiện tại');
+                }
             }
             $voucher = $this->voucherRepo->prepareVoucher($data);
             $this->voucherRepo->create($voucher);
