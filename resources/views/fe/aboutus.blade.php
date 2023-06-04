@@ -18,14 +18,9 @@
                 <!-- About Text Start -->
                 <div class="col-lg-6 order-last order-lg-first">
                     <div class="about-text-wrap">
-                        <h2>Kaiser Computer, nơi cung cấp sản phẩm tốt nhất cho bạn</h2>
-                        <p>Ngày này trong nhịp sống hối hả của con người thì việc giành thời gian để ra ngoài để mua sắm trở
-                            nên là 1 điều quá xa sỉ.. Những lo lắng về giao thông không an toàn và hạn chế trong việc mua
-                            hàng truyền thống có thể tránh được trong khi mua sắm trực tuyến. Với mua sắm trực tuyến(online)
-                        </p>
-                        <p>Website kinh doanh linh kiện máy tính Gaming của chúng tôi chuyên cung cấp các sản phẩm tôt nhất
-                            thị trường với giá cả phải chăng. Không những thế chúng tôi còn luôn đặt lợi ích khách hàng lên
-                            đầu, luôn luôn thay đổi sao cho phù hợp với khách hàng.</p>
+                        <h2>@lang('Kaiser Computer, the place that provides the best products for you')</h2>
+                        <p>@lang("These days in the hustle and bustle of people's lives, taking time to go out to shop has become a luxury. Worries about unsafe traffic and restrictions on traditional purchases avoidable while shopping online. With online shopping (online)")</p>
+                        <p>@lang('Our Gaming computer parts business website specializes in providing the best products in the market at affordable prices. Not only that, we also always put the interests of customers first, always changing to suit customers.')</p>
                     </div>
                 </div>
                 <!-- About Text End -->

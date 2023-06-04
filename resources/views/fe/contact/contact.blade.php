@@ -6,8 +6,8 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                    <li class="active">Liên hệ</li>
+                    <li><a href="{{ route('home') }}">@lang('home')</a></li>
+                    <li class="active">@lang('Contact')</li>
                 </ul>
             </div>
         </div>

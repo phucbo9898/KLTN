@@ -34,7 +34,7 @@
                 @endif
                 @if (Session::has('error-email'))
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        <strong>Cảnh báo!!!</strong> {{ Session::get('error-email') }}
+                        <strong>@lang('Warning')!!!</strong> {{ Session::get('error-email') }}
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -46,7 +46,7 @@
                         <input class="mb-0" type="email" name="email" placeholder="@lang('Enter your email address...')">
                     </div>
                     <div class="col-12 mb-20">
-                        <label>Mật khẩu <span style="color: red">*</span></label>
+                        <label>@lang('Password') <span style="color: red">*</span></label>
                         <input class="mb-0 password" type="password" name="password" placeholder="@lang('Enter your password...')">
                         <br>
                         <div class="d-flex">
@@ -75,7 +75,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Lấy lại mật khẩu</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">@lang('Password retrieval')</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -84,15 +84,15 @@
                     <form action="{{ route('post.reset.password') }}" method="POST" id="form_reset_password">
                         @csrf
                         <div class="form-group">
-                            <label> Email khôi phục mật khẩu: </label>
+                            <label> @lang('Password recovery email'): </label>
                             <input type="email" class="form-control" name="email_reset_password"
                                 id="email_reset_password" />
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                    <button type="button" class="btn btn-primary" id="btn_reset_password">Lấy lại mật khẩu</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
+                    <button type="button" class="btn btn-primary" id="btn_reset_password">@lang('Submit')</button>
                 </div>
             </div>
         </div>
@@ -112,22 +112,22 @@
         $(function() {
             checksuccessresetpassword = $(".success_resetpassword").attr("data-check");
             if (checksuccessresetpassword == 1) {
-                swal("Thành công !", "Bạn đã đổi mật khẩu thành công xin mời đăng nhập !", "success");
+                swal("@lang('Success') !", "@lang('You have successfully changed your password, please login') !", "success");
             }
             checkemail = $(".check_email_exist").attr("data-check");
             if (checkemail == 0) {
-                swal("Email không tồn tại !", "Email bạn vừa nhập không tồn tại trong danh sách thành viên !",
+                swal("@lang('Email does not exist') !", "@lang('The email you just entered does not exist in the member list') !",
                     "error");
             } else if (checkemail == 1) {
-                swal("Thành công !", "Link lấy lại mật khẩu đã gửi vào email của bạn !", "success");
+                swal("@lang('Success') !", "@lang('Password reset link sent to your email') !", "success");
             }
             $("#btn_reset_password").click(function(event) {
                 event.preventDefault();
                 email_reset_password = $("#email_reset_password").val();
                 if (email_reset_password == '') {
-                    swal("Lỗi nhập email", "Bạn cần nhập email để lấy lại mật khẩu", "error");
+                    swal("@lang('Email input error')", "@lang('You need to enter your email to recover your password')", "error");
                 } else if (IsEmail(email_reset_password) == false) {
-                    swal("Lỗi định dạng email", "Bạn cần nhập đúng email để lấy lại mật khẩu", "error");
+                    swal("@lang('Email format error')", "@lang('You need to enter the correct email to recover your password')", "error");
                 } else {
                     $("#form_reset_password").submit();
                 }

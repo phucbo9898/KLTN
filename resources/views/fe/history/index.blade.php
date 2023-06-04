@@ -22,8 +22,8 @@
             <thead class="thead-dark">
                 <th>ID</th>
                 <th>MGD</th>
-                <th style="width: 20%">Địa chỉ giao hàng</th>
-                <th style="width: 20%">Ghi chú</th>
+                <th style="width: 15%">Địa chỉ giao hàng</th>
+                <th style="width: 15%">Ghi chú</th>
                 <th>Trạng thái đơn hàng</th>
                 <th>Trạng thái thanh toán</th>
                 <th>Ngày mua</th>

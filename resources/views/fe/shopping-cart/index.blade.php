@@ -137,13 +137,13 @@
                                 <ul>
                                     @if(session()->has('coupon'))
                                         <li>
-                                            Trước giảm giá:
+                                            @lang('Before the discount'):
                                             <span>
                                                 {{ \Cart::subtotal(0, ',', ',') }} @lang('VND')
                                             </span>
                                         </li>
                                         <li>
-                                            Giảm giá:
+                                            @lang('Voucher'):
                                             <span>
                                                 {{ session()->get('coupon')->code . " (" . session()->get('coupon')->sale. "%" . ")" }}
                                             </span>

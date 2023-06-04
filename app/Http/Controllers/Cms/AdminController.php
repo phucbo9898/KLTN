@@ -84,13 +84,20 @@ class AdminController extends Controller
     public function chart()
     {
         // get 7 day formar Y-m-d
-        $today = Carbon::today()->format('Y-m-d');
-        $onedago = Carbon::today()->subDays(1)->format('Y-m-d');
-        $twodago = Carbon::today()->subDays(2)->format('Y-m-d');
+        $today = Carbon::today()->format('Y-m-d'); // 31/05
+        $onedago = Carbon::today()->subDays(1)->format('Y-m-d'); // 30/05
+        $twodago = Carbon::today()->subDays(2)->format('Y-m-d'); // 29/05
         $threedago = Carbon::today()->subDays(3)->format('Y-m-d');
         $fordago = Carbon::today()->subDays(4)->format('Y-m-d');
         $fivedago = Carbon::today()->subDays(5)->format('Y-m-d');
         $sixdago = Carbon::today()->subDays(6)->format('Y-m-d');
+
+        // thang 1
+        $monthOne = Carbon::parse()->format('m'); // 2023-05-01
+
+        $monthOne = Carbon::now()->startOfYear()->format('m'); // 01
+        $endOfMonthOne = Carbon::now()->endOfMonth()->format('Y-01-d'); // 2023-05-01
+
         // get money redemm follow update status completed
         $totaltoday = Transaction::where('updated_at', 'like', '%' . $today . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');
         $totalonedago = Transaction::where('updated_at', 'like', '%' . $onedago . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');

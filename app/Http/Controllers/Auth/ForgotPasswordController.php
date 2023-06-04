@@ -83,11 +83,11 @@ class ForgotPasswordController extends Controller
                 'confirm_passwordreset' => 'required|same:passwordreset'
             ],
             [
-                'passwordreset.required' => 'Bạn đã bỏ trống trường mật khẩu mới',
-                'passwordreset.min' => 'Cần ít nhất 3 kí tự cho mật khẩu mới',
-                'passwordreset.max' => 'Tối đa 33 kí tự cho mật khẩu mới',
-                'confirm_passwordreset.required' => 'Bạn đã bỏ trống trường Nhập lại mật khẩu',
-                'confirm_passwordreset.same' => 'Mật khẩu nhập lại không giống mật khẩu mới'
+                'passwordreset.required' => __('You have left the new password field blank'),
+                'passwordreset.min' => __('At least 3 characters are required for the new password'),
+                'passwordreset.max' => __('Up to 33 characters for new password'),
+                'confirm_passwordreset.required' => __('You have left the re-entered password reset field blank'),
+                'confirm_passwordreset.same' => __('The re-entered password is not the same as the new password')
             ]
         );
         if ($validator->fails()) {

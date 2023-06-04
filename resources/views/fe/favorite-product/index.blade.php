@@ -20,8 +20,8 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                    <li class="active">Sản phẩm yêu thích</li>
+                    <li><a href="{{ route('home') }}">@lang('Home')</a></li>
+                    <li class="active">@lang('Favorite Product')</li>
                 </ul>
             </div>
         </div>
@@ -31,7 +31,7 @@
     <div class="wishlist-area pt-60 pb-60">
         <div class="container">
             <h4>
-                <center>DANH SÁCH SẢN PHẨM YÊU THÍCH CỦA BẠN </center>
+                <center>@lang('LIST OF YOUR FAVORITE PRODUCTS') </center>
             </h4>
             <div class="row" style="margin-top: 3%">
                 <div class="col-12">
@@ -111,17 +111,17 @@
                 url = $(this).attr("href");
                 name_product = $(this).attr("data-product-name");
                 swal({
-                        title: "Bạn có chắc chắn?",
-                        text: "Bạn có chắc chắn xóa sản phẩm " + name_product +
-                            " khỏi danh sách yêu thích!",
+                        title: "@lang('Are you sure')?",
+                        text: "@lang('Are you sure to delete the product') " + name_product +
+                            " @lang('from favorite list')!",
                         icon: "info",
-                        buttons: ["Không", "Có"],
+                        buttons: ["@lang('No')", "@lang('Yes')"],
                         dangerMode: true,
                     })
                     .then((willDelete) => {
                         if (willDelete) {
-                            swal("Thành công",
-                                "Hệ thống chuẩn bị xóa sản phẩm này khỏi danh sách yêu thích của bạn !",
+                            swal("@lang('Success')",
+                                "@lang('The system is about to remove this product from your wishlist') !",
                                 'success').then(function() {
                                 window.location.href = url;
                             });
@@ -137,25 +137,25 @@
                     url: url
                 }).done(function(result) {
                     if (result.status == 1) {
-                        swal("Thành công !", "Đã thêm sản phẩm " + name_product + " vào giỏ hàng !",
+                        swal("@lang('Success') !", "@lang('Product added') " + name_product + " @lang('to cart') !",
                             "success");
                         $(".cart-item-count").text(result.number_product_in_cart);
                         $(".price_total_cart").text(result.price_total_cart);
                     }
                     if (result.status == 2) {
-                        swal("Cảnh báo !", "Trong kho chỉ còn " + result.product_less +
-                            " sản phẩm " + name_product, "warning");
+                        swal("@lang('Warning') !", "@lang('Only in stock') " + result.product_less +
+                            " @lang('product') " + name_product, "warning");
                     }
                     if (result.status == 3) {
-                        swal("Cảnh báo !", "Sản phẩm " + name_product + " không tồn tại !",
+                        swal("@lang('Warning') !", "@lang('Product') " + name_product + " @lang('does not exist') !",
                             "warning");
                     }
                     if (result.status == 4) {
-                        swal("Cảnh báo !", "Sản phẩm " + name_product + " đã hết hàng !",
+                        swal("@lang('Warning') !", "@lang('Product') " + name_product + " @lang('out of stock') !",
                             "warning");
                     }
                     if (result.error) {
-                        swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
+                        swal("@lang('Warning') !", "@lang('You need to login for this function')!", "warning");
                     }
                 });
             });

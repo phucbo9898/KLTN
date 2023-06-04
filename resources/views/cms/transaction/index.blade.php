@@ -82,7 +82,7 @@
                                    data-target="#showOrderItem">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                @if($transaction->status == 'pending')
+                                @if($transaction->status == 'pending' || $transaction->status == 'processing')
                                     <a href="{{ route('admin.transaction.handle', ['cancel', $transaction->id]) }}"
                                        data-id="{{ $transaction->id }}"
                                        class="btn_delete_sweet btn btn-danger btn-circle">

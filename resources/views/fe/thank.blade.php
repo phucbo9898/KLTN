@@ -14,7 +14,7 @@
                     </div>
                     <div class="row">
                         <div class="special-product-active owl-carousel">
-                            <a href="{{ route('home') }}" class="btn btn-info">Quay về trang chủ</a>
+                            <a href="{{ route('home') }}" class="btn btn-info">@lang('Back to home page')</a>
                         </div>
                     </div>
                 </div>

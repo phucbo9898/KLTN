@@ -17,6 +17,28 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+        /*.block-ellipsis {*/
+        /*    display: -webkit-box;*/
+        /*    max-width: 100%;*/
+        /*    height: 40px;*/
+        /*    margin: 0 auto;*/
+        /*    -webkit-line-clamp: 2;*/
+        /*    -webkit-box-orient: vertical;*/
+        /*    overflow: hidden;*/
+        /*    text-overflow: ellipsis;*/
+        /*}*/
+
+        .block-ellipsis-description {
+            display: -webkit-box;
+            max-width: 100%;
+            height: 50px;
+            margin: 0 auto;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 6px;
+        }
     </style>
     <!-- Begin Li's Breadcrumb Area -->
     <div class="breadcrumb-area">
