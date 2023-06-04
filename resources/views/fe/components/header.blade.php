@@ -221,14 +221,14 @@ use App\Enums\UserType;
                         @endforeach
                     @else
                         <div style="display: flex">
-                            Không có thông báo gì cả !!!
+                            @lang('No notification at all') !!!
                         </div>
                         <hr style="margin: 15px 0px" />
                     @endif
                 </div>
             @endif
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('Close')</button>
             </div>
         </div>
     </div>

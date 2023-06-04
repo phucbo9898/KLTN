@@ -104,19 +104,19 @@
                                         <th>@lang('Total Money')</th>
                                         <td>
                                             <span class="amount">
-                                                @if(session()->has('coupon'))
+{{--                                                @if(session()->has('coupon'))--}}
                                                     {{ \Cart::subtotal(0, ',', ',')  }} @lang('VND')
-                                                @endif
+{{--                                                @endif--}}
                                             </span>
                                         </td>
                                     </tr>
                                     @if(session()->has('coupon'))
                                         <tr class="fs-15 amount">
-                                            <td class="cart-product-name">Mã giảm giá:</td>
+                                            <td class="cart-product-name">@lang('Voucher'):</td>
                                             <td class="cart-product-total">{{ session()->get('coupon')->code . " (" . session()->get('coupon')->sale. "%" . ")" }}</td>
                                         </tr>
                                         <tr class="fs-15 amount">
-                                            <td class="cart-product-name">Tổng tiền sau giảm giá:</td>
+                                            <td class="cart-product-name">@lang('Total amount after discount'):</td>
                                             <td class="cart-product-total">
                                                 {{ number_format(str_replace('.', '', \Cart::subtotal(0, ',', '.')) * (100 - session()->get('coupon')->sale) / 100) }} @lang('VND')
                                             </td>
@@ -280,8 +280,8 @@
                 check_note = $("#checkout-mess").val();
                 if (!check_name || !check_address || !check_phone || !check_note) {
                     // swal("Thành công","Thanh toán không thành công","success");
-                    swal("Cảnh báo",
-                        "Yêu cầu bạn nhập dữ liệu đầy đủ để dễ dàng vận chuyển hàng ! Xin cảm ơn đã sử dụng dịch vụ của chúng tôi!",
+                    swal("@lang('Warning')",
+                        "@lang('Requires you to enter complete data for easy shipping ! Thank you for using our service!')",
                         "warning");
                     return false;
                 }
@@ -294,8 +294,8 @@
                 check_note = $("#checkout-mess").val();
                 if (!check_name || !check_address || !check_phone || !check_note) {
                     // swal("Thành công","Thanh toán không thành công","success");
-                    swal("Cảnh báo",
-                        "Yêu cầu bạn nhập dữ liệu đầy đủ để dễ dàng vận chuyển hàng ! Xin cảm ơn đã sử dụng dịch vụ của chúng tôi!",
+                    swal("@lang('Warning')",
+                        "@lang('Requires you to enter complete data for easy shipping ! Thank you for using our service!')",
                         "warning");
                     return false;
                 }

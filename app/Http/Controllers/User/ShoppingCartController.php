@@ -29,9 +29,9 @@ class ShoppingCartController extends CustomerController
         $coupon = Coupon::where('code', $request->coupon)->first();
         if (!empty($coupon)) {
             session()->put('coupon', $coupon);
-            return back()->withInput()->with('success', 'Áp dụng voucher thành công');
+            return back()->withInput()->with('success', __('Successfully applied voucher'));
         }
-        return back()->withInput()->with('error', 'Áp dụng voucher thành công');
+        return back()->withInput()->with('error', __('Voucher application failed'));
     }
 
     //
@@ -206,9 +206,7 @@ class ShoppingCartController extends CustomerController
             'signature' => $signature,
         );
         $result = $this->execPostRequest($endpoint, json_encode($data));
-//        dd($result);
         $jsonResult = json_decode($result, true);  // decode json
-//        dd($jsonResult);
 
         return redirect()->to($jsonResult['payUrl']);
     }

@@ -429,10 +429,10 @@
                                                                 font-size: 13px;
                                                                 text-transform: capitalize;
                                                                 transition: all 0.3s ease-in-out;">
-                                                                                Chưa đánh giá
+                                                                                @lang('Not Yet Rated')
                                                                             </li>
                                                                         @else
-                                                                            Đánh Giá:
+                                                                            @lang('Evaluate'):
                                                                             @for ($i = 1; $i <= 5; $i++)
                                                                                 <li
                                                                                     class="{{ $i <= $point ? '' : 'no-star' }}">
@@ -452,18 +452,18 @@
                                                             @if ($product->sale > 0)
                                                                 <span
                                                                     class="new-price new-price-2">{{ number_format(($product->price * (100 - $product->sale)) / 100, 0, ',', '.') }}
-                                                                    VNĐ</span>
+                                                                    @lang('VND')</span>
                                                                 <span
                                                                     class="discount-percentage">-{{ $product->sale }}%</span>
                                                                 <br />
                                                                 <div class="old-price" style="padding-top: 6px">
                                                                     {{ number_format($product->price, 0, ',', '.') }}
-                                                                    VNĐ
+                                                                    @lang('VND')
                                                                 </div>
                                                             @else
                                                                 <span
                                                                     class="new-price">{{ number_format($product->price, 0, ',', '.') }}
-                                                                    VNĐ</span>
+                                                                    @lang('VND')</span>
                                                             @endif
                                                         </div>
                                                     </div>
@@ -471,8 +471,9 @@
                                                         <ul class="add-actions-link">
                                                             <li class="add-cart active"><a class="button_add_cart"
                                                                     data-product-name="{{ $product->name }}"
-                                                                    href="{{ route('shopping.add.product', $product->id) }}">Mua
-                                                                    sản phẩm</a></li>
+                                                                    href="{{ route('shopping.add.product', $product->id) }}">
+                                                                    @lang('Buy Product')
+                                                                </a></li>
                                                             <li><a class="links-details button_add_favorite_product"
                                                                     data-product-name="{{ $product->name }}"
                                                                     href="{{ route('favorite-product.get.add', ['id' => $product->id]) }}"><i
@@ -569,16 +570,16 @@
                     url: url
                 }).done(function(result) {
                     if (result.status == 1) {
-                        swal("Thành công !", "Đã thêm sản phẩm " + name_product +
-                            " vào sản phẩm yêu thích của bạn!", "success");
+                        swal("@lang('Success') !", "@lang('Product added') " + name_product +
+                            " @lang('to your favorite product')!", "success");
                         $(".wishlist-item-count-custom").text(result.number_favorite_product);
                     }
                     if (result.status == 0) {
-                        swal("Có thể bạn chưa biết !", "Sản phẩm " + name_product +
-                            " đã tồn tại trong danh sách sản phẩm ưa thích của bạn !", "info");
+                        swal("@lang("Maybe you don't know") !", "@lang('Product') " + name_product +
+                            " @lang('already exists in your wishlist') !", "info");
                     }
                     if (result.error) {
-                        swal("@lang('Warning')!", "Bạn cần đăng nhập cho chức năng này!", "warning");
+                        swal("@lang('Warning')!", "@lang('You need to login for this function')!", "warning");
                     }
                 })
             })

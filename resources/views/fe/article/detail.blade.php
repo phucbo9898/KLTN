@@ -13,8 +13,8 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                    <li><a href="{{ route('article.index') }}">Bài viết</a></li>
+                    <li><a href="{{ route('home') }}">@lang('Home')</a></li>
+                    <li><a href="{{ route('article.index') }}">@lang('Article')</a></li>
                     <li class="active">{{ $article->name }}</li>
                 </ul>
             </div>
@@ -28,7 +28,7 @@
                 <!-- Begin Li's Blog Sidebar Area -->
                 <div class="col-lg-3 order-lg-2 order-2">
                     <h4><u>
-                            <center>Các tin tức khác: </center>
+                            <center>@lang('Another articles'): </center>
                         </u></h4>
                     @foreach ($getListArticles as $getList)
                         <div style="margin-top: 20px"><a href="{{ route('article.detail', $getList->id) }}">➤

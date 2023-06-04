@@ -13,8 +13,8 @@
         <div class="container">
             <div class="breadcrumb-content">
                 <ul>
-                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
-                    <li class="active">Loại sản phẩm: {{ $category->name }}</li>
+                    <li><a href="{{ route('home') }}">@lang('Home')</a></li>
+                    <li class="active">@lang('Category'): {{ $category->name }}</li>
                 </ul>
             </div>
         </div>
@@ -107,9 +107,9 @@
                                                                                     <li style="color: #a4a4a4;
                                                                         font-size: 13px;
                                                                         text-transform: capitalize;
-                                                                        transition: all 0.3s ease-in-out;">Chưa đánh giá</li>
+                                                                        transition: all 0.3s ease-in-out;">@lang('Not Yet Rated')</li>
                                                                                 @else
-                                                                                    Đánh Giá:
+                                                                                    @lang('Evaluate'):
                                                                                     @for ($i = 1; $i <= 5; $i++)
                                                                                         <li class="{{ $i <= $point ? '' : 'no-star' }}"><i class="fa fa-star"></i></li>
                                                                                     @endfor
@@ -126,25 +126,26 @@
                                                                     @if ($product->sale > 0)
                                                                         <span
                                                                             class="new-price new-price-2">{{ number_format(($product->price * (100 - $product->sale)) / 100, 0, ',', '.') }}
-                                                                            VNĐ</span>
+                                                                            @lang('VND')</span>
                                                                         <span
                                                                             class="discount-percentage">-{{ $product->sale }}%</span><br />
                                                                         <div class="old-price" style="padding-top: 6px">
                                                                             {{ number_format($product->price, 0, ',', '.') }}
-                                                                            VNĐ</div>
+                                                                            @lang('VND')</div>
                                                                     @else
                                                                         <span
                                                                             class="new-price">{{ number_format($product->price, 0, ',', '.') }}
-                                                                            VNĐ</span>
+                                                                            @lang('VND')</span>
                                                                     @endif
                                                                 </div>
                                                             </div>
                                                             <div class="add-actions">
                                                                 <ul class="add-actions-link">
-                                                                    <li class="add-cart active"><a class="button_add_cart"
-                                                                            data-product-name="{{ $product->name }}"
-                                                                            href="{{ route('shopping.add.product', $product->id) }}">Mua
-                                                                            sản phẩm</a></li>
+                                                                    <li class="add-cart active">
+                                                                        <a class="button_add_cart" data-product-name="{{ $product->name }}" href="{{ route('shopping.add.product', $product->id) }}">
+                                                                            @lang('Buy product')
+                                                                        </a>
+                                                                    </li>
                                                                     <li><a href="{{ route('product.index', [$product->slug, $product->id]) }}"
                                                                             title="quick view" class="quick-view-btn"><i
                                                                                 class="fa fa-eye"></i></a></li>
@@ -730,8 +731,7 @@
                             </div>
                         </div>
                     @else
-                        <div style="margin-top: 125px; margin-left: 300px; font-size: 20px; color: #a4a4a4">Không có sản
-                            phẩm nào !!!</div>
+                        <div style="margin-top: 125px; margin-left: 300px; font-size: 20px; color: #a4a4a4">@lang('No products') !!!</div>
                     @endif
                     <!-- shop-products-wrapper end -->
                 </div>
@@ -750,55 +750,67 @@
                     <!--sidebar-categores-box start  -->
                     <div class="sidebar-categores-box mt-50">
                         <div class="sidebar-title">
-                            <h2><b>Sắp xếp</b></h2>
+                            <h2><b>@lang('Sort type')</b></h2>
                         </div>
                         <!-- filter-sub-area start -->
                         <div class="filter-sub-area">
-                            <div class="filter-sub-titel">Khoảng giá: </div>
+                            <div class="filter-sub-titel">@lang('Price range'): </div>
                             <div style="padding-left: 5%">
                                 <ul class="sort_product" style="padding: 6px">
                                     <li class="{{ Request::route()->parameter('order') == 'duoi-1trieu' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'duoi-1trieu']) }}">Dưới 1 triệu VNĐ</a>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'duoi-1trieu']) }}">@lang('Under 1 million VND')</a>
                                     </li>
                                     <li class="{{ Request::route()->parameter('order') == '1trieu-den-10trieu' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, '1trieu-den-10trieu']) }}">1 triệu - 10 triệu VNĐ</a>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, '1trieu-den-10trieu']) }}">@lang('1 million - 10 million VND')</a>
                                     </li>
                                     <li class="{{ Request::route()->parameter('order') == '10trieu-den-20trieu' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, '10trieu-den-20trieu']) }}">10 triệu - 20 triệu VNĐ</a>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, '10trieu-den-20trieu']) }}">@lang('10 million - 20 million VND')</a>
                                     </li>
                                     <li class="{{ Request::route()->parameter('order') == '20trieu-den-50trieu' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, '20trieu-den-50trieu']) }}">20 triệu - 50 triệu VNĐ</a>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, '20trieu-den-50trieu']) }}">@lang('20 million - 50 million VND')</a>
                                     </li>
                                     <li class="{{ Request::route()->parameter('order') == 'tren-50trieu' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'tren-50trieu']) }}">Trên 50 triệu VNĐ</a>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'tren-50trieu']) }}">@lang('Over 50 million VND')</a>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="filter-sub-titel mt-3">Khác: </div>
+                            <div class="filter-sub-titel mt-3">@lang('Other'): </div>
                             <div style="padding-left: 5%">
                                 <ul class="sort_product" style="padding: 6px">
                                     <li class="{{ Request::route()->parameter('order') == 'sap-xep-tang-dan' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-tang-dan']) }}">Theo
-                                            chữ cái A-Z</a></li>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-tang-dan']) }}">
+                                            @lang('Alphabetically from A - Z')
+                                        </a>
+                                    </li>
                                     <li class="{{ Request::route()->parameter('order') == 'sap-xep-giam-dan' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-giam-dan']) }}">Theo
-                                            chữ cái Z-A</a></li>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-giam-dan']) }}">
+                                            @lang('Alphabetically from Z - A')
+                                        </a>
+                                    </li>
                                     <li class="{{ Request::route()->parameter('order') == 'sap-xep-theo-san-pham-moi-nhat' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-san-pham-moi-nhat']) }}">Sản
-                                            phẩm mới trước</a></li>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-san-pham-moi-nhat']) }}">
+                                            @lang('New products first')
+                                        </a>
+                                    </li>
                                     <li class="{{ Request::route()->parameter('order') == 'sap-xep-theo-san-pham-cu-nhat' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-san-pham-cu-nhat']) }}">Sản
-                                            phẩm cũ trước</a></li>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-san-pham-cu-nhat']) }}">
+                                            @lang('New products later')
+                                        </a>
+                                    </li>
                                     <li class="{{ Request::route()->parameter('order') == 'sap-xep-theo-gia-tang-dan' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-gia-tang-dan']) }}">Giá
-                                            tăng dần</a></li>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-gia-tang-dan']) }}">
+                                            @lang('Prices go up')
+                                        </a>
+                                    </li>
                                     <li class="{{ Request::route()->parameter('order') == 'sap-xep-theo-gia-giam-dan' ? 'active' : '' }}">
-                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-gia-giam-dan']) }}">Giá
-                                            giảm dần</a></li>
+                                        <a href="{{ route('category.index.order', [$category->slug, $category->id, 'sap-xep-theo-gia-giam-dan']) }}">
+                                            @lang('Prices go down')
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                             @foreach ($category->attributes as $attributes)
-                                <div class="filter-sub-titel mt-3">{{ $attributes->name }}: </div>
+                                <div class="filter-sub-titel mt-3">{{  $attributes->name }}: </div>
                                 <div style="padding-left: 5%">
                                     <ul class="sort_product" style="padding: 6px">
                                         @foreach ($attributes->attribute_values->sortbyDesc('value') as $attributeValue)
@@ -830,16 +842,16 @@
                     url: url
                 }).done(function(result) {
                     if (result.status == 1) {
-                        swal("Thành công !", "Đã thêm sản phẩm " + name_product +
-                            " vào sản phẩm yêu thích của bạn!", "success");
+                        swal("@lang('Success') !", "@lang("Product added") " + name_product +
+                            " @lang("to your favorite product")!", "success");
                         $(".wishlist-item-count-custom").text(result.number_favorite_product);
                     }
                     if (result.status == 0) {
-                        swal("Có thể bạn chưa biết !", "Sản phẩm " + name_product +
-                            " đã tồn tại trong danh sách sản phẩm ưa thích của bạn !", "info");
+                        swal("@lang("Maybe you don't know") !", "@lang('Product') " + name_product +
+                            " @lang('already exists in your wishlist') !", "info");
                     }
                     if (result.error) {
-                        swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
+                        swal("@lang('Warning') !", "@lang('You need to login for this function')!", "warning");
                     }
                 });
             });
@@ -852,25 +864,25 @@
                     url: url
                 }).done(function(result) {
                     if (result.status == 1) {
-                        swal("Thành công !", "Đã thêm sản phẩm " + name_product + " vào giỏ hàng !",
+                        swal("@lang('Success') !", "@lang('Product added') " + name_product + " @lang('to cart') !",
                             "success");
                         $(".cart-item-count-number").text(result.number_product_in_cart);
                         $(".price_total_cart").text(result.price_total_cart);
                     }
                     if (result.status == 2) {
-                        swal("Cảnh báo !", "Trong kho chỉ còn " + result.product_less +
-                            " sản phẩm " + name_product, "warning");
+                        swal("@lang('Warning') !", "@lang('Only in stock') " + result.product_less +
+                            " @lang('product') " + name_product, "warning");
                     }
                     if (result.status == 3) {
-                        swal("Cảnh báo !", "Sản phẩm " + name_product + " không tồn tại !",
+                        swal("@lang('Warning') !", "@lang('Product') " + name_product + " @lang('does not exist') !",
                             "warning");
                     }
                     if (result.status == 4) {
-                        swal("Cảnh báo !", "Sản phẩm " + name_product + " đã hết hàng !",
+                        swal("@lang('Warning') !", "@lang('Product') " + name_product + " @lang('out of stock') !",
                         "warning");
                     }
                     if (result.error) {
-                        swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
+                        swal("@lang('Warning') !", "@lang('You need to login for this function')!", "warning");
                     }
                 });
             });
