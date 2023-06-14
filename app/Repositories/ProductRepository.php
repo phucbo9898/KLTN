@@ -16,10 +16,15 @@ class ProductRepository extends BaseRepository
     public function query($options)
     {
         $query = $this->model;
-//dd($options);
-        if ($options == '') {
+        if (
+            empty($options)
+            || !empty($options) && empty($options['name'])
+            || !empty($options) && empty($options['filter_price'])
+            || !empty($options) && empty($options['filter_sold'])
+        ) {
             $query = $query->orderby('created_at', 'desc');
         }
+//        dd($options, empty($options['name']), empty($options), $query->toSql());
 
         if (isset($options['name']) && empty($options['filter_price']) && empty($options['filter_sold'])) {
             $query = $query->where('name', 'LIKE', '%' . escape_like($options['name']) . '%')->orderby('created_at', 'desc');
