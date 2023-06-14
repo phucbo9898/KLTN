@@ -182,7 +182,12 @@
                                     <input type="hidden" class="phone-number" name="phone_number" value="">
                                     <input type="hidden" class="note" name="note" value="">
                                     <input type="hidden" class="type-payment" name="type_payment" value="">
-                                    <input type="hidden" class="total-momo" name="total_money" value="{{ \Cart::subtotal(0, ',', '') }}">
+                                    @if(session()->has('coupon'))
+                                        <input type="hidden" class="total-momo" name="total_money" value="{{ str_replace('.', '', \Cart::subtotal(0, ',', '.')) * (100 - session()->get('coupon')->sale) / 100 }}">
+                                    @else
+                                        <input type="hidden" class="total-momo" name="total_money" value="{{ \Cart::subtotal(0, ',', '') }}">
+                                    @endif
+{{--                                    <input type="hidden" class="total-momo" name="total_money" value="{{ \Cart::subtotal(0, ',', '') }}">--}}
                                     <button class="btn btn-danger payment-vnpay d-none" type="submit" name="redirect" style="width: 212px; height: 50px;">@lang('Order')</button>
                                 </form>
                             </div>

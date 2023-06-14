@@ -472,7 +472,7 @@
                                                             <li class="add-cart active"><a class="button_add_cart"
                                                                     data-product-name="{{ $product->name }}"
                                                                     href="{{ route('shopping.add.product', $product->id) }}">
-                                                                    @lang('Buy Product')
+                                                                    @lang('Buy product')
                                                                 </a></li>
                                                             <li><a class="links-details button_add_favorite_product"
                                                                     data-product-name="{{ $product->name }}"

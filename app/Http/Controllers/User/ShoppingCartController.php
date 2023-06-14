@@ -206,6 +206,7 @@ class ShoppingCartController extends CustomerController
             'signature' => $signature,
         );
         $result = $this->execPostRequest($endpoint, json_encode($data));
+//        dd($result);
         $jsonResult = json_decode($result, true);  // decode json
 
         return redirect()->to($jsonResult['payUrl']);
@@ -214,7 +215,7 @@ class ShoppingCartController extends CustomerController
     public function paymentVNPay(Request $request)
     {
         // get value in total money cart
-        $totalMoney = str_replace(',', '', \Cart::subtotal(0));
+        $totalMoney = (int)round($request->total_money);
         // insert data transaction and get id then insert
         $transactionId = Transaction::insertGetId([
             'customer_name' => $request->name ?? '',

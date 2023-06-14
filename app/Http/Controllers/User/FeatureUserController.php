@@ -172,13 +172,15 @@ class FeatureUserController extends CustomerController
                 $phone = $transaction->phone ?? '';
                 $note = $transaction->note ?? '';
                 $type_payment = $transaction->type_payment ?? '';
-                $totalAmount = \Cart::subtotal(0, ',', '.') . " " . "VND" ?? '';
+                $totalAmount = number_format($transaction->total) . " " . "VNĐ" ?? '';
                 $days = Carbon::now()->day;
                 $months = Carbon::now()->month;
                 $years = Carbon::now()->year;
                 $time_order = Carbon::now();
                 $delivery_time = Carbon::now()->addDays(5);
                 $status_payment = $transaction->status_payment ?? '';
+                $codeVoucher = \session()->get('coupon')->code ?? '';
+                $saleVoucher = \session()->get('coupon')->sale ?? '';
                 $data = [
                     'name' => $name,
                     'address' => $address,
@@ -191,7 +193,9 @@ class FeatureUserController extends CustomerController
                     'year' => $years,
                     'time_order' => $time_order,
                     'delivery_time' => $delivery_time,
-                    'status_payment' => $status_payment
+                    'status_payment' => $status_payment,
+                    'codeVoucher' => $codeVoucher ?? '',
+                    'saleVoucher' => $saleVoucher ?? '',
                 ];
 
                 //Send mail
