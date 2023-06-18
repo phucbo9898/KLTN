@@ -231,5 +231,6 @@
     "Total amount after discount": "Tổng tiền sau giảm giá",
     "Before the discount": "Trước giảm giá",
     "Successfully applied voucher": "Áp dụng mã giảm giá thành công",
-    "Voucher application failed": "Áp dụng mã giảm giá không thành công"
+    "Voucher application failed": "Áp dụng mã giảm giá không thành công",
+    "Successfully removed voucher": "Xóa voucher thành công"
 }

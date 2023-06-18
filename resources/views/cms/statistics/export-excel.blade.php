@@ -37,36 +37,31 @@ $endDate = date('d-m-Y', strtotime($data['statistical_date_end'] ?? ''));
         </tr>
     </tbody>
 </table>
-<table border="1" cellpadding="0" cellspacing="0" class="table table-bordered" style="font-size: 13px;"
+<table border="1" cellpadding="0" cellspacing="0" class="table table-bordered" id="list-statistic" style="font-size: 13px;"
     width="80%">
     <thead class="thead-dark">
         <th style="text-align: center">STT</th>
-        <th style="text-align: center">Tên sản phẩm</th>
-        <th style="text-align: center">Số lượng</th>
-        <th style="text-align: center">Đơn giá</th>
-        <th style="text-align: center">Giảm giá</th>
-        <th style="text-align: center">Thành tiền</th>
+        <th style="text-align: center">Mã đơn hàng</th>
         <th style="text-align: center">Người mua</th>
+        <th style="text-align: center">Loại thanh toán</th>
+        <th style="text-align: center">Tổng tiền</th>
+        <th style="text-align: center">Ngày đặt</th>
         <tr></tr>
     </thead>
     <tbody>
         @foreach ($data['transactions'] as $transaction)
-            @foreach ($transaction->orders as $order)
-                <tr>
-                    <td style="text-align: center">{{ $i++ }}</td>
-                    <td>{{ $order->product->name ?? '' }}</td>
-                    <td style="text-align: center">{{ $order->quantity ?? '' }}</td>
-                    <td style="text-align: center">{{ number_format(($order->price ?? ''), 0, ',', '.') }} VNĐ</td>
-                    <td style="text-align: center">
-                        {{ isset($order->sale) && isset($order->price) && $order->sale > 0 ? number_format(($order->price * (100 - $order->sale)) / 100, 0, ',', '.') . ' VNĐ (-' . $order->sale . '%)' : 'Không giảm giá' }}
-                    </td>
-                    <td style="text-align: center">
-                        {{ isset($order->sale) && isset($order->quantity) && isset($order->price) && $order->sale > 0 ? number_format($order->quantity * (($order->price * (100 - $order->sale)) / 100), 0, '.', '.') : number_format($order->quantity * $order->price, 0, ',', '.') }}
-                        VNĐ</td>
-                    <td style="text-align: center">{{ $transaction->user->name ?? '' }}</td>
-                    <?php $total_earn_money = $total_earn_money + ($order->sale > 0 ? $order->quantity * (($order->price * (100 - $order->sale)) / 100) : $order->quantity * $order->price); ?>
-                </tr>
-            @endforeach
+            <tr>
+                <td style="text-align: center !important;">{{ $i++ }}</td>
+                <td style="text-align: center !important;">{{ $transaction->payment_code ?? '' }}</td>
+                <td style="text-align: center !important;">{{ $transaction->customer_name ?? '' }}</td>
+                <td style="text-align: center !important;">{{ $transaction->type_payment ?? '' }}</td>
+                <td style="text-align: center !important;">{{ number_format($transaction->total ?? '', 0, ',', '.') }} VNĐ</td>
+                <td style="text-align: center !important;">
+                    {{ $transaction->convert_time ?? '' }}
+                </td>
+                    <?php $total_earn_money = $total_earn_money +
+                    $transaction->total; ?>
+            </tr>
         @endforeach
         <tr></tr>
         <tr>

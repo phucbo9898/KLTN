@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use App\Enums\StatusTransaction;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -27,8 +28,13 @@ class ExportFile implements FromView, ShouldAutoSize
         $year = Carbon::now()->year;
         $startDate = Carbon::parse($this->request['statistical_date_start_pdf'])->startOfDay();
         $endDate = Carbon::parse($this->request['statistical_date_end_pdf'])->endOfDay();
-        $transactions = Transaction::whereBetween('transaction.updated_at', [$startDate, $endDate])->get();
-
+        $transactions = Transaction::whereBetween('transaction.updated_at', [$startDate, $endDate])
+                                    ->where('status', StatusTransaction::COMPLETED)
+                                    ->orderBy('updated_at', 'desc')
+                                    ->get();
+        foreach ($transactions as $transaction) {
+            $transaction['convert_time'] = Carbon::parse($transaction->created_at)->tz('Asia/Ho_Chi_Minh')->format('Y-m-d H:i:s');
+        }
         return view('cms.statistics.export-excel', [
             'data' => [
                 'day' => $day,

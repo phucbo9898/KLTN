@@ -82,39 +82,10 @@ class FeatureUserController extends CustomerController
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
-                $startDayOfMonth = Carbon::now()->startOfMonth();
-                $endDayOfMonth = Carbon::now()->endOfMonth();
-                $checkExistProduct = ProductQtyPay::where('product_id', $product->id)->whereBetween('time_pay', [$startDayOfMonth, $endDayOfMonth])->first();
-                if (!empty($checkExistProduct)) {
-                    $monthOfProduct = Carbon::parse($checkExistProduct['time_pay'])->format('m');
-                    if ($monthOfProduct == Carbon::now()->format('m')) {
-                        ProductQtyPay::where('product_id', $product->id)->update([
-                            'quantity_pay' => $checkExistProduct->quantity_pay + ($product->qty ?? ''),
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now()
-                        ]);
-                    } else {
-                        ProductQtyPay::create([
-                            'product_id' => $product->id ?? '',
-                            'quantity_pay' => $product->qty ?? '',
-                            'time_pay' => Carbon::now(),
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now()
-                        ]);
-                    }
-                } else {
-                    ProductQtyPay::create([
-                        'product_id' => $product->id ?? '',
-                        'quantity_pay' => $product->qty ?? '',
-                        'time_pay' => Carbon::now(),
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now()
-                    ]);
-                }
-                $product_qty = Product::find($product->id);
-                $quantity = $product_qty->quantity - $product->qty;
-                $quantity_pay = $product_qty->qty_pay + $product->qty;
-                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
+//                $product_qty = Product::find($product->id);
+//                $quantity = $product_qty->quantity - $product->qty;
+//                $quantity_pay = $product_qty->qty_pay + $product->qty;
+//                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
             }
 //            dd($codeVoucher, $saleVoucher);
             $data = [
@@ -162,10 +133,16 @@ class FeatureUserController extends CustomerController
 
         if ($vnp_ResponseCode != null) {
             if ($vnp_ResponseCode == 00) {
-                Transaction::where('payment_code', $vnp_TxnRef)->update(['status_payment' => 'Paуment received']);
+                $paymentCode = substr($vnp_Amount, 0, strpos($vnp_Amount, '_'));
+                Transaction::where('payment_code', $paymentCode)->update(['status_payment' => 'Paуment received']);
                 $products = \Cart::content();
-
-                $transaction = Transaction::where('payment_code', $vnp_TxnRef)->first();
+                foreach ($products as $product) {
+                    $product_qty = Product::find($product->id);
+                    $quantity = $product_qty->quantity - $product->qty;
+                    $quantity_pay = $product_qty->qty_pay + $product->qty;
+                    Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
+                }
+                $transaction = Transaction::where('payment_code', $paymentCode)->first();
                 $transactionId = $transaction->id ?? '';
                 $name = $transaction->customer_name ?? '';
                 $address = $transaction->address ?? '';
@@ -225,11 +202,19 @@ class FeatureUserController extends CustomerController
 
         if ($resultCode != null) {
             if ($resultCode == 0) {
-                Transaction::where('payment_code', $orderId)->update(['status_payment' => 'Paуment received']);
+                $paymentCode = substr($orderId, 0, strpos($orderId, '_'));
+                Transaction::where('payment_code', $paymentCode)->update(['status_payment' => 'Paуment received']);
 
                 $products = \Cart::content();
+//                dd($products);
+                foreach ($products as $product) {
+                    $product_qty = Product::find($product->id);
+                    $quantity = $product_qty->quantity - $product->qty;
+                    $quantity_pay = $product_qty->qty_pay + $product->qty;
+                    Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
+                }
 
-                $transaction = Transaction::where('payment_code', $orderId)->first();
+                $transaction = Transaction::where('payment_code', $paymentCode)->first();
                 $transactionId = $transaction->id ?? '';
                 $name = $transaction->customer_name ?? '';
                 $address = $transaction->address ?? '';
