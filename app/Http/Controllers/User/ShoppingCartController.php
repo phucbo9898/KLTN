@@ -26,10 +26,16 @@ class ShoppingCartController extends CustomerController
 
     public function addCoupon(Request $request)
     {
+//        dd(!empty($request->coupon), (session()->get('coupon')));
         $coupon = Coupon::where('code', $request->coupon)->first();
         if (!empty($coupon)) {
             session()->put('coupon', $coupon);
             return back()->withInput()->with('success', __('Successfully applied voucher'));
+        }
+
+        if (!empty(session()->get('coupon')) && empty($request->coupon)) {
+            session()->forget('coupon');
+            return back()->with('success', __('Successfully removed voucher'));
         }
         return back()->withInput()->with('error', __('Voucher application failed'));
     }
@@ -137,7 +143,7 @@ class ShoppingCartController extends CustomerController
     public function paymentMomo(Request $request)
     {
         $amountTotal = (int)round($request->total_momo);
-        $transactionId = Transaction::insertGetId([
+        $transactionId = Transaction::create([
             'customer_name' => $request->name ?? '',
             'user_id' => Auth::user()->id,
             'total' => $amountTotal ?? '',
@@ -150,25 +156,26 @@ class ShoppingCartController extends CustomerController
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
+//        dd($transactionId);
 
         if ($transactionId) {
-            Transaction::where('id', $transactionId)->update(['payment_code' => "MGD" . "-" . $transactionId]);
+            Transaction::where('id', $transactionId->id)->update(['payment_code' => "MGD" . "-" . $transactionId->id]);
             $products = \Cart::content();
             foreach ($products as $product) {
                 Order::insert([
-                    'transaction_id' => $transactionId ?? '',
+                    'transaction_id' => $transactionId->id ?? '',
                     'product_id' => $product->id ?? '',
                     'quantity' => $product->qty ?? '',
                     'price' => $product->options->price_old ?? '',
                     'sale' => $product->options->sale ?? '',
-                    'payment_code' => "MGD" . "-" . $transactionId ?? '',
+                    'payment_code' => "MGD" . "-" . $transactionId->id ?? '',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
-                $product_qty = Product::find($product->id);
-                $quantity = $product_qty->quantity - $product->qty;
-                $quantity_pay = $product_qty->qty_pay + $product->qty;
-                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
+//                $product_qty = Product::find($product->id);
+//                $quantity = $product_qty->quantity - $product->qty;
+//                $quantity_pay = $product_qty->qty_pay + $product->qty;
+//                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
             }
         }
 
@@ -179,9 +186,10 @@ class ShoppingCartController extends CustomerController
         $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
         $orderInfo = "Thanh toán qua ATM MoMo";
         $amount = $amountTotal;
-        $orderId = "MGD" . "-" . $transactionId;
-        $redirectUrl = "http://webpc.test/feature-user/checkout/momo-check";
-        $ipnUrl = "http://webpc.test/feature-user/checkout/momo-check";
+        $orderId = "MGD" . "-" . $transactionId->id . '_' . time();
+//        dd($orderId);
+        $redirectUrl = request()->getSchemeAndHttpHost() . '/feature-user/checkout/momo-check';
+        $ipnUrl = request()->getSchemeAndHttpHost() . '/feature-user/checkout/momo-check';
         $extraData = "";
 
         $requestId = time() . "";
@@ -232,7 +240,7 @@ class ShoppingCartController extends CustomerController
         ]);
 
         if ($transactionId) {
-            Transaction::where('id', $transactionId)->update(['payment_code' => "MGD" . "-" . $transactionId]);
+            Transaction::where('id', $transactionId)->update(['payment_code' => "MGD" . "_" . $transactionId]);
             $products = \Cart::content();
             foreach ($products as $product) {
                 Order::insert([
@@ -245,15 +253,15 @@ class ShoppingCartController extends CustomerController
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
-                $product_qty = Product::find($product->id);
-                $quantity = $product_qty->quantity - $product->qty;
-                $quantity_pay = $product_qty->qty_pay + $product->qty;
-                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
+//                $product_qty = Product::find($product->id);
+//                $quantity = $product_qty->quantity - $product->qty;
+//                $quantity_pay = $product_qty->qty_pay + $product->qty;
+//                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
             }
         }
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = "http://webpc.test/feature-user/checkout/vnpay-check";
+        $vnp_Returnurl = request()->getSchemeAndHttpHost() . '/feature-user/checkout/vnpay-check';
         $vnp_TmnCode = "XYT8WGGX";//Mã website tại VNPAY
         $vnp_HashSecret = "GBREZWZSSWLXQMRMILBUUJMBCCRPVCBJ"; //Chuỗi bí mật
 

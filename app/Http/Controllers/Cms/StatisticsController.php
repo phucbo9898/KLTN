@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cms;
 
+use App\Enums\StatusTransaction;
 use App\Exports\ExportFile;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
@@ -29,7 +30,7 @@ class StatisticsController extends Controller
             $statistical_date_end = date("Y-m-d H:i:s", strtotime($request->statistical_date_end));
             $startOfTime = Carbon::parse($request->statistical_date_start)->startOfDay();
             $time_end = Carbon::parse($request->statistical_date_end)->endOfDay();
-            $transactions = Transaction::whereBetween('updated_at', [$startOfTime, $time_end])->orderBy('updated_at', 'desc')->get();
+            $transactions = Transaction::whereBetween('updated_at', [$startOfTime, $time_end])->where('status', StatusTransaction::COMPLETED)->orderBy('updated_at', 'desc')->get();
             $count = $transactions->count();
             $html = view('cms.statistics.listStatistics', ['transactions' => $transactions, 'statistical_date_start' => $startOfTime, 'statistical_date_end' => $statistical_date_end, 'count' => $count])->render();
             return response()->json($html);
@@ -42,7 +43,9 @@ class StatisticsController extends Controller
         $day = Carbon::now()->day;
         $month = Carbon::now()->month;
         $year = Carbon::now()->year;
-        $transactions = Transaction::whereBetween('updated_at', [$request->statistical_date_start_pdf, $request->statistical_date_end_pdf])->get();
+        $transactions = Transaction::whereBetween('updated_at', [$request->statistical_date_start_pdf, $request->statistical_date_end_pdf])
+                                    ->where('status', StatusTransaction::COMPLETED)
+                                    ->get();
         $data = [
             'transactions' => $transactions,
             'statistical_date_start' => $request->statistical_date_start_pdf,

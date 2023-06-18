@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\ProductQtyPay;
 use App\Models\Transaction;
 use App\Repositories\ProductRepository;
 use App\Repositories\TransactionRepository;
@@ -118,14 +119,42 @@ class TransactionController extends Controller
         $transaction = $this->transactionRepo->find($id);
         // find orders of customer in transaction
         $orders = Order::where('transaction_id', $id)->get();
+//        dd($orders);
         if ($orders) {
-//            foreach ($orders as $order) {
-//                // find product in order
-//                $product = Product::find($order->product_id);
-//                //Add number product bought in table product
-//                $product->qty_pay = $product->qty_pay + $order->quantity;
-//                $product->save();
-//            }
+            foreach ($orders as $order) {
+                $product = Product::where('id', $order->product_id)->first();
+                $startDayOfMonth = Carbon::now()->startOfMonth();
+                $endDayOfMonth = Carbon::now()->endOfMonth();
+                $checkExistProduct = ProductQtyPay::where('product_id', $product->id)
+                                                    ->whereBetween('time_pay', [$startDayOfMonth, $endDayOfMonth])
+                                                    ->first();
+                if (!empty($checkExistProduct)) {
+                    $monthOfProduct = Carbon::parse($checkExistProduct['time_pay'])->format('m');
+                    if ($monthOfProduct == Carbon::now()->format('m')) {
+                        ProductQtyPay::where('product_id', $product->id)->update([
+                            'quantity_pay' => $checkExistProduct->quantity_pay + ($order->quantity ?? ''),
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    } else {
+                        ProductQtyPay::create([
+                            'product_id' => $product->id ?? '',
+                            'quantity_pay' => $order->quantity ?? '',
+                            'time_pay' => Carbon::now(),
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now()
+                        ]);
+                    }
+                } else {
+                    ProductQtyPay::create([
+                        'product_id' => $product->id ?? '',
+                        'quantity_pay' => $order->quantity ?? '',
+                        'time_pay' => Carbon::now(),
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ]);
+                }
+            }
             $transaction->status = 'completed';
             $status = 'completed';
             Notification::insert(
