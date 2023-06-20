@@ -153,7 +153,7 @@
     </div>
     <!-- Footer Static Middle Area End Here -->
     <!-- Begin Footer Static Bottom Area -->
-    <div class="footer-static-bottom pt-55 pb-55">
+    <div class="footer-static-bottom pt-10 pb-10">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
