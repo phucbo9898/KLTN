@@ -335,7 +335,14 @@
                                             <i class="fa fa-star {{ $i <= $rating->number ? 'active' : '' }}"></i>
                                         @endfor
                                         <a href="#" style="color:#1cc88a">
-                                            <i class="fa fa-check-circle-o"></i> @lang('Purchased')</a> - <span><i class="fa fa-clock-o"></i>{{ $rating->created_at }}</span>
+                                            <i class="fa fa-check-circle-o"></i>
+                                            @lang('Purchased') -
+                                        </a>
+                                        <span class="list-rating">
+                                            <i class="fa fa-clock-o"></i>
+                                            <input type="hidden" class="convert-time" value="{{ date('Y-m-d h:i:s A', strtotime($rating->created_at ?? '')) }}">
+                                            {{ $rating->created_at }}
+                                        </span>
                                         @if (Auth::check())
                                             @if (Auth::user()->id == $rating->user_id)
                                                 <span style="float: right">
@@ -461,7 +468,7 @@
                                                         @else
                                                             <span class="new-price">{{ number_format($product_in_category_id->price, 0, ',', '.') }}
                                                                 @lang('VND')
-                                                                </span>
+                                                            </span>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -561,6 +568,11 @@
                         swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
                     }
                 });
+            });
+            $('.list-rating').find('.convert-time').each(function () {
+                var a = moment.tz($('.convert-time').val(), Intl.DateTimeFormat().resolvedOptions().timeZone)
+                console.log(a)
+                $('.list-rating').html('<i class="fa fa-clock-o"></i>' + a.format('YYYY-MM-DD HH:mm:ss'))
             });
         });
     </script>
