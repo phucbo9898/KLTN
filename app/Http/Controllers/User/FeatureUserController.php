@@ -133,7 +133,7 @@ class FeatureUserController extends CustomerController
 
         if ($vnp_ResponseCode != null) {
             if ($vnp_ResponseCode == 00) {
-                $paymentCode = substr($vnp_Amount, 0, strpos($vnp_Amount, '_'));
+                $paymentCode = substr($vnp_TxnRef, 0, strpos($vnp_TxnRef, '_'));
                 Transaction::where('payment_code', $paymentCode)->update(['status_payment' => 'Paуment received']);
                 $products = \Cart::content();
                 foreach ($products as $product) {

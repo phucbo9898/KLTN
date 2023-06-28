@@ -240,7 +240,7 @@ class ShoppingCartController extends CustomerController
         ]);
 
         if ($transactionId) {
-            Transaction::where('id', $transactionId)->update(['payment_code' => "MGD" . "_" . $transactionId]);
+            Transaction::where('id', $transactionId)->update(['payment_code' => "MGD" . "-" . $transactionId]);
             $products = \Cart::content();
             foreach ($products as $product) {
                 Order::insert([
@@ -265,7 +265,7 @@ class ShoppingCartController extends CustomerController
         $vnp_TmnCode = "XYT8WGGX";//Mã website tại VNPAY
         $vnp_HashSecret = "GBREZWZSSWLXQMRMILBUUJMBCCRPVCBJ"; //Chuỗi bí mật
 
-        $vnp_TxnRef = "MGD" .  "-" . $transactionId; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_TxnRef = "MGD" .  "-" . $transactionId . '_' . time(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
         $vnp_OrderInfo = "Thanh toán đơn hàng";
         $vnp_OrderType = 'billpayment';
         $vnp_Amount = $_POST['total_money'] * 100;
