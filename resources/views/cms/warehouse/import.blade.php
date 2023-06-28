@@ -1,6 +1,6 @@
 @extends('cms.layout.master')
 
-@section('title', 'Nhập hàng - Xuất hàng')
+@section('title', 'Nhập hàng')
 
 @section('content')
     <style>
@@ -13,7 +13,7 @@
         <!-- Default box -->
         <div class="card">
             <div class="card-header">
-                <h3>Nhập hàng - Xuất hàng</h3>
+                <h3>Nhập hàng</h3>
             </div>
             <div class="card-body">
                 <table class="table table-hover table-striped" id="dataTable">
@@ -55,17 +55,17 @@
                                        data-name="{{ $product->name }}"
                                        class="btn_import_product btn btn-success btn-circle">
                                         <i class="fa fa-plus-circle"></i></a>
-                                    @if($product->quantity > 0)
-                                        <a href="{{ route('admin.warehouse.export.product', $product->id) }}"
-                                           data-name="{{ $product->name }}"
-                                           class="btn_export_product btn btn-danger btn-circle">
-                                            <i class="fa fa-minus-circle"></i></a>
-                                    @else
-                                        <a href="{{ route('admin.warehouse.export.product', $product->id) }}"
-                                           data-name="{{ $product->name }}"
-                                           class="btn_export_product btn btn-danger btn-circle" style="visibility: hidden;">
-                                            <i class="fa fa-minus-circle"></i></a>
-                                    @endif
+{{--                                    @if($product->quantity > 0)--}}
+{{--                                        <a href="{{ route('admin.warehouse.export.product', $product->id) }}"--}}
+{{--                                           data-name="{{ $product->name }}"--}}
+{{--                                           class="btn_export_product btn btn-danger btn-circle">--}}
+{{--                                            <i class="fa fa-minus-circle"></i></a>--}}
+{{--                                    @else--}}
+{{--                                        <a href="{{ route('admin.warehouse.export.product', $product->id) }}"--}}
+{{--                                           data-name="{{ $product->name }}"--}}
+{{--                                           class="btn_export_product btn btn-danger btn-circle" style="visibility: hidden;">--}}
+{{--                                            <i class="fa fa-minus-circle"></i></a>--}}
+{{--                                    @endif--}}
                                 </td>
                             </tr>
                         @endforeach
