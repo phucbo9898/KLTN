@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Rating extends Model
 {
     use HasFactory;
+    const FIVE_STAR = 5;
+    const FOUR_STAR = 4;
+    const THREE_STAR = 3;
+    const TWO_STAR = 2;
+    const ONE_STAR = 1;
 
     public function product()
     {

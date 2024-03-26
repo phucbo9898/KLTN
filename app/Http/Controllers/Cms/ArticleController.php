@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cms;
 
+use App\Enums\ActiveStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\StoreRequest;
 use App\Http\Requests\Article\UpdateRequest;
@@ -15,40 +16,25 @@ use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
+    private $articleRepository;
 
-    public function __construct(ArticleRepository $articleRepo)
+    public function __construct(ArticleRepository $articleRepository)
     {
-        $this->articleRepo = $articleRepo;
+        $this->articleRepository = $articleRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $articles = $this->articleRepo->all();
+        $articles = $this->articleRepository->all();
 
         return view('cms.article.index', compact('articles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('cms.article.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreRequest $request)
     {
         try {
@@ -70,8 +56,8 @@ class ArticleController extends Controller
                 $file->move($path_upload, $filename);
                 $data['image'] = $path_upload . $filename;
             }
-            $article = $this->articleRepo->prepareArticle($data);
-            $this->articleRepo->create($article);
+            $article = $this->articleRepository->prepareArticle($data);
+            $this->articleRepository->create($article);
 
             DB::commit();
             return redirect()->route('admin.article.index')->with('success', 'Đã thêm 1 Article!');
@@ -82,15 +68,9 @@ class ArticleController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $article = $this->articleRepo->find($id);
+        $article = $this->articleRepository->find($id);
         if (!$article) {
             return redirect()->route('admin.article.index')->with('error', __('The requested resource is not available'));
         }
@@ -98,19 +78,12 @@ class ArticleController extends Controller
         return view('cms.article.edit', compact('article'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateRequest $request, $id)
     {
         try {
             DB::beginTransaction();
 
-            $article = $this->articleRepo->find($id);
+            $article = $this->articleRepository->find($id);
             if (!$article) {
                 return redirect()->route('admin.article.index')->with('error', __('The requested resource is not available'));
             }
@@ -133,8 +106,8 @@ class ArticleController extends Controller
                 $data['image'] = $article->image;
             }
 
-            $articles = $this->articleRepo->prepareArticle($data);
-            $this->articleRepo->update($article->id, $articles);
+            $articles = $this->articleRepository->prepareArticle($data);
+            $this->articleRepository->update($article->id, $articles);
 
             DB::commit();
             return redirect()->route('admin.article.index')->with('success', 'Đã sửa thành công bài viết mang ID số ' . $article->id . '!');
@@ -147,23 +120,27 @@ class ArticleController extends Controller
 
     public function handle(Request $request, $action, $id)
     {
-        $article = $this->articleRepo->find($id);
+        $article = $this->articleRepository->find($id);
         if (!$article) {
             return redirect()->route('admin.article.index')->with('error', __('The requested resource is not available'));
         }
-        switch ($action) {
-            case 'delete':
-                $article->delete();
-                $request->session()->flash('success', 'Đã xóa thành công bài viết mang ID số ' . $id . '!');
-                break;
-            case 'status':
-                $article->status = $article->status == 'active' ? 'inactive' : 'active';
-                $article->save();
-                break;
-            default:
-                dd("Lỗi r");
-                break;
+        try {
+            switch ($action) {
+                case 'delete':
+                    $article->delete();
+                    $request->session()->flash('success', 'Đã xóa thành công bài viết mang ID số ' . $id . '!');
+                    break;
+                case 'status':
+                    $article->status = $article->status == ActiveStatus::ACTIVE ? ActiveStatus::INACTIVE : ActiveStatus::ACTIVE;
+                    $article->save();
+                    break;
+                default:
+                    dd("Lỗi r");
+                    break;
+            }
+            return redirect()->route('admin.article.index');
+        } catch (\Exception $exception) {
+            Log::debug($exception->getMessage());
         }
-        return redirect()->route('admin.article.index');
     }
 }

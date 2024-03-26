@@ -49,12 +49,11 @@
             color: #ff9705 !important;
         }
 
-        .content_product_description {
-            overflow: hidden;
-        }
-
         .content_product_description img {
             width: 50%;
+        }
+        .breadcrumb-hover:hover {
+            color: #1e1ec4 !important;
         }
     </style>
     <!-- Begin Li's Breadcrumb Area -->
@@ -63,10 +62,10 @@
             <div class="breadcrumb-content">
                 <ul>
                     <li>
-                        <a href="{{ route('home') }}">@lang('Home')</a>
+                        <a class="breadcrumb-hover" href="{{ route('home') }}">@lang('Home')</a>
                     </li>
                     <li>
-                        <a href="{{ route('category.index', [$product->category->slug, $product->category->id]) }}">{{ $product->category->name }}</a>
+                        <a class="breadcrumb-hover" href="{{ route('category.index', [$product->category->slug, $product->category->id]) }}">{{ $product->category->name }}</a>
                     </li>
                     <li class="active">{{ $product->name }}</li>
                 </ul>
@@ -509,7 +508,6 @@
 @endsection
 @section('javascript')
     <script>
-        // $(function(){
         $(document).ready(function () {
             $(".button_add_favorite_product").click(function (event) {
                 event.preventDefault();
@@ -538,139 +536,137 @@
                 event.preventDefault();
                 url = $(".button_add_cart").attr("href");
                 name_product = $(".button_add_cart").attr("data-product-name");
-                console.log(event)
-                console.log(url)
-                console.log(name_product)
                 $.ajax({
                     method: "GET",
                     url: url
                 }).done(function (result) {
-                    console.log(result.status)
-                    if (result.status == 1) {
-                        swal("Thành công !", "Đã thêm sản phẩm " + name_product + " vào giỏ hàng !",
-                            "success");
-                        $(".cart-item-count-number").text(result.number_product_in_cart);
-                        $(".price_total_cart").text(result.price_total_cart);
+                    switch (result.status) {
+                        case 1:
+                            swal("Thành công !", "Đã thêm sản phẩm " + name_product + " vào giỏ hàng !",
+                                "success");
+                            $(".cart-item-count-number").text(result.number_product_in_cart);
+                            $(".price_total_cart").text(result.price_total_cart);
+                            break;
+                        case 2:
+                            swal("Cảnh báo !", "Trong kho chỉ còn " + result.product_less +
+                                " sản phẩm " + name_product, "warning");
+                            break;
+                        case 3:
+                            swal("Cảnh báo !", "Sản phẩm " + name_product + " không tồn tại !",
+                                "warning");
+                            break;
+                        case 4:
+                            swal("Cảnh báo !", "Sản phẩm " + name_product + " đã hết hàng !",
+                                "warning");
+                            break;
+                        default:
+                            swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
                     }
-                    if (result.status == 2) {
-                        swal("Cảnh báo !", "Trong kho chỉ còn " + result.product_less +
-                            " sản phẩm " + name_product, "warning");
-                    }
-                    if (result.status == 3) {
-                        swal("Cảnh báo !", "Sản phẩm " + name_product + " không tồn tại !",
-                            "warning");
-                    }
-                    if (result.status == 4) {
-                        swal("Cảnh báo !", "Sản phẩm " + name_product + " đã hết hàng !",
-                            "warning");
-                    }
-                    if (result.error) {
-                        swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
-                    }
-                });
-            });
+                })
+            })
+
             $('.list-rating').find('.convert-time').each(function () {
                 var a = moment.tz($('.convert-time').val(), Intl.DateTimeFormat().resolvedOptions().timeZone)
                 console.log(a)
                 $('.list-rating').html('<i class="fa fa-clock-o"></i>' + a.format('YYYY-MM-DD HH:mm:ss'))
             });
-        });
-    </script>
-    <script>
-        //list number equal text rate
-        listRatingText = {
-            1: "Không thích",
-            2: "Tạm được",
-            3: "Bình thường",
-            4: "Tốt",
-            5: "Tuyệt vời",
-        }
-        // event mouse over rate
-        $(".list_start .fa").mouseover(function () {
-            // get object now
-            let $this = $(this);
-            // get number rate
-            let number = $this.attr("data-key");
-            // reset star active
-            $(".list_start .fa").removeClass('rating_active');
-            //Enter number rate in textbox
-            $(".number_rating").val(number);
-            //active star
-            $.each(
-                $(".list_start .fa"),
-                function (key, value) {
-                    if (key + 1 <= number) {
-                        $(this).addClass('rating_active')
-                    }
-                }
-            );
-            // show text rate
-            $(".list_text").text('').text(listRatingText[$this.attr("data-key")]).show();
-            console.log($this.attr("data-key"));
-        });
-        //hide and show form rating
-        $(".js_rating_action").click(function (event) {
-            event.preventDefault();
-            if ($(".form_rating").hasClass('d-none')) {
-                $(".form_rating").removeClass('d-none');
-                $(".js_rating_action").text("").text("Hủy đánh giá");
-            } else {
-                $(".form_rating").addClass('d-none');
-                $(".js_rating_action").text("").text("Gửi đánh giá của bạn");
-            }
-        });
-        $(".js_rating_product_button").click(function (event) {
-            event.preventDefault();
-            var number = $(".number_rating").val();
-            if (!number) {
-                swal("Lỗi xảy ra", "Bạn cần chọn sao đánh giá sản phẩm !", "error");
-            }
-            var content = $("#content_rating").val();
-            var url = $(this).attr("href");
-            $.ajax({
-                url: url,
-                type: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    number: number,
-                    content: content
-                }
-            }).done(function (result) {
-                console.log(result)
-                if (result.code == 1) {
-                    swal("Thành công!", "Bạn đã gửi đánh giá sản phẩm thành công", "success").then(
-                        function () {
-                            location.reload();
-                        });
 
-                } else if (result.code == 2) {
-                    swal("Thất bại!", "Bạn đã gửi đánh giá sản phẩm này rồi", "error");
-                } else if (result.code == 3) {
-                    swal("Có thể bạn chưa biết !", "Bạn chưa được phép đánh giá sản phẩm này", "info");
+            //list number equal text rate
+            listRatingText = {
+                1: "Không thích",
+                2: "Tạm được",
+                3: "Bình thường",
+                4: "Tốt",
+                5: "Tuyệt vời",
+            }
+            // event mouse over rate
+            $(".list_start .fa").mouseover(function () {
+                // get object now
+                let $this = $(this);
+                // get number rate
+                let number = $this.attr("data-key");
+                // reset star active
+                $(".list_start .fa").removeClass('rating_active');
+                //Enter number rate in textbox
+                $(".number_rating").val(number);
+                //active star
+                $.each(
+                    $(".list_start .fa"),
+                    function (key, value) {
+                        if (key + 1 <= number) {
+                            $(this).addClass('rating_active')
+                        }
+                    }
+                );
+                // show text rate
+                $(".list_text").text('').text(listRatingText[$this.attr("data-key")]).show();
+                console.log($this.attr("data-key"));
+            });
+            //hide and show form rating
+            $(".js_rating_action").click(function (event) {
+                event.preventDefault();
+                if ($(".form_rating").hasClass('d-none')) {
+                    $(".form_rating").removeClass('d-none');
+                    $(".js_rating_action").text("").text("Hủy đánh giá");
                 } else {
-                    swal("Thất bại!", "Có lỗi xảy ra", "error");
+                    $(".form_rating").addClass('d-none');
+                    $(".js_rating_action").text("").text("Gửi đánh giá của bạn");
                 }
             });
-        });
-    </script>
-    <script>
-        $(".btn_delete_rating").click(function (e) {
-            e.preventDefault();
-            url = $(this).attr('href');
-            swal({
-                title: "Bạn có chắc chắn ?",
-                text: "Bạn có chắc chắn xóa đánh giá của bạn khỏi sản phẩm này !",
-                icon: "info",
-                buttons: ["Không", "Có"],
-                dangerMode: true,
-            }).then((willdelete) => {
-                if (willdelete) {
-                    swal("Thành công", "Hệ thống chuẩn bị xóa đánh giá của bạn khỏi sản phẩm này !",
-                        'success').then(function () {
-                        window.location.href = url;
-                    });
+            $(".js_rating_product_button").click(function (event) {
+                event.preventDefault()
+                var number = $(".number_rating").val()
+                if (!number) {
+                    swal("Lỗi xảy ra", "Bạn cần chọn sao đánh giá sản phẩm !", "error")
                 }
+                var content = $("#content_rating").val()
+                var url = $(this).attr("href")
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        number: number,
+                        content_rating: content
+                    }
+                }).done(function (result) {
+                    switch (result.code) {
+                        case 1:
+                            swal("Thành công!", "Bạn đã gửi đánh giá sản phẩm thành công", "success").then(
+                                function () {
+                                    location.reload();
+                            });
+                            break;
+                        case 2:
+                            swal("Thất bại!", "Bạn đã gửi đánh giá sản phẩm này rồi", "error");
+                            break;
+                        case 3:
+                            swal("Có thể bạn chưa biết !", "Bạn chưa được phép đánh giá sản phẩm này", "info");
+                            break;
+                        default:
+                            swal("Thất bại!", "Có lỗi xảy ra", "error");
+                    }
+                });
+            })
+
+            $(".btn_delete_rating").click(function (e) {
+                e.preventDefault();
+                url = $(this).attr('href');
+                swal({
+                    title: "Bạn có chắc chắn ?",
+                    text: "Bạn có chắc chắn xóa đánh giá của bạn khỏi sản phẩm này !",
+                    icon: "info",
+                    buttons: ["Không", "Có"],
+                    dangerMode: true
+                }).then((willdelete) => {
+                    if (willdelete) {
+                        swal("Thành công", "Hệ thống chuẩn bị xóa đánh giá của bạn khỏi sản phẩm này !",
+                            'success').then(function () {
+                            window.location.href = url;
+                        });
+                    }
+                });
             });
-        });
+        })
     </script>
 @endsection

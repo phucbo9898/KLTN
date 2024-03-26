@@ -15,7 +15,7 @@
             <a class="nav-link" data-toggle="dropdown" href="#">
                 @if (Auth::check())
                     <img src="{{ asset(Auth::user()->avatar) ?? asset('unimg.jpg') }}" alt=""
-                         style="width: 20px; object-fit: cover;">
+                         style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%">
                     {{ Auth::user()->name }}
                 @endif
             </a>

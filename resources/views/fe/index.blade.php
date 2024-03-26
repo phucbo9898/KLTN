@@ -591,26 +591,27 @@
                     method: "GET",
                     url: url
                 }).done(function(result) {
-                    if (result.status == 1) {
-                        swal("@lang('Success') !", "@lang('Product added') " + name_product + " @lang('to cart') !",
-                            "success");
-                        $(".cart-item-count-number").text(result.number_product_in_cart);
-                        $(".price_total_cart").text(result.price_total_cart);
-                    }
-                    if (result.status == 2) {
-                        swal("@lang('Warning')!", "@lang('Only in stock') " + result.product_less +
-                            " @lang('product')" + name_product, "warning");
-                    }
-                    if (result.status == 3) {
-                        swal("@lang('Warning')!", "@lang('Product') " + ' "' + name_product + '" ' + " @lang('Unknown') !",
-                            "warning");
-                    }
-                    if (result.status == 4) {
-                        swal("@lang('Warning')!", "@lang('Product') " + ' "' + name_product + '" ' + "@lang('out of stock')!",
-                        "warning");
-                    }
-                    if (result.error) {
-                        swal("@lang('Warning')!", "@lang('You need to login for this function')!", "warning");
+                    switch (result.status) {
+                        case 1:
+                            swal("Thành công !", "Đã thêm sản phẩm " + name_product + " vào giỏ hàng !",
+                                "success");
+                            $(".cart-item-count-number").text(result.number_product_in_cart);
+                            $(".price_total_cart").text(result.price_total_cart);
+                            break;
+                        case 2:
+                            swal("Cảnh báo !", "Trong kho chỉ còn " + result.product_less +
+                                " sản phẩm " + name_product, "warning");
+                            break;
+                        case 3:
+                            swal("Cảnh báo !", "Sản phẩm " + name_product + " không tồn tại !",
+                                "warning");
+                            break;
+                        case 4:
+                            swal("Cảnh báo !", "Sản phẩm " + name_product + " đã hết hàng !",
+                                "warning");
+                            break;
+                        default:
+                            swal("Cảnh báo !", "Bạn cần đăng nhập cho chức năng này!", "warning");
                     }
                 });
             });

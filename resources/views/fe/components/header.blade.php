@@ -1,6 +1,12 @@
 <?php
 use App\Enums\UserType;
 ?>
+<style>
+    .nav-link:hover {
+        color: inherit !important;
+    }
+</style>
+
 <!-- Begin Header Area -->
 <header>
     <!-- Begin Header Top Area -->
@@ -9,12 +15,12 @@ use App\Enums\UserType;
             <div class="row">
                 <!-- Begin Header Top Left Area -->
                 <div class="col-lg-3 col-md-4">
-                    <div class="header-top-left" style="display: flex; justify-content: space-between; width: 360px;">
+                    <div class="header-top-left" style="display: flex; justify-content: space-between; width: 410px;">
                         <ul class="phone-wrap">
-                            <li><span>@lang('Phone Number'):</span><a href="#">&nbsp;0969908298</a></li>
+                            <li><span style="font-size: 15px !important;">@lang('Phone Number'):</span>&nbsp;0969908298</li>
                         </ul>
                         <ul class="phone-wrap">
-                            <li><span>Email:&nbsp;</span><a href="mailto://phucbo9898@gmail.com">phucbo9898@gmail.com</a>
+                            <li><span style="font-size: 15px !important;">Email:&nbsp;</span><a href="mailto://phucbo9898@gmail.com" style="font-size: 15px !important;">phucbo9898@gmail.com</a>
                             </li>
                         </ul>
                     </div>
@@ -23,56 +29,83 @@ use App\Enums\UserType;
                 <!-- Begin Header Top Right Area -->
                 <div class="col-lg-9 col-md-8">
                     <div class="header-top-right">
-                        <ul class="ht-menu">
-                            <!-- Begin Setting Area -->
-                            <li>
-                                <div class="ht-setting-trigger">
+                        <ul class="navbar-nav ml-auto float-right">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link" data-toggle="dropdown" href="#">
                                     @if (Auth::check())
-                                        <img src="{{ asset(Auth::user()->avatar) }}" alt=""
-                                            style="width: 20px; object-fit: cover;">
+                                        <img src="{{ asset(Auth::user()->avatar) ?? asset('unimg.jpg') }}" alt=""
+                                             style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%">
                                         {{ Auth::user()->name }}
                                     @else
                                         <i class="fa fa-user">&nbsp;@lang('Account')</i>
                                     @endif
-                                </div>
-                                <div class="setting ht-setting">
-                                    <ul class="ht-setting-list">
-                                        @if (Auth::check())
-                                            @if(Auth::user()->role == UserType::ADMIN)
-                                                <li><a href="{{ route('admin.home') }}">@lang('Admin Page')</a></li>
-                                            @elseif(Auth::user()->role == UserType::SYSTEMADMIN)
-                                                <li><a href="{{ route('admin.home') }}">@lang('Admin Page')</a></li>
-                                            @endif
-                                            <li><a href="{{ route('profile.index') }}">@lang('Profile')</a></li>
-                                            <li><a href="{{ route('favorite-product.index') }}">@lang('Favorite Product')</a></li>
-                                            <li><a href="{{ route('history-user.index') }}">@lang('Purchase history')</a></li>
-                                            <li><a href="{{ route('get.logout') }}">@lang('Logout')</a></li>
-                                        @else
-                                            <li><a href="{{ route('get.login') }}">@lang('Login')</a></li>
-                                            <li><a href="{{ route('get.register') }}">@lang('Register')</a></li>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="min-width: 105px !important;">
+                                    @if(\Illuminate\Support\Facades\Auth::check())
+                                        @if(Auth::user()->role == UserType::ADMIN || Auth::user()->role == UserType::SYSTEMADMIN)
+                                            <a href="{{ route('admin.home') }}" class="dropdown-item dropdown-footer btn btn-danger btn-hover text-left">@lang('Admin Page')</a>
                                         @endif
-                                    </ul>
+                                        <a href="{{ route('profile.index') }}" class="dropdown-item dropdown-footer btn btn-danger btn-hover text-left">@lang('Profile')</a>
+                                        <a href="{{ route('favorite-product.index') }}" class="dropdown-item dropdown-footer btn btn-danger btn-hover text-left">@lang('Favorite Product')</a>
+                                        <a href="{{ route('history-user.index') }}" class="dropdown-item dropdown-footer btn btn-danger btn-hover text-left">@lang('Purchase history')</a>
+                                        <a href="{{ route('get.logout') }}" class="dropdown-item dropdown-footer btn btn-danger btn-hover text-left">@lang('Logout')</a>
+                                    @else
+                                        <a href="{{ route('get.login') }}" class="dropdown-item dropdown-footer btn btn-danger btn-hover text-left">@lang('Login')</a>
+                                        <a href="{{ route('get.register') }}" class="dropdown-item dropdown-footer btn btn-danger btn-hover text-left">@lang('Register')</a>
+                                    @endif
                                 </div>
                             </li>
-                            <li>
-                                <a href="{!! route('change-language', ['en']) !!}" style="margin-right: 5px;">
-                                    <img class="flag-language" src="{{ asset('images/en-flag-32x48.png') }}"
-                                        alt="">
-                                </a>
-                                <a href="{!! route('change-language', ['vi']) !!}">
-                                    <img class="flag-language" src="{{ asset('images/vi-flag-32x48.png') }}"
-                                        alt="">
-                                </a>
-                            </li>
-                            <!-- Setting Area End Here -->
-
-                            <!-- Begin Language Area -->
-                            {{--                            <li> --}}
-                            {{--                                <a href="{!! route('user.change-language', ['en']) !!}"><img src="{{asset('images/global.png')}}" alt="global" style="margin-right:5px"></a> --}}
-                            {{--                                <a href="{!! route('user.change-language', ['vi']) !!}"><img src="{{asset('images/vietnam.png')}}" alt="vn"></a> --}}
-                            {{--                            </li> --}}
-                            <!-- Language Area End Here -->
                         </ul>
+{{--                        <ul class="ht-menu">--}}
+{{--                            <!-- Begin Setting Area -->--}}
+{{--                            <li>--}}
+{{--                                <div class="ht-setting-trigger">--}}
+{{--                                    @if (Auth::check())--}}
+{{--                                        <img src="{{ asset(Auth::user()->avatar) }}" alt=""--}}
+{{--                                            style="width: 20px; object-fit: cover;">--}}
+{{--                                        {{ Auth::user()->name }}--}}
+{{--                                    @else--}}
+{{--                                        <i class="fa fa-user">&nbsp;@lang('Account')</i>--}}
+{{--                                    @endif--}}
+{{--                                </div>--}}
+{{--                                <div class="setting ht-setting">--}}
+{{--                                    <ul class="ht-setting-list">--}}
+{{--                                        @if (Auth::check())--}}
+{{--                                            @if(Auth::user()->role == UserType::ADMIN)--}}
+{{--                                                <li><a href="{{ route('admin.home') }}">@lang('Admin Page')</a></li>--}}
+{{--                                            @elseif(Auth::user()->role == UserType::SYSTEMADMIN)--}}
+{{--                                                <li><a href="{{ route('admin.home') }}">@lang('Admin Page')</a></li>--}}
+{{--                                            @endif--}}
+{{--                                            <li><a href="{{ route('profile.index') }}">@lang('Profile')</a></li>--}}
+{{--                                            <li><a href="{{ route('favorite-product.index') }}">@lang('Favorite Product')</a></li>--}}
+{{--                                            <li><a href="{{ route('history-user.index') }}">@lang('Purchase history')</a></li>--}}
+{{--                                            <li><a href="{{ route('get.logout') }}">@lang('Logout')</a></li>--}}
+{{--                                        @else--}}
+{{--                                            <li><a href="{{ route('get.login') }}">@lang('Login')</a></li>--}}
+{{--                                            <li><a href="{{ route('get.register') }}">@lang('Register')</a></li>--}}
+{{--                                        @endif--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <a href="{!! route('change-language', ['en']) !!}" style="margin-right: 5px;">--}}
+{{--                                    <img class="flag-language" src="{{ asset('images/en-flag-32x48.png') }}"--}}
+{{--                                        alt="">--}}
+{{--                                </a>--}}
+{{--                                <a href="{!! route('change-language', ['vi']) !!}">--}}
+{{--                                    <img class="flag-language" src="{{ asset('images/vi-flag-32x48.png') }}"--}}
+{{--                                        alt="">--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                            <!-- Setting Area End Here -->--}}
+
+{{--                            <!-- Begin Language Area -->--}}
+{{--                            --}}{{--                            <li> --}}
+{{--                            --}}{{--                                <a href="{!! route('user.change-language', ['en']) !!}"><img src="{{asset('images/global.png')}}" alt="global" style="margin-right:5px"></a> --}}
+{{--                            --}}{{--                                <a href="{!! route('user.change-language', ['vi']) !!}"><img src="{{asset('images/vietnam.png')}}" alt="vn"></a> --}}
+{{--                            --}}{{--                            </li> --}}
+{{--                            <!-- Language Area End Here -->--}}
+{{--                        </ul>--}}
                     </div>
                 </div>
                 <!-- Header Top Right Area End Here -->
@@ -100,10 +133,10 @@ use App\Enums\UserType;
                         <select class="nice-select select-search-category" name="search_category_id">
                             <option value="0">@lang('All')</option>
                             @foreach ($categories_search as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                <option value="{{ $category->id }}" {{ request()->get('search_category_id') && request()->get('search_category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
                             @endforeach
                         </select>
-                        <input type="text" placeholder="@lang('Enter search value ...')" name="search_key">
+                        <input type="text" name="search_key" value="{{ request()->get('search_key') ? request()->get('search_key') : '' }}">
                         <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                     </form>
                     <!-- Header Middle Searchbox Area End Here -->
@@ -169,7 +202,7 @@ use App\Enums\UserType;
                                 </li>
                                 <!-- Begin Header Bottom Menu Information Area -->
                                 <li class="hb-info f-right p-0 d-sm-none d-lg-block">
-                                    <span>@lang('Mitec Building, Yen Hoa, Cau Giay, Hanoi, Vietnam')</span>
+                                    <span class="text-white">@lang('Mitec Building, Yen Hoa, Cau Giay, Hanoi, Vietnam')</span>
                                 </li>
                                 <!-- Header Bottom Menu Information Area End Here -->
                             </ul>

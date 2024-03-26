@@ -31,7 +31,7 @@
                 <th>Hành động</th>
             </thead>
 
-            @if ($count > 0)
+            @if (count($transactions) > 0)
                 <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
@@ -120,7 +120,7 @@
                 </tbody>
             @endif
         </table>
-        @if($count > 0)
+        @if(count($transactions) > 0)
             <div class="col-lg-12 pb-15">
                 <div class="li-paginatoin-area text-center pt-25">
                     <div class="row">

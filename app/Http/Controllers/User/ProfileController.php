@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\ActiveStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Repositories\UserRepository;
@@ -14,10 +15,12 @@ use Illuminate\Support\Facades\View;
 
 class ProfileController extends Controller
 {
-    public function __construct(UserRepository $userRepo)
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
     {
-        $this->userRepo = $userRepo;
-        $categories = Category::where('status', 'active')->get();
+        $this->userRepository = $userRepository;
+        $categories = Category::where('status', ActiveStatus::ACTIVE)->get();
         View::share('categories_search', $categories);
 
     }
@@ -30,7 +33,7 @@ class ProfileController extends Controller
     public function update(Request $request, $id) {
         try {
             DB::beginTransaction();
-            $user = $this->userRepo->find($id);
+            $user = $this->userRepository->find($id);
             if (!$user) {
                 return redirect()->route('profile.index')->with('error-user', __('The requested resource is not available'));
             }

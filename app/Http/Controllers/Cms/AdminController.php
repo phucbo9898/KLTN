@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cms;
 
+use App\Enums\ActiveStatus;
 use App\Enums\UserType;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
@@ -18,9 +19,10 @@ use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
-    public function __construct(UserRepository $userRepo)
+    private $userRepository;
+    public function __construct(UserRepository $userRepository)
     {
-        $this->userRepo = $userRepo;
+        $this->userRepository = $userRepository;
     }
 
     public function getLogin()
@@ -31,7 +33,7 @@ class AdminController extends Controller
     public function postLogin(Request $request)
     {
         $account = User::where('email', $request->email)->first();
-        if (($account->status ?? '') == 'inactive') {
+        if ($account->status == ActiveStatus::INACTIVE) {
             return redirect()->back()->with('error', __('Your account has been deactivated.'));
         }
         if (Auth::attempt($request->only('email', 'password'))) {
@@ -49,11 +51,6 @@ class AdminController extends Controller
         return redirect()->route('admin.login');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $chart = $this->chart();
@@ -92,12 +89,6 @@ class AdminController extends Controller
         $fivedago = Carbon::today()->subDays(5)->format('Y-m-d');
         $sixdago = Carbon::today()->subDays(6)->format('Y-m-d');
 
-        // thang 1
-        $monthOne = Carbon::parse()->format('m'); // 2023-05-01
-
-        $monthOne = Carbon::now()->startOfYear()->format('m'); // 01
-        $endOfMonthOne = Carbon::now()->endOfMonth()->format('Y-01-d'); // 2023-05-01
-
         // get money redemm follow update status completed
         $totaltoday = Transaction::where('updated_at', 'like', '%' . $today . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');
         $totalonedago = Transaction::where('updated_at', 'like', '%' . $onedago . '%')->select('status', 'total', 'created_at')->where('status', 'completed')->sum('total');
@@ -134,13 +125,13 @@ class AdminController extends Controller
     public function update(Request $request, $id) {
         try {
             DB::beginTransaction();
-            $user = $this->userRepo->find($id);
+            $user = $this->userRepository->find($id);
             if (!$user) {
-                return redirect()->back->with('error', __('The requested resource is not available'));
+                return redirect()->back()->with('error', __('The requested resource is not available'));
             }
 
             if (!empty($request->current_password) && !Hash::check($request->current_password, $user->password)) {
-                return redirect()->back->with('error', __('Current password is incorrect'));
+                return redirect()->back()->with('error', __('Current password is incorrect'));
             }
 
             $data = $request->all();

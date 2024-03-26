@@ -2,52 +2,31 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\ActiveStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Product_Attribute;
 use Illuminate\Http\Request;
 
 class CategoryController extends CustomerController
 {
     public function index($slug, $id)
     {
-        $checklink = 0;
-        $checkproduct = Product::where([
+        $categoryDetail = Category::find($id);
+        $products = Product::where([
             'category_id' => $id,
-            'status' => 'active'
-        ])->count();
-        $category = Category::find($id);
-        if ($checkproduct > 9) {
-            $checklink = 1;
-            $products = Product::where([
-                'category_id' => $id,
-                'status' => 'active'
-            ])->paginate(9);
-        } else {
-            $products = Product::where([
-                'category_id' => $id,
-                'status' => 'active'
-            ])->get();
-        }
-        $data = [
-            'category' => $category,
-            'products' => $products,
-            'checklink' => $checklink
-        ];
-        return view('fe.category.index', $data);
+            'status' => ActiveStatus::ACTIVE
+        ])->paginate(10);
+        return view('fe.category.index', ['categoryDetail' => $categoryDetail, 'products' => $products]);
     }
 
     public function indexOrder($slug, $id, $order)
     {
-        $checklink = 0;
-        $checkproduct = Product::where([
-            'category_id' => $id,
-            'status' => 'active'
-        ])->count();
-        $category = Category::find($id);
+        $categoryDetail = Category::find($id);
         $products = Product::where([
             'category_id' => $id,
-            'status' => 'active',
+            'status' => ActiveStatus::ACTIVE
         ]);
         switch ($order) {
             case 'duoi-1trieu':
@@ -87,52 +66,18 @@ class CategoryController extends CustomerController
                 dd("Lỗi");
                 break;
         }
-        if ($checkproduct > 9) {
-            $checklink = 1;
-            $products = $products->paginate(3);
-        } else {
-            $products = $products->get();
-        }
-        $data = [
-            'category' => $category,
-            'products' => $products,
-            'checklink' => $checklink
-        ];
-        return view('fe.category.index', $data);
+        $products = $products->paginate(10);
+        return view('fe.category.index', ['categoryDetail' => $categoryDetail, 'products' => $products]);
     }
 
     public function indexOrderAttribute($slug, $id, $idatv)
     {
-        $checklink = 0;
-        $category = Category::find($id);
+        $categoryDetail = Category::find($id);
+        $getArrayIdProductByIdAttribute = Product_Attribute::where('attribute_value_id', $idatv)->pluck('product_id')->toArray();
         $products = Product::where([
             'category_id' => $id,
-            'status' => 'active',
-        ])->get();
-        $filterattritebuteproduct = array();
-        foreach ($products as $product) {
-            foreach ($product->productAttributeValue as $atv) {
-                if ($atv->id == $idatv) {
-                    array_push($filterattritebuteproduct, $product);
-                }
-            };
-        }
-        // dd($filterattritebuteproduct);
-        // $checkproduct = count($filterattritebuteproduct);
-        // if($checkproduct>9)
-        // {
-        //     $checklink = 1;
-        //     $products =$products->paginate(3);
-        // }
-        // else
-        // {
-        //     $products =$products->get();
-        // }
-        $data = [
-            'category' => $category,
-            'products' => $filterattritebuteproduct,
-            'checklink' => $checklink
-        ];
-        return view('fe.category.index', $data);
+            'status' => ActiveStatus::ACTIVE,
+        ])->whereIn('id', $getArrayIdProductByIdAttribute)->paginate(10);
+        return view('fe.category.index', ['categoryDetail' => $categoryDetail, 'products' => $products]);
     }
 }

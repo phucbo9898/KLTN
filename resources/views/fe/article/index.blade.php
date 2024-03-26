@@ -1,12 +1,6 @@
 @extends('fe.layout.master')
 @section('content')
     <style>
-        .ellipsis {
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            overflow: hidden;
-        }
-
         .block-ellipsis {
             display: -webkit-box;
             max-width: 100%;
@@ -17,16 +11,6 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        /*.block-ellipsis {*/
-        /*    display: -webkit-box;*/
-        /*    max-width: 100%;*/
-        /*    height: 40px;*/
-        /*    margin: 0 auto;*/
-        /*    -webkit-line-clamp: 2;*/
-        /*    -webkit-box-orient: vertical;*/
-        /*    overflow: hidden;*/
-        /*    text-overflow: ellipsis;*/
-        /*}*/
 
         .block-ellipsis-description {
             display: -webkit-box;
@@ -69,9 +53,6 @@
                                     </div>
                                     <div class="li-blog-content">
                                         <div class="li-blog-details">
-                                            <h3 class="li-blog-heading pt-25"><a
-                                                    href="{{ route('article.detail', ['id' => $article->id]) }}"
-                                                    class="block-ellipsis">{{ $article->name }}</a></h3>
                                             <div class="li-blog-meta">
                                                 <a class="author" href="#"><i
                                                         class="fa fa-user"></i>{{ isset($article->user->name) ? $article->user->name : 'Admin' }}
@@ -82,10 +63,9 @@
                                                     {{ $article->created_at }}
                                                 </a>
                                             </div>
-                                            <p class="block-ellipsis-description">{{ $article->description }}</p>
-                                            <a class="read-more" href="{{ route('article.detail', $article->id) }}">
-                                                @lang('See more ...')
-                                            </a>
+                                            <h4 class="li-blog-heading"><a
+                                                    href="{{ route('article.detail', ['id' => $article->id]) }}"
+                                                    class="block-ellipsis">{{ $article->name }}</a></h4>
                                         </div>
                                     </div>
                                 </div>
@@ -96,7 +76,7 @@
                             <div class="li-paginatoin-area text-center pt-25">
                                 <div class="row">
                                     <div class="col-2 mx-auto">
-                                        {{ ($check_link == 1) ? $articles->links() : '' }}
+                                        {{ $articles->links() }}
                                     </div>
                                 </div>
                             </div>

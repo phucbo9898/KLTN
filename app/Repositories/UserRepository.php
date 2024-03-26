@@ -7,6 +7,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserRepository extends BaseRepository
 {
@@ -43,7 +44,7 @@ class UserRepository extends BaseRepository
         $user = [
             'name' => $data['name'] ?? '',
             'email' => $data['email'] ?? '',
-            'password' => $data['password'] ?? '',
+            'password' => Hash::make(1),
             'phone' => $data['phone'] ?? '',
             'avatar' => $data['image'] ?? '',
             'role' => $data['role'] ?? '',

@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    private $userRepository;
 
-    public function __construct(UserRepository $userRepo)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->userRepo = $userRepo;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -30,7 +31,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $options = $request->all();
-        $users = $this->userRepo->query($options)->get();
+        $users = $this->userRepository->query($options)->get();
 
         return view('cms.user.index', compact('users', 'options'));
     }
@@ -63,7 +64,6 @@ class UserController extends Controller
             }
 
             $data = $request->all();
-            $data['password'] = bcrypt(1);
 
             if ($request->hasFile('image')) {     // image
                 $file = $request->file('image');
@@ -72,8 +72,8 @@ class UserController extends Controller
                 $file->move($path_upload, $filename);
                 $data['image'] = $path_upload . $filename;
             }
-            $user = $this->userRepo->prepareUser($data);
-            $this->userRepo->create($user);
+            $user = $this->userRepository->prepareUser($data);
+            $this->userRepository->create($user);
 
             DB::commit();
             return redirect()->route('admin.user.index')->with('success', 'Đã thêm 1 tài khoản người dùng với mật khẩu mặc định là "1" !');
@@ -92,7 +92,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->userRepo->find($id);
+        $user = $this->userRepository->find($id);
         if (!$user) {
             return redirect()->route('admin.user.index')->with('error', __('The requested resource is not available'));
         }
@@ -111,7 +111,7 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            $user = $this->userRepo->find($id);
+            $user = $this->userRepository->find($id);
             if (!$user) {
                 return redirect()->route('admin.user.index')->with('error', __('The requested resource is not available'));
             }
@@ -135,8 +135,8 @@ class UserController extends Controller
                 $data['image'] = $user->avatar ?? '';
             }
             $data['password'] = $user->password ?? '';
-            $users = $this->userRepo->prepareUser($data);
-            $this->userRepo->update($user->id, $users);
+            $users = $this->userRepository->prepareUser($data);
+            $this->userRepository->update($user->id, $users);
 
             DB::commit();
             return redirect()->route('admin.user.index')->with('success', 'Đã sửa thành công user id số ' . $user->id . '!');
@@ -150,7 +150,7 @@ class UserController extends Controller
     public function changePassword(Request $request, $id)
     {
         if ($request->ajax()) {
-            $user = $this->userRepo->find($id);
+            $user = $this->userRepository->find($id);
             if (!$user) {
                 return redirect()->route('admin.user.index')->with('error', __('The requested resource is not available'));
             }
@@ -160,7 +160,7 @@ class UserController extends Controller
                 ]);
             }
             $newPassword = bcrypt($request->new_password);
-            $this->userRepo->update($id, ['password' => $newPassword]);
+            $this->userRepository->update($id, ['password' => $newPassword]);
             return response()->json([
                 'status' => 1
             ]);
@@ -170,7 +170,7 @@ class UserController extends Controller
 
     public function action(Request $request, $action, $id)
     {
-        $user = $this->userRepo->find($id);
+        $user = $this->userRepository->find($id);
         if (!$user) {
             return redirect()->route('admin.user.index')->with('error', __('The requested resource is not available'));
         }

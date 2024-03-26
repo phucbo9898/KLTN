@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ShoppingCartController extends CustomerController
@@ -44,75 +45,82 @@ class ShoppingCartController extends CustomerController
     public function addProduct(Request $request, $id)
     {
         if ($request->ajax()) {
-            // find product
-            $product = Product::find($id);
-            //find product in cart for get number product in cart how many
-            $product_in_cart = \Cart::content()->where('id', $id);
-            // check product in cart exist and create variable test + 1 product to qty
-            if ($product_in_cart->first()) {
-                $then_number_product_in_cart = $product_in_cart->first()->quantity + 1;
-                // check if test variable qty not ennough number product return false
-                if ($then_number_product_in_cart > $product->quantity)
+            if (Auth::check()) {
+                // find product
+                $product = Product::find($id);
+                //find product in cart for get number product in cart how many
+                $product_in_cart = \Cart::content()->where('id', $id);
+                // check product in cart exist and create variable test + 1 product to qty
+                if ($product_in_cart->first()) {
+                    $then_number_product_in_cart = $product_in_cart->first()->quantity + 1;
+                    // check if test variable qty not ennough number product return false
+                    if ($then_number_product_in_cart > $product->quantity)
+                        return response()->json([
+                            'status' => 2,
+                            'product_less' => $product->quantity
+                        ]);
+                }
+                // check product exist
+                if (!$product)
                     return response()->json([
-                        'status' => 2,
-                        'product_less' => $product->quantity
+                        'status' => 3
                     ]);
-            }
-            // check product exist
-            if (!$product)
-                return response()->json([
-                    'status' => 3
-                ]);
-            // get price when customer add product to cart
-            $price = $product->price;
-            if ($product->sale) {
-                $price = $price * (100 - $product->sale) / 100;
-            }
-            if ($product->quantity == 0)
-                return response()->json([
-                    'status' => 4
-                ]);
-            // add product to cart
-            \Cart::add(
-                [
-                    'id' => $id,
-                    'name' => $product->name,
-                    'qty' => 1,
-                    'weight' => 0,
-                    'price' => $price,
-                    'options' => [
-                        'image' => $product->image,
-                        'price_old' => $product->price,
-                        'sale' => $product->sale
+                // get price when customer add product to cart
+                $price = $product->price;
+                if ($product->sale) {
+                    $price = $price * (100 - $product->sale) / 100;
+                }
+                if ($product->quantity == 0)
+                    return response()->json([
+                        'status' => 4
+                    ]);
+                // add product to cart
+                \Cart::add(
+                    [
+                        'id' => $id,
+                        'name' => $product->name,
+                        'qty' => 1,
+                        'weight' => 0,
+                        'price' => $price,
+                        'options' => [
+                            'slug' => $product->slug,
+                            'image' => $product->image,
+                            'price_old' => $product->price,
+                            'sale' => $product->sale
+                        ]
                     ]
-                ]
-            );
-            return response()->json([
-                'status' => 1,
-                'number_product_in_cart' => \Cart::count(),
-                'price_total_cart' => \Cart::subtotal(0, ',', '.')
-            ]);
+                );
+                return response()->json([
+                    'status' => 1,
+                    'number_product_in_cart' => \Cart::count(),
+                    'price_total_cart' => \Cart::subtotal(0, ',', '.')
+                ]);
+            }
         }
     }
 
     public function editProductItem(Request $request)
     {
-        $pro_id = $request->pro_id;
-        $number_product_edit = $request->number_product_edit;
-        // get cart
-        $cart = \Cart::content();
-        //get number product in stock
-        $number_product_in_stock = Product::find($pro_id)->quantity;
-        $product_in_stock_name = Product::find($pro_id)->name;
-        //get number product in cart
-        $number_product_in_cart = $cart->where('id', $pro_id)->first()->quantity;
-        //check number product edit bigger number product in stock
-        if ($number_product_edit > $number_product_in_stock)
-            return redirect()->back()->with('warning', __('Product') . ' ' . $product_in_stock_name . ' ' .  __('only'). ' ' . $number_product_in_stock . ' ' .  __('in stock'));
-        //get rowId for update number product in cart
-        $rowId = $cart->where('id', $pro_id)->first()->rowId;
-        \Cart::update($rowId, $number_product_edit);
-        return redirect()->back()->with('success', __('Update the number of successful products'));
+        try {
+            $pro_id = $request->pro_id;
+            $number_product_edit = $request->number_product_edit;
+            // get cart
+            $cart = \Cart::content();
+            //get number product in stock
+            $number_product_in_stock = Product::find($pro_id)->quantity;
+            $product_in_stock_name = Product::find($pro_id)->name;
+            //get number product in cart
+            $number_product_in_cart = $cart->where('id', $pro_id)->first()->quantity;
+            //check number product edit bigger number product in stock
+            if ($number_product_edit > $number_product_in_stock)
+                return redirect()->back()->with('warning', __('Product') . ' ' . $product_in_stock_name . ' ' .  __('only'). ' ' . $number_product_in_stock . ' ' .  __('in stock'));
+            //get rowId for update number product in cart
+            $rowId = $cart->where('id', $pro_id)->first()->rowId;
+            \Cart::update($rowId, $number_product_edit);
+            return redirect()->back()->with('success', __('Update the number of successful products'));
+        } catch (\Exception $exception) {
+            Log::debug($exception->getMessage());
+        }
     }
 
     public function deleteProductItem($key)
@@ -145,7 +153,7 @@ class ShoppingCartController extends CustomerController
         $amountTotal = (int)round($request->total_momo);
         $transactionId = Transaction::create([
             'customer_name' => $request->name ?? '',
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::id(),
             'total' => $amountTotal ?? '',
             'note' => $request->note ?? '',
             'address' => $request->address ?? '',
@@ -156,13 +164,13 @@ class ShoppingCartController extends CustomerController
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
-//        dd($transactionId);
 
         if ($transactionId) {
             Transaction::where('id', $transactionId->id)->update(['payment_code' => "MGD" . "-" . $transactionId->id]);
             $products = \Cart::content();
+            $dataOrders = [];
             foreach ($products as $product) {
-                Order::insert([
+                $dataOrders[] = [
                     'transaction_id' => $transactionId->id ?? '',
                     'product_id' => $product->id ?? '',
                     'quantity' => $product->qty ?? '',
@@ -171,23 +179,18 @@ class ShoppingCartController extends CustomerController
                     'payment_code' => "MGD" . "-" . $transactionId->id ?? '',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
-                ]);
-//                $product_qty = Product::find($product->id);
-//                $quantity = $product_qty->quantity - $product->qty;
-//                $quantity_pay = $product_qty->qty_pay + $product->qty;
-//                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
+                ];
             }
+            Order::insert($dataOrders);
         }
 
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
-
         $partnerCode = 'MOMOBKUN20180529';
         $accessKey = 'klm05TvNBzhg7h7j';
         $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
         $orderInfo = "Thanh toán qua ATM MoMo";
         $amount = $amountTotal;
         $orderId = "MGD" . "-" . $transactionId->id . '_' . time();
-//        dd($orderId);
         $redirectUrl = request()->getSchemeAndHttpHost() . '/feature-user/checkout/momo-check';
         $ipnUrl = request()->getSchemeAndHttpHost() . '/feature-user/checkout/momo-check';
         $extraData = "";
@@ -242,8 +245,9 @@ class ShoppingCartController extends CustomerController
         if ($transactionId) {
             Transaction::where('id', $transactionId)->update(['payment_code' => "MGD" . "-" . $transactionId]);
             $products = \Cart::content();
+            $dataOrders = [];
             foreach ($products as $product) {
-                Order::insert([
+                $dataOrders[] = [
                     'transaction_id' => $transactionId ?? '',
                     'product_id' => $product->id ?? '',
                     'quantity' => $product->qty ?? '',
@@ -252,12 +256,9 @@ class ShoppingCartController extends CustomerController
                     'payment_code' => "MGD" . "-" . $transactionId ?? '',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
-                ]);
-//                $product_qty = Product::find($product->id);
-//                $quantity = $product_qty->quantity - $product->qty;
-//                $quantity_pay = $product_qty->qty_pay + $product->qty;
-//                Product::where('id', $product->id)->update(['quantity' => $quantity ?? '', 'qty_pay' => $quantity_pay ?? '']);
+                ];
             }
+            Order::insert($dataOrders);
         }
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
@@ -313,9 +314,7 @@ class ShoppingCartController extends CustomerController
             $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);//
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
-        $returnData = array('code' => '00'
-        , 'message' => 'success'
-        , 'data' => $vnp_Url);
+        $returnData = array('code' => '00', 'message' => 'success', 'data' => $vnp_Url);
         if (isset($_POST['redirect'])) {
             header('Location: ' . $vnp_Url);
             die();

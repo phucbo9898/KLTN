@@ -125,7 +125,7 @@ a:hover {
 
 a:focus,
 a:hover {
-    color: #4587d7;
+    color: #4587d7 !important;
     text-decoration: none;
 }
 
@@ -5317,7 +5317,7 @@ thead {
 }
 
 .li-blog-single-item .li-blog-content .li-blog-details .li-blog-meta {
-    padding: 5px 0 22px;
+    padding: 5px 0 5px;
 }
 
 .li-blog-content p {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\ActiveStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use Illuminate\Http\Request;
@@ -10,28 +11,16 @@ class ArticleController extends CustomerController
 {
     public function index()
     {
-        $count_article = Article::where('status', 'active')->count();
-        $check_link = 0;
-        if ($count_article > 7) {
-            $articles = Article::where('status', 'active')->paginate(3);
-            $check_link = 1;
-        } else {
-            $articles = Article::where('status', 'active')->get();
-        }
-
-        $data = [
-            'articles' => $articles,
-            'check_link' => $check_link
-        ];
-        return view('fe.article.index', $data);
+        $articles = Article::where('status', ActiveStatus::ACTIVE)->paginate(10);
+        return view('fe.article.index', ['articles' => $articles]);
     }
     public function getDetailArticle($id)
     {
-        $getListArticles = Article::where('id', '<>', $id)->where('status', 'active')->limit(5)->get();
-        $article = Article::where([
+        $getListAnotherArticles = Article::where('id', '<>', $id)->where('status', ActiveStatus::ACTIVE)->orderBy('updated_at', 'desc')->limit(5)->get();
+        $articleDetail = Article::where([
             'id' => $id,
-            'status' => 'active'
+            'status' => ActiveStatus::ACTIVE
         ])->first();
-        return view('fe.article.detail', compact('article', 'getListArticles'));
+        return view('fe.article.detail', ['articleDetail' => $articleDetail, 'getListAnotherArticles' => $getListAnotherArticles]);
     }
 }

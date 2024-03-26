@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\ActiveStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ class CustomerController extends Controller
 {
     public function __construct()
     {
-        $categories = Category::where('status', 'active')->get();
+        $categories = Category::where('status', ActiveStatus::ACTIVE)->get();
         View::share('categories_search', $categories);
     }
 }

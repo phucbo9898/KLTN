@@ -17,23 +17,22 @@
                 <table class="table table-hover table-striped" id="dataTable"
                        style="overflow-y: scroll; white-space: nowrap; font-size: 16px !important;">
                     <thead class="thead-dark">
-                    <th style="width: 1%">STT</th>
-                    <th style="width: 10%">Người mua</th>
-                    <th style="width: 10%">Số điện thoại</th>
-                    <th style="width: 10%;">Trạng thái thanh toán</th>
-                    <th style="width: 5%;">Loại thanh toán</th>
-                    <th style="width: 12%">Tổng tiền</th>
-                    <th style="width: 10%">Trạng thái</th>
-                    <th style="width: 3%">MGD</th>
-                    <th style="width: 1%">Hành động</th>
+                        <tr>
+                            <th scope="col">MGD</th>
+                            <th scope="col">Người mua</th>
+                            <th scope="col">Trạng thái thanh toán</th>
+                            <th scope="col">Loại thanh toán</th>
+                            <th scope="col">Tổng tiền</th>
+                            <th scope="col">Trạng thái đơn hàng</th>
+                            <th scope="col">Hành động</th>
+                        </tr>
                     </thead>
                     <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
-                            <td style="text-align: center;">{{ $transaction->id ?? '' }}</td>
-                            <td>{{ optional($transaction->user)->name ?? $transaction->customer_name }}</td>
-                            <td>{{ $transaction->phone ?? '' }}</td>
-                            <td style="text-align: center;">
+                            <td class="col-md-1">{{ $transaction->payment_code ?? '' }}</td>
+                            <td class="col-md-2">{{ $transaction->customer_name ?? '' }}</td>
+                            <td class="col-md-2">
                                 @if($transaction->status_payment == 'Paуment not received')
                                     <a href="{{ route('admin.transaction.handle', ['change-status', $transaction->id]) }}"
                                        class="badge badge-warning"
@@ -45,7 +44,7 @@
                                           style="font-size: 14px;width: 113.11px;">{{ $transaction->status_payment == 'Paуment received' ? 'Đã thanh toán' : 'Chưa thanh toán'}}</span>
                                 @endif
                             </td>
-                            <td class="get-payment">
+                            <td class="col-md-2" class="get-payment">
                                 @if($transaction->type_payment == 'momo')
                                     <span class="momo" style="font-size: 16px;">Momo</span>
                                 @elseif($transaction->type_payment == 'vnpay')
@@ -54,8 +53,8 @@
                                     <span class="payment-normal" style="font-size: 16px;">Thông thường</span>
                                 @endif
                             </td>
-                            <td>{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
-                            <td style="text-align: center;">
+                            <td class="col-md-1">{{ number_format($transaction->total, 0, ',', '.') }} VNĐ</td>
+                            <td class="col-md-2" style="text-align: center;">
                                 @if ($transaction->status == 'completed')
                                     <a href="#"><span class="badge badge-success"
                                                       style="font-size: 14px; width: 95.96px;">Đã nhận hàng</span></a>
@@ -74,8 +73,7 @@
                                           style="font-size: 14px; width: 95.96px;">Đã hủy</span>
                                 @endif
                             </td>
-                            <td style="text-align: center;">{{ $transaction->payment_code ?? '' }}</td>
-                            <td style="width: 10%;">
+                            <td class="col-md-1">
                                 <a href="{{ route('admin.get.order.item', $transaction->id) }}"
                                    data-id="{{ $transaction->id }}"
                                    class="js_order_item btn btn-primary btn-circle" data-toggle="modal"
@@ -96,35 +94,7 @@
                                     </a>
                                 @endif
                             </td>
-
                         </tr>
-                        {{-- custom modal by me --}}
-                        <div class="modal fade" id="showOrderItem" tabindex="-1" role="dialog"
-                             aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">
-                                            Chi tiết đơn hàng #id
-                                            <span class="modal_id_transaction"></span>
-                                        </h5>
-                                        <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Chưa có dữ liệu hoặc bị lỗi !!!
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                                data-dismiss="modal">Đóng
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- end custom modal by me --}}
                     @endforeach
                     </tbody>
                 </table>
@@ -132,10 +102,32 @@
             <!-- /.card-body -->
         </div>
         <!-- /.card -->
+        {{-- custom modal by me --}}
+        <div class="modal fade" id="showOrderItem" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">
+                            Chi tiết đơn hàng #id
+                            <span class="modal_id_transaction"></span>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Chưa có dữ liệu hoặc bị lỗi !!!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- end custom modal by me --}}
     </section>
-    <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
 @endsection
 @section('javascript')
     <script>

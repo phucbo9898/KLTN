@@ -11,6 +11,7 @@ use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class HistoryController extends CustomerController
 {
@@ -21,15 +22,8 @@ class HistoryController extends CustomerController
      */
     public function index()
     {
-        $user = Auth::user();
-        $transactions = Transaction::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10);
-        $countTransaction = $transactions->count();
-        $data = [
-            'transactions' => $transactions,
-            'count' => $countTransaction
-        ];
-
-        return view('fe.history.index', $data);
+        $transactions = Transaction::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->paginate(10);
+        return view('fe.history.index', ['transactions' => $transactions]);
     }
 
     public function getOrderItem(Request $request, $id)
@@ -45,50 +39,35 @@ class HistoryController extends CustomerController
 
     public function transactionPaid(Request $request, $action, $id)
     {
-        $transaction = Transaction::find($id);
-        $orders = Order::where('transaction_id', $id)->get();
-//        if ($orders) {
-//            foreach ($orders as $order) {
-//                $product = Product::find($order->product_id);
-//                $product->quantity = $product->quantity - $order->quantity;
-//                $product->qty_pay = $product->qty_pay + $order->quantity;
-//                $product->save();
-//            }
-//            $transaction->status = StatusTransaction::COMPLETED;
-//            $transaction->save();
-//        }
-//        return redirect()->back();
+        try {
+            $transaction = Transaction::find($id);
+            $orders = Order::where('transaction_id', $id)->get();
 
-        if ($action) {
-            switch ($action) {
-                case 'change-status':
-//                    if ($orders) {
-//                        foreach ($orders as $order) {
-//                            $product = Product::find($order->product_id);
-//                            $product->quantity = $product->quantity - $order->quantity;
-//                            $product->qty_pay = $product->qty_pay + $order->quantity;
-//                            $product->save();
-//                        }
-//                    }
-                    $transaction->status = StatusTransaction::COMPLETED;
-                    $transaction->save();
-                    break;
-                case 'cancel-order':
-                    if ($orders) {
-                        foreach ($orders as $order) {
-                            // find product in order
-                            $product = Product::find($order->product_id);
-                            // subtract number product in stock
-                            $product->quantity =  $product->quantity + $order->quantity;
-                            $product->qty_pay = $product->qty_pay - $order->quantity;
-                            $product->save();
+            if ($action) {
+                switch ($action) {
+                    case 'change-status':
+                        $transaction->status = StatusTransaction::COMPLETED;
+                        $transaction->save();
+                        break;
+                    case 'cancel-order':
+                        if ($orders) {
+                            foreach ($orders as $order) {
+                                // find product in order
+                                $product = Product::find($order->product_id);
+                                // subtract number product in stock
+                                $product->quantity =  $product->quantity + $order->quantity;
+                                $product->qty_pay = $product->qty_pay - $order->quantity;
+                                $product->save();
+                            }
                         }
-                    }
-                    $transaction->status = 'canceled';
-                    $transaction->save();
-                    break;
+                        $transaction->status = 'canceled';
+                        $transaction->save();
+                        break;
+                }
+                return redirect()->back();
             }
-            return redirect()->back();
+        } catch (\Exception $exception) {
+            Log::debug($exception->getMessage());
         }
     }
 }

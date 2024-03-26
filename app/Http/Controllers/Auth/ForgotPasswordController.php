@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\ActiveStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\User\CustomerController;
 use App\Models\Category;
@@ -15,11 +16,11 @@ use Illuminate\Support\Facades\View;
 
 class ForgotPasswordController extends Controller
 {
-
-    public function __construct(UserRepository $userRepo)
+    private $userRepository;
+    public function __construct(UserRepository $userRepository)
     {
-        $this->userRepo = $userRepo;
-        $categories = Category::where('status', 'active')->get();
+        $this->userRepository = $userRepository;
+        $categories = Category::where('status', ActiveStatus::ACTIVE)->get();
         View::share('categories_search', $categories);
     }
 
@@ -73,7 +74,7 @@ class ForgotPasswordController extends Controller
         $email = $data['email'];
         $checkUser = User::where(['code' => $code, 'email' => $email])->first();
 
-        if (!$checkUser) {
+        if (empty($checkUser)) {
             return redirect()->route('home');
         }
         $validator = Validator::make(
@@ -94,8 +95,8 @@ class ForgotPasswordController extends Controller
             return redirect()->back()->withErrors($validator, 'resetPasswordErrors');
         }
 
-        $changePasswordUser = $this->userRepo->prepareChangePassword($data);
-        $result = $this->userRepo->update($checkUser->id, $changePasswordUser);
+        $changePasswordUser = $this->userRepository->prepareChangePassword($data);
+        $result = $this->userRepository->update($checkUser->id, $changePasswordUser);
 
         if ($result) {
             $request->session()->flash('success_resetpassword', 'Đổi mật khẩu thành công!');

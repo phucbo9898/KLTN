@@ -15,21 +15,24 @@ use Illuminate\Support\Facades\Log;
 
 class WarehouseController extends Controller
 {
-    public function __construct(ProductHistoryRepository $productHistoryRepo, CategoryRepository $categoryRepo, ProductRepository $productRepo)
+    private $productHistoryRepository;
+    private $categoryRepository;
+    private $productRepository;
+
+    public function __construct(
+        ProductHistoryRepository $productHistoryRepository,
+        CategoryRepository $categoryRepository,
+        ProductRepository $productRepository
+    )
     {
-        $this->productHistoryRepo = $productHistoryRepo;
-        $this->categoryRepo = $categoryRepo;
-        $this->productRepo = $productRepo;
+        $this->productHistoryRepository = $productHistoryRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->productRepository = $productRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function import()
     {
-        $products = $this->productRepo->all();
+        $products = $this->productRepository->all();
 
         return view('cms.warehouse.import', compact('products'));
     }
@@ -38,7 +41,7 @@ class WarehouseController extends Controller
     {
         try {
             DB::beginTransaction();
-            $product = $this->productRepo->find($id);
+            $product = $this->productRepository->find($id);
             if (!$product) {
                 return redirect()->back()->with('error', __('The requested resource is not available'));
             }
@@ -47,9 +50,9 @@ class WarehouseController extends Controller
             }
 
             $productQty = $product->quantity + $request->product_number;
-            $this->productRepo->update($id, ['quantity' => $productQty]);
+            $this->productRepository->update($id, ['quantity' => $productQty]);
 
-            $this->productHistoryRepo->create([
+            $this->productHistoryRepository->create([
                 'product_id' => $id,
                 'number_import' => $request->product_number,
                 'time_import' => Carbon::now()
@@ -67,7 +70,7 @@ class WarehouseController extends Controller
     {
         try {
             DB::beginTransaction();
-            $product = $this->productRepo->find($id);
+            $product = $this->productRepository->find($id);
             if (!$product) {
                 return redirect()->back()->with('error', __('The requested resource is not available'));
             }
@@ -80,9 +83,9 @@ class WarehouseController extends Controller
             }
 
             $productQty = $product->quantity - $request->product_number;
-            $this->productRepo->update($id, ['quantity' => $productQty]);
+            $this->productRepository->update($id, ['quantity' => $productQty]);
 
-            $this->productHistoryRepo->create([
+            $this->productHistoryRepository->create([
                 'product_id' => $id,
                 'number_export' => $request->product_number,
                 'time_export' => Carbon::now()
@@ -99,8 +102,8 @@ class WarehouseController extends Controller
     public function historyImport(Request $request)
     {
         $options = $request->all();
-        $categories = $this->categoryRepo->all();
-        $productHistory = $this->productHistoryRepo->queryImport($options)->get();
+        $categories = $this->categoryRepository->all();
+        $productHistory = $this->productHistoryRepository->queryImport($options)->get();
 
         return view('cms.warehouse.history-import', compact('categories', 'productHistory', 'options'));
     }
@@ -108,8 +111,8 @@ class WarehouseController extends Controller
     public function historyExport(Request $request)
     {
         $options = $request->all();
-        $categories = $this->categoryRepo->all();
-        $productHistory = $this->productHistoryRepo->queryExport($options)->get();
+        $categories = $this->categoryRepository->get();
+        $productHistory = $this->productHistoryRepository->queryExport($options)->get();
 
         return view('cms.warehouse.history-export', compact('categories', 'productHistory', 'options'));
     }

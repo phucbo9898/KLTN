@@ -15,39 +15,25 @@ use Illuminate\Support\Facades\Validator;
 
 class SlideController extends Controller
 {
-    public function __construct(SlideRepository $slideRepo)
+    private $slideRepository;
+
+    public function __construct(SlideRepository $slideRepository)
     {
-        $this->slideRepo = $slideRepo;
+        $this->slideRepository = $slideRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $slides = $this->slideRepo->get();
+        $slides = $this->slideRepository->get();
 
         return view('cms.slide.index', compact('slides'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('cms.slide.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreRequest $request)
     {
         try {
@@ -67,8 +53,8 @@ class SlideController extends Controller
                 $file->move($path_upload, $filename);
                 $data['image'] = $path_upload . $filename;
             }
-            $slide = $this->slideRepo->prepareSlide($data);
-            $this->slideRepo->create($slide);
+            $slide = $this->slideRepository->prepareSlide($data);
+            $this->slideRepository->create($slide);
 
             DB::commit();
             return redirect()->route('admin.slide.index')->with('success', 'Đã thêm 1 Slide!');
@@ -79,15 +65,9 @@ class SlideController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $slide = $this->slideRepo->find($id);
+        $slide = $this->slideRepository->find($id);
         if (!$slide) {
             return back()->with('error', __('The requested resource is not available'));
         }
@@ -95,18 +75,11 @@ class SlideController extends Controller
         return view('cms.slide.edit', compact('slide'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateRequest $request, $id)
     {
         try {
             DB::beginTransaction();
-            $slide = $this->slideRepo->find($id);
+            $slide = $this->slideRepository->find($id);
             if (!$slide) {
                 return redirect()->route('admin.slide.index')->with('error', __('The requested resource is not available'));
             }
@@ -128,8 +101,8 @@ class SlideController extends Controller
             } else {
                 $data['image'] = $slide->image ?? '';
             }
-            $slides = $this->slideRepo->prepareSlide($data);
-            $this->slideRepo->update($slide->id, $slides);
+            $slides = $this->slideRepository->prepareSlide($data);
+            $this->slideRepository->update($slide->id, $slides);
 
             DB::commit();
             return redirect()->route('admin.slide.index')->with('success', 'Đã sửa thành công slide id số ' . $slide->id . '!');
@@ -142,17 +115,21 @@ class SlideController extends Controller
 
     public function handle(Request $request, $action, $id)
     {
-        $slide = $this->slideRepo->find($id);
-        switch ($action) {
-            case 'delete':
-                $slide->delete();
-                $request->session()->flash('success', 'Đã xóa thành công slide mang ID số ' . $id . '!');
-                break;
+        try {
+            $slide = $this->slideRepository->find($id);
+            switch ($action) {
+                case 'delete':
+                    $slide->delete();
+                    $request->session()->flash('success', 'Đã xóa thành công slide mang ID số ' . $id . '!');
+                    break;
 
-            default:
-                dd("Lỗi r");
-                break;
+                default:
+                    dd("Lỗi r");
+                    break;
+            }
+            return redirect()->route('admin.slide.index');
+        } catch (\Exception $exception) {
+            Log::debug($exception->getMessage());
         }
-        return redirect()->route('admin.slide.index');
     }
 }

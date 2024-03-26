@@ -17,7 +17,7 @@ class LoginController extends CustomerController
     //    use AuthenticatesUsers;
     public function getLogin()
     {
-        if (Auth::check() == true) {
+        if (Auth::check()) {
             return redirect()->route('home');
         }
 
@@ -39,13 +39,11 @@ class LoginController extends CustomerController
             return redirect()->back()->with('error-email', __('Your account has been deactivated.'));
         }
         if (Auth::attempt($infologin)) {
-//            dd(Session::get('url.intended'));
             if (Session::get('url.intended') == 'http://webpc.test/shopping') {
                 return Redirect::to(Session::get('url.intended'));
             } else {
                 return redirect()->route('home');
             }
-//            return Redirect::to(Session::get('url.intended'));
         } else {
             return redirect()->back()->with('errorlogin', 'Lỗi');
         }

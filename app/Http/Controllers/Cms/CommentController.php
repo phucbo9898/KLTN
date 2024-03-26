@@ -6,40 +6,38 @@ use App\Http\Controllers\Controller;
 use App\Models\Rating;
 use App\Repositories\RatingRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
-    public function __construct(RatingRepository $ratingRepo)
+    private $ratingRepository;
+
+    public function __construct(RatingRepository $ratingRepository)
     {
-        $this->ratingRepo = $ratingRepo;
+        $this->ratingRepository = $ratingRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $ratings = $this->ratingRepo->all();
+        $ratings = $this->ratingRepository->get();
 
         return view('cms.comment.index', compact('ratings'));
     }
 
     public function action($action,$id){
-        if($action){
-            $rating = Rating::find($id);
-            switch ($action) {
-                case 'delete':
-                    $product = Rating::find($id)->product;
-                    $product->total_star -= $rating->number;
-                    $product->number_of_reviewers -= 1;
-                    $product->save();
-                    $rating->delete();
-                    return redirect()->route('admin.comment.index');
-                    break;
+        try {
+            if($action){
+                $rating = Rating::find($id);
+                $product = $rating->product;
+                $product->total_star -= $rating->number;
+                $product->number_of_reviewers -= 1;
+                $product->save();
+                $rating->delete();
+                return redirect()->route('admin.comment.index');
             }
+            return redirect()->back();
+        } catch (\Exception $exception) {
+            Log::debug($exception->getMessage());
         }
-        return redirect()->back();
     }
 }

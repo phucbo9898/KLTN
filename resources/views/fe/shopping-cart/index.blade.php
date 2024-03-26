@@ -81,7 +81,7 @@
                                                     style="width: 100%; height: 150px;" src="{{ asset('noimg.png') }}"
                                                     alt="Li's Product Image"></a></td>
                                     @endif
-                                    <td class="li-product-name"><a href="#">{{ $product->name }}</a></td>
+                                    <td class="li-product-name"><a href="{{ route('product.index', [$product->options->slug, $product->id]) }}">{{ $product->name }}</a></td>
                                     <td class="li-product-price"><span
                                             class="amount">{{ number_format($product->price, 2, ',', '.') }} @lang('VND')</span>
                                     </td>

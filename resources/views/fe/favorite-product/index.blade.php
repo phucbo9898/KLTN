@@ -48,7 +48,7 @@
                                         <th class="li-product-remove">@lang('Action')</th>
                                     </tr>
                                 </thead>
-                                @if ($count > 0)
+                                @if (count($products) > 0)
                                     <tbody>
                                         @foreach ($products as $product)
                                             <tr>

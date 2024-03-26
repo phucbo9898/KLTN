@@ -15,7 +15,7 @@
                 <ul>
                     <li><a href="{{ route('home') }}">@lang('Home')</a></li>
                     <li><a href="{{ route('article.index') }}">@lang('Article')</a></li>
-                    <li class="active">{{ $article->name }}</li>
+                    <li class="active">{{ $articleDetail->name }}</li>
                 </ul>
             </div>
         </div>
@@ -27,12 +27,15 @@
             <div class="row">
                 <!-- Begin Li's Blog Sidebar Area -->
                 <div class="col-lg-3 order-lg-2 order-2">
-                    <h4><u>
+                    <h4>
+                        <u>
                             <center>@lang('Another articles'): </center>
-                        </u></h4>
-                    @foreach ($getListArticles as $getList)
-                        <div style="margin-top: 20px"><a href="{{ route('article.detail', $getList->id) }}">➤
-                                <b>{{ $getList->name }}</b></a></div>
+                        </u>
+                    </h4>
+                    @foreach ($getListAnotherArticles as $anotherArticle)
+                        <div style="margin-top: 20px">
+                            <a href="{{ route('article.detail', $anotherArticle->id) }}">➤<b>{{ $anotherArticle->name }}</b></a>
+                        </div>
                     @endforeach
                 </div>
                 <!-- Li's Blog Sidebar Area End Here -->
@@ -42,29 +45,28 @@
                         <div class="col-lg-12">
                             <div class="li-blog-single-item pb-30">
                                 <div class="li-blog-banner">
-                                    <a href="#"><img class="img-full" src="{{ asset($article->image) }}"
-                                            alt=""></a>
+                                    <a href="#"><img class="img-full" src="{{ asset($articleDetail->image) }}"alt=""></a>
                                 </div>
                                 <div class="li-blog-content">
                                     <div class="li-blog-details">
-                                        <h3 class="li-blog-heading pt-25"><a href="#">{{ $article->name }}</a></h3>
+                                        <h3 class="li-blog-heading pt-25"><a href="#">{{ $articleDetail->name }}</a></h3>
                                         <div class="li-blog-meta">
                                             <a class="author" href="#"><i
-                                                    class="fa fa-user"></i>{{ $article->user->name ?? '' ? $article->user->name : 'Admin' }}</a>
+                                                    class="fa fa-user"></i>{{ $articleDetail->user->name ?? '' ? $articleDetail->user->name : 'Admin' }}</a>
                                             <a class="post-time list-article ml-3" href="#">
-                                                <input type="hidden" class="convert-time" value="{{ date('Y-m-d h:i:s A', strtotime($article->created_at ?? '')) }}">
-                                                {{ $article->created_at }}
+                                                <input type="hidden" class="convert-time" value="{{ date('Y-m-d h:i:s A', strtotime($articleDetail->created_at ?? '')) }}">
+                                                {{ $articleDetail->created_at }}
                                             </a>
                                         </div>
                                         <!-- Begin Blog Blockquote Area -->
                                         <div class="li-blog-blockquote">
                                             <blockquote>
-                                                <p>{{ $article->description }}</p>
+                                                <p>{{ $articleDetail->description }}</p>
                                             </blockquote>
                                         </div>
                                         <!-- Blog Blockquote Area End Here -->
                                         <div class="article_content">
-                                            <p>{!! $article->content !!}</p>
+                                            <p>{!! $articleDetail->content !!}</p>
                                         </div>
                                     </div>
                                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\ActiveStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Rating;
@@ -19,11 +20,11 @@ class ProductController extends CustomerController
         $product = Product::where('id', $id)->first();
         $ratings = Rating::where('product_id', $id)->orderBy('id', 'DESC')->get();
         // get number rating *
-        $fivestar = Rating::where('product_id', $id)->where('number', 5)->count();
-        $forstar = Rating::where('product_id', $id)->where('number', 4)->count();
-        $threestar = Rating::where('product_id', $id)->where('number', 3)->count();
-        $twostar = Rating::where('product_id', $id)->where('number', 2)->count();
-        $onestar = Rating::where('product_id', $id)->where('number', 1)->count();
+        $fivestar = Rating::where('product_id', $id)->where('number', Rating::FIVE_STAR)->count();
+        $forstar = Rating::where('product_id', $id)->where('number', Rating::FOUR_STAR)->count();
+        $threestar = Rating::where('product_id', $id)->where('number', Rating::THREE_STAR)->count();
+        $twostar = Rating::where('product_id', $id)->where('number', Rating::TWO_STAR)->count();
+        $onestar = Rating::where('product_id', $id)->where('number', Rating::ONE_STAR)->count();
         // push array for transmission
         $eachstar = [
             1 => $onestar,
@@ -35,8 +36,8 @@ class ProductController extends CustomerController
 
         //list product
         $product_in_category_ids = Product::where('category_id', $product->category_id)
-//            ->where('id', '!=', $id)
-            ->orderby('created_at', 'desc')
+            ->where('status', ActiveStatus::ACTIVE)
+            ->orderby('updated_at', 'desc')
             ->take(4)
             ->get();
 

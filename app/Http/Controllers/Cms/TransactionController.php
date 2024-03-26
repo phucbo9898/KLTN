@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cms;
 
+use App\Enums\StatusTransaction;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\Order;
@@ -13,26 +14,28 @@ use App\Repositories\TransactionRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use PDF;
 
 class TransactionController extends Controller
 {
-    public function __construct(TransactionRepository $transactionRepo, ProductRepository $productRepo)
+    private $transactionRepository;
+    private $productRepository;
+
+    public function __construct(
+        TransactionRepository $transactionRepository,
+        ProductRepository $productRepository
+    )
     {
-        $this->transactionRepo = $transactionRepo;
-        $this->productRepo = $productRepo;
+        $this->transactionRepository = $transactionRepository;
+        $this->productRepository = $productRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $options = $request->all();
-        $transactions = $this->transactionRepo->query($options)->get();
-
+        $transactions = $this->transactionRepository->query($options)->get();
         return view('cms.transaction.index', compact('options', 'transactions'));
     }
 
@@ -49,7 +52,7 @@ class TransactionController extends Controller
 
     public function handle(Request $request, $action, $id)
     {
-        $transaction = $this->transactionRepo->find($id);
+        $transaction = $this->transactionRepository->find($id);
         if (!$transaction) {
             return redirect()->route('admin.transaction.index')->with('error', __('The requested resource is not available'));
         }
@@ -67,11 +70,11 @@ class TransactionController extends Controller
                         ]
                     );
 
-                    $orders = Order::where('transaction_id', $id)->get();
+                    $orders = Order::where('transaction_id', $transaction['id'])->get();
                     if ($orders) {
                         foreach ($orders as $order) {
                             // find product in order
-                            $product = $this->productRepo->find($order->product_id);
+                            $product = $this->productRepository->find($order->product_id);
                             // subtract number product in stock
                             $product->quantity = $product->quantity + $order->quantity;
                             $product->qty_pay = $product->qty_pay - $order->quantity;
@@ -79,14 +82,13 @@ class TransactionController extends Controller
                         }
                     }
                     return redirect()->route('admin.transaction.index')->with('success', 'Đã hủy giao dịch thành công');
-                    break;
                 case 'send':
                     // find orders of customer in transaction
-                    $orders = Order::where('transaction_id', $id)->get();
+                    $orders = Order::where('transaction_id', $transaction['id'])->get();
                     if ($orders) {
                         foreach ($orders as $order) {
                             // find product in order
-                            $product = $this->productRepo->find($order->product_id);
+                            $product = $this->productRepository->find($order->product_id);
                             // check number product enough number product customer buy
                             if ($product->quantity < $order->quantity) {
                                 Notification::insert(
@@ -101,7 +103,7 @@ class TransactionController extends Controller
                                 return redirect()->back();
                             }
                         }
-                        $transaction->status = 'processing';
+                        $transaction->status = StatusTransaction::PROCESSING;
                         $transaction->save();
                     }
                     return redirect()->route('admin.transaction.index')->with('success', 'Đã gửi hàng thành công !');
@@ -116,26 +118,36 @@ class TransactionController extends Controller
 
     public function transactionPaid($id)
     {
-        $transaction = $this->transactionRepo->find($id);
-        // find orders of customer in transaction
-        $orders = Order::where('transaction_id', $id)->get();
-//        dd($orders);
-        if ($orders) {
-            foreach ($orders as $order) {
-                $product = Product::where('id', $order->product_id)->first();
-                $startDayOfMonth = Carbon::now()->startOfMonth();
-                $endDayOfMonth = Carbon::now()->endOfMonth();
-                $checkExistProduct = ProductQtyPay::where('product_id', $product->id)
-                                                    ->whereBetween('time_pay', [$startDayOfMonth, $endDayOfMonth])
-                                                    ->first();
-                if (!empty($checkExistProduct)) {
-                    $monthOfProduct = Carbon::parse($checkExistProduct['time_pay'])->format('m');
-                    if ($monthOfProduct == Carbon::now()->format('m')) {
-                        ProductQtyPay::where('product_id', $product->id)->update([
-                            'quantity_pay' => $checkExistProduct->quantity_pay + ($order->quantity ?? ''),
-                            'created_at' => Carbon::now(),
-                            'updated_at' => Carbon::now()
-                        ]);
+        try {
+            DB::beginTransaction();
+            $transaction = $this->transactionRepository->find($id);
+            // find orders of customer in transaction
+            $orders = Order::where('transaction_id', $id)->get();
+            if ($orders) {
+                foreach ($orders as $order) {
+                    $product = Product::where('id', $order->product_id)->first();
+                    $startDayOfMonth = Carbon::now()->startOfMonth();
+                    $endDayOfMonth = Carbon::now()->endOfMonth();
+                    $checkExistProduct = ProductQtyPay::where('product_id', $product->id)
+                        ->whereBetween('time_pay', [$startDayOfMonth, $endDayOfMonth])
+                        ->first();
+                    if (!empty($checkExistProduct)) {
+                        $monthOfProduct = Carbon::parse($checkExistProduct['time_pay'])->format('m');
+                        if ($monthOfProduct == Carbon::now()->format('m')) {
+                            ProductQtyPay::where('product_id', $product->id)->update([
+                                'quantity_pay' => $checkExistProduct->quantity_pay + $order->quantity,
+                                'created_at' => Carbon::now(),
+                                'updated_at' => Carbon::now()
+                            ]);
+                        } else {
+                            ProductQtyPay::create([
+                                'product_id' => $product->id ?? '',
+                                'quantity_pay' => $order->quantity ?? '',
+                                'time_pay' => Carbon::now(),
+                                'created_at' => Carbon::now(),
+                                'updated_at' => Carbon::now()
+                            ]);
+                        }
                     } else {
                         ProductQtyPay::create([
                             'product_id' => $product->id ?? '',
@@ -145,29 +157,24 @@ class TransactionController extends Controller
                             'updated_at' => Carbon::now()
                         ]);
                     }
-                } else {
-                    ProductQtyPay::create([
-                        'product_id' => $product->id ?? '',
-                        'quantity_pay' => $order->quantity ?? '',
-                        'time_pay' => Carbon::now(),
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now()
-                    ]);
                 }
+                $transaction->status = 'completed';
+                Notification::insert(
+                    [
+                        'sender' => Auth::id(),
+                        'receiver' => $transaction->user_id ?? 0,
+                        'content' => 'Giao dịch <b>mã số ' . $id . '</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!',
+                        'created_at' => Carbon::now(),
+                    ]
+                );
+                $transaction->save();
             }
-            $transaction->status = 'completed';
-            $status = 'completed';
-            Notification::insert(
-                [
-                    'sender' => Auth::user()->id,
-                    'receiver' => $transaction->user_id ?? 0,
-                    'content' => 'Giao dịch <b>mã số ' . $id . '</b> đã <b>GIAO DỊCH THÀNH CÔNG</b> !! Bạn có thể đánh giá các sản phẩm trong giao dịch này bằng cách tìm sản phẩm hoặc kiểm tra tại Lịch sử mua hàng !!!',
-                    'created_at' => Carbon::now(),
-                ]
-            );
-            $transaction->save();
+            DB::commit();
+            return redirect()->route('admin.transaction.index');
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            Log::debug($exception->getMessage());
         }
-        return redirect()->route('admin.transaction.index');
     }
 
     public function exportTransactionPdf($id)
@@ -175,7 +182,7 @@ class TransactionController extends Controller
         $day = Carbon::now()->day;
         $month = Carbon::now()->month;
         $year = Carbon::now()->year;
-        $transaction = $this->transactionRepo->find($id);
+        $transaction = $this->transactionRepository->find($id);
         $data = [
             'transaction' => $transaction,
             'day' => $day,

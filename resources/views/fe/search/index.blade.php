@@ -1,5 +1,13 @@
 @extends('fe.layout.master')
 @section('content')
+    <style>
+        .button_add_favorite_product:hover, .quick-view:hover {
+            color: #166ac9 !important;
+        }
+        .button_add_cart:hover {
+            color: #ffffff !important;
+        }
+    </style>
     <div class="breadcrumb-area">
         <div class="container">
             <div class="breadcrumb-content">
@@ -14,7 +22,7 @@
         <center>
             <h3 class="mt-10">Danh sách tìm kiếm</h3>
         </center>
-        <div class="col-sm-10 mx-auto">
+        <div class="container">
             <!-- shop-products-wrapper start -->
             <div class="shop-products-wrapper">
                 <div class="tab-content">
@@ -23,9 +31,10 @@
                             <div class="col">
                                 @foreach ($products as $product)
                                     <div class="row product-layout-list">
-                                        <div class="col-lg-3 col-md-5 ">
+                                        <div class="col-lg-2 col-md-5 ">
                                             <div class="product-image mb-3">
-                                                <a href="{{ route('product.index', [$product->slug, $product->id]) }}">
+                                                <a href="{{ route('product.index', [$product->slug, $product->id]) }}"
+                                                   style="width: 200px; height: 200px;">
                                                     @if (isset($product->image))
                                                         <img src="{{ asset($product->image) }}" alt="Li's Product Image">
                                                     @else
@@ -56,21 +65,22 @@
                                                         </h5>
                                                         <div class="rating-box">
                                                             <?php
-                                                            $point_product_searh = 0;
-                                                            if ($product->number_of_reviewers > 0) {
-                                                                $point_product_searh = round($product->total_star / $product->number_of_reviewers);
-                                                            } else {
-                                                                $point_product_searh = -1;
-                                                            }
+                                                                $point_product_searh = 0;
+                                                                if ($product->number_of_reviewers > 0) {
+                                                                    $point_product_searh = round($product->total_star / $product->number_of_reviewers);
+                                                                } else {
+                                                                    $point_product_searh = -1;
+                                                                }
                                                             ?>
                                                             <ul class="rating">
                                                                 @if ($point_product_searh == -1)
                                                                     <li
                                                                         style="color: #a4a4a4;
-                                                        font-size: 13px;
-                                                        text-transform: capitalize;
-                                                        transition: all 0.3s ease-in-out;">
-                                                                        Chưa đánh giá</li>
+                                                                        font-size: 13px;
+                                                                        text-transform: capitalize;
+                                                                        transition: all 0.3s ease-in-out;">
+                                                                        Chưa đánh giá
+                                                                    </li>
                                                                 @else
                                                                     Đánh Giá:
                                                                     @for ($i = 1; $i <= 5; $i++)
@@ -84,7 +94,7 @@
                                                         </div>
                                                     </div>
                                                     <h4><a class="product_name"
-                                                            href="{{ route('product.index', [$product->slug, $product->id]) }}">{{ $product->name }}</a>
+                                                           href="{{ route('product.index', [$product->slug, $product->id]) }}">{{ $product->name }}</a>
                                                     </h4>
                                                     <div class="price-box">
                                                         <span
@@ -98,19 +108,27 @@
                                         <div class="col-lg-4">
                                             <div class="shop-add-action mb-xs-30">
                                                 <ul class="add-actions-link">
-                                                    <li class="add-cart"><a class="button_add_cart"
-                                                            data-product-name="{{ $product->name }}"
-                                                            href="{{ route('shopping.add.product', $product->id) }}">Mua
-                                                            sản
-                                                            phẩm</a></li>
-                                                    <li class="wishlist"><a class="button_add_favorite_product"
-                                                            href="{{ route('favorite-product.get.add', $product->id) }}"
-                                                            data-product-name="{{ $product->name }}"><i
-                                                                class="fa fa-heart-o"></i>Thêm vào sản phẩm yêu thích</a>
+                                                    <li class="add-cart">
+                                                        <a class="button_add_cart"
+                                                           data-product-name="{{ $product->name }}"
+                                                           href="{{ route('shopping.add.product', $product->id) }}">
+                                                            Mua sản phẩm
+                                                        </a>
                                                     </li>
-                                                    <li><a class="quick-view"
-                                                            href="{{ route('product.index', [$product->slug, $product->id]) }}"><i
-                                                                class="fa fa-eye"></i>Xem chi tiết</a></li>
+                                                    <li class="wishlist">
+                                                        <a class="button_add_favorite_product"
+                                                           href="{{ route('favorite-product.get.add', $product->id) }}"
+                                                           data-product-name="{{ $product->name }}">
+                                                            <i class="fa fa-heart-o"></i>
+                                                            Thêm vào sản phẩm yêu thích
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="quick-view"
+                                                           href="{{ route('product.index', [$product->slug, $product->id]) }}">
+                                                            <i class="fa fa-eye"></i>Xem chi tiết
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -119,26 +137,27 @@
                             </div>
                         </div>
                     </div>
-                @else
-                    <div class="pt-60 pb-60" style="text-align: center; font-size: 20px; color: #a4a4a4">Không tìm kiếm được
-                        sản phẩm nào phù hợp !!!</div>
+                </div>
+            </div>
+            <!-- shop-products-wrapper end -->
+        </div>
+    @else
+        <div class="pt-60 pb-60" style="text-align: center; font-size: 20px; color: #a4a4a4">
+            Không tìm kiếm được sản phẩm nào phù hợp !!!
+        </div>
     @endif
-    </div>
-    </div>
-    <!-- shop-products-wrapper end -->
-    </div>
 @endsection
 @section('javascript')
     <script>
-        $(function() {
-            $(".button_add_favorite_product").click(function(event) {
+        $(function () {
+            $(".button_add_favorite_product").click(function (event) {
                 event.preventDefault();
                 name_product = $(this).attr("data-product-name");
                 url = $(this).attr("href");
                 $.ajax({
                     method: "GET",
                     url: url
-                }).done(function(result) {
+                }).done(function (result) {
                     if (result.status == 1) {
                         swal("Thành công !", "Đã thêm sản phẩm " + name_product +
                             " vào sản phẩm yêu thích của bạn!", "success");
@@ -153,14 +172,14 @@
                     }
                 });
             });
-            $(".button_add_cart").click(function(event) {
+            $(".button_add_cart").click(function (event) {
                 event.preventDefault();
                 url = $(this).attr("href");
                 name_product = $(this).attr("data-product-name");
                 $.ajax({
                     method: "GET",
                     url: url
-                }).done(function(result) {
+                }).done(function (result) {
                     if (result.status == 1) {
                         swal("Thành công !", "Đã thêm sản phẩm " + name_product + " vào giỏ hàng !",
                             "success");
