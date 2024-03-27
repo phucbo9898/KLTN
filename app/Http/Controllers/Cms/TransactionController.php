@@ -190,7 +190,8 @@ class TransactionController extends Controller
             'year' => $year
         ];
         $pdf = \PDF::loadView('cms.transaction.transactionPdf', $data);
+        $nameUser = str_replace(' ', '_', Auth::user()->name);
 
-        return $pdf->download('DetailTransaction' . Auth::user()->name . 'No.' . $transaction->id . '.pdf');
+        return $pdf->download('DetailTransaction' . $nameUser . 'No.' . $transaction->id . '.pdf');
     }
 }
