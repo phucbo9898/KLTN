@@ -2,87 +2,76 @@
 
 namespace App\Http\Controllers\Cms;
 
+use App\Enums\ActiveStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Models\Attribute_Value;
 use App\Models\Product_Attribute;
 use App\Models\ProductHistory;
-use App\Repositories\AttributeValueRepository;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
-use Carbon\Carbon;
+use App\Services\UploadImageToFirebase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
-    public function __construct(ProductRepository $productRepo, AttributeValueRepository $attributeValueRepo, CategoryRepository $categoryRepo)
+    private $productRepository;
+    private $categoryRepository;
+    private $uploadImageToFirebase;
+
+    public function __construct(
+        ProductRepository $productRepository,
+        CategoryRepository $categoryRepository,
+        UploadImageToFirebase $uploadImageToFirebase
+    )
     {
-        $this->productRepo = $productRepo;
-        $this->attributeValueRepo = $attributeValueRepo;
-        $this->categoryRepo = $categoryRepo;
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->uploadImageToFirebase = $uploadImageToFirebase;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $options = $request->all();
-        $products = $this->productRepo->query($options)->get();
-        $categories = $this->categoryRepo->all();
+        $products = $this->productRepository->query($options)->get();
+        $categories = $this->categoryRepository->all();
 
         return view('cms.product.index', compact('options', 'products', 'categories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $categories = $this->categoryRepo->all();
+        $categories = $this->categoryRepository->all();
 
         return view('cms.product.create', compact('categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreRequest $request)
     {
         try {
             DB::beginTransaction();
             if (!empty($request->file('image'))) {
-                $extention = $request->file('image')->getClientOriginalExtension();
-                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                $checkExtensionImage = checkExtensionImage($request->file('image'));
+                if (!$checkExtensionImage) {
                     return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
                 }
             }
 
             $data = $request->all();
-
-            // Upload image: Check file -> Get File upload -> Insert Name -> move folder -> save
+            // Upload image
             if ($request->hasFile('image')) {
-                $file = $request->file('image');
-                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-                $path_upload = 'upload/product/';
-                $file->move($path_upload, $filename);
-                $data['image'] = $path_upload . $filename;
+                $imageUpload = $request->file('image');
+                $convertImageToBase64 = 'data:' . $imageUpload->getMimeType() . ';base64,' . base64_encode(file_get_contents($imageUpload));
+                $data['image'] = $this->uploadImageToFirebase->upload($convertImageToBase64, env('FIRE_BASE_UPLOAD_PRODUCT_COLLECTION'));
             }
 
-            $product = $this->productRepo->prepareProduct($data);
-            $result = $this->productRepo->create($product);
+            $product = $this->productRepository->prepareProduct($data);
+            $result = $this->productRepository->create($product);
 
-            foreach ($request->all() as $key => $value) {
+            foreach ($data as $key => $value) {
                 if (is_int($key)) {
                     // check exist attribute value
                     $check_attribute_value = Attribute_Value::where([
@@ -119,19 +108,13 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
-        $product = $this->productRepo->find($id);
+        $product = $this->productRepository->find($id);
         if (!$product) {
             return redirect()->route('admin.product.index')->with('error', __('The requested resource is not available'));
         }
-        $categories = $this->categoryRepo->all();
+        $categories = $this->categoryRepository->all();
         $attribute_product = Product_Attribute::where('product_id', $id)->get();
         $data = [
             'product' => $product,
@@ -141,41 +124,32 @@ class ProductController extends Controller
         return view('cms.product.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateRequest $request, $id)
     {
         try {
             DB::beginTransaction();
-            $product = $this->productRepo->find($id);
+            $product = $this->productRepository->find($id);
             if (!$product) {
                 return redirect()->route('admin.product.index')->with('error', __('The requested resource is not available'));
             }
 
             if (!empty($request->file('image'))) {
-                $extention = $request->file('image')->getClientOriginalExtension();
-                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                $checkExtImage = checkExtensionImage($request->file('image'));
+                if (!$checkExtImage) {
                     return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
                 }
             }
 
             $data = $request->all();
             if ($request->hasFile('image')) {     // image
-                $file = $request->file('image');
-                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-                $path_upload = 'upload/product/';
-                $file->move($path_upload, $filename);
-                $data['image'] = $path_upload . $filename;
+                $imageUpload = $request->file('image');
+                $convertImageToBase64 = 'data:' . $imageUpload->getMimeType() . ';base64,' . base64_encode(file_get_contents($imageUpload));
+                $data['image'] = $this->uploadImageToFirebase->upload($convertImageToBase64, env('FIRE_BASE_UPLOAD_PRODUCT_COLLECTION'));
             } else {
                 $data['image'] = $product->image;
             }
-            $products = $this->productRepo->prepareProduct($data);
-            $result = $this->productRepo->update($product->id, $products);
+            $products = $this->productRepository->prepareProduct($data);
+            $result = $this->productRepository->update($product->id, $products);
 
             // get attribute if Request->variable is int !! That is attribute
             Product_Attribute::where('product_id', $id)->delete();
@@ -217,7 +191,7 @@ class ProductController extends Controller
 
     public function handle(Request $request, $action, $id)
     {
-        $product = $this->productRepo->find($id);
+        $product = $this->productRepository->find($id);
         if (!$product) {
             return redirect()->route('admin.product.index')->with('error', __('The requested resource is not available'));
         }
@@ -259,14 +233,17 @@ class ProductController extends Controller
 
     public function getAttribute(Request $request)
     {
-        $category = $this->categoryRepo->find($request->category_id);
+        $category = $this->categoryRepository->where('id', $request->category_id)->where('status', ActiveStatus::ACTIVE)->first();
         // check if this is update or add !! if id ==0 this is add form and opposite
         if ($request->id == 0) {
             //render html
             $html = view('cms.product.getattribute', compact('category'))->render();
         } else {
             // get product
-            $product = $this->productRepo->find($request->id);
+            $product = $this->productRepository->where('id', $request->id)->where('status', ActiveStatus::ACTIVE)->first();
+            if (empty($product)) {
+                return response()->json('error2');
+            }
             $data = [
                 'product' => $product,
                 'category' => $category

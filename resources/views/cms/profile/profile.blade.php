@@ -13,6 +13,14 @@
             max-height: 100vh;
             transition: all 2s;
         }
+
+        .image-profile {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            -o-object-fit: cover;
+            object-fit: cover;
+        }
     </style>
     <section class="content">
         <!-- Default box -->
@@ -32,7 +40,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="img text-center">
-                                        <img src="{{ asset($profile->avatar) }}" id="img-preview" alt="" class="mb-2 image-profile">
+                                        <img src="{{ $profile->avatar }}" id="img-preview" alt="" class="mb-2 image-profile">
                                     </div>
                                     <input type="file" name="avatar" id="upload-btn" class="form-control" value="{{ old('avatar') ?? ($profile->avatar ?? '') }}">
                                 </div>

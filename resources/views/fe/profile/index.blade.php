@@ -57,7 +57,7 @@
                                         <div class="col-md-3"></div>
                                         <div class="col-md-6">
                                             <div class="img text-center">
-                                                <img src="{{ asset($profile->avatar) }}" id="img-preview" alt="" class="mb-2 image-profile">
+                                                <img src="{{ $profile->avatar ?? '' }}" id="img-preview" alt="" class="mb-2 image-profile">
                                             </div>
                                             <input type="file" name="avatar" id="upload-btn" class="form-control" value="{{ old('avatar') ?? ($profile->avatar ?? '') }}">
                                         </div>

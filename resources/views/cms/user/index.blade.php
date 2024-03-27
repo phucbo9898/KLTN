@@ -35,7 +35,7 @@ use App\Enums\ActiveStatus;
                             <td style="text-align: center;">
                                 {{ $stt++ }}</td>
                             <td>
-                                <img class="avatar-user" src="{{ asset($user->avatar ?? '') }}" alt="">
+                                <img class="avatar-user" src="{{ $user->avatar ?? '' }}" alt="">
                             </td>
                             <td>{{ $user->name ?? '' }}</td>
                             <td>{{ $user->email ?? '' }}</td>

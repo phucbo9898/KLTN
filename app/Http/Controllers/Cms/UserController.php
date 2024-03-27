@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Cms;
 
-use App\Enums\UserType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
-use App\Models\User;
 use App\Repositories\UserRepository;
-use Carbon\Carbon;
+use App\Services\UploadImageToFirebase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -17,60 +15,47 @@ use Illuminate\Support\Facades\Validator;
 class UserController extends Controller
 {
     private $userRepository;
+    private $uploadImageToFirebase;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(
+        UserRepository $userRepository,
+        UploadImageToFirebase $uploadImageToFirebase
+    )
     {
         $this->userRepository = $userRepository;
+        $this->uploadImageToFirebase = $uploadImageToFirebase;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $options = $request->all();
         $users = $this->userRepository->query($options)->get();
 
-        return view('cms.user.index', compact('users', 'options'));
+        return view('cms.user.index', ['users' => $users, 'options' => $options]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('cms.user.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreRequest $request)
     {
         try {
             DB::beginTransaction();
             if (!empty($request->file('image'))) {
-                $extention = $request->file('image')->getClientOriginalExtension();
-                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                $checkExtensionImage = checkExtensionImage($request->file('image'));
+                if (!$checkExtensionImage) {
                     return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
                 }
             }
 
             $data = $request->all();
 
-            if ($request->hasFile('image')) {     // image
-                $file = $request->file('image');
-                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-                $path_upload = 'upload/user/';
-                $file->move($path_upload, $filename);
-                $data['image'] = $path_upload . $filename;
+            if ($request->hasFile('image')) {
+                $imageUpload = $request->file('image');
+                $convertImageToBase64 = 'data:' . $imageUpload->getMimeType() . ';base64,' . base64_encode(file_get_contents($imageUpload));
+                $data['image'] = $this->uploadImageToFirebase->upload($convertImageToBase64, env('FIRE_BASE_UPLOAD_USER_COLLECTION'));
             }
             $user = $this->userRepository->prepareUser($data);
             $this->userRepository->create($user);
@@ -84,28 +69,15 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $user = $this->userRepository->find($id);
         if (!$user) {
             return redirect()->route('admin.user.index')->with('error', __('The requested resource is not available'));
         }
-        return view('cms.user.edit', compact('user'));
+        return view('cms.user.edit', ['user' => $user]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateRequest $request, $id)
     {
         try {
@@ -117,20 +89,18 @@ class UserController extends Controller
             }
 
             if (!empty($request->file('image'))) {
-                $extention = $request->file('image')->getClientOriginalExtension();
-                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                $checkExtensionImage = checkExtensionImage($request->file('image'));
+                if (!$checkExtensionImage) {
                     return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
                 }
             }
 
             $data = $request->all();
 
-            if ($request->hasFile('image')) {     // image
-                $file = $request->file('image');
-                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-                $path_upload = 'upload/user/';
-                $file->move($path_upload, $filename);
-                $data['image'] = $path_upload . $filename;
+            if ($request->hasFile('image')) {
+                $imageUpload = $request->file('image');
+                $convertImageToBase64 = 'data:' . $imageUpload->getMimeType() . ';base64,' . base64_encode(file_get_contents($imageUpload));
+                $data['image'] = $this->uploadImageToFirebase->upload($convertImageToBase64, env('FIRE_BASE_UPLOAD_USER_COLLECTION'));
             } else {
                 $data['image'] = $user->avatar ?? '';
             }

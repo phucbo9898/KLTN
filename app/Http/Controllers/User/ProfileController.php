@@ -6,7 +6,7 @@ use App\Enums\ActiveStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Repositories\UserRepository;
-use Carbon\Carbon;
+use App\Services\UploadImageToFirebase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,10 +16,15 @@ use Illuminate\Support\Facades\View;
 class ProfileController extends Controller
 {
     private $userRepository;
+    private $uploadImageToFirebase;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(
+        UserRepository $userRepository,
+        UploadImageToFirebase $uploadImageToFirebase
+    )
     {
         $this->userRepository = $userRepository;
+        $this->uploadImageToFirebase = $uploadImageToFirebase;
         $categories = Category::where('status', ActiveStatus::ACTIVE)->get();
         View::share('categories_search', $categories);
 
@@ -50,12 +55,17 @@ class ProfileController extends Controller
             unset($data['current_password']);
             unset($data['new_password']);
 
+            if (!empty($request->file('avatar'))) {
+                $checkExtensionImage = checkExtensionImage($request->file('avatar'));
+                if (!$checkExtensionImage) {
+                    return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
+                }
+            }
+
             if ($request->hasFile('avatar')) {
-                $file = $request->file('avatar');
-                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-                $path_upload = 'upload/user/';
-                $file->move($path_upload, $filename);
-                $data['avatar'] = $path_upload . $filename;
+                $imageUpload = $request->file('avatar');
+                $convertImageToBase64 = 'data:' . $imageUpload->getMimeType() . ';base64,' . base64_encode(file_get_contents($imageUpload));
+                $data['avatar'] = $this->uploadImageToFirebase->upload($convertImageToBase64, env('FIRE_BASE_UPLOAD_USER_COLLECTION'));
             } else {
                 $data['avatar'] = $user->avatar;
             }

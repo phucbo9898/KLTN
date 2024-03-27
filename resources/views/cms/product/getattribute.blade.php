@@ -1,6 +1,7 @@
+<?php use App\Enums\AttributeType; ?>
 @if ($category)
     @foreach ($category->attributes as $attr)
-        @if ($attr->type == 'text')
+        @if ($attr->type == AttributeType::TEXT)
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-2 text-right">
@@ -14,7 +15,7 @@
                 </div>
             </div>
         @endif
-        @if ($attr->type == 'number')
+        @if ($attr->type == AttributeType::NUMBER)
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-2 text-right">
@@ -28,7 +29,7 @@
                 </div>
             </div>
         @endif
-        @if ($attr->type == 'numberfloat')
+        @if ($attr->type == AttributeType::NUMBER_FLOAT)
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-2 text-right">
@@ -42,7 +43,7 @@
                 </div>
             </div>
         @endif
-        @if ($attr->type == 'select')
+        @if ($attr->type == AttributeType::SELECT)
             <div class="form-group">
                 <div class="row">
                     <div class="col-md-2 text-right">

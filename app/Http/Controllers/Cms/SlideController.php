@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Cms;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Slide\StoreRequest;
 use App\Http\Requests\Slide\UpdateRequest;
-use App\Models\Slide;
 use App\Repositories\SlideRepository;
-use Carbon\Carbon;
+use App\Services\UploadImageToFirebase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,10 +15,12 @@ use Illuminate\Support\Facades\Validator;
 class SlideController extends Controller
 {
     private $slideRepository;
+    private $uploadImageToFirebase;
 
-    public function __construct(SlideRepository $slideRepository)
+    public function __construct(SlideRepository $slideRepository, UploadImageToFirebase $uploadImageToFirebase)
     {
         $this->slideRepository = $slideRepository;
+        $this->uploadImageToFirebase = $uploadImageToFirebase;
     }
 
     public function index()
@@ -39,19 +40,17 @@ class SlideController extends Controller
         try {
             DB::beginTransaction();
             if (!empty($request->file('image'))) {
-                $extention = $request->file('image')->getClientOriginalExtension();
-                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                $checkExtensionImage = checkExtensionImage($request->file('image'));
+                if (!$checkExtensionImage) {
                     return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
                 }
             }
 
             $data = $request->all();
             if ($request->hasFile('image')) {     // image
-                $file = $request->file('image');
-                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-                $path_upload = 'upload/slide/';
-                $file->move($path_upload, $filename);
-                $data['image'] = $path_upload . $filename;
+                $imageUpload = $request->file('image');
+                $convertImageToBase64 = 'data:' . $imageUpload->getMimeType() . ';base64,' . base64_encode(file_get_contents($imageUpload));
+                $data['image'] = $this->uploadImageToFirebase->upload($convertImageToBase64, env('FIRE_BASE_UPLOAD_SLIDE_COLLECTION'));
             }
             $slide = $this->slideRepository->prepareSlide($data);
             $this->slideRepository->create($slide);
@@ -85,19 +84,17 @@ class SlideController extends Controller
             }
 
             if (!empty($request->file('image'))) {
-                $extention = $request->file('image')->getClientOriginalExtension();
-                if (!in_array(strtolower($extention), ['jpg', 'png', 'jpeg'])) {
+                $checkExtensionImage = checkExtensionImage($request->file('image'));
+                if (!$checkExtensionImage) {
                     return redirect()->back()->withInput()->with('error', __('Only PNG, JPEG and JPG files can be uploaded.'));
                 }
             }
 
             $data = $request->all();
             if ($request->hasFile('image')) {     // image
-                $file = $request->file('image');
-                $filename = Carbon::now()->toDateString() . '_' . $file->getClientOriginalName();
-                $path_upload = 'upload/slide/';
-                $file->move($path_upload, $filename);
-                $data['image'] = $path_upload . $filename;
+                $imageUpload = $request->file('image');
+                $convertImageToBase64 = 'data:' . $imageUpload->getMimeType() . ';base64,' . base64_encode(file_get_contents($imageUpload));
+                $data['image'] = $this->uploadImageToFirebase->upload($convertImageToBase64, env('FIRE_BASE_UPLOAD_SLIDE_COLLECTION'));
             } else {
                 $data['image'] = $slide->image ?? '';
             }
