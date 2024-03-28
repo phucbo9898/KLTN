@@ -185,9 +185,9 @@ class ShoppingCartController extends CustomerController
         }
 
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
-        $partnerCode = 'MOMOBKUN20180529';
-        $accessKey = 'klm05TvNBzhg7h7j';
-        $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
+        $partnerCode = env('MOMO_PARTNER_CODE');
+        $accessKey = env('MOMO_ACCESS_KEY');
+        $secretKey = env('MOMO_SECRET_KEY');
         $orderInfo = "Thanh toán qua ATM MoMo";
         $amount = $amountTotal;
         $orderId = "MGD" . "-" . $transactionId->id . '_' . time();
@@ -263,10 +263,10 @@ class ShoppingCartController extends CustomerController
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
         $vnp_Returnurl = request()->getSchemeAndHttpHost() . '/feature-user/checkout/vnpay-check';
-        $vnp_TmnCode = "XYT8WGGX";//Mã website tại VNPAY
-        $vnp_HashSecret = "GBREZWZSSWLXQMRMILBUUJMBCCRPVCBJ"; //Chuỗi bí mật
+        $vnp_TmnCode = env('VNP_CODE');  //Mã website tại VNPAY
+        $vnp_HashSecret = env('VNP_HASH_SECRET'); //Chuỗi bí mật
 
-        $vnp_TxnRef = "MGD" .  "-" . $transactionId . '_' . time(); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_TxnRef = "MGD" .  "-" . $transactionId . '_' . time();
         $vnp_OrderInfo = "Thanh toán đơn hàng";
         $vnp_OrderType = 'billpayment';
         $vnp_Amount = $_POST['total_money'] * 100;

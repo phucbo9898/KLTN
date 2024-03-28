@@ -27,20 +27,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Admin Login-Logout
-Route::controller(AdminController::class)->group(function () {
-    Route::prefix('admin')->group(function () {
-        Route::name('admin.')->group(function () {
-            Route::get('/login', 'getLogin');
-            Route::post('/login', 'postLogin')->name('login');
-            Route::get('/logout', 'getLogout')->name('logout');
-            Route::get('/profile', 'profile')->name('profile');
-            Route::put('/update/{id}', 'update')->name('update');
-        });
+Route::prefix('admin')->group(function () {
+    Route::name('admin.')->group(function () {
+        Route::get('/login', [AdminController::class, 'getLogin']);
+        Route::post('/login', [AdminController::class, 'postLogin'])->name('login');
+        Route::get('/logout', [AdminController::class, 'getLogout'])->name('logout')->middleware('checkAdminLogin');
+        Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
+        Route::put('/update/{id}', [AdminController::class, 'update'])->name('update');
     });
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'checkAdminLogin'], function () {
-
     Route::get('/', [AdminController::class, 'index'])->name('admin.home');
     Route::group(['prefix' => 'category'], function () {
         Route::get('/', [CategoryController::class, 'index'])->name('admin.category.index');
@@ -98,7 +95,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
         Route::post('/create', [UserController::class, 'store'])->name('admin.user.store');
         Route::get('/update/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
         Route::post('/update/{id}', [UserController::class, 'update'])->name('admin.user.update');
-        Route::post('/changepassword/{id}', [UserController::class, 'changePassword'])->name('admin.change.password');
+        Route::post('/change-password/{id}', [UserController::class, 'changePassword'])->name('admin.change.password');
         Route::get('/{action}/{id}', [UserController::class, 'action'])->name('admin.user.action');
     });
 
@@ -122,17 +119,14 @@ Route::group(['namespace' => 'Admin', 'prefix' => '/admin', 'middleware' => 'che
         Route::get('/export/{id}', [WarehouseController::class, 'exportProduct'])->name('admin.warehouse.export.product');
         Route::get('/history-import', [WarehouseController::class, 'historyImport'])->name('admin.warehouse.history-import');
         Route::get('/history-export', [WarehouseController::class, 'historyExport'])->name('admin.warehouse.history-export');
-        Route::get('/iventory', [WarehouseController::class, 'iventory'])->name('admin.warehouse.iventory');
-        Route::get('/bestseller', [WarehouseController::class, 'bestSeller'])->name('admin.warehouse.bestseller');
-        Route::get('/hotproduct/{id}', [WarehouseController::class, 'hotProduct'])->name('admin.warehouse.hotproduct');
     });
-    Route::group(['prefix' => 'contact'], function () {
-        Route::get('/', [ContactController::class, 'index'])->name('admin.contact.index');
-    });
-    Route::group(['prefix' => 'setting'], function () {
-        Route::get('/', [SettingController::class, 'index'])->name('admin.setting.index');
-        Route::get('/update/{id}', [SettingController::class, 'update'])->name('admin.setting.update');
-    });
+//    Route::group(['prefix' => 'contact'], function () {
+//        Route::get('/', [ContactController::class, 'index'])->name('admin.contact.index');
+//    });
+//    Route::group(['prefix' => 'setting'], function () {
+//        Route::get('/', [SettingController::class, 'index'])->name('admin.setting.index');
+//        Route::get('/update/{id}', [SettingController::class, 'update'])->name('admin.setting.update');
+//    });
     Route::group(['prefix' => 'voucher'], function () {
         Route::get('/', [VoucherController::class, 'index'])->name('admin.voucher.index');
         Route::get('/create', [VoucherController::class, 'create'])->name('admin.voucher.create');

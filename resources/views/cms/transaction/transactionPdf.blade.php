@@ -25,7 +25,7 @@
     <br>
     <div style="font-size: 14px">
         Cửa hàng: Kinh doanh linh kiện máy tính Gaming.<br />
-        Địa chỉ cửa hàng: Trâu Quỳ, Gia Lâm, Hà Nội.<br />
+        Địa chỉ cửa hàng: Tòa Mitec, Yên Hòa, Cầu Giấy, Hà Nội, Việt Nam.<br />
         Tên khách hàng: {{ $transaction->customer_name ?? '' }}<br />
         Số điện thoại: {{ $transaction->phone ?? '' }}<br />
         Địa chỉ giao hàng: {{ $transaction->address ?? '' }}.

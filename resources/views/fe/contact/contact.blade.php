@@ -35,7 +35,7 @@
                                 chỉ dưới đây</p>
                             <div class="single-contact-block">
                                 <h4><i class="fa fa-fax"></i> Địa chỉ</h4>
-                                <p>Số 10, ngõ 161, Trâu Quỳ, Gia Lâm, Hà Nội</p>
+                                <p>Tòa Mitec, Yên Hòa, Cầu Giấy, Hà Nội, Việt Nam</p>
                             </div>
                             <div class="single-contact-block">
                                 <h4><i class="fa fa-phone"></i> Số điện thoại</h4>

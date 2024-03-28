@@ -121,7 +121,7 @@ class FeatureUserController extends CustomerController
             Log::debug($exception->getMessage());
         }
     }
-    public function deleteNofication(Request $request, $id)
+    public function deleteNotification(Request $request, $id)
     {
         $nofication = Notification::find($id);
         $nofication->delete();

@@ -31,7 +31,7 @@
     </center>
     <div style="font-size: 14px">
         Cửa hàng: Kinh doanh linh kiện máy tính Gaming.<br />
-        Địa chỉ cửa hàng: Trâu Quỳ, Gia Lâm, Hà Nội.<br />
+        Địa chỉ cửa hàng: Tòa Mitec, Yên Hòa, Cầu Giấy, Hà Nội, Việt Nam.<br />
         Người tạo thống kê: {{ Auth::user()->name }}<br />
     </div>
     <p style="font-size: 14px">
@@ -75,8 +75,7 @@
         </tbody>
     </table>
     <div style="float: right; text-align: center">
-        <span style="font-size: 13px">Hà Nội, ngày {{ $day }} tháng {{ $month }} năm
-            {{ $year }}</span><br />
+        <span style="font-size: 13px">Hà Nội, ngày {{ $day }} tháng {{ $month }} năm {{ $year }}</span><br />
         Người xuất giao dịch<br />
         <br />
         <br />

@@ -243,7 +243,7 @@ use App\Enums\UserType;
                         @foreach (Auth::user()->notificationReceivers->sortByDesc('created_at') as $nofitication)
                             <div style="display: flex">
                                 <div class="col-sm-2">
-                                    <a href="{{ route('feature-user.delete.nofication', $nofitication->id) }}">@lang('Delete')</a>
+                                    <a href="{{ route('feature-user.delete.notification', $nofitication->id) }}">@lang('Delete')</a>
                                 </div>
                                 <div class="col-sm-10">
                                     <div><b>{{ $nofitication->created_at }}</b></div>

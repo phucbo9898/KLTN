@@ -140,10 +140,7 @@
                     <!-- Begin Footer Block Area -->
                     <div class="col-lg-4">
                         <div class="footer-block">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.3183324100223!2d105.7794391288416!3d21.019945048700038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135abbdcaac09d3%3A0x3ca8b3615e092fa4!2sMitec%20Building!5e0!3m2!1svi!2sus!4v1672212195191!5m2!1svi!2sus"
-                                width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.316750332712!2d105.78132377587218!3d21.02000838807784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab51ac9f8a81%3A0x22b86ba5d38a91d0!2sC%C3%B4ng%20Ty%20Mitec!5e0!3m2!1svi!2s!4v1711593558294!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
                     </div>
                     <!-- Footer Block Area End Here -->
