@@ -9,15 +9,6 @@
 
     <!--Sidebar -->
     <div class="sidebar">
-        <div class="user-panel mt-3 pb-3 mb-3">
-            <div class="image">
-                 <img src="{{ asset(Auth::user()->avatar) }}" class="img-circle elevation-2" alt="User Image" style="display: block;margin-left: auto;margin-right: auto;width: 50%;">
-            </div> <br>
-            <div class="info" style="width: 100%; color: white; text-align: center;">
-                {{ Auth::user()->name }}
-            </div>
-        </div>
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -264,7 +255,7 @@
                 <li class="nav-item has-treeview {{ request()->is('admin/voucher*') ? 'menu-open' : '' }}">
                     <a href="{{ route('admin.voucher.index') }}"
                        class="nav-link {{ request()->is('admin/voucher*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-users"></i>
+                        <i class="nav-icon fas fa-gift"></i>
                         <p>
                             @lang('Mã giảm giá')
                             <i class="fas fa-angle-left right"></i>
@@ -320,15 +311,6 @@
                     </a>
                 </li>
                 {{-- End tab transaction --}}
-
-                {{-- Tab setting --}}
-                <li class="nav-item has-treeview {{ request()->is('admin/setting*') ? 'menu-open' : '' }} d-none">
-                    <a href="{{ route('admin.setting.index') }}"
-                        class="nav-link {{ request()->is('admin/setting*') ? 'active' : '' }}">
-                        <i class="fa fa-cog"></i>
-                        <p>@lang('Thiết lập website')</p>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

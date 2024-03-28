@@ -34,7 +34,7 @@
             @if (count($transactions) > 0)
                 <tbody>
                     @foreach ($transactions as $transaction)
-                        <tr>
+                        <tr style="cursor: context-menu">
                             <td>{{ ($transactions->currentPage() - 1) * $transactions->perPage() + $loop->index + 1 }}</td>
                             <td>{{ $transaction->payment_code }}</td>
                             <td>{{ $transaction->address }}</td>
@@ -42,18 +42,15 @@
                             <td>
                                 @if ($transaction->status == 'completed')
                                     <span class="badge badge-success" style="font-size: 14px;width: 136px;">Đã nhận hàng</span>
-                                @endif
-                                @if ($transaction->status == 'processing')
+                                @elseif ($transaction->status == 'processing')
                                     <a href="{{ route('history-user.transaction.paid', ['change-status', $transaction->id]) }}"
                                         id="appect_receive_products"><span class="badge badge-warning text-white" style="font-size: 14px;width: 136px;">Đã gửi
                                             hàng</span></a>
-                                @endif
-                                @if ($transaction->status == 'pending')
+                                @elseif ($transaction->status == 'pending')
                                   <span class="badge badge-info" style="font-size: 14px;width: 136px;">Chưa xử lý</span>
+                                @else
+                                    <span class="badge badge-danger" style="font-size: 14px;width: 136px;">Đã hủy</span>
                                 @endif
-                                    @if ($transaction->status == 'canceled')
-                                        <span class="badge badge-danger" style="font-size: 14px;width: 136px;">Đã hủy</span>
-                                    @endif
                             </td>
                             <td>
                                 @if ($transaction->status_payment == 'Paуment received')
