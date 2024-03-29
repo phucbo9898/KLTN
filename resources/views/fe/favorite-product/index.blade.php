@@ -44,7 +44,6 @@
                                         <th class="li-product-thumbnail">@lang('Image')</th>
                                         <th class="li-product-price">@lang('Price')</th>
                                         <th class="li-product-stock-status">@lang('Status')</th>
-                                        <th class="li-product-add-cart">@lang('Add To Cart')</th>
                                         <th class="li-product-remove">@lang('Action')</th>
                                     </tr>
                                 </thead>
@@ -52,7 +51,7 @@
                                     <tbody>
                                         @foreach ($products as $product)
                                             <tr>
-                                                <td class="li-product-name"><a href="#">{{ $product->name }}</a></td>
+                                                <td class="li-product-name"><a href="{{ route('product.index', [$product->slug, $product->id]) }}">{{ $product->name }}</a></td>
                                                 <td class="li-product-thumbnail">
                                                     <a href="#">
                                                         <img width="200px" src="{{ asset($product->image) }}"
@@ -64,23 +63,22 @@
                                                         @lang('VND')</span></td>
                                                 <td class="li-product-stock-status">
                                                     @if ($product->quantity > 10)
-                                                        <b style="color: blue;">@lang('Stocking')</b>
+                                                        <b style="color: #3d3de3;">@lang('Stocking')</b>
                                                     @elseif($product->quantity < 10 && $product->quantity > 0)
-                                                        <b>@lang('Almost out of stock')</b>
+                                                        <b style="color: #bfbf50;">@lang('Almost out of stock')</b>
                                                     @elseif($product->quantity == 0)
-                                                        <b>@lang('Out of stock')</b>
+                                                        <b style="color: red;">@lang('Out of stock')</b>
                                                     @else
                                                         <b>@lang('Unknown')</b>
                                                     @endif
                                                 </td>
-                                                <td class="li-product-add-cart">
-                                                    <a data-product-name="{{ $product->name }}" class="button_add_cart"
-                                                        href="{{ route('shopping.add.product', $product->id) }}">@lang('Purchase')</a>
-                                                </td>
-                                                <td class="li-product-remove">
+                                                <td>
+                                                    <a data-product-name="{{ $product->name }}" class="btn btn-primary button_add_cart"
+                                                       href="{{ route('shopping.add.product', $product->id) }}"><i class="fa fa-shopping-cart"></i>
+                                                    </a>
                                                     <a href="{{ route('favorite-product.get.delete', $product->id) }}"
                                                         data-product-name="{{ $product->name }}"
-                                                        class="delete_favorite_product"><i class="fa fa-times"></i></a>
+                                                        class="delete_favorite_product btn btn-danger"><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>
                                         @endforeach
