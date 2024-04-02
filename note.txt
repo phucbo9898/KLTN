@@ -12,3 +12,29 @@ MAIL_FROM_NAME="${APP_NAME}"
 account
 admin@gmail.com		123456
 company@gmail.com	123456
+
+keynotes: C - Create | R - Read | U - Update | D - Delete
+
+Work to do in CMS
+- Design database and create controller + model
+- Article screen(CRUD)
+- Notification screen
+- Slide screen(CRUD)
+- Users screen(CRUD + handle permission)
+- Category screen(CRUD)
+- Product screen(CRUD)
+- Warehouse screen(handle increase/decrease product + list history)
+- Coupon screen(CRUD)
+- Transaction screen(RU)
+- Rating screen(RD)
+- Function upload image with firebase
+- Function point (accumulation of point)
+    - add field point to users table
+    - update logic add point when payment success
+    - add UI use point in order screen
+    - handle point
+- Update UI add coupon
+    - Process link coupon to users
+    - Update the coupon table to suit your business
+    - Handle send coupon to users
+
