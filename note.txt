@@ -17,6 +17,7 @@ keynotes: C - Create | R - Read | U - Update | D - Delete
 
 Work to do in CMS
 - Design database and create controller + model
+- Home screen(Statistic + chart)
 - Article screen(CRUD)
 - Notification screen
 - Slide screen(CRUD)
@@ -27,6 +28,7 @@ Work to do in CMS
 - Coupon screen(CRUD)
 - Transaction screen(RU)
 - Rating screen(RD)
+- Statistic screen(search + export)
 - Function upload image with firebase
 - Function point (accumulation of point)
     - add field point to users table
